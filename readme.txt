@@ -31,8 +31,9 @@ You can enable and manage the features from the "Discussion" Settings page. Just
 == Changelog ==
 
 = 0.2 (Jul 30, 2024) =
-* Tested on WordPress 6.6.
+* Fixed Hovercards integration and pinned to v0.8.0.
 * Use HTTPS always.
+* Tested on WordPress 6.6.
 
 = 0.1.1 (Feb 23, 2011) =
 * Bug fix: Gravatar check was failing due to a misplaced !
