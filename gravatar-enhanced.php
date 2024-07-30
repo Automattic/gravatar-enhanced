@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: Gravatar Enhanced
-Plugin URI: http://wordpress.org/extend/plugins/gravatar-enhanced/
+Plugin URI: https://wordpress.org/extend/plugins/gravatar-enhanced/
 Description: Enhanced functionality for Gravatar-ifying your WordPress site. Once you've enabled the plugin, go to the "Avatars" section on the <a href="options-discussion.php">Discussion Settings page</a> to get started.
 Author: Mohammad Jangda, Automattic Inc.
-Version: 0.1.1
+Version: 0.2.0
 License: GPL2 (see below)
 
 GNU General Public License, Free Software Foundation <http://creativecommons.org/licenses/GPL/2.0/>
@@ -25,9 +25,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 */
 
-define( 'GRAVATAR_ENHANCED_VERSION', '0.1.1' );
-define( 'GRAVATAR_ENHANCED_SIGNUP_URL', 'http://www.gravatar.com/signup' );
-define( 'GRAVATAR_ENHANCED_HOVERCARD_URL', 'http://s.gravatar.com/js/gprofiles.js' );
+define( 'GRAVATAR_ENHANCED_VERSION', '0.2.0' );
+define( 'GRAVATAR_ENHANCED_SIGNUP_URL', 'https://www.gravatar.com/signup' );
+define( 'GRAVATAR_ENHANCED_HOVERCARD_URL', 'https://unpkg.com/@gravatar-com/hovercards@0.8.0' );
+define( 'GRAVATAR_ENHANCED_HOVERCARD_STYLES_URL', 'https://unpkg.com/@gravatar-com/hovercards@0.8.0/dist/style.css' );
 define( 'GRAVATAR_ENHANCED_HOVERCARD_VERSION', 'e' );
 
 /**
@@ -44,14 +45,15 @@ function gravatar_enhanced_add_new_defaults( $defaults ) {
 add_filter( 'avatar_defaults', 'gravatar_enhanced_add_new_defaults' );
 
 /**
- * Add Gravatar Hovercards (grofiles) script if enabled
- * Credit: Otto (http://ottopress.com/2010/gravatar-hovercards/)
- * 
+ * Initialise Gravatar Hovercards, if enabled.
+ *
  * @since 0.1
  */
 function gravatar_enhanced_add_hovercards() {
 	if( get_option( 'gravatar_hovercards' ) ) {
-		wp_enqueue_script( 'gprofiles', GRAVATAR_ENHANCED_HOVERCARD_URL, array( 'jquery' ), GRAVATAR_ENHANCED_HOVERCARD_VERSION, true );
+		wp_enqueue_script( 'gravatar-enhanced-js', GRAVATAR_ENHANCED_HOVERCARD_URL, array(), GRAVATAR_ENHANCED_HOVERCARD_VERSION, true );
+		wp_enqueue_style( 'gravatar-enhanced-style', GRAVATAR_ENHANCED_HOVERCARD_STYLES_URL, array(), GRAVATAR_ENHANCED_HOVERCARD_VERSION );
+		wp_add_inline_script( 'gravatar-enhanced-js', 'document.addEventListener( \'DOMContentLoaded\', () => { const hovercards = new Gravatar.Hovercards(); hovercards.attach( document.body ); } );' );
 	}
 }
 add_action( 'wp_enqueue_scripts','gravatar_enhanced_add_hovercards' );
@@ -283,11 +285,7 @@ function gravatar_enhanced_email_has_gravatar( $email ) {
 	
 	$email_hash = md5( strtolower( $email ) );
 
-	if ( is_ssl() )
-		$host = 'https://secure.gravatar.com';
-	else
-		$host = sprintf( "http://%d.gravatar.com", ( hexdec( $email_hash[0] ) % 2 ) );
-
+	$host = 'https://secure.gravatar.com';
 	$url = sprintf( '%s/avatar/%s?d=404', $host, $email_hash );
 	$request = new WP_Http();
 	$result = $request->request( $url, array( 'method' => 'GET' ) );
