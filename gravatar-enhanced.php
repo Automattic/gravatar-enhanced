@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Gravatar Enhanced
-Plugin URI: http://wordpress.org/extend/plugins/gravatar-enhanced/
+Plugin URI: https://wordpress.org/extend/plugins/gravatar-enhanced/
 Description: Enhanced functionality for Gravatar-ifying your WordPress site. Once you've enabled the plugin, go to the "Avatars" section on the <a href="options-discussion.php">Discussion Settings page</a> to get started.
 Author: Mohammad Jangda, Automattic Inc.
 Version: 0.2.0
@@ -285,11 +285,7 @@ function gravatar_enhanced_email_has_gravatar( $email ) {
 	
 	$email_hash = md5( strtolower( $email ) );
 
-	if ( is_ssl() )
-		$host = 'https://secure.gravatar.com';
-	else
-		$host = sprintf( "http://%d.gravatar.com", ( hexdec( $email_hash[0] ) % 2 ) );
-
+	$host = 'https://secure.gravatar.com';
 	$url = sprintf( '%s/avatar/%s?d=404', $host, $email_hash );
 	$request = new WP_Http();
 	$result = $request->request( $url, array( 'method' => 'GET' ) );

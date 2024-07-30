@@ -12,7 +12,7 @@ A bunch of groovy enhancements for using Gravatars on your site.
 Gravatar Enhanced adds a couple of cool features to your site:
 
 * The Retro (Generated) Gravatar
-* Enable <a href="http://blog.gravatar.com/2010/10/06/gravatar-hovercards-on-wordpress-com/">Hovercards</a>
+* Enable <a href="https://blog.gravatar.com/2010/10/06/gravatar-hovercards-on-wordpress-com/">Hovercards</a>
 * Send customized Gravatar invitation emails to commenters on your site that don't have one!
 
 You can enable and manage the features from the "Discussion" Settings page. Just look for the "Avatars" section.
