@@ -26,8 +26,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 define( 'GRAVATAR_ENHANCED_VERSION', '0.2.0' );
-define( 'GRAVATAR_ENHANCED_SIGNUP_URL', 'http://www.gravatar.com/signup' );
-define( 'GRAVATAR_ENHANCED_HOVERCARD_URL', 'http://s.gravatar.com/js/gprofiles.js' );
+define( 'GRAVATAR_ENHANCED_SIGNUP_URL', 'https://www.gravatar.com/signup' );
+define( 'GRAVATAR_ENHANCED_HOVERCARD_URL', 'https://unpkg.com/@gravatar-com/hovercards@0.8.0' );
+define( 'GRAVATAR_ENHANCED_HOVERCARD_STYLES_URL', 'https://unpkg.com/@gravatar-com/hovercards@0.8.0/dist/style.css' );
 define( 'GRAVATAR_ENHANCED_HOVERCARD_VERSION', 'e' );
 
 /**
@@ -44,14 +45,15 @@ function gravatar_enhanced_add_new_defaults( $defaults ) {
 add_filter( 'avatar_defaults', 'gravatar_enhanced_add_new_defaults' );
 
 /**
- * Add Gravatar Hovercards (grofiles) script if enabled
- * Credit: Otto (http://ottopress.com/2010/gravatar-hovercards/)
- * 
+ * Initialise Gravatar Hovercards, if enabled.
+ *
  * @since 0.1
  */
 function gravatar_enhanced_add_hovercards() {
 	if( get_option( 'gravatar_hovercards' ) ) {
-		wp_enqueue_script( 'gprofiles', GRAVATAR_ENHANCED_HOVERCARD_URL, array( 'jquery' ), GRAVATAR_ENHANCED_HOVERCARD_VERSION, true );
+		wp_enqueue_script( 'gravatar-enhanced-js', GRAVATAR_ENHANCED_HOVERCARD_URL, array(), GRAVATAR_ENHANCED_HOVERCARD_VERSION, true );
+		wp_enqueue_style( 'gravatar-enhanced-style', GRAVATAR_ENHANCED_HOVERCARD_STYLES_URL, array(), GRAVATAR_ENHANCED_HOVERCARD_VERSION );
+		wp_add_inline_script( 'gravatar-enhanced-js', 'document.addEventListener( \'DOMContentLoaded\', () => { const hovercards = new Gravatar.Hovercards(); hovercards.attach( document.body ); } );' );
 	}
 }
 add_action( 'wp_enqueue_scripts','gravatar_enhanced_add_hovercards' );
