@@ -20,8 +20,10 @@
         "phpstan/phpstan-strict-rules": "^1.5",
         "league/openapi-psr7-validator": "^0.22.0",
         "spaze/phpstan-disallowed-calls": "^3.4",
-        "szepeviktor/phpstan-wordpress": "^1.3"
+        "szepeviktor/phpstan-wordpress": "^1.3",
+        "phpcompatibility/php-compatibility": "^9.3"
     },
+    "prefer-stable" : true,
     "scripts": {
         "analyse": "@php ./vendor/bin/phpstan analyse --no-interaction --memory-limit=-1 --error-format=gravatar --no-ansi --configuration=phpstan.neon $*",
         "analyse-clear": "@php ./vendor/bin/phpstan clear-result-cache",

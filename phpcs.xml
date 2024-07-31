@@ -13,7 +13,8 @@
     <!--                -->
     <!-- Excluded files -->
     <!--                -->
-    <!-- <exclude-pattern>dev/</exclude-pattern> -->
+    <exclude-pattern>dev/</exclude-pattern>
+    <exclude-pattern>vendor/</exclude-pattern>
 
     <!-- Include rulesets -->
     <rule ref="VariableAnalysis"/>
@@ -97,4 +98,8 @@
             </property>
         </properties>
     </rule>
+
+    <!-- Check for cross-version support for PHP 7.2. -->
+    <rule ref="PHPCompatibility" />
+    <config name="testVersion" value="7.2-"/>
 </ruleset>
