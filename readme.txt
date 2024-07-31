@@ -1,5 +1,5 @@
 === Gravatar Enhanced ===
-Contributors: batmoo, automattic
+Contributors: automattic
 Tags: gravatar, avatar, hovercards
 Requires at least: 3.1
 Tested up to: 6.6
