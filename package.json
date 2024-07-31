@@ -1,0 +1,10 @@
+{
+	"name": "gravatar-enhanced",
+	"version": "1.0.0",
+	"description": "Gravatar Enhanced WordPress plugin",
+	"main": "index.js",
+	"scripts": {
+	},
+	"author": "",
+	"license": "ISC"
+}
