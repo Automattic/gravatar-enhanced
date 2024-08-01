@@ -13,7 +13,6 @@ class Hovercards {
 	public function init() {
 		add_action( 'admin_init', [ $this, 'admin_init' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'maybe_add_hovercards' ] );
-		add_filter( 'avatar_defaults', [ $this, 'avatar_defaults' ] );
 	}
 
 	/**
@@ -62,22 +61,6 @@ class Hovercards {
 		<?php
 		do_action( "post_{$args['id']}", $args );
 	}
-
-	/**
-	 * Adds retro Gravatar type to defaults
-	 *
-	 * @todo Do we still need this?
-	 * @param array{retro?: string} $defaults
-	 * @return array{retro: string}
-	 */
-	public function avatar_defaults( $defaults ) {
-		if ( ! isset( $defaults['retro'] ) ) {
-			$defaults['retro'] = __( 'Retro (Generated)', 'gravatar-enhanced' );
-		}
-
-		return $defaults;
-	}
-
 
 	/**
 	 * Initialise Gravatar Hovercards, if enabled.
