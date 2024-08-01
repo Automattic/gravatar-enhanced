@@ -9,6 +9,7 @@
     <!-- Files -->
     <!--       -->
     <file>gravatar-enhanced.php</file>
+    <file>classes</file>
 
     <!--                -->
     <!-- Excluded files -->
@@ -99,7 +100,7 @@
         </properties>
     </rule>
 
-    <!-- Check for cross-version support for PHP 7.2. -->
+    <!-- Check for cross-version support for PHP 7.4. -->
     <rule ref="PHPCompatibility" />
-    <config name="testVersion" value="7.2-"/>
+    <config name="testVersion" value="7.4-"/>
 </ruleset>

@@ -7,7 +7,7 @@ parameters:
 	excludePaths:
 		- vendor
 		- dev
-	phpVersion: 70200
+	phpVersion: 70400
 	reportUnmatchedIgnoredErrors: false
 	checkAlwaysTrueInstanceof: false
 	checkAlwaysTrueStrictComparison: false
