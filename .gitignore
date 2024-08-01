@@ -4,3 +4,4 @@ release
 dist
 node_modules
 svn
+.phpunit.result.cache

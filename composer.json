@@ -1,63 +1,68 @@
 {
-    "name": "automattic/gravatar",
-    "description": "Gravatar",
-    "type": "project",
-    "require-dev": {
-        "brain/monkey": "^2.6",
-        "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
-        "digitalrevolution/php-codesniffer-baseline": "^1.1",
-        "mockery/mockery": "^1.6",
-        "phpcsstandards/phpcsextra": "^1.0",
-        "phpstan/extension-installer": "^1.3",
-        "phpstan/phpstan": "^1.10",
-        "phpstan/phpstan-mockery": "^1.1",
-        "phpstan/phpstan-phpunit": "^1.3",
-        "phpunit/phpunit": "^9.6",
-        "sirbrillig/phpcs-variable-analysis": "^2.11",
-        "symfony/dotenv": "^6.3",
-        "wp-cli/wp-cli-bundle": "^2.6",
-        "wp-coding-standards/wpcs": "^3.0",
-        "phpstan/phpstan-strict-rules": "^1.5",
-        "league/openapi-psr7-validator": "^0.22.0",
-        "spaze/phpstan-disallowed-calls": "^3.4",
-        "szepeviktor/phpstan-wordpress": "^1.3",
-        "phpcompatibility/php-compatibility": "^9.3"
-    },
-    "prefer-stable" : true,
-    "scripts": {
-        "analyse": "@php ./vendor/bin/phpstan analyse --no-interaction --memory-limit=-1 --error-format=gravatar --no-ansi --configuration=phpstan.neon $*",
-        "analyse-clear": "@php ./vendor/bin/phpstan clear-result-cache",
-        "analyse-reset": "composer analyse-clear && composer analyse -- --generate-baseline=./dev/static-analysis/phpstan-baseline.neon",
-        "analyse:develop": "composer dump-autoload && composer analyse -- --debug",
-        "checks": "composer lint ; composer analyse ; composer test-unit",
-        "reset": "composer lint-reset ; composer analyse-reset",
-        "format": "@php ./vendor/bin/phpcbf --standard=phpcs.xml -n ./",
-        "format-file": "@php ./vendor/bin/phpcbf --standard=phpcs.xml -n --",
-        "lint": "@php ./vendor/bin/phpcs --standard=phpcs.xml --report=./dev/lint/phpcs-extensions/gravatar-reporter.php -s -n ./",
-        "lint-file": "@php ./vendor/bin/phpcs --standard=phpcs.xml -s -n --report=./dev/lint/phpcs-extensions/gravatar-reporter.php --",
-        "lint-reset": "@php ./vendor/bin/phpcs --standard=phpcs.xml --report=\\\\DR\\\\CodeSnifferBaseline\\\\Reports\\\\Baseline --report-file=phpcs.baseline.xml --basepath=. -s -n ./",
-        "test": "@php ./vendor/bin/phpunit",
-        "test-unit": "@php ./vendor/bin/phpunit ./tests/unit"
-    },
-    "authors": [
-        {
-            "name": "Automattic"
-        }
+  "name": "automattic/gravatar",
+  "description": "Gravatar",
+  "type": "project",
+  "require-dev": {
+    "brain/monkey": "^2.6",
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+    "digitalrevolution/php-codesniffer-baseline": "^1.1",
+    "mockery/mockery": "^1.6",
+    "phpcsstandards/phpcsextra": "^1.0",
+    "phpstan/extension-installer": "^1.3",
+    "phpstan/phpstan": "^1.10",
+    "phpstan/phpstan-mockery": "^1.1",
+    "phpstan/phpstan-phpunit": "^1.3",
+    "phpunit/phpunit": "^9.6",
+    "sirbrillig/phpcs-variable-analysis": "^2.11",
+    "symfony/dotenv": "^6.3",
+    "wp-cli/wp-cli-bundle": "^2.6",
+    "wp-coding-standards/wpcs": "^3.0",
+    "phpstan/phpstan-strict-rules": "^1.5",
+    "league/openapi-psr7-validator": "^0.22.0",
+    "spaze/phpstan-disallowed-calls": "^3.4",
+    "szepeviktor/phpstan-wordpress": "^1.3",
+    "yoast/phpunit-polyfills": "^2.0",
+    "phpcompatibility/php-compatibility": "^9.3"
+  },
+  "prefer-stable": true,
+  "scripts": {
+    "analyse": "@php ./vendor/bin/phpstan analyse --no-interaction --memory-limit=-1 --error-format=gravatar --no-ansi --configuration=phpstan.neon $*",
+    "analyse-clear": "@php ./vendor/bin/phpstan clear-result-cache",
+    "analyse-reset": "composer analyse-clear && composer analyse -- --generate-baseline=./dev/static-analysis/phpstan-baseline.neon",
+    "analyse:develop": "composer dump-autoload && composer analyse -- --debug",
+    "checks": "composer lint ; composer analyse ; composer test-unit",
+    "reset": "composer lint-reset ; composer analyse-reset",
+    "format": "@php ./vendor/bin/phpcbf --standard=phpcs.xml -n ./",
+    "format-file": "@php ./vendor/bin/phpcbf --standard=phpcs.xml -n --",
+    "lint": "@php ./vendor/bin/phpcs --standard=phpcs.xml --report=./dev/lint/phpcs-extensions/gravatar-reporter.php -s -n ./",
+    "lint-file": "@php ./vendor/bin/phpcs --standard=phpcs.xml -s -n --report=./dev/lint/phpcs-extensions/gravatar-reporter.php --",
+    "lint-reset": "@php ./vendor/bin/phpcs --standard=phpcs.xml --report=\\\\DR\\\\CodeSnifferBaseline\\\\Reports\\\\Baseline --report-file=phpcs.baseline.xml --basepath=. -s -n ./",
+    "test": [
+      "@test-unit",
+      "@test-integration"
     ],
-    "config": {
-        "process-timeout": 0,
-        "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true,
-            "digitalrevolution/php-codesniffer-baseline": true,
-            "phpstan/extension-installer": true
-        }
-    },
-    "platform": {
-        "php": "8.1.29"
-    },
-    "autoload": {
-        "psr-4": {
-            "Automattic\\Gravatar\\PHPStanExtensions\\": "dev/static-analysis/phpstan-extensions/"
-        }
+    "test-unit": "@php ./vendor/bin/phpunit -c phpunit.xml",
+    "test-integration": "@php ./vendor/bin/phpunit -c phpunit-integration.xml"
+  },
+  "authors": [
+    {
+      "name": "Automattic"
     }
+  ],
+  "config": {
+    "process-timeout": 0,
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "digitalrevolution/php-codesniffer-baseline": true,
+      "phpstan/extension-installer": true
+    }
+  },
+  "platform": {
+    "php": "8.1.29"
+  },
+  "autoload": {
+    "psr-4": {
+      "Automattic\\Gravatar\\PHPStanExtensions\\": "dev/static-analysis/phpstan-extensions/"
+    }
+  }
 }
