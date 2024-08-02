@@ -16,6 +16,15 @@ class Hovercards {
 	}
 
 	/**
+	 * Remove the hovercard options
+	 *
+	 * @return void
+	 */
+	public function uninstall() {
+		delete_option( 'gravatar_hovercards' );
+	}
+
+	/**
 	 * Main admin_init function used to hook into and register stuff and init plugin settings.
 	 *
 	 * @return void

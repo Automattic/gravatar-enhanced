@@ -36,4 +36,19 @@ class Plugin {
 		$this->avatar = new Avatar\Avatar();
 		$this->avatar->init();
 	}
+
+	/**
+	 * Uninstall the plugin
+	 * @return void
+	 */
+	public function uninstall() {
+		$this->email = new Email\EmailNotification();
+		$this->email->uninstall();
+
+		$this->hovercards = new Hovercards\Hovercards();
+		$this->hovercards->uninstall();
+
+		// Just in case, flush the cache
+		wp_cache_flush();
+	}
 }

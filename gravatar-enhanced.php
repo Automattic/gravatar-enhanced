@@ -11,6 +11,8 @@ Requires at least: 6.6
 Requires PHP: 7.4
 */
 
+define( 'GRAVATAR_ENHANCED_PLUGIN_FILE', __FILE__ );
+
 if ( version_compare( phpversion(), '7.4' ) >= 0 ) {
 	require_once __DIR__ . '/classes/class-plugin.php';
 

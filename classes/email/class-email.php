@@ -7,6 +7,7 @@ use WP_Comment;
 
 class EmailNotification {
 	const GRAVATAR_ENHANCED_SIGNUP_URL = 'https://gravatar.com/signup';
+	const COMMENT_META_KEY = 'gravatar_invite_';
 
 	/**
 	 * @return void
@@ -16,6 +17,23 @@ class EmailNotification {
 		add_action( 'admin_init', [ $this, 'admin_init' ] );
 		add_action( 'transition_comment_status', [ $this, 'transition_comment' ], 10, 3 );
 		add_action( 'wp_insert_comment', [ $this, 'insert_comment' ], 10, 2 );
+	}
+
+	/**
+	 * Remove the notifications options and comment meta
+	 *
+	 * @return void
+	 */
+	public function uninstall() {
+		delete_option( 'gravatar_invitation_email' );
+		delete_option( 'gravatar_invitation_message' );
+
+		global $wpdb;
+
+		$table = _get_meta_table( 'comment' );
+
+		// phpcs:ignore
+		$wpdb->query( "DELETE FROM {$table} WHERE meta_key LIKE '" . self::COMMENT_META_KEY . "%'" );
 	}
 
 	/**
@@ -95,7 +113,7 @@ class EmailNotification {
 	 * @return string
 	 */
 	private function get_notification_key( $email ) {
-		return sprintf( 'gravatar_invite_%s', md5( strtolower( $email ) ) );
+		return sprintf( self::COMMENT_META_KEY . '%s', md5( strtolower( $email ) ) );
 	}
 
 	/**
@@ -150,7 +168,6 @@ class EmailNotification {
 		// phpcs:ignore
 		return $wpdb->get_var( $wpdb->prepare( "SELECT meta_id FROM {$table} WHERE meta_key = %s LIMIT 1", $this->get_notification_key( $email ) ) );
 	}
-
 
 	/**
 	 * Send gravatar invitation to commenters if enabled, if they don't have a gravatar and we haven't notified them already.

@@ -100,7 +100,7 @@ class Avatar {
 	 * Add the `encoding` parameter to the avatar data.
 	 *
 	 * @param WPAvatar $args
- 	 * @param WPAvatarId $id_or_email
+	 * @param WPAvatarId $id_or_email
 	 * @return WPAvatar
 	 */
 	public function pre_get_avatar_data( $args, $id_or_email ) {
@@ -138,7 +138,7 @@ class Avatar {
 	 * @param int $size
 	 * @param string $default_value
 	 * @param string $alt
- 	 * @param WPAvatar $args
+	 * @param WPAvatar $args
 	 * @return string
 	 */
 	public function get_avatar( $avatar, $id_or_email, $size, $default_value, $alt, $args ) {
