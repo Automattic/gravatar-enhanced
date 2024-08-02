@@ -4,6 +4,7 @@ namespace Automattic\Gravatar\GravatarEnhanced;
 
 require_once __DIR__ . '/email/class-email.php';
 require_once __DIR__ . '/hovercards/class-hovercards.php';
+require_once __DIR__ . '/avatar/class-avatar.php';
 
 class Plugin {
 	/**
@@ -17,6 +18,11 @@ class Plugin {
 	private $hovercards;
 
 	/**
+	 * @var Avatar\Avatar
+	 */
+	private $avatar;
+
+	/**
 	 * Start the plugin
 	 * @return void
 	 */
@@ -26,5 +32,8 @@ class Plugin {
 
 		$this->hovercards = new Hovercards\Hovercards();
 		$this->hovercards->init();
+
+		$this->avatar = new Avatar\Avatar();
+		$this->avatar->init();
 	}
 }

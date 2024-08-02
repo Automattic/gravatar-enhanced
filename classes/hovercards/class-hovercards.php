@@ -22,6 +22,7 @@ class Hovercards {
 	 */
 	public function admin_init() {
 		register_setting( 'discussion', 'gravatar_hovercards' );
+
 		add_settings_field(
 			'gravatar_hovercards',
 			__( 'Hovercards', 'gravatar-enhanced' ),
@@ -47,8 +48,7 @@ class Hovercards {
 		?>
 		<p>
 			<label for="<?php echo esc_attr( $args['id'] ); ?>">
-				<input name="<?php echo esc_attr( $args['id'] ); ?>" id="<?php echo esc_attr( $args['id'] ); ?>" type="checkbox"
-					value="1" <?php echo checked( 1, $value, false ); ?> />
+				<input value="1" name="<?php echo esc_attr( $args['id'] ); ?>" id="<?php echo esc_attr( $args['id'] ); ?>" type="checkbox" <?php echo checked( 1, $value, false ); ?> />
 
 				<?php echo $args['label']; ?>
 
