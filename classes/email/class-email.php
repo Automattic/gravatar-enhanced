@@ -125,18 +125,18 @@ class EmailNotification {
 		$message = __(
 			'Hi COMMENTER_NAME!
 
-	Thanks for your comment on "POST_NAME"!
+Thanks for your comment on "POST_NAME"!
 
-	I noticed that you didn\'t have your own picture or profile next to your comment. Why not set one up using Gravatar? Click the link below to get started:
+I noticed that you didn\'t have your own picture or profile next to your comment. Why not set one up using Gravatar? Click the link below to get started:
 
-	GRAVATAR_URL
+GRAVATAR_URL
 
-	*What\'s a Gravatar?*
-	Your Gravatar (a Globally Recognized Avatar) is an image that follows you from site to site appearing beside your name when you do things like comment or post on a blog. Avatars help identify your posts on blogs and web forums, so why not on any site?
+*What\'s a Gravatar?*
+Your Gravatar (a Globally Recognized Avatar) is an image that follows you from site to site appearing beside your name when you do things like comment or post on a blog. Avatars help identify your posts on blogs and web forums, so why not on any site?
 
-	Thanks for visiting and come back soon!
+Thanks for visiting and come back soon!
 
-	-- The Team @ SITE_NAME',
+-- The Team @ SITE_NAME',
 			'gravatar-enhanced'
 		);
 
