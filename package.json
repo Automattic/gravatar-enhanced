@@ -16,6 +16,10 @@
 	"release-it": {
 		"github": {
 			"release": true,
+			"host": "github.a8c.com",
+			"web": true,
+			"autoGenerate": true,
+			"preRelease": true,
 			"assets": [
 				"dist/gravatar-enhanced.zip"
 			]
