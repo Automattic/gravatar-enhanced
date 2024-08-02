@@ -30,6 +30,13 @@ You can enable and manage the features from the "Discussion" Settings page. Just
 
 == Changelog ==
 
+= 0.3 pre-release (???) =
+* Use SHA256 instead of MD5
+* Add a referrerpolicy option
+* Add option to force default avatar style
+* Add plugin uninstall function
+* Add user name to avatar alt tag
+
 = 0.2 (Jul 30, 2024) =
 * Fixed Hovercards integration and pinned to v0.8.0.
 * Use HTTPS always.

@@ -1,6 +1,6 @@
 {
 	"name": "gravatar-enhanced",
-	"version": "1.0.0",
+	"version": "0.3.0",
 	"description": "Gravatar Enhanced WordPress plugin",
 	"main": "index.js",
 	"scripts": {
