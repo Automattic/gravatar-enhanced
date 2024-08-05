@@ -48,6 +48,9 @@ class Plugin {
 		$this->hovercards = new Hovercards\Hovercards();
 		$this->hovercards->uninstall();
 
+		$this->avatar = new Avatar\Avatar();
+		$this->avatar->uninstall();
+
 		// Just in case, flush the cache
 		wp_cache_flush();
 	}

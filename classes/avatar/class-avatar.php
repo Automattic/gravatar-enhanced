@@ -72,6 +72,16 @@ class Avatar {
 	}
 
 	/**
+	 * Remove the avatar options
+	 *
+	 * @return void
+	 */
+	public function uninstall() {
+		delete_option( 'gravatar_force_default_avatar' );
+		delete_option( 'gravatar_hide_referrer' );
+	}
+
+	/**
 	 * Callback to handle output for gravatar checkbox settings
 	 *
 	 * @param array{id: string, description: string, label: string} $args
