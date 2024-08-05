@@ -1,5 +1,7 @@
 # Gravatar Enhanced
 
+![Banner](assets/banner-1554x500.png?raw=true "Gravatar Enhanced")
+
 An enhanced version of Gravatar for WordPress.
 
 ## Development
