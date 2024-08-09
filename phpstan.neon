@@ -2,12 +2,11 @@ parameters:
 	level: 8
 	paths:
 		- .
-	scanDirectories:
-		- .
 	excludePaths:
 		- vendor
 		- dev
 		- tests
+		- node_modules
 	phpVersion: 70400
 	reportUnmatchedIgnoredErrors: false
 	checkAlwaysTrueInstanceof: false

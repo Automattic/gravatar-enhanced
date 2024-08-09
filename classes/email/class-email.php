@@ -4,10 +4,22 @@ namespace Automattic\Gravatar\GravatarEnhanced\Email;
 
 use WP_Http;
 use WP_Comment;
+use Automattic\Gravatar\GravatarEnhanced\Settings;
 
 class EmailNotification {
+	use Settings\SettingsCheckbox;
+
 	const GRAVATAR_ENHANCED_SIGNUP_URL = 'https://gravatar.com/signup';
+
 	const COMMENT_META_KEY = 'gravatar_invite_';
+
+	const OPTION_INVITATION_EMAIL = 'gravatar_invitation_email';
+	const OPTION_INVITATION_MESSAGE = 'gravatar_invitation_message';
+
+	const FILTER_INVITATION_SUBJECT = 'gravatar_enhanced_invitation_subject';
+	const FILTER_INVITATION_MESSAGE = 'gravatar_enhanced_invitation_message';
+	const FILTER_INVITATION_MESSAGE_HEADERS = 'gravatar_enhanced_invitation_message_headers';
+	const FILTER_INVITATION_TIME_LIMIT = 'gravatar_enhanced_invitation_time_limit';
 
 	/**
 	 * @return void
@@ -25,8 +37,8 @@ class EmailNotification {
 	 * @return void
 	 */
 	public function uninstall() {
-		delete_option( 'gravatar_invitation_email' );
-		delete_option( 'gravatar_invitation_message' );
+		delete_option( self::OPTION_INVITATION_EMAIL );
+		delete_option( self::OPTION_INVITATION_MESSAGE );
 
 		global $wpdb;
 
@@ -42,9 +54,9 @@ class EmailNotification {
 	 * @return void
 	 */
 	public function plugin_init() {
-		if ( get_option( 'gravatar_invitation_email' ) ) {
+		if ( get_option( self::OPTION_INVITATION_EMAIL ) ) {
 			foreach ( array( 'post', 'page' ) as $post_type ) {
-				add_post_type_support( $post_type, 'gravatar_invitation_email' );
+				add_post_type_support( $post_type, self::OPTION_INVITATION_EMAIL );
 			}
 		}
 	}
@@ -55,25 +67,25 @@ class EmailNotification {
 	 * @return void
 	 */
 	public function admin_init() {
-		register_setting( 'discussion', 'gravatar_invitation_email' );
+		register_setting( 'discussion', self::OPTION_INVITATION_EMAIL );
 		add_settings_field(
-			'gravatar_invitation_email',
+			self::OPTION_INVITATION_EMAIL,
 			__( 'Invitation', 'gravatar-enhanced' ),
 			[ $this, 'display_checkbox_setting' ],
 			'discussion',
 			'avatars',
 			array(
-				'id' => 'gravatar_invitation_email',
+				'id' => self::OPTION_INVITATION_EMAIL,
 				'label' => __( 'Send Gravatar Invitations', 'gravatar-enhanced' ),
 				'description' => __( 'Send a nice email to commenters without a Gravatar, inviting them to sign up for one!', 'gravatar-enhanced' ),
 			)
 		);
 
-		register_setting( 'discussion', 'gravatar_invitation_message' );
-		add_action( 'post_gravatar_invitation_email', [ $this, 'display_message_setting' ] );
+		register_setting( 'discussion', self::OPTION_INVITATION_MESSAGE );
+		add_action( 'post_' . self::OPTION_INVITATION_EMAIL, [ $this, 'display_message_setting' ] );
 
-		if ( ! get_option( 'gravatar_invitation_message' ) ) {
-			update_option( 'gravatar_invitation_message', $this->get_invitation_message() );
+		if ( ! get_option( self::OPTION_INVITATION_MESSAGE ) ) {
+			update_option( self::OPTION_INVITATION_MESSAGE, $this->get_invitation_message() );
 		}
 	}
 
@@ -190,7 +202,7 @@ Thanks for visiting and come back soon!
 		}
 
 		// Check that the post type supports gravatar invitations
-		if ( ! post_type_supports( $post->post_type, 'gravatar_invitation_email' ) ) {
+		if ( ! post_type_supports( $post->post_type, self::OPTION_INVITATION_EMAIL ) ) {
 			return;
 		}
 
@@ -203,9 +215,9 @@ Thanks for visiting and come back soon!
 
 			/* translators: %s: site name */
 			$subject = sprintf( __( '[%s] Gravatar Invitation' ), $sitename );
-			$subject = apply_filters( 'gravatar_enhanced_invitation_subject', $subject, $comment );
+			$subject = apply_filters( self::FILTER_INVITATION_SUBJECT, $subject, $comment );
 
-			$message = stripslashes( get_option( 'gravatar_invitation_message' ) );
+			$message = stripslashes( get_option( self::OPTION_INVITATION_MESSAGE ) );
 
 			if ( ! $message ) {
 				$message = $this->get_invitation_message();
@@ -241,8 +253,8 @@ Thanks for visiting and come back soon!
 			);
 
 			// Pass through filters
-			$message = apply_filters( 'gravatar_enhanced_invitation_message', $message, $comment );
-			$message_headers = apply_filters( 'gravatar_enhanced_invitation_message_headers', $message_headers, $comment );
+			$message = apply_filters( self::FILTER_INVITATION_MESSAGE, $message, $comment );
+			$message_headers = apply_filters( self::FILTER_INVITATION_MESSAGE_HEADERS, $message_headers, $comment );
 			$message_headers = implode( "\n", $message_headers );
 
 			wp_mail( $email, $subject, $message, $message_headers );
@@ -252,52 +264,27 @@ Thanks for visiting and come back soon!
 	}
 
 	/**
-	 * Callback to handle output for gravatar checkbox settings
-	 *
-	 * @param array{id: string, description: string, label: string} $args
-	 * @return void
-	 */
-	public function display_checkbox_setting( $args ) {
-		$value = get_option( $args['id'] );
-		?>
-		<p>
-			<label for="<?php echo esc_attr( $args['id'] ); ?>">
-				<input name="<?php echo esc_attr( $args['id'] ); ?>" id="<?php echo esc_attr( $args['id'] ); ?>" type="checkbox" value="1" <?php echo checked( 1, $value, false ); ?> />
-
-				<?php echo $args['label']; ?>
-
-				<?php if ( $args['description'] ) : ?>
-					<br />
-					<span class="description"><?php echo $args['description']; ?></span>
-				<?php endif; ?>
-			</label>
-		</p>
-		<?php
-		do_action( "post_{$args['id']}", $args );
-	}
-
-	/**
 	 * Adds a textbox to allow users to configure the invitation message
 	 *
 	 * @return void
 	 */
 	public function display_message_setting() {
-		$value = get_option( 'gravatar_invitation_message' );
+		$value = get_option( self::OPTION_INVITATION_MESSAGE );
 		?>
 		<p>
-			<label for="gravatar_invitation_message">
+			<label for="<?php echo esc_attr( self::OPTION_INVITATION_MESSAGE ); ?>">
 				<?php esc_html_e( 'Customize the invitation message:', 'gravatar-enhanced' ); ?>
 			</label>
 		</p>
 		<p>
 			<textarea
-				id="gravatar_invitation_message"
-				name="gravatar_invitation_message"
+				id="<?php echo esc_attr( self::OPTION_INVITATION_MESSAGE ); ?>"
+				name="<?php echo esc_attr( self::OPTION_INVITATION_MESSAGE ); ?>"
 				rows="10"
 				cols="50"
 				class="large-text"><?php echo esc_textarea( $value ); ?></textarea>
 			<br />
-			<label for="gravatar_invitation_message">
+			<label for="<?php echo esc_attr( self::OPTION_INVITATION_MESSAGE ); ?>">
 				<span class="description">
 					<?php esc_html_e( 'Why not send your commenters a personalized message? You can use placeholders like COMMENTER_NAME, COMMENTER_EMAIL, COMMENTER_URL, SITE_URL, and POST_NAME. Make sure to include GRAVATAR_URL somewhere in the message!', 'gravatar-enhanced' ); ?>
 				</span>
@@ -340,7 +327,7 @@ Thanks for visiting and come back soon!
 		}
 
 		// Only send emails for comments less than a week old
-		if ( get_comment_date( 'U', $comment->comment_ID ) < strtotime( apply_filters( 'gravatar_enhanced_invitation_time_limit', '-1 week' ) ) ) {
+		if ( get_comment_date( 'U', $comment->comment_ID ) < strtotime( apply_filters( self::FILTER_INVITATION_TIME_LIMIT, '-1 week' ) ) ) {
 			return;
 		}
 

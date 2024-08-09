@@ -2,9 +2,11 @@
 
 namespace Automattic\Gravatar\GravatarEnhanced;
 
+require_once __DIR__ . '/settings/trait-checkbox.php';
 require_once __DIR__ . '/email/class-email.php';
 require_once __DIR__ . '/hovercards/class-hovercards.php';
 require_once __DIR__ . '/avatar/class-avatar.php';
+require_once __DIR__ . '/proxy/class-proxy.php';
 
 class Plugin {
 	/**
@@ -23,6 +25,11 @@ class Plugin {
 	private $avatar;
 
 	/**
+	 * @var Proxy\Proxy
+	 */
+	private $proxy;
+
+	/**
 	 * Start the plugin
 	 * @return void
 	 */
@@ -35,6 +42,9 @@ class Plugin {
 
 		$this->avatar = new Avatar\Avatar();
 		$this->avatar->init();
+
+		$this->proxy = new Proxy\Proxy();
+		$this->proxy->init();
 	}
 
 	/**
@@ -47,6 +57,9 @@ class Plugin {
 
 		$this->hovercards = new Hovercards\Hovercards();
 		$this->hovercards->uninstall();
+
+		$this->proxy = new Proxy\Proxy();
+		$this->proxy->uninstall();
 
 		$this->avatar = new Avatar\Avatar();
 		$this->avatar->uninstall();

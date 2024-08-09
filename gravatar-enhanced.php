@@ -18,4 +18,8 @@ if ( version_compare( phpversion(), '7.4' ) >= 0 ) {
 
 	$gravatar_enhanced = new Automattic\Gravatar\GravatarEnhanced\Plugin();
 	$gravatar_enhanced->init();
+
+	if ( defined( 'WP_CLI' ) && WP_CLI ) {
+		require_once __DIR__ . '/classes/wp-cli/class-wp-cli.php';
+	}
 }
