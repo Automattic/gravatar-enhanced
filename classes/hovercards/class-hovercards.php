@@ -11,6 +11,10 @@ class Hovercards {
 	 * @return void
 	 */
 	public function init() {
+		// Bail if the module is disabled.
+		if ( ! apply_filters( 'gravatar_enhanced_hovercards_module_enabled', true ) ) {
+			return;
+		}
 		add_action( 'admin_init', [ $this, 'admin_init' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'maybe_add_hovercards' ] );
 	}
