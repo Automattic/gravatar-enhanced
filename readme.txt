@@ -1,28 +1,38 @@
 === Gravatar Enhanced ===
-Contributors: automattic
-Tags: gravatar, avatar, hovercards
-Requires at least: 3.1
+Contributors: automattic, batmoo, johnny5, aaronfc
+Tags: gravatar, avatar, hovercards, email
 Tested up to: 6.6
 Stable tag: 0.2.0
+License: GPLv2
 
-A bunch of groovy enhancements for using Gravatars on your site.
+A bunch of groovy enhancements for using Gravatars on your site, made by the same people who make Gravatar.
 
 == Description ==
 
-Gravatar Enhanced adds a couple of cool features to your site:
+Gravatar Enhanced adds some cool features to your site:
 
-* The Retro (Generated) Gravatar
-* Enable <a href="https://blog.gravatar.com/2010/10/06/gravatar-hovercards-on-wordpress-com/">Hovercards</a>
+* Enable <a href="https://blog.gravatar.com/2023/10/02/new-gravatar-hovercards-faster-open-source-and-everywhere/">Hovercards</a>
 * Send customized Gravatar invitation emails to commenters on your site that don't have one!
+* Toggle a `referrerpolicy` on avatars for enhanced privacy
+* Force all avatars to match your default style
 
 You can enable and manage the features from the "Discussion" Settings page. Just look for the "Avatars" section.
 
-== Installation ==
+This is an official release from Gravatar and we will be bringing more new features here.
 
+== Automatic Installation ==
+
+1. Click 'Add New Plugin' from your WordPress plugins page and search for 'Gravatar Enhanced'
+1. Press the 'Install Now' button
+1. Activate the plugin
+1. Go to the "Discussion" Settings page to enable the new features.
+
+== Manual Installation ==
+
+1. Download the plugin from https://wordpress.org/plugins/gravatar-enhanced/
 1. Upload and extract the plugin to your `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Go to the "Discussion" Settings page to enable the new features.
-1. Enjoy!
 
 == Screenshots ==
 
@@ -37,13 +47,4 @@ You can enable and manage the features from the "Discussion" Settings page. Just
 * Add plugin uninstall function
 * Add user name to avatar alt tag
 
-= 0.2 (Jul 30, 2024) =
-* Fixed Hovercards integration and pinned to v0.8.0.
-* Use HTTPS always.
-* Tested on WordPress 6.6.
-
-= 0.1.1 (Feb 23, 2011) =
-* Bug fix: Gravatar check was failing due to a misplaced !
-
-= 0.1 (Feb 23, 2011) =
-* Initial release!
+See the previous changelogs in changelog.txt.
