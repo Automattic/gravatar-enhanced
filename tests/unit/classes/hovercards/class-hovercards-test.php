@@ -3,6 +3,7 @@
 namespace Automattic\Gravatar\GravatarEnhanced\Hovercards;
 
 use GravatarEnhanced\Tests\Unit\TestCase;
+use function Brain\Monkey\Functions\expect;
 
 require_once ROOT_DIR . '/classes/hovercards/class-hovercards.php';
 
@@ -19,25 +20,50 @@ class HovercardsTest extends TestCase {
 		$this->hovercards = new Hovercards();
 	}
 
-	public function testInit_WhenCalled_ThenAddsExpectedHooks() {
+	public function testInit_WhenCalled_ThenAddsExpectedInitHook() {
 		// Act.
 		$this->hovercards->init();
 
 		// Assert.
 		$this->assertNotFalse(
 			has_action(
-				'admin_init',
-				[ $this->hovercards, 'admin_init' ]
+				'init',
+				[ $this->hovercards, 'maybe_load' ]
 			),
-			'admin_init action is missing'
+			'maybe_load action is missing'
 		);
-		$this->assertNotFalse(
-			has_action(
-				'wp_enqueue_scripts',
-				[ $this->hovercards, 'maybe_add_hovercards' ]
-			),
-			'maybe_add_hovercards action is missing'
-		);
+	}
+
+	public function testMaybeLoad_WhenDisabledByFilter_ThenDoesNotAddAnyHook() {
+		// Arrange.
+		\Brain\Monkey\Functions\expect( 'apply_filters' )
+			->once()
+			->with( 'gravatar_enhanced_hovercards_module_enabled', true )
+			->andReturn( false );
+		\Brain\Monkey\Functions\expect( 'add_action' )->never();
+		\Brain\Monkey\Functions\expect( 'add_filter' )->never();
+
+		// Act.
+		$this->hovercards->maybe_load();
+
+		// Assert – implicit in arrange. No calls to add_action or add_filter.
+	}
+
+	public function testMaybeLoad_WhenJetpackHovercardModuleISActive_ThenDoesNotAddAnyHook() {
+		// Arrange.
+		$jetpack_mock = \Mockery::mock( 'alias:\Jetpack' );
+		$jetpack_mock
+			->expects( 'is_module_active' )
+			->once()
+			->with( 'gravatar-hovercards' )
+			->andReturn( true );
+		\Brain\Monkey\Functions\expect( 'add_action' )->never();
+		\Brain\Monkey\Functions\expect( 'add_filter' )->never();
+
+		// Act.
+		$this->hovercards->maybe_load();
+
+		// Assert – implicit in arrange. No calls to add_action or add_filter.
 	}
 
 	public function testMaybeAddHovercards_WhenDisabled_ThenDoesNothing() {

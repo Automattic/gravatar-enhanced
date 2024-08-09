@@ -11,8 +11,18 @@ class Hovercards {
 	 * @return void
 	 */
 	public function init() {
+		// Delay loading until 'init' to access the Jetpack class and check if the module needs disabling.
+		add_action( 'init', [ $this, 'maybe_load' ] );
+	}
+
+	/**
+	 * Load the hovercards module if it's not disabled.
+	 *
+	 * @return void
+	 */
+	public function maybe_load() {
 		// Bail if the module is disabled.
-		if ( ! apply_filters( 'gravatar_enhanced_hovercards_module_enabled', true ) ) {
+		if ( $this->is_module_disabled() ) {
 			return;
 		}
 		add_action( 'admin_init', [ $this, 'admin_init' ] );
@@ -54,6 +64,7 @@ class Hovercards {
 	 * Callback to handle output for gravatar checkbox settings
 	 *
 	 * @param array{id: string, description: string, label: string} $args
+	 *
 	 * @return void
 	 */
 	public function display_checkbox_setting( $args ) {
@@ -61,12 +72,14 @@ class Hovercards {
 		?>
 		<p>
 			<label for="<?php echo esc_attr( $args['id'] ); ?>">
-				<input value="1" name="<?php echo esc_attr( $args['id'] ); ?>" id="<?php echo esc_attr( $args['id'] ); ?>" type="checkbox" <?php echo checked( 1, $value, false ); ?> />
+				<input value="1" name="<?php echo esc_attr( $args['id'] ); ?>"
+					   id="<?php echo esc_attr( $args['id'] ); ?>"
+					   type="checkbox" <?php echo checked( 1, $value, false ); ?> />
 
 				<?php echo $args['label']; ?>
 
 				<?php if ( $args['description'] ) : ?>
-					<br />
+					<br/>
 					<span class="description"><?php echo $args['description']; ?></span>
 				<?php endif; ?>
 			</label>
@@ -86,5 +99,24 @@ class Hovercards {
 			wp_enqueue_style( 'gravatar-enhanced-style', self::GRAVATAR_ENHANCED_HOVERCARD_STYLES_URL, [], self::GRAVATAR_ENHANCED_HOVERCARD_VERSION );
 			wp_add_inline_script( 'gravatar-enhanced-js', 'document.addEventListener( \'DOMContentLoaded\', () => { if ( Gravatar.Hovercards ) { const hovercards = new Gravatar.Hovercards(); hovercards.attach( document.body ); } } );' );
 		}
+	}
+
+	/**
+	 * Check if the module is disabled, by either a filter or a detected incompatibility.
+	 *
+	 * @return bool
+	 */
+	private function is_module_disabled() {
+		// Check if module is manually disabled by the filter.
+		if ( ! apply_filters( 'gravatar_enhanced_hovercards_module_enabled', true ) ) {
+			return true; // Disabled by filter.
+		}
+
+		// Check if Jetpack is active and has the Gravatar Hovercards module enabled.
+		if ( class_exists( '\Jetpack' ) && \Jetpack::is_module_active( 'gravatar-hovercards' ) ) {
+			return true; // Disabled due to Jetpack Gravatar Hovercards module.
+		}
+
+		return false;
 	}
 }
