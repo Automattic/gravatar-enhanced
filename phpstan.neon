@@ -9,6 +9,7 @@ parameters:
 		- node_modules
 		- release
 		- dist
+		- svn
 	phpVersion: 70400
 	reportUnmatchedIgnoredErrors: false
 	checkAlwaysTrueInstanceof: false

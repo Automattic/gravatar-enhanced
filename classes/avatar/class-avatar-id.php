@@ -8,7 +8,20 @@ use WP_Comment;
 
 /**
  * @phpstan-type WPAvatarId string|int|WP_User|WP_Post|WP_Comment
- * @phpstan-import-type WPAvatar from Avatar
+ * @phpstan-type WPAvatar array{
+ *   size: number,
+ *   height: number,
+ *   width: number,
+ *   default: string,
+ *   force_default: boolean,
+ *   rating: string,
+ *   scheme: string,
+ *   url: string,
+ *   alt: string,
+ *   found_avatar: boolean,
+ *   encoding?: string,
+ *   referrerpolicy?: string
+ * }
  */
 class AvatarId {
 	private string $email_hash;

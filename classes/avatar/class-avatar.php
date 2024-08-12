@@ -7,21 +7,8 @@ use Automattic\Gravatar\GravatarEnhanced\Settings;
 require_once __DIR__ . '/class-avatar-id.php';
 
 /**
- * @phpstan-import-type WPAvatarId from Avatar
- * @phpstan-type WPAvatar array{
- *   size: number,
- *   height: number,
- *   width: number,
- *   default: string,
- *   force_default: boolean,
- *   rating: string,
- *   scheme: string,
- *   url: string,
- *   alt: string,
- *   found_avatar: boolean,
- *   encoding?: string,
- *   referrerpolicy?: string
- * }
+ * @phpstan-import-type WPAvatarId from AvatarId
+ * @phpstan-import-type WPAvatar from AvatarId
  */
 class Avatar {
 	const OPTION_FORCE_DEFAULT = 'gravatar_force_default_avatar';
