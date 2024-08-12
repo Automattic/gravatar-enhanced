@@ -1,0 +1,35 @@
+{
+	"$schema": "https://playground.wordpress.net/blueprint-schema.json",
+	"landingPage": "wp-admin/options-discussion.php",
+	"preferredVersions": {
+		"php": "8.0",
+		"wp": "latest"
+	},
+	"steps": [
+		{
+			"step": "login",
+			"username": "admin",
+			"password": "password"
+		},
+		{
+			"step": "installPlugin",
+			"pluginZipFile": {
+				"resource": "wordpress.org\/plugins",
+				"slug": "gravatar-enhanced"
+			},
+			"options": {
+				"activate": true
+			}
+		},
+		{
+			"step": "setSiteOptions",
+			"options": {
+				"gravatar_hide_referrer": 1,
+				"gravatar_hovercards": 1,
+				"gravatar_proxy": 1,
+				"gravatar_proxy_hash": "local",
+				"gravatar_invitation_email": 1
+			}
+		}
+	]
+}
