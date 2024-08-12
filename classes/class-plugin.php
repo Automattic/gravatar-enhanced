@@ -38,7 +38,7 @@ class Plugin {
 		$this->email->init();
 
 		$this->hovercards = new Hovercards\Hovercards();
-		$this->hovercards->init();
+		add_action( 'init', [ $this->hovercards, 'init' ] );
 
 		$this->avatar = new Avatar\Avatar();
 		$this->avatar->init();

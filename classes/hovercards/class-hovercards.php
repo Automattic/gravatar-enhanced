@@ -17,6 +17,11 @@ class Hovercards {
 	const OPTION_HOVERCARDS = 'gravatar_hovercards';
 
 	/**
+	 * @var string
+	 */
+	const FILTER_GRAVATAR_HOVERCARDS_MODULE_ENABLED = 'gravatar_enhanced_hovercards_module_enabled';
+
+	/**
 	 * @return void
 	 */
 	public function init() {
@@ -34,7 +39,7 @@ class Hovercards {
 		if ( $this->is_module_disabled() ) {
 			return;
 		}
-		add_action( 'admin_init', [ $this, 'admin_init' ] );
+		add_action( 'admin_init', [ $this, 'maybe_register_enabling_setting' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'maybe_add_hovercards' ] );
 	}
 
@@ -48,26 +53,31 @@ class Hovercards {
 	}
 
 	/**
-	 * Main admin_init function used to hook into and register stuff and init plugin settings.
+	 * Maybe register the enabling setting for the hovercards.
+	 * By default, hovercards are enabled and can only be disabled by a filter.
+	 * We check the legacy option to make sure we don't enable it for people who explicitly disabled it.
 	 *
 	 * @return void
 	 */
-	public function admin_init() {
-		register_setting( 'discussion', self::OPTION_HOVERCARDS );
+	public function maybe_register_enabling_setting() {
+		if ( ! $this->is_hovercards_option_enabled() ) {
+			register_setting( 'discussion', self::OPTION_HOVERCARDS );
 
-		add_settings_field(
-			self::OPTION_HOVERCARDS,
-			__( 'Hovercards', 'gravatar-enhanced' ),
-			[ $this, 'display_checkbox_setting' ],
-			'discussion',
-			'avatars',
-			array(
-				'id' => self::OPTION_HOVERCARDS,
-				'label' => __( 'Enable Gravatar Hovercards', 'gravatar-enhanced' ),
-				'description' => __( 'Gravatar Hovercards show information about a person: name, bio, pictures, and their contact info at other services they use on the web like Twitter, Facebook or LinkedIn. <a href="http://blog.gravatar.com/2010/10/06/gravatar-hovercards-on-wordpress-com/" title="Opens new window" target="_blank">Learn More &raquo;</a>', 'gravatar-enhanced' ),
-			)
-		);
+			add_settings_field(
+				self::OPTION_HOVERCARDS,
+				__( 'Hovercards', 'gravatar-enhanced' ),
+				[ $this, 'display_checkbox_setting' ],
+				'discussion',
+				'avatars',
+				array(
+					'id' => self::OPTION_HOVERCARDS,
+					'label' => __( 'Enable Gravatar Hovercards', 'gravatar-enhanced' ),
+					'description' => __( 'Gravatar Hovercards are now enabled by default. <strong>Once enabled this setting will disappear.</strong>', 'gravatar-enhanced' ),
+				)
+			);
+		}
 	}
+
 
 	/**
 	 * Initialise Gravatar Hovercards, if enabled.
@@ -75,7 +85,7 @@ class Hovercards {
 	 * @return void
 	 */
 	public function maybe_add_hovercards() {
-		if ( get_option( self::OPTION_HOVERCARDS ) ) {
+		if ( $this->is_hovercards_option_enabled() ) {
 			wp_enqueue_script( 'gravatar-enhanced-js', self::GRAVATAR_ENHANCED_HOVERCARD_URL, [], self::GRAVATAR_ENHANCED_HOVERCARD_VERSION, true );
 			wp_enqueue_style( 'gravatar-enhanced-style', self::GRAVATAR_ENHANCED_HOVERCARD_STYLES_URL, [], self::GRAVATAR_ENHANCED_HOVERCARD_VERSION );
 			wp_add_inline_script( 'gravatar-enhanced-js', 'document.addEventListener( \'DOMContentLoaded\', () => { if ( Gravatar.Hovercards ) { const hovercards = new Gravatar.Hovercards(); hovercards.attach( document.body ); } } );' );
@@ -89,7 +99,7 @@ class Hovercards {
 	 */
 	private function is_module_disabled() {
 		// Check if module is manually disabled by the filter.
-		if ( ! apply_filters( 'gravatar_enhanced_hovercards_module_enabled', true ) ) {
+		if ( ! apply_filters( self::FILTER_GRAVATAR_HOVERCARDS_MODULE_ENABLED, true ) ) {
 			return true; // Disabled by filter.
 		}
 
@@ -99,5 +109,16 @@ class Hovercards {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Check if Hovercards option is enabled or not.
+	 * By default, it is enabled, but we check the legacy option for backwards compatibility.
+	 *
+	 * @return bool
+	 */
+	private function is_hovercards_option_enabled() {
+		// @deprecated since 0.3.0 – use `gravatar_enhanced_hovercards_module_enabled` filter to disable hovercards.
+		return boolval( get_option( self::OPTION_HOVERCARDS, true ) );
 	}
 }

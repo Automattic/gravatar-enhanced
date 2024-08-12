@@ -68,7 +68,7 @@ class HovercardsTest extends TestCase {
 
 	public function testMaybeAddHovercards_WhenDisabled_ThenDoesNothing() {
 		// Arrange.
-		\Brain\Monkey\Functions\expect( 'get_option' )->once()->with( 'gravatar_hovercards' )->andReturn( false );
+		\Brain\Monkey\Functions\expect( 'get_option' )->once()->with( 'gravatar_hovercards', true )->andReturn( false );
 		\Brain\Monkey\Functions\expect( 'wp_enqueue_script' )->never();
 		\Brain\Monkey\Functions\expect( 'wp_enqueue_style' )->never();
 		\Brain\Monkey\Functions\expect( 'wp_add_inline_script' )->never();
@@ -81,7 +81,7 @@ class HovercardsTest extends TestCase {
 
 	public function testGravatarEnhancedAddHovercards_WhenEnabled_ThenEnqueuesScripts() {
 		// Arrange.
-		\Brain\Monkey\Functions\expect( 'get_option' )->once()->with( 'gravatar_hovercards' )->andReturn( true );
+		\Brain\Monkey\Functions\expect( 'get_option' )->once()->with( 'gravatar_hovercards', true )->andReturn( true );
 		\Brain\Monkey\Functions\expect( 'wp_enqueue_script' )->once()->with( 'gravatar-enhanced-js', Hovercards::GRAVATAR_ENHANCED_HOVERCARD_URL, [], Hovercards::GRAVATAR_ENHANCED_HOVERCARD_VERSION, true );
 		\Brain\Monkey\Functions\expect( 'wp_enqueue_style' )->once()->with( 'gravatar-enhanced-style', Hovercards::GRAVATAR_ENHANCED_HOVERCARD_STYLES_URL, [], Hovercards::GRAVATAR_ENHANCED_HOVERCARD_VERSION );
 		$inline_script = null;
