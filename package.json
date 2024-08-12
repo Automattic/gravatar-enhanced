@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "echo 'Building Gravatar Enhanced...'",
 		"build": "echo 'Building Gravatar Enhanced...'",
-		"release": "yarn build && rm -rf release && mkdir -p release && cp -R classes *.php readme.txt *.png changelog.txt release",
+		"release": "yarn build && rm -rf release && mkdir -p release && cp -R classes *.php readme.txt changelog.txt release",
 		"dist": "yarn release && rm -rf dist && mkdir dist && mv release gravatar-enhanced && zip gravatar-enhanced.zip -r gravatar-enhanced && mv gravatar-enhanced release && mv gravatar-enhanced.zip dist",
 		"dist:github": "yarn dist && release-it",
 		"dist:svn": "yarn dist && ./dev/svn.sh $npm_package_version"
