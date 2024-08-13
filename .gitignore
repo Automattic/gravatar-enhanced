@@ -5,6 +5,6 @@ dist
 node_modules
 svn
 .phpunit.result.cache
-quick-editor.js
 hovercards.css
 hovercards.js
+build

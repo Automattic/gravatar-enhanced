@@ -4,16 +4,16 @@
 	"description": "Gravatar Enhanced WordPress plugin",
 	"main": "index.js",
 	"scripts": {
-		"start": "echo 'Building Gravatar Enhanced...'",
-		"build": "echo 'Building Gravatar Enhanced...'",
-		"release": "yarn build && rm -rf release && mkdir -p release && cp -R classes *.php *.js readme.txt changelog.txt release",
+		"start": "wp-scripts start",
+		"build": "wp-scripts build",
+		"release": "yarn build && rm -rf release && mkdir -p release && cp -R build classes *.php hovercards.* readme.txt changelog.txt release",
 		"dist": "yarn release && rm -rf dist && mkdir dist && mv release gravatar-enhanced && zip gravatar-enhanced.zip -r gravatar-enhanced && mv gravatar-enhanced release && mv gravatar-enhanced.zip dist",
 		"dist:github": "yarn dist && release-it",
 		"dist:svn": "yarn dist && ./dev/svn.sh $npm_package_version",
 		"blueprint": "BASE64=`base64 --input assets/blueprints/blueprint.json` && echo \"https://playground.wordpress.net/#$BASE64\"",
-		"postinstall": "rm -f quick-editor.js hovercards.js hovercards.css && ln -s node_modules/@gravatar-com/quick-editor/dist/index.umd.js quick-editor.js && ln -s node_modules/@gravatar-com/hovercards/dist/index.umd.js hovercards.js && ln -s node_modules/@gravatar-com/hovercards/dist/style.css hovercards.css"
+		"postinstall": "rm -f hovercards.js hovercards.css && ln -s node_modules/@gravatar-com/hovercards/dist/index.umd.js hovercards.js && ln -s node_modules/@gravatar-com/hovercards/dist/style.css hovercards.css"
 	},
-	"author": "",
+	"author": "Automattic",
 	"license": "GPL-2.0-only",
 	"release-it": {
 		"github": {
@@ -29,6 +29,7 @@
 		"npm": false
 	},
 	"devDependencies": {
+		"@wordpress/scripts": "^28.5.0",
 		"release-it": "^17.6.0"
 	},
 	"dependencies": {
