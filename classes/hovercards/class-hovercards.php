@@ -39,6 +39,7 @@ class Hovercards {
 		}
 		add_action( 'admin_init', [ $this, 'maybe_register_enabling_setting' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'maybe_add_hovercards' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'maybe_add_hovercards' ] );
 	}
 
 	/**
