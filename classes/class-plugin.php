@@ -7,6 +7,7 @@ require_once __DIR__ . '/email/class-email.php';
 require_once __DIR__ . '/hovercards/class-hovercards.php';
 require_once __DIR__ . '/avatar/class-avatar.php';
 require_once __DIR__ . '/proxy/class-proxy.php';
+require_once __DIR__ . '/quick-editor/class-quick-editor.php';
 
 class Plugin {
 	/**
@@ -30,6 +31,11 @@ class Plugin {
 	private $proxy;
 
 	/**
+	 * @var QuickEditor\QuickEditor
+	 */
+	private $quick_editor;
+
+	/**
 	 * Start the plugin
 	 * @return void
 	 */
@@ -45,6 +51,9 @@ class Plugin {
 
 		$this->proxy = new Proxy\Proxy();
 		$this->proxy->init();
+
+		$this->quick_editor = new QuickEditor\QuickEditor();
+		$this->quick_editor->init();
 	}
 
 	/**
@@ -63,6 +72,9 @@ class Plugin {
 
 		$this->avatar = new Avatar\Avatar();
 		$this->avatar->uninstall();
+
+		$this->quick_editor = new QuickEditor\QuickEditor();
+		$this->quick_editor->uninstall();
 
 		// Just in case, flush the cache
 		wp_cache_flush();

@@ -18,6 +18,9 @@ class Proxy {
 	const OPTION_PROXY_TIME = 'gravatar_proxy_version';
 	const OPTION_PROXY_SITE_ID = 'gravatar_proxy_site_id';
 
+	const TYPE_LOCAL = 'local';
+	const TYPE_PRIVATE = 'private';
+
 	const FILTER_PROXY_FLUSH_FREQUENCY = 'gravatar_proxy_flush_frequency';
 	const FILTER_PROXY_MAX_DOWNLOAD_TIME = 'gravatar_proxy_max_download_time';
 	const FILTER_PROXY_MAX_DOWNLOADS = 'gravatar_proxy_max_downloads';
@@ -50,6 +53,12 @@ class Proxy {
 	 * @return void
 	 */
 	public function init() {
+		register_deactivation_hook( GRAVATAR_ENHANCED_PLUGIN_FILE, [ $this, 'deactivate' ] );
+
+		if ( defined( 'IS_PROFILE_PAGE' ) && IS_PROFILE_PAGE ) {
+			return;
+		}
+
 		add_action( 'admin_init', [ $this, 'admin_init' ] );
 
 		if ( get_option( self::OPTION_PROXY ) ) {
@@ -60,8 +69,6 @@ class Proxy {
 
 			add_action( self::SCHEDULE_NAME, [ $this, 'flush_cache' ] );
 		}
-
-		register_deactivation_hook( GRAVATAR_ENHANCED_PLUGIN_FILE, [ $this, 'deactivate' ] );
 	}
 
 	/**
@@ -150,7 +157,7 @@ class Proxy {
 		$proxy = new ProxyCache();
 		$entries = $proxy->get_entries();
 
-		$hash_type = get_option( self::OPTION_PROXY_HASH, 'gravatar' );
+		$hash_type = get_option( self::OPTION_PROXY_HASH, self::TYPE_LOCAL );
 
 		/* translators: %d: number of entries */
 		$label = _n( 'The proxy cache contains %d entry.', 'The proxy cache contains %d entries.', count( $entries ), 'gravatar-enhanced' );
@@ -159,8 +166,12 @@ class Proxy {
 			<?php esc_html_e( 'Proxy type', 'gravatar-enhanced' ); ?>
 
 			<select name="<?php echo esc_attr( self::OPTION_PROXY_HASH ); ?>">
-				<option value="gravatar" <?php selected( 'gravatar', $hash_type ); ?>><?php esc_html_e( 'Avatar URLs are local versions of Gravatar', 'gravatar-enhanced' ); ?></option>
-				<option value="local"<?php selected( 'local', $hash_type ); ?>><?php esc_html_e( 'Avatar URLs are unique to this site', 'gravatar-enhanced' ); ?></option>
+				<option value="<?php echo esc_attr( self::TYPE_LOCAL ); ?>" <?php selected( self::TYPE_LOCAL, $hash_type ); ?>>
+					<?php esc_html_e( 'Local avatars URLs match Gravatar', 'gravatar-enhanced' ); ?>
+				</option>
+				<option value="<?php echo esc_attr( self::TYPE_PRIVATE ); ?>"<?php selected( self::TYPE_PRIVATE, $hash_type ); ?>>
+					<?php esc_html_e( 'Local avatars URLs are unique', 'gravatar-enhanced' ); ?>
+				</option>
 			</select>
 		</p>
 		<p>
@@ -245,9 +256,9 @@ class Proxy {
 	 * @return AvatarHash
 	 */
 	private function get_hash_for_url( $url ) {
-		$type = get_option( self::OPTION_PROXY_HASH, 'gravatar' );
+		$type = get_option( self::OPTION_PROXY_HASH, self::TYPE_LOCAL );
 
-		if ( $type === 'local' ) {
+		if ( $type === self::TYPE_PRIVATE ) {
 			$proxy_time = get_option( self::OPTION_PROXY_TIME, 0 );
 			if ( $proxy_time === 0 ) {
 				$proxy_time = time();

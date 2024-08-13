@@ -25,6 +25,11 @@
     js-tokens "^4.0.0"
     picocolors "^1.0.0"
 
+"@gravatar-com/quick-editor@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@gravatar-com/quick-editor/-/quick-editor-0.6.0.tgz#9cfe3b428f8a76ed88f125c09975fd0c6d99921d"
+  integrity sha512-T2MO77XbewIbd6fg/ucewIoxnR8hM+EQDpwhLFNMIam/Q+tZ+OVAyjdseWuBVv7golxpXGXQw6QsQ2OHsX+bqw==
+
 "@iarna/toml@2.2.5":
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/@iarna/toml/-/toml-2.2.5.tgz#b32366c89b43c6f8cefbdefac778b9c828e3ba8c"

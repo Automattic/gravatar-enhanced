@@ -3,7 +3,7 @@
 namespace Automattic\Gravatar\GravatarEnhanced\Proxy;
 
 require_once __DIR__ . '/class-hash-private.php';
-require_once __DIR__ . '/class-hash-gravatar.php';
+require_once __DIR__ . '/class-hash-local.php';
 
 /**
  * Base class to convert a remote Gravatar URL to a local hash.

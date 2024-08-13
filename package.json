@@ -6,11 +6,12 @@
 	"scripts": {
 		"start": "echo 'Building Gravatar Enhanced...'",
 		"build": "echo 'Building Gravatar Enhanced...'",
-		"release": "yarn build && rm -rf release && mkdir -p release && cp -R classes *.php readme.txt changelog.txt release",
+		"release": "yarn build && rm -rf release && mkdir -p release && cp -R classes *.php *.js readme.txt changelog.txt release",
 		"dist": "yarn release && rm -rf dist && mkdir dist && mv release gravatar-enhanced && zip gravatar-enhanced.zip -r gravatar-enhanced && mv gravatar-enhanced release && mv gravatar-enhanced.zip dist",
 		"dist:github": "yarn dist && release-it",
 		"dist:svn": "yarn dist && ./dev/svn.sh $npm_package_version",
-		"blueprint": "BASE64=`base64 --input assets/blueprints/blueprint.json` && echo \"https://playground.wordpress.net/#$BASE64\""
+		"blueprint": "BASE64=`base64 --input assets/blueprints/blueprint.json` && echo \"https://playground.wordpress.net/#$BASE64\"",
+		"postinstall": "rm -f quick-editor.js && ln -s node_modules/@gravatar-com/quick-editor/dist/index.umd.js quick-editor.js"
 	},
 	"author": "",
 	"license": "GPL-2.0-only",
@@ -29,5 +30,8 @@
 	},
 	"devDependencies": {
 		"release-it": "^17.6.0"
+	},
+	"dependencies": {
+		"@gravatar-com/quick-editor": "^0.6.0"
 	}
 }

@@ -5,3 +5,4 @@ dist
 node_modules
 svn
 .phpunit.result.cache
+quick-editor.js
