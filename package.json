@@ -11,7 +11,7 @@
 		"dist:github": "yarn dist && release-it",
 		"dist:svn": "yarn dist && ./dev/svn.sh $npm_package_version",
 		"blueprint": "BASE64=`base64 --input assets/blueprints/blueprint.json` && echo \"https://playground.wordpress.net/#$BASE64\"",
-		"postinstall": "rm -f quick-editor.js && ln -s node_modules/@gravatar-com/quick-editor/dist/index.umd.js quick-editor.js"
+		"postinstall": "rm -f quick-editor.js hovercards.js hovercards.css && ln -s node_modules/@gravatar-com/quick-editor/dist/index.umd.js quick-editor.js && ln -s node_modules/@gravatar-com/hovercards/dist/index.umd.js hovercards.js && ln -s node_modules/@gravatar-com/hovercards/dist/style.css hovercards.css"
 	},
 	"author": "",
 	"license": "GPL-2.0-only",
@@ -32,6 +32,8 @@
 		"release-it": "^17.6.0"
 	},
 	"dependencies": {
+		"@gravatar-com/hovercards": "^0.8.1",
 		"@gravatar-com/quick-editor": "^0.6.0"
-	}
+	},
+	"packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

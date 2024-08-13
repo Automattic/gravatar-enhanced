@@ -7,9 +7,7 @@ use Automattic\Gravatar\GravatarEnhanced\Settings;
 class Hovercards {
 	use Settings\SettingsCheckbox;
 
-	const GRAVATAR_ENHANCED_HOVERCARD_URL = 'https://unpkg.com/@gravatar-com/hovercards@0.8.0';
-	const GRAVATAR_ENHANCED_HOVERCARD_STYLES_URL = 'https://unpkg.com/@gravatar-com/hovercards@0.8.0/dist/style.css';
-	const GRAVATAR_ENHANCED_HOVERCARD_VERSION = 'e';
+	const GRAVATAR_ENHANCED_HOVERCARD_VERSION = '0.8.1';
 
 	/**
 	 * @var string
@@ -86,8 +84,8 @@ class Hovercards {
 	 */
 	public function maybe_add_hovercards() {
 		if ( $this->is_hovercards_option_enabled() ) {
-			wp_enqueue_script( 'gravatar-enhanced-js', self::GRAVATAR_ENHANCED_HOVERCARD_URL, [], self::GRAVATAR_ENHANCED_HOVERCARD_VERSION, true );
-			wp_enqueue_style( 'gravatar-enhanced-style', self::GRAVATAR_ENHANCED_HOVERCARD_STYLES_URL, [], self::GRAVATAR_ENHANCED_HOVERCARD_VERSION );
+			wp_enqueue_script( 'gravatar-enhanced-js', plugins_url( 'hovercards.js', GRAVATAR_ENHANCED_PLUGIN_FILE ), [], self::GRAVATAR_ENHANCED_HOVERCARD_VERSION, true );
+			wp_enqueue_style( 'gravatar-enhanced-style', plugins_url( 'hovercards.css', GRAVATAR_ENHANCED_PLUGIN_FILE ), [], self::GRAVATAR_ENHANCED_HOVERCARD_VERSION );
 			wp_add_inline_script( 'gravatar-enhanced-js', 'document.addEventListener( \'DOMContentLoaded\', () => { if ( Gravatar.Hovercards ) { const hovercards = new Gravatar.Hovercards(); hovercards.attach( document.body ); } } );' );
 		}
 	}

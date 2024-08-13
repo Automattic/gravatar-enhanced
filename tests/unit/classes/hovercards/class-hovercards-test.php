@@ -81,9 +81,10 @@ class HovercardsTest extends TestCase {
 
 	public function testGravatarEnhancedAddHovercards_WhenEnabled_ThenEnqueuesScripts() {
 		// Arrange.
+		\Brain\Monkey\Functions\expect( 'plugins_url' )->zeroOrMoreTimes()->andReturnFirstArg(); // Let's just return the first argument, which is the file name.
 		\Brain\Monkey\Functions\expect( 'get_option' )->once()->with( 'gravatar_hovercards', true )->andReturn( true );
-		\Brain\Monkey\Functions\expect( 'wp_enqueue_script' )->once()->with( 'gravatar-enhanced-js', Hovercards::GRAVATAR_ENHANCED_HOVERCARD_URL, [], Hovercards::GRAVATAR_ENHANCED_HOVERCARD_VERSION, true );
-		\Brain\Monkey\Functions\expect( 'wp_enqueue_style' )->once()->with( 'gravatar-enhanced-style', Hovercards::GRAVATAR_ENHANCED_HOVERCARD_STYLES_URL, [], Hovercards::GRAVATAR_ENHANCED_HOVERCARD_VERSION );
+		\Brain\Monkey\Functions\expect( 'wp_enqueue_script' )->once()->with( 'gravatar-enhanced-js', 'hovercards.js', [], Hovercards::GRAVATAR_ENHANCED_HOVERCARD_VERSION, true );
+		\Brain\Monkey\Functions\expect( 'wp_enqueue_style' )->once()->with( 'gravatar-enhanced-style', 'hovercards.css', [], Hovercards::GRAVATAR_ENHANCED_HOVERCARD_VERSION );
 		$inline_script = null;
 		\Brain\Monkey\Functions\expect( 'wp_add_inline_script' )->once()->with( 'gravatar-enhanced-js', \Mockery::capture( $inline_script ) );
 
