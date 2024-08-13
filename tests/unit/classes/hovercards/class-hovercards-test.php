@@ -83,10 +83,10 @@ class HovercardsTest extends TestCase {
 		// Arrange.
 		\Brain\Monkey\Functions\expect( 'plugins_url' )->zeroOrMoreTimes()->andReturnFirstArg(); // Let's just return the first argument, which is the file name.
 		\Brain\Monkey\Functions\expect( 'get_option' )->once()->with( 'gravatar_hovercards', true )->andReturn( true );
-		\Brain\Monkey\Functions\expect( 'wp_enqueue_script' )->once()->with( 'gravatar-enhanced-js', 'hovercards.js', [], Hovercards::GRAVATAR_ENHANCED_HOVERCARD_VERSION, true );
-		\Brain\Monkey\Functions\expect( 'wp_enqueue_style' )->once()->with( 'gravatar-enhanced-style', 'hovercards.css', [], Hovercards::GRAVATAR_ENHANCED_HOVERCARD_VERSION );
+		\Brain\Monkey\Functions\expect( 'wp_enqueue_script' )->once()->with( 'gravatar-enhanced-hovercards-js', 'hovercards.js', [], Hovercards::GRAVATAR_ENHANCED_HOVERCARD_VERSION, true );
+		\Brain\Monkey\Functions\expect( 'wp_enqueue_style' )->once()->with( 'gravatar-enhanced-hovercards-style', 'hovercards.css', [], Hovercards::GRAVATAR_ENHANCED_HOVERCARD_VERSION );
 		$inline_script = null;
-		\Brain\Monkey\Functions\expect( 'wp_add_inline_script' )->once()->with( 'gravatar-enhanced-js', \Mockery::capture( $inline_script ) );
+		\Brain\Monkey\Functions\expect( 'wp_add_inline_script' )->once()->with( 'gravatar-enhanced-hovercards-js', \Mockery::capture( $inline_script ) );
 
 		// Act.
 		$this->hovercards->maybe_add_hovercards();
@@ -94,6 +94,7 @@ class HovercardsTest extends TestCase {
 		// Assert – mostly implicit in arrange.
 		$this->assertStringContainsString( 'if ( Gravatar.Hovercards ) {', $inline_script, 'Gravatar.Hovercards object is checked' );
 		$this->assertStringContainsString( 'const hovercards = new Gravatar.Hovercards();', $inline_script, 'Gravatar.Hovercards object is instantiated' );
-		$this->assertStringContainsString( 'hovercards.attach( document.body );', $inline_script, 'Gravatar.Hovercards is attached to the body' );
+		$this->assertStringContainsString( 'hovercards.attach( document.body', $inline_script, 'Gravatar.Hovercards is attached to the body' );
+		$this->assertStringContainsString( '{ ignoreSelector: "#wpadminbar img" }', $inline_script, 'Gravatar.Hovercards ignores admin bar images' );
 	}
 }

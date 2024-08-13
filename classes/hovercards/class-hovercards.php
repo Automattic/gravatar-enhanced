@@ -84,9 +84,9 @@ class Hovercards {
 	 */
 	public function maybe_add_hovercards() {
 		if ( $this->is_hovercards_option_enabled() ) {
-			wp_enqueue_script( 'gravatar-enhanced-js', plugins_url( 'hovercards.js', GRAVATAR_ENHANCED_PLUGIN_FILE ), [], self::GRAVATAR_ENHANCED_HOVERCARD_VERSION, true );
-			wp_enqueue_style( 'gravatar-enhanced-style', plugins_url( 'hovercards.css', GRAVATAR_ENHANCED_PLUGIN_FILE ), [], self::GRAVATAR_ENHANCED_HOVERCARD_VERSION );
-			wp_add_inline_script( 'gravatar-enhanced-js', 'document.addEventListener( \'DOMContentLoaded\', () => { if ( Gravatar.Hovercards ) { const hovercards = new Gravatar.Hovercards(); hovercards.attach( document.body ); } } );' );
+			wp_enqueue_script( 'gravatar-enhanced-hovercards-js', plugins_url( 'hovercards.js', GRAVATAR_ENHANCED_PLUGIN_FILE ), [], self::GRAVATAR_ENHANCED_HOVERCARD_VERSION, true );
+			wp_enqueue_style( 'gravatar-enhanced-hovercards-style', plugins_url( 'hovercards.css', GRAVATAR_ENHANCED_PLUGIN_FILE ), [], self::GRAVATAR_ENHANCED_HOVERCARD_VERSION );
+			wp_add_inline_script( 'gravatar-enhanced-hovercards-js', $this->generate_attach_script() );
 		}
 	}
 
@@ -118,5 +118,15 @@ class Hovercards {
 	private function is_hovercards_option_enabled() {
 		// @deprecated since 0.3.0 – use `gravatar_enhanced_hovercards_module_enabled` filter to disable hovercards.
 		return boolval( get_option( self::OPTION_HOVERCARDS, true ) );
+	}
+
+	/**
+	 * Generate the script to attach the hovercards to the document.
+	 *
+	 * @return string
+	 */
+	private function generate_attach_script() {
+		$ignore_selector = '#wpadminbar img';
+		return 'document.addEventListener( \'DOMContentLoaded\', () => { if ( Gravatar.Hovercards ) { const hovercards = new Gravatar.Hovercards(); hovercards.attach( document.body, { ignoreSelector: "' . $ignore_selector . '" } ); } } );';
 	}
 }
