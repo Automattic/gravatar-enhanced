@@ -5,13 +5,13 @@ const UPDATE_DELAY = 2000;
 const BASE_API_URL = 'https://api.gravatar.com/v3/profiles';
 
 declare var geQuickEditor: {
-	locale: string,
-	email: string,
-	hash: string,
+	locale: string;
+	email: string;
+	hash: string;
 };
 
 function attachQuickEditor( email, locale ) {
-	const img : HTMLImageElement | null = document.querySelector( '.user-profile-picture img.avatar' );
+	const img: HTMLImageElement | null = document.querySelector( '.user-profile-picture img.avatar' );
 	const editButton = document.getElementById( 'edit-gravatar' );
 
 	// Check we have all the things

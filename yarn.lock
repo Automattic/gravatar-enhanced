@@ -7911,6 +7911,11 @@ npm-bundled@^1.1.1:
   dependencies:
     npm-normalize-package-bin "^1.0.1"
 
+npm-check-updates@^17.0.6:
+  version "17.0.6"
+  resolved "https://registry.yarnpkg.com/npm-check-updates/-/npm-check-updates-17.0.6.tgz#55f6b89cb5ef03bc42a00e359a90c21c7b057829"
+  integrity sha512-KCiaJH1cfnh/RyzKiDNjNfXgcKFyQs550Uf1OF/Yzb8xO56w+RLpP/OKRUx23/GyP/mLYwEpOO65qjmVdh6j0A==
+
 npm-normalize-package-bin@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/npm-normalize-package-bin/-/npm-normalize-package-bin-1.0.1.tgz#6e79a41f23fd235c0623218228da7d9c23b8f6e2"

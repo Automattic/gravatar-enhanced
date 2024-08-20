@@ -1,0 +1,28 @@
+module.exports = {
+	extends: [ 'plugin:@wordpress/eslint-plugin/recommended' ],
+	parserOptions: {
+		requireConfigFile: false,
+	},
+	env: {
+		browser: true,
+	},
+	globals: {
+		gravatarProfile: true,
+	},
+	ignorePatterns: [ '**/wapuu/' ],
+	plugins: [
+		// other plugins...
+		'prettier', // Enables eslint-plugin-prettier
+	],
+	rules: {
+		'prettier/prettier': [ 'error', require( './.prettierrc.js' ) ], // Uses our .prettierrc.js config
+		'no-unused-expressions': 'warn',
+	},
+	settings: {
+		'import/resolver': {
+			node: {
+				extensions: [ '.js', '.jsx', '.ts', '.tsx' ],
+			},
+		},
+	},
+};

@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"lib": [ "ES2020", "DOM", "DOM.Iterable" ],
+		"allowJs": true,
+		"checkJs": true,
+		"composite": true,
+		"emitDeclarationOnly": false,
+		"noEmit": true,
+		"esModuleInterop": true,
+		"downlevelIteration": true,
+		"jsx": "preserve",
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitThis": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"resolveJsonModule": true,
+		"typeRoots": [ "node_modules/@types" ]
+	},
+	"include": [ "./src/**/*", "./*.js" ]
+}

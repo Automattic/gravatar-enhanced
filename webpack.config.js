@@ -5,7 +5,8 @@ const config = {
 
 	entry: {
 		'quick-editor': './src/quick-editor/index.ts',
+		hovercards: './src/hovercards/index.ts',
 	},
-}
+};
 
 module.exports = config;

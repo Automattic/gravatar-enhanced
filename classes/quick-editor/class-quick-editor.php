@@ -80,7 +80,6 @@ class QuickEditor {
 		wp_enqueue_script( 'gravatar-enhanced-qe', plugins_url( 'build/quick-editor.js', GRAVATAR_ENHANCED_PLUGIN_FILE ), $assets['dependencies'], $assets['version'], true );
 		wp_localize_script( 'gravatar-enhanced-qe', 'geQuickEditor', $settings );
 
-		// phpcs:ignore
 		wp_register_style( 'gravatar-enhanced-qe', plugins_url( 'build/style-quick-editor.css', GRAVATAR_ENHANCED_PLUGIN_FILE ), [], $assets['version'] );
 		wp_enqueue_style( 'gravatar-enhanced-qe' );
 	}

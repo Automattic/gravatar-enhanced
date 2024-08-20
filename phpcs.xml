@@ -16,6 +16,9 @@
     <!--                -->
     <exclude-pattern>dev/</exclude-pattern>
     <exclude-pattern>vendor/</exclude-pattern>
+    <exclude-pattern>svn/</exclude-pattern>
+    <exclude-pattern>release/</exclude-pattern>
+    <exclude-pattern>node_modules/</exclude-pattern>
 
     <!-- Include rulesets -->
     <rule ref="VariableAnalysis"/>

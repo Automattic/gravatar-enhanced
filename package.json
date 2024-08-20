@@ -5,13 +5,15 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "wp-scripts start",
-		"build": "wp-scripts build",
-		"release": "yarn build && rm -rf release && mkdir -p release && cp -R build classes *.php hovercards.* readme.txt changelog.txt release",
+		"build": "wp-scripts build && ./dev/lintfix.sh",
+		"release": "yarn build && rm -rf release && mkdir -p release && cp -R build classes *.php readme.txt changelog.txt release",
 		"dist": "yarn release && rm -rf dist && mkdir dist && mv release gravatar-enhanced && zip gravatar-enhanced.zip -r gravatar-enhanced && mv gravatar-enhanced release && mv gravatar-enhanced.zip dist",
 		"dist:github": "yarn dist && release-it",
 		"dist:svn": "yarn dist && ./dev/svn.sh $npm_package_version",
 		"blueprint": "BASE64=`base64 --input assets/blueprints/blueprint.json` && echo \"https://playground.wordpress.net/#$BASE64\"",
-		"postinstall": "rm -f hovercards.js hovercards.css && ln -s node_modules/@gravatar-com/hovercards/dist/index.umd.js hovercards.js && ln -s node_modules/@gravatar-com/hovercards/dist/style.css hovercards.css"
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"update": "ncu -u"
 	},
 	"author": "Automattic",
 	"license": "GPL-2.0-only",
@@ -30,6 +32,7 @@
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^28.5.0",
+		"npm-check-updates": "^17.0.6",
 		"release-it": "^17.6.0"
 	},
 	"dependencies": {
