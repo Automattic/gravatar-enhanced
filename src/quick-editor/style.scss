@@ -1,5 +1,9 @@
-@keyframes pulse {
+@mixin pulsate {
+	background-color: #999;
+	animation: gravatar-pulse 2s infinite ease-in-out;
+}
 
+@keyframes gravatar-pulse {
 	0% {
 		opacity: 1;
 	}
@@ -13,6 +17,111 @@
 	}
 }
 
-.user-profile-picture img.avatar.avatar-loading {
-	animation: pulse 2s infinite ease-in-out;
+// Background colour for profile page
+.user-profile-picture td,
+.user-description-wrap td {
+	background-color: #ebebeb;
+}
+
+// Avatar loader
+.avatar.avatar-loading,
+.gravatar-hovercard__avatar.avatar-loading {
+	animation: gravatar-pulse 2s infinite ease-in-out;
+}
+
+.gravatar-profile:not(.gravatar-profile__hidden) {
+	display: flex;
+	margin-top: 10px;
+	align-items: center;
+	gap: 10px;
+}
+
+// Hovercard differences
+.gravatar-hovercard {
+	.gravatar-hovercard__inner {
+		width: 500px;
+		box-shadow: inherit;
+		border-color: #8d8f94;
+	}
+
+	.gravatar-hovercard__personal-info-link,
+	.gravatar-hovercard__avatar-link {
+		cursor: text;
+	}
+
+	.gravatar-hovercard__social-links,
+	.gravatar-hovercard__profile-link {
+		display: none;
+	}
+
+	&.gravatar-hovercard--editable {
+		.gravatar-hovercard__personal-info-link,
+		.gravatar-hovercard__avatar-link {
+			cursor: pointer;
+		}
+
+		.gravatar-hovercard__social-links,
+		.gravatar-hovercard__profile-link {
+			display: inherit;
+		}
+	}
+}
+
+// Account
+.gravatar-account {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 16px;
+
+	> div {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+}
+
+// Flash all the things on a hovercard when loading
+.gravatar-profile__loading {
+	.gravatar-hovercard__avatar {
+		animation: pulse 2s infinite ease-in-out;
+	}
+
+	.gravatar-hovercard__name {
+		width: 200px;
+		height: 30px;
+		@include pulsate();
+	}
+
+	.gravatar-hovercard__description {
+		color: #999;
+		width: 100%;
+		height: 30px;
+		@include pulsate();
+	}
+
+	.gravatar-hovercard__social-links {
+		width: 100px;
+		height: 30px;
+		@include pulsate();
+	}
+}
+
+.gravatar-profile__hidden {
+	display: none !important;
+}
+
+#profile-page #gravatar-profile-sync__description {
+	h4 {
+		margin: 5px 0;
+	}
+
+	p {
+		margin-bottom: 10px;
+	}
+}
+
+// Hide the WP avatar
+.user-profile-picture td > img {
+	display: none;
 }
