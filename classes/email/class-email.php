@@ -4,12 +4,13 @@ namespace Automattic\Gravatar\GravatarEnhanced\Email;
 
 use WP_Http;
 use WP_Comment;
+use WP_Post;
 use Automattic\Gravatar\GravatarEnhanced\Settings;
 
 class EmailNotification {
 	use Settings\SettingsCheckbox;
 
-	const GRAVATAR_ENHANCED_SIGNUP_URL = 'https://gravatar.com/signup';
+	const GRAVATAR_ENHANCED_SIGNUP_URL = 'https://gravatar.com/connect/?email=';
 
 	const COMMENT_META_KEY = 'gravatar_invite_';
 
@@ -93,7 +94,7 @@ class EmailNotification {
 	 * Checks to see if a given email has an associated gravatar.
 	 *
 	 * @since 0.1
-	 * @param mixed $email
+	 * @param string $email
 	 * @return bool
 	 */
 	private function has_gravatar( $email ) {
@@ -121,7 +122,7 @@ class EmailNotification {
 	/**
 	 * Build the key we use to store comment notifications.
 	 *
-	 * @param mixed $email
+	 * @param string $email
 	 * @return string
 	 */
 	private function get_notification_key( $email ) {
@@ -135,20 +136,21 @@ class EmailNotification {
 	 */
 	private function get_invitation_message() {
 		$message = __(
-			'Hi COMMENTER_NAME!
+			'Hi COMMENTER_NAME,
 
 Thanks for your comment on "POST_NAME"!
 
-I noticed that you didn\'t have your own picture or profile next to your comment. Why not set one up using Gravatar? Click the link below to get started:
+I noticed that you didn\'t have your own picture or profile next to your comment. Setting it up on Gravatar is quick and easy — just click below:
 
 GRAVATAR_URL
 
-*What\'s a Gravatar?*
-Your Gravatar (a Globally Recognized Avatar) is an image that follows you from site to site appearing beside your name when you do things like comment or post on a blog. Avatars help identify your posts on blogs and web forums, so why not on any site?
+* What’s Gravatar? *
 
-Thanks for visiting and come back soon!
+It\'s a free profile and avatar image used on thousands of sites. With one setup, you\'re good to go across the web!
 
--- The Team @ SITE_NAME',
+Hope to see you back on SITE_NAME soon.
+
+-- SITE_NAME',
 			'gravatar-enhanced'
 		);
 
@@ -184,20 +186,23 @@ Thanks for visiting and come back soon!
 	/**
 	 * Send gravatar invitation to commenters if enabled, if they don't have a gravatar and we haven't notified them already.
 	 *
-	 * @since 0.1
-	 * @param mixed $email
-	 * @param mixed $comment
+	 * @param string $target_email
+	 * @param WP_Comment $comment
 	 * @return void
 	 */
-	private function notify_commenter( $email, $comment ) {
+	private function notify_commenter( $target_email, $comment ) {
 		// Check that it's a comment and that we have an email address
-		if ( ! in_array( $comment->comment_type, array( '', 'comment' ), true ) || ! $email ) {
+		if ( ! in_array( $comment->comment_type, array( '', 'comment' ), true ) || ! $target_email ) {
 			return;
 		}
 
-		$post = get_post( $comment->comment_post_ID );
+		if ( ! $comment->comment_post_ID ) {
+			return;
+		}
 
-		if ( is_null( $post ) || ! isset( $_SERVER['SERVER_NAME'] ) ) {
+		$post = get_post( (int) $comment->comment_post_ID );
+
+		if ( is_null( $post ) ) {
 			return;
 		}
 
@@ -206,61 +211,79 @@ Thanks for visiting and come back soon!
 			return;
 		}
 
-		if ( ! $this->has_gravatar( $email ) && ! $this->have_notified_commenter( $email ) ) {
-			if ( is_multisite() ) {
-				$sitename = get_current_site()->site_name;
-			} else {
-				$sitename = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
-			}
-
-			/* translators: %s: site name */
-			$subject = sprintf( __( '[%s] Gravatar Invitation' ), $sitename );
-			$subject = apply_filters( self::FILTER_INVITATION_SUBJECT, $subject, $comment );
-
-			$message = stripslashes( get_option( self::OPTION_INVITATION_MESSAGE ) );
-
-			if ( ! $message ) {
-				$message = $this->get_invitation_message();
-			}
-
-			// Just in case we're missing the signup URL
-			if ( strpos( $message, 'GRAVATAR_URL' ) === false ) {
-				$message .= "\n\n" . __( 'Sign up now: ', 'gravatar-enhanced' ) . 'GRAVATAR_URL';
-			}
-
-			// TODO: Need a better way to handle these for i18n since this does not translate well.
-			$message = str_replace( 'SITE_NAME', $sitename, $message );
-			$message = str_replace( 'POST_NAME', $post->post_title, $message );
-			$message = str_replace( 'COMMENTER_NAME', $comment->comment_author, $message );
-			$message = str_replace( 'COMMENTER_EMAIL', $email, $message );
-			$message = str_replace( 'COMMENTER_URL', $comment->comment_author_url, $message );
-			$message = str_replace( 'GRAVATAR_URL', self::GRAVATAR_ENHANCED_SIGNUP_URL, $message );
-
-			// Grab author of the post
-			$post_author = get_userdata( (int) $post->post_author );
-
-			// Set From header to SITE_NAME
-			$wp_email = 'wordpress@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) );
-
-			// If the post author has a valid email, set the reply to the email 'from' them.
-			$reply_name = ! empty( $post_author->user_email ) ? $post_author->display_name : $sitename;
-			$reply_email = ! empty( $post_author->user_email ) ? $post_author->user_email : get_option( 'admin_email' );
-
-			$message_headers = array(
-				'from' => sprintf( 'From: "%1$s" <%2$s>', $sitename, $wp_email ),
-				'type' => sprintf( 'Content-Type: %1$s; charset="%2$s"', 'text/plain', get_option( 'blog_charset' ) ),
-				'replyto' => sprintf( 'Reply-To: %1$s <%2$s>', $reply_name, $reply_email ),
-			);
-
-			// Pass through filters
-			$message = apply_filters( self::FILTER_INVITATION_MESSAGE, $message, $comment );
-			$message_headers = apply_filters( self::FILTER_INVITATION_MESSAGE_HEADERS, $message_headers, $comment );
-			$message_headers = implode( "\n", $message_headers );
-
-			wp_mail( $email, $subject, $message, $message_headers );
-
-			$this->set_notified_commenter( $email, $comment );
+		if ( ! $this->has_gravatar( $target_email ) && ! $this->have_notified_commenter( $target_email ) ) {
+			$this->send_invitation( $target_email, $post, $comment );
+			$this->set_notified_commenter( $target_email, $comment );
 		}
+	}
+
+	/**
+	 * Send the invitation email to the commenter
+	 *
+	 * @param string $target_email
+	 * @param WP_Post $post
+	 * @param WP_Comment $comment
+	 * @param string|null $server_name
+	 * @return bool
+	 */
+	public function send_invitation( $target_email, $post, $comment, $server_name = null ) {
+		$server_name = $server_name ?? $_SERVER['SERVER_NAME'] ?? null;
+		if ( is_null( $server_name ) ) {
+			return false;
+		}
+
+		if ( is_multisite() ) {
+			$sitename = get_current_site()->site_name;
+		} else {
+			$sitename = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
+		}
+
+		/* translators: %s: site name */
+		$subject = sprintf( __( '[%s] Gravatar invitation' ), $sitename );
+		$subject = apply_filters( self::FILTER_INVITATION_SUBJECT, $subject, $comment );
+
+		$message = stripslashes( get_option( self::OPTION_INVITATION_MESSAGE ) );
+
+		if ( ! $message ) {
+			$message = $this->get_invitation_message();
+		}
+
+		$gravatar_url = self::GRAVATAR_ENHANCED_SIGNUP_URL . rawurlencode( $target_email );
+
+		// Just in case we're missing the signup URL
+		if ( strpos( $message, 'GRAVATAR_URL' ) === false ) {
+			$message .= "\n\n" . __( 'Sign up now: ', 'gravatar-enhanced' ) . 'GRAVATAR_URL';
+		}
+
+		$message = str_replace( 'SITE_NAME', $sitename, $message );
+		$message = str_replace( 'POST_NAME', $post->post_title, $message );
+		$message = str_replace( 'COMMENTER_NAME', $comment->comment_author, $message );
+		$message = str_replace( 'COMMENTER_EMAIL', $target_email, $message );
+		$message = str_replace( 'COMMENTER_URL', $comment->comment_author_url, $message );
+		$message = str_replace( 'GRAVATAR_URL', $gravatar_url, $message );
+
+		// Grab author of the post
+		$post_author = get_userdata( (int) $post->post_author );
+
+		// Set From header to SITE_NAME
+		$wp_email = 'wordpress@' . preg_replace( '#^www\.#', '', strtolower( $server_name ) );
+
+		// If the post author has a valid email, set the reply to the email 'from' them.
+		$reply_name = ! empty( $post_author->user_email ) ? $post_author->display_name : $sitename;
+		$reply_email = ! empty( $post_author->user_email ) ? $post_author->user_email : get_option( 'admin_email' );
+
+		$message_headers = array(
+			'from' => sprintf( 'From: "%1$s" <%2$s>', $sitename, $wp_email ),
+			'type' => sprintf( 'Content-Type: %1$s; charset="%2$s"', 'text/plain', get_option( 'blog_charset' ) ),
+			'replyto' => sprintf( 'Reply-To: %1$s <%2$s>', $reply_name, $reply_email ),
+		);
+
+		// Pass through filters
+		$message = apply_filters( self::FILTER_INVITATION_MESSAGE, $message, $comment );
+		$message_headers = apply_filters( self::FILTER_INVITATION_MESSAGE_HEADERS, $message_headers, $comment );
+		$message_headers = implode( "\n", $message_headers );
+
+		return wp_mail( $target_email, $subject, $message, $message_headers );
 	}
 
 	/**
@@ -297,8 +320,8 @@ Thanks for visiting and come back soon!
 	 * Handle when new comments are created.
 	 * We have to hook into wp_insert_comment too because it doesn't call transition_comment_status :(
 	 *
-	 * @param mixed $id
-	 * @param mixed $comment
+	 * @param string $id
+	 * @param WP_Comment $comment
 	 * @return void
 	 */
 	public function insert_comment( $id, $comment ) {
@@ -315,9 +338,9 @@ Thanks for visiting and come back soon!
 	/**
 	 * Handle when new comments are updated or approved.
 	 *
-	 * @param mixed $new_status
-	 * @param mixed $old_status
-	 * @param mixed $comment
+	 * @param string $new_status
+	 * @param string $old_status
+	 * @param WP_Comment $comment
 	 * @return void
 	 **/
 	public function transition_comment( $new_status, $old_status, $comment ) {
@@ -327,7 +350,7 @@ Thanks for visiting and come back soon!
 		}
 
 		// Only send emails for comments less than a week old
-		if ( get_comment_date( 'U', $comment->comment_ID ) < strtotime( apply_filters( self::FILTER_INVITATION_TIME_LIMIT, '-1 week' ) ) ) {
+		if ( get_comment_date( 'U', (int) $comment->comment_ID ) < strtotime( apply_filters( self::FILTER_INVITATION_TIME_LIMIT, '-1 week' ) ) ) {
 			return;
 		}
 
