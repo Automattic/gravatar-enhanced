@@ -34,7 +34,6 @@ class QuickEditor {
 		add_action( 'admin_head-user-edit.php', [ $this, 'start_capture_page' ] );
 		add_action( 'admin_footer-user-edit.php', [ $this, 'end_capture_page' ] );
 
-		add_action( 'admin_enqueue_scripts', [ $this, 'add_quick_editor' ] );
 		add_filter( 'user_profile_picture_description', [ $this, 'add_quick_editor_link' ] );
 		add_filter( 'get_avatar_url', [ $this, 'get_avatar_url' ], 15 );
 	}
@@ -43,6 +42,8 @@ class QuickEditor {
 	 * @return void
 	 */
 	public function start_capture_page() {
+		$this->add_quick_editor();
+
 		ob_start();
 	}
 
