@@ -1,4 +1,5 @@
 import { GravatarQuickEditorCore, Scope } from '@gravatar-com/quick-editor';
+import trackEvent from '../shared/analytics';
 
 const UPDATE_DELAY = 2000;
 const LOADING_CLASS = 'avatar-loading';
@@ -32,8 +33,10 @@ export default function showQuickEditor( email: string, locale: string, scope: S
 		locale,
 		onProfileUpdated: ( type ) => {
 			if ( type === 'avatar_updated' ) {
+				trackEvent( 'gravatar_enhanced_qe_avatar_updated' );
 				updateAvatars();
 			} else if ( type === 'profile_updated' ) {
+				trackEvent( 'gravatar_enhanced_qe_profile_updated' );
 				updateProfile();
 			}
 		},

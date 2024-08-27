@@ -8,6 +8,7 @@ require_once __DIR__ . '/hovercards/class-hovercards.php';
 require_once __DIR__ . '/avatar/class-avatar.php';
 require_once __DIR__ . '/proxy/class-proxy.php';
 require_once __DIR__ . '/quick-editor/class-quick-editor.php';
+require_once __DIR__ . '/analytics/class-analytics.php';
 
 class Plugin {
 	/**
@@ -36,6 +37,11 @@ class Plugin {
 	private $quick_editor;
 
 	/**
+	 * @var Analytics\Analytics
+	 */
+	private $analytics;
+
+	/**
 	 * Start the plugin
 	 * @return void
 	 */
@@ -54,6 +60,9 @@ class Plugin {
 
 		$this->quick_editor = new QuickEditor\QuickEditor();
 		$this->quick_editor->init();
+
+		$this->analytics = new Analytics\Analytics();
+		$this->analytics->init();
 	}
 
 	/**
@@ -75,6 +84,9 @@ class Plugin {
 
 		$this->quick_editor = new QuickEditor\QuickEditor();
 		$this->quick_editor->uninstall();
+
+		$this->analytics = new Analytics\Analytics();
+		$this->analytics->uninstall();
 
 		// Just in case, flush the cache
 		wp_cache_flush();

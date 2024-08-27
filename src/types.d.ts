@@ -38,3 +38,6 @@ declare interface QuickEditor {
 }
 
 declare var geQuickEditor: QuickEditor;
+declare var gravatar: {
+	recordTrackEvent: ( name: string, options?: any ) => void;
+};

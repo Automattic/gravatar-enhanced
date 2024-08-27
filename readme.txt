@@ -34,6 +34,14 @@ This is an official release from Gravatar and we will be bringing more new featu
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Go to the "Discussion" Settings page to enable the new features.
 
+== Usage Tracking ==
+
+The plugin has an opt-in usage tracking feature. If enabled this will send Gravatar some data about how the plugin is used, which is used to help us make the plugin better.
+
+This data is anonymous and does not include any site or user information. It only sends the following information:
+- What Gravatar Enhanced options have been used
+- If a profile is updated via the Gravatar card
+
 == Screenshots ==
 
 1. Hovercards!
