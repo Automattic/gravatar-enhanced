@@ -79,7 +79,6 @@ class HovercardsTest extends TestCase {
 		// Assert – implicit in arrange.
 	}
 
-	/*
 	public function testGravatarEnhancedAddHovercards_WhenEnabled_ThenEnqueuesScripts() {
 		$asset = require dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/hovercards.asset.php';
 
@@ -93,5 +92,4 @@ class HovercardsTest extends TestCase {
 		// Act.
 		$this->hovercards->maybe_add_hovercards();
 	}
-	*/
 }
