@@ -6,6 +6,7 @@ import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, SelectControl, TextControl, RangeControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { useEffect, useState, useCallback, useRef } from '@wordpress/element';
+import { useEntityProp } from '@wordpress/core-data';
 
 /**
  * External dependencies
@@ -30,19 +31,49 @@ const USER_TYPE_OPTIONS = {
 };
 
 /**
+ * Return the author of the post taking into account its context.
+ * - Returns the post author in a query loop (provided by context's postType and postId).
+ * - Returns the current post/page author elsewhere.
+ * - Returns null if not available (e.g. when editing a template for the first time, since there is no author yet).
+ * - Returns null if in Full Site Editor outside of a query loop.
+ *
+ * @param {string} postType
+ * @param {number} postId
+ * @param {string} queryId
+ * @returns
+ */
+const useAuthor = ( postType, postId, queryId ) => {
+	const isFullSiteEditing = useSelect( ( select ) => !! select( 'core/edit-site' ), [] );
+	const isInQueryLoop = Number.isFinite( queryId );
+
+	const [ authorId ] = useEntityProp( 'postType', postType, 'author', postId );
+
+	// If in FSE and not in a query loop, return null
+	// This is because the author for a template is not set initially until the template is modified.
+	// And also, getting this author from the `render.php` is not possible, so we generate an inconsistency between the editor and the render.
+	if ( isFullSiteEditing && ! isInQueryLoop ) {
+		return null;
+	}
+
+	return useSelect(
+		( select ) => {
+			return authorId ? select( 'core' ).getUser( authorId ) : null;
+		},
+		[ authorId ]
+	);
+};
+
+/**
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
  *
  * @return {Element} Element to render.
  */
-export default function Edit( { attributes, setAttributes } ) {
+export default function Edit( { attributes, setAttributes, context: { postId, postType, queryId } } ) {
 	const { type, userType, userValue, size } = attributes;
 
 	const [ email, setEmail ] = useState( null );
 	const allUsers = useSelect( ( select ) => select( 'core' ).getUsers(), [] );
-	const authorUser = useSelect( ( select ) => {
-		const post = select( 'core/editor' ).getCurrentPost();
-		return post ? select( 'core' ).getUser( post.author ) : null;
-	}, [] );
+	const authorUser = useAuthor( postType, postId, queryId );
 	const selectedUser = useSelect(
 		( select ) => {
 			if ( userType === USER_TYPE_OPTIONS.USER && userValue ) {
@@ -74,7 +105,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		} else if ( userType === USER_TYPE_OPTIONS.AUTHOR && authorUser ) {
 			setEmail( authorUser.email );
 		}
-	}, [ userType, userValue, authorUser ] );
+	}, [ userType, userValue, authorUser, selectedUser ] );
 
 	const [ imageSize, setImageSize ] = useState( size );
 
@@ -84,6 +115,13 @@ export default function Edit( { attributes, setAttributes } ) {
 			setAttributes( { userValue: allUsers[ 0 ].id.toString() } );
 		}
 	}, [ userType, allUsers, userValue ] );
+
+	// If the author user does not exist, set the user type to 'user'.
+	useEffect( () => {
+		if ( userType === USER_TYPE_OPTIONS.AUTHOR && authorUser === null ) {
+			setAttributes( { userType: USER_TYPE_OPTIONS.USER, userValue: '' } );
+		}
+	}, [ userType, authorUser ] );
 
 	const allUsersOptions = allUsers
 		? allUsers.map( ( user ) => ( { label: `${ user.name } (${ user.nickname })`, value: user.id } ) )
@@ -100,6 +138,15 @@ export default function Edit( { attributes, setAttributes } ) {
 		// Update the size of the source image after debouncing to avoid too many requests.
 		debouncedSetImageSize( newSize );
 	};
+
+	// User type options – author only available if the author user exists
+	const userTypeOptions = [
+		{ label: __( 'User', 'gravatar-enhanced' ), value: USER_TYPE_OPTIONS.USER },
+		{ label: __( 'Custom email', 'gravatar-enhanced' ), value: USER_TYPE_OPTIONS.EMAIL },
+	];
+	if ( authorUser ) {
+		userTypeOptions.unshift( { label: __( 'Author', 'gravatar-enhanced' ), value: USER_TYPE_OPTIONS.AUTHOR } );
+	}
 
 	return (
 		<>
@@ -126,11 +173,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					<SelectControl
 						label={ __( 'Select User', 'gravatar-enhanced' ) }
 						value={ userType }
-						options={ [
-							{ label: __( 'Author', 'gravatar-enhanced' ), value: USER_TYPE_OPTIONS.AUTHOR },
-							{ label: __( 'User', 'gravatar-enhanced' ), value: USER_TYPE_OPTIONS.USER },
-							{ label: __( 'Custom email', 'gravatar-enhanced' ), value: USER_TYPE_OPTIONS.EMAIL },
-						] }
+						options={ userTypeOptions }
 						onChange={ ( newType ) => setAttributes( { userType: newType, userValue: '' } ) }
 					/>
 					{ userType === USER_TYPE_OPTIONS.USER && (

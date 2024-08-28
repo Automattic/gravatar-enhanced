@@ -11,8 +11,14 @@ $email = '';
 switch ( $user_type ) {
 	default:
 	case 'author':
-		// Get email from current post author
-		$email = get_the_author_meta( 'user_email' );
+		// Get email from current post (or page) author
+		$current_post = get_post();
+		if ( $current_post ) {
+			$user = get_userdata( intval( $current_post->post_author ) );
+			if ( $user ) {
+				$email = $user->user_email;
+			}
+		}
 		break;
 	case 'user':
 		// Get email from user ID

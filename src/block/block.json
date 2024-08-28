@@ -33,6 +33,7 @@
 			"default": 96
 		}
 	},
+	"usesContext": [ "postId", "postType", "queryId" ],
 	"supports": {
 		"html": false,
 		"align": true,
@@ -62,7 +63,7 @@
 	"textdomain": "gravatar-enhanced",
 	"editorScript": "file:../block.js",
 	"editorStyle": "file:../block.css",
-	"style": "file:../style-block.css",
+	"style": [ "file:../style-block.css", "file:../style-hovercards.css" ],
 	"render": "file:./render.php",
 	"viewScript": "file:../block-view.js"
 }
