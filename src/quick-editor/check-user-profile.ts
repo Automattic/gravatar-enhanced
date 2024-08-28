@@ -1,6 +1,7 @@
 import { Hovercards, ProfileData } from '@gravatar-com/hovercards';
 import { Scope } from '@gravatar-com/quick-editor';
 import showQuickEditor from './show-quick-editor';
+import { convertJsonToUser } from '../hovercards/utils';
 
 interface ActionScope {
 	[ name: string ]: Scope;
@@ -19,40 +20,6 @@ const ACTIONS_UNKNOWN: ActionScope = {
 	'.gravatar-hovercard__name': [ 'about', 'avatars' ],
 	'.gravatar-hovercard__social-link': [ 'about', 'avatars' ],
 };
-
-// We need our own avatarUrl as the profile one will refer to the primary account address, not necessarily the one used on this site
-function convertJsonToUser( profile: GravatarAPIProfile, avatarUrl: string ): ProfileData {
-	// Bit of a nuisance that we have to convert like this
-	const {
-		hash,
-		display_name: displayName,
-		description,
-		profile_url: profileUrl,
-		company,
-		location,
-		job_title: jobTitle,
-		verified_accounts: verifiedAccounts,
-	} = profile;
-
-	return {
-		hash,
-		displayName,
-		description,
-		avatarUrl,
-		profileUrl,
-		company,
-		location,
-		jobTitle,
-		verifiedAccounts: verifiedAccounts.map(
-			( { url, service_label: label, service_icon: icon, service_type: type } ) => ( {
-				label,
-				icon,
-				url,
-				type,
-			} )
-		),
-	};
-}
 
 function createHovercard(
 	user: ProfileData,
@@ -112,7 +79,12 @@ function showValidProfile( avatarUrl: string, profile, buttonText: string, openE
 	}
 }
 
-function showProbablyNoProfile( avatarUrl: string, text: QuickEditorText, canEdit, openEditor: ( scopes: Scope ) => void ) {
+function showProbablyNoProfile(
+	avatarUrl: string,
+	text: QuickEditorText,
+	canEdit,
+	openEditor: ( scopes: Scope ) => void
+) {
 	const user = {
 		displayName: canEdit ? text.unknownTitle : text.otherUnknownTitle,
 		description: canEdit ? text.unknownDescription : text.otherUnknownDescription,

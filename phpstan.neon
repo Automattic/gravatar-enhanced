@@ -10,6 +10,7 @@ parameters:
 		- release
 		- dist
 		- svn
+		- build
 	phpVersion: 70400
 	reportUnmatchedIgnoredErrors: false
 	checkAlwaysTrueInstanceof: false

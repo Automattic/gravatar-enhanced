@@ -1,0 +1,68 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gravatar/block",
+	"version": "0.1.0",
+	"title": "Gravatar Profile",
+	"category": "widgets",
+	"description": "Display user information directly from Gravatar Public Profiles.",
+	"keywords": [
+		"gravatar",
+		"profile",
+		"author",
+		"user",
+		"avatar",
+		"card"
+	],
+	"example": {},
+	"attributes": {
+		"type": {
+			"type": "string",
+			"default": "gravatar"
+		},
+		"userType": {
+			"type": "string",
+			"default": "author"
+		},
+		"userValue": {
+			"type": "string",
+			"default": ""
+		},
+		"size": {
+			"type": "number",
+			"default": 96
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": true,
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"blockGap": true
+		}
+	},
+	"variations": [
+		{
+			"name": "gravatar",
+			"title": "Gravatar Avatar",
+			"attributes": {
+				"type": "gravatar"
+			},
+            "isDefault": true
+        },
+		{
+			"name": "hovercard",
+			"title": "Gravatar Profile",
+			"attributes": {
+				"type": "hovercard"
+			}
+		}
+	],
+	"textdomain": "gravatar-enhanced",
+	"editorScript": "file:../block.js",
+	"editorStyle": "file:../block.css",
+	"style": "file:../style-block.css",
+	"render": "file:./render.php",
+	"viewScript": "file:../block-view.js"
+}

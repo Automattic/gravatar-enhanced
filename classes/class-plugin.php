@@ -9,6 +9,7 @@ require_once __DIR__ . '/avatar/class-avatar.php';
 require_once __DIR__ . '/proxy/class-proxy.php';
 require_once __DIR__ . '/quick-editor/class-quick-editor.php';
 require_once __DIR__ . '/analytics/class-analytics.php';
+require_once __DIR__ . '/block/class-block.php';
 
 class Plugin {
 	/**
@@ -42,6 +43,11 @@ class Plugin {
 	private $analytics;
 
 	/**
+	 * @var Block\Block
+	 */
+	private $block;
+
+	/**
 	 * Start the plugin
 	 * @return void
 	 */
@@ -63,6 +69,9 @@ class Plugin {
 
 		$this->analytics = new Analytics\Analytics();
 		$this->analytics->init();
+
+		$this->block = new Block\Block();
+		$this->block->init();
 	}
 
 	/**

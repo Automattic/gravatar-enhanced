@@ -5,6 +5,8 @@ const config = {
 
 	entry: {
 		'quick-editor': './src/quick-editor/index.ts',
+		block: './src/block/index.js',
+		'block-view': './src/block/view.js',
 		hovercards: './src/hovercards/index.ts',
 		discussion: './src/discussion/index.ts',
 	},

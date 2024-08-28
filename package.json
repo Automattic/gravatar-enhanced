@@ -36,8 +36,10 @@
 		"release-it": "^17.6.0"
 	},
 	"dependencies": {
-		"@gravatar-com/hovercards": "^0.8.1",
-		"@gravatar-com/quick-editor": "^0.6.0"
+		"@gravatar-com/hovercards": "^0.9.0",
+		"@gravatar-com/quick-editor": "^0.6.0",
+		"js-sha256": "^0.11.0",
+		"lodash.debounce": "^4.0.8"
 	},
 	"packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
