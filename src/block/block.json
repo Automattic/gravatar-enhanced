@@ -18,7 +18,7 @@
 	"attributes": {
 		"type": {
 			"type": "string",
-			"default": "gravatar"
+			"default": "hovercard"
 		},
 		"userType": {
 			"type": "string",
@@ -27,10 +27,6 @@
 		"userValue": {
 			"type": "string",
 			"default": ""
-		},
-		"size": {
-			"type": "number",
-			"default": 96
 		}
 	},
 	"usesContext": [ "postId", "postType", "queryId" ],
@@ -43,23 +39,6 @@
 			"blockGap": true
 		}
 	},
-	"variations": [
-		{
-			"name": "gravatar",
-			"title": "Gravatar Avatar",
-			"attributes": {
-				"type": "gravatar"
-			},
-            "isDefault": true
-        },
-		{
-			"name": "hovercard",
-			"title": "Gravatar Profile",
-			"attributes": {
-				"type": "hovercard"
-			}
-		}
-	],
 	"textdomain": "gravatar-enhanced",
 	"editorScript": "file:../block.js",
 	"editorStyle": "file:../block.css",

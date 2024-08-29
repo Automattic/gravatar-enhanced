@@ -2,8 +2,7 @@
 /**
  * @var array<string, string> $attributes
  */
-$block_type = $attributes['type'];
-$size = $attributes['size'] ?? 96;
+$block_type = $attributes['type'] ?? 'hovercard';
 $user_type = $attributes['userType'] ?? 'author';
 $user_value = $attributes['userValue'] ?? '';
 
@@ -37,7 +36,5 @@ switch ( $user_type ) {
 <div <?php echo get_block_wrapper_attributes(); ?>>
 	<?php if ( $block_type === 'hovercard' ) { ?>
 		<div class="gravatar-hovercard-container" data-hash="<?php echo hash( 'sha256', esc_html( $email ) ); ?>"></div>
-	<?php } else { ?>
-		<?php echo get_avatar( $email, intval( $size ) ); ?>
 	<?php } ?>
 </div>

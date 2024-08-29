@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __, sprintf } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, SelectControl, TextControl, RangeControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
@@ -20,7 +20,6 @@ import { sha256 } from 'js-sha256';
 import { attachInlineHovercard } from '../hovercards/utils';
 
 const TYPE_OPTIONS = {
-	GRAVATAR: 'gravatar',
 	HOVERCARD: 'hovercard',
 };
 
@@ -64,12 +63,16 @@ const useAuthor = ( postType, postId, queryId ) => {
 };
 
 /**
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
+ * Edit function for the block.
+ *
+ * This currently supports only the hovercard type.
+ * Originally, it supported also an avatar type but was removed since didn't add any extra features to the official Avatar block.
+ * 'type' option is kept for future extensibility.
  *
  * @return {Element} Element to render.
  */
 export default function Edit( { attributes, setAttributes, context: { postId, postType, queryId } } ) {
-	const { type, userType, userValue, size } = attributes;
+	const { type, userType, userValue } = attributes;
 
 	const [ email, setEmail ] = useState( null );
 	const allUsers = useSelect( ( select ) => select( 'core' ).getUsers(), [] );
@@ -107,8 +110,6 @@ export default function Edit( { attributes, setAttributes, context: { postId, po
 		}
 	}, [ userType, userValue, authorUser, selectedUser ] );
 
-	const [ imageSize, setImageSize ] = useState( size );
-
 	// Autoselect first user in the list when userType is set to 'user' and no userValue is set.
 	useEffect( () => {
 		if ( userType === USER_TYPE_OPTIONS.USER && allUsers && allUsers.length && ! userValue ) {
@@ -127,18 +128,6 @@ export default function Edit( { attributes, setAttributes, context: { postId, po
 		? allUsers.map( ( user ) => ( { label: `${ user.name } (${ user.nickname })`, value: user.id } ) )
 		: [];
 
-	const debouncedSetImageSize = useCallback(
-		debounce( ( newSize ) => setImageSize( newSize ), 500 ),
-		[]
-	);
-
-	const onSizeChange = ( newSize ) => {
-		// Update the size in the attribute and block immediately.
-		setAttributes( { size: newSize } );
-		// Update the size of the source image after debouncing to avoid too many requests.
-		debouncedSetImageSize( newSize );
-	};
-
 	// User type options – author only available if the author user exists
 	const userTypeOptions = [
 		{ label: __( 'User', 'gravatar-enhanced' ), value: USER_TYPE_OPTIONS.USER },
@@ -152,24 +141,6 @@ export default function Edit( { attributes, setAttributes, context: { postId, po
 		<>
 			<InspectorControls>
 				<PanelBody title={ __( 'Settings', 'gravatar-enhanced' ) }>
-					<p>{ __( 'Display', 'gravatar-enhanced' ) }</p>
-					<SelectControl
-						value={ type }
-						options={ [
-							{ label: __( 'Avatar', 'gravatar-enhanced' ), value: TYPE_OPTIONS.GRAVATAR },
-							{ label: __( 'Gravatar Card', 'gravatar-enhanced' ), value: TYPE_OPTIONS.HOVERCARD },
-						] }
-						onChange={ ( newType ) => setAttributes( { type: newType } ) }
-					/>
-					{ type === TYPE_OPTIONS.GRAVATAR && (
-						<RangeControl
-							label={ __( 'Size', 'gravatar-enhanced' ) }
-							value={ size }
-							onChange={ onSizeChange }
-							min={ 20 }
-							max={ 2048 }
-						/>
-					) }
 					<SelectControl
 						label={ __( 'Select User', 'gravatar-enhanced' ) }
 						value={ userType }
@@ -193,18 +164,7 @@ export default function Edit( { attributes, setAttributes, context: { postId, po
 				</PanelBody>
 			</InspectorControls>
 			<div { ...useBlockProps() }>
-				{ type === TYPE_OPTIONS.HOVERCARD && <div ref={ hovercardContainerRef } /> }
-				{ type === TYPE_OPTIONS.GRAVATAR && email !== null && (
-					<img
-						src={ `https://gravatar.com/avatar/${ sha256( email ) }?s=${ imageSize }` }
-						width={ size }
-						height={ size }
-						alt={ sprintf(
-							__( "%s's avatar", 'gravatar-enhanced' ),
-							selectedUser?.name ?? __( 'Unknown', 'gravatar-enhanced' )
-						) }
-					/>
-				) }
+				<div ref={ hovercardContainerRef } />
 			</div>
 		</>
 	);
