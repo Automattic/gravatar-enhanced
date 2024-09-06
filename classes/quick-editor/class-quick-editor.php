@@ -2,25 +2,14 @@
 
 namespace Automattic\Gravatar\GravatarEnhanced\QuickEditor;
 
-use Automattic\Gravatar\GravatarEnhanced\Settings;
 use WP_User;
 
 class QuickEditor {
-	use Settings\SettingsCheckbox;
-
 	/**
 	 * @return void
 	 */
 	public function init() {
 		add_action( 'admin_init', [ $this, 'admin_init' ] );
-	}
-
-	/**
-	 * Remove the options
-	 *
-	 * @return void
-	 */
-	public function uninstall() {
 	}
 
 	/**
@@ -213,6 +202,14 @@ HTML;
 
 		wp_register_style( 'gravatar-enhanced-qe', plugins_url( 'build/style-quick-editor.css', GRAVATAR_ENHANCED_PLUGIN_FILE ), [], $assets['version'] );
 		wp_enqueue_style( 'gravatar-enhanced-qe' );
+
+		// We always want hovercards loaded on the profile page
+		$asset_file = dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/hovercards.asset.php';
+		$assets = file_exists( $asset_file ) ? require $asset_file : [ 'dependencies' => [], 'version' => time() ];
+
+		wp_enqueue_script( 'gravatar-enhanced-hovercards', plugins_url( 'build/hovercards.js', GRAVATAR_ENHANCED_PLUGIN_FILE ), $assets['dependencies'], $assets['version'], true );
+		wp_register_style( 'gravatar-enhanced-hovercards', plugins_url( 'build/style-hovercards.css', GRAVATAR_ENHANCED_PLUGIN_FILE ), [], $assets['version'] );
+		wp_enqueue_style( 'gravatar-enhanced-hovercards' );
 	}
 
 	/**

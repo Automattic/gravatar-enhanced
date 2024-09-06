@@ -31,8 +31,8 @@
 		"npm": false
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^28.5.0",
-		"npm-check-updates": "^17.0.6",
+		"@wordpress/scripts": "^29.0.0",
+		"npm-check-updates": "^17.1.1",
 		"release-it": "^17.6.0"
 	},
 	"dependencies": {

@@ -1,24 +1,61 @@
 === Gravatar Enhanced ===
 Contributors: automattic, batmoo, johnny5, aaronfc
-Tags: gravatar, avatar, hovercards, email
+Tags: avatar, profile, privacy, comments, profile picture
 Tested up to: 6.6
-Stable tag: 0.2.0
+Stable tag: 0.3.0
 License: GPLv2
 
-A bunch of groovy enhancements for using Gravatars on your site, made by the same people who make Gravatar.
+Profile Block, Better Comments, and Privacy.
 
 == Description ==
 
-Gravatar Enhanced adds some cool features to your site:
+Elevate your WordPress site with Gravatar Enhanced - the plugin that simplifies digital identity and improves user engagement.
 
-* Enable <a href="https://blog.gravatar.com/2023/10/02/new-gravatar-hovercards-faster-open-source-and-everywhere/">Hovercards</a>
-* Send customized Gravatar invitation emails to commenters on your site that don't have one!
-* Toggle a `referrerpolicy` on avatars for enhanced privacy
-* Force all avatars to match your default style
+Key Features:
 
-You can enable and manage the features from the "Discussion" Settings page. Just look for the "Avatars" section.
+- Privacy-focused settings
+- Improved accessibility
+- Easy profile updates
+- Versatile Gravatar Profile block
+- Commenter engagement tools
 
-This is an official release from Gravatar and we will be bringing more new features here.
+=== Privacy Protection ===
+
+Just by enabling the plugin, the plugin ensures that no referrer information is sent to Gravatar. The opt-in proxy service also keeps IP addresses from being exposed or logged.
+
+=== Accessibility Improvements ===
+All avatars now include alt-text, enhancing the experience for users with screen readers. Alt-text can be edited in the Gravatar Profile editor.
+
+=== Simplified Profile Management ===
+Visit Users > Your Profile to edit your Gravatar profile directly from WordPress. Preview your hovercard and make updates with ease.
+
+=== Gravatar Profile Block ===
+Add Gravatar profiles to posts, pages, author bios, or company pages using our custom block. Perfect for showcasing team members or guest contributors without needing to give them access to your WordPress website.
+
+=== Boost Engagement ===
+Automatically remind commenters without avatars to create a Gravatar, increasing visual engagement on your blog.
+
+== Frequently Asked Questions ==
+Q: Will this plugin impact site performance?
+No, the plugin is optimized for efficiency and shouldn't affect your site's speed.
+
+Q: Is a Gravatar account required?
+The plugin doesn’t require API keys or for you to have a Gravatar account.
+
+Q: Does Gravatar track users?
+A: IP addresses and site visits are not part of Gravatar profiles. To enhance privacy, we retain only 10% of web and API logs, which are then deleted after around 30 days. More on our privacy pledge and practices can be found <a href="https://support.gravatar.com/account/data-privacy/">here</a>.
+
+Q: Does the Gravatar Enhanced plugin work with WordPress multisite?
+A: Yes, the plugin is fully compatible with multisite networks.
+
+Q: How will this plugin affect existing avatars?
+A: Existing avatars will gain alt-text and privacy features without visual changes.
+
+Q: Will the Profile Block work with my theme?
+A: The block is designed to work with all WordPress themes that support the block editor.
+
+Q: How does the commenter email feature work?
+A: It sends a single, polite email to commenters without Gravatars, inviting them to create one. You can customize the content of the email or disable this feature, too.
 
 == Automatic Installation ==
 
@@ -34,25 +71,26 @@ This is an official release from Gravatar and we will be bringing more new featu
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Go to the "Discussion" Settings page to enable the new features.
 
-== Usage Tracking ==
-
-The plugin has an opt-in usage tracking feature. If enabled this will send Gravatar some data about how the plugin is used, which is used to help us make the plugin better.
-
-This data is anonymous and does not include any site or user information. It only sends the following information:
-- What Gravatar Enhanced options have been used
-- If a profile is updated via the Gravatar card
-
 == Screenshots ==
 
-1. Hovercards!
+1. Gravatar card on profile page
+2. Avatar options
+3. Gravatar block
 
 == Changelog ==
 
-= 0.3 pre-release (???) =
+= 0.3 =
 * Use SHA256 instead of MD5
 * Add a referrerpolicy option
 * Add option to force default avatar style
 * Add plugin uninstall function
 * Add user name to avatar alt tag
+* Add local proxy for Gravatar images
+* Add avatar and hovercard blocks to Gutenberg
+* Add quick access to uploading an image to Gravatar from profile page
+* Add Gravatar Profile block
+* Updated Hovercards library to v0.9.0
+* Hovercards are enabled by default, unless you previously disabled them
+* Rearrange profile page to move profile fields to the top and settings to the bottom
 
 See the previous changelogs in changelog.txt.

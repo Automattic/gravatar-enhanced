@@ -2,6 +2,7 @@
 
 namespace Automattic\Gravatar\GravatarEnhanced\Email;
 
+use Automattic\Gravatar\GravatarEnhanced\Options;
 use GravatarEnhanced\Tests\Unit\TestCase;
 
 require_once ROOT_DIR . '/classes/email/class-email.php';
@@ -16,7 +17,9 @@ class EmailNotificationTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->email_notifications = new EmailNotification();
+		$options = new Options\SavedOptions( 'gravatar_enhanced_options', false );
+
+		$this->email_notifications = new EmailNotification( new Preferences( $options ) );
 	}
 
 	public function testInit_WhenCalled_ThenAddsExpectedHooks() {
@@ -26,17 +29,10 @@ class EmailNotificationTest extends TestCase {
 		// Assert.
 		$this->assertNotFalse(
 			has_action(
-				'init',
+				'wp_insert_comment',
 				[ $this->email_notifications, 'plugin_init' ]
 			),
 			'plugin_init action is missing'
-		);
-		$this->assertNotFalse(
-			has_action(
-				'admin_init',
-				[ $this->email_notifications, 'admin_init' ]
-			),
-			'admin_init action is missing'
 		);
 		$this->assertNotFalse(
 			has_action(

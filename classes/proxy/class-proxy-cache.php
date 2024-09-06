@@ -29,6 +29,15 @@ class ProxyCache {
 	 * @return true | WP_Error
 	 */
 	public function copy_avatar_locally( $hash ) {
+		$proxy_filename = $this->get_proxied_filename( $hash );
+
+		// Make sure the directory exists
+		wp_mkdir_p( dirname( $proxy_filename ) );
+
+		if ( ! $this->can_cache() ) {
+			return new WP_Error( 'directory-failed', 'Failed to create directory' );
+		}
+
 		// Set the user agent for even more privacy
 		$args = [
 			'user-agent' => 'Gravatar Proxy',
@@ -45,11 +54,6 @@ class ProxyCache {
 		if ( ! $body ) {
 			return new WP_Error( 'download-failed', 'Failed to download from Gravatar' );
 		}
-
-		$proxy_filename = $this->get_proxied_filename( $hash );
-
-		// Make sure the directory exists
-		wp_mkdir_p( dirname( $proxy_filename ) );
 
 		// Allow others to modify the image itself
 		$body = apply_filters( self::FILTER_PROXY_AVATAR, $body );
@@ -72,7 +76,11 @@ class ProxyCache {
 		$wp_filesystem = $this->get_filesystem();
 
 		// Delete the directory and everything in it
-		return $wp_filesystem->delete( $this->get_proxied_directory(), true, 'd' );
+		try {
+			return $wp_filesystem->delete( $this->get_proxied_directory(), true, 'd' );
+		} catch ( \TypeError $e ) {
+			return false;
+		}
 	}
 
 	/**
@@ -83,7 +91,12 @@ class ProxyCache {
 	public function get_entries() {
 		$wp_filesystem = $this->get_filesystem();
 
-		$entries = $wp_filesystem->dirlist( $this->get_proxied_directory() );
+		try {
+			$entries = $wp_filesystem->dirlist( $this->get_proxied_directory() );
+		} catch ( \TypeError $e ) {
+			$entries = false;
+		}
+
 		if ( $entries === false ) {
 			return [];
 		}
@@ -103,7 +116,14 @@ class ProxyCache {
 	 * @return string
 	 */
 	public function get_local_url( $hash ) {
-		return apply_filters( self::FILTER_PROXY_URL_BASE, content_url( 'uploads/gravatar/' ) ) . $hash->get_local_hash() . '.png';
+		$dir = wp_upload_dir();
+		$base = $dir['baseurl'];
+
+		if ( is_ssl() ) {
+			$base = str_replace( 'http://', 'https://', $base );
+		}
+
+		return apply_filters( self::FILTER_PROXY_URL_BASE, $base . '/gravatar/' ) . $hash->get_local_hash() . '.png';
 	}
 
 	/**
@@ -122,7 +142,9 @@ class ProxyCache {
 	 * @return string
 	 */
 	private function get_proxied_directory() {
-		return apply_filters( self::FILTER_PROXY_DIRECTORY, WP_CONTENT_DIR . '/uploads/gravatar/' );
+		$dir = wp_upload_dir();
+
+		return apply_filters( self::FILTER_PROXY_DIRECTORY, $dir['basedir'] . '/gravatar/' );
 	}
 
 	/**
@@ -140,5 +162,16 @@ class ProxyCache {
 		}
 
 		return $wp_filesystem;
+	}
+
+	/**
+	 * Can we create files in the cache?
+	 *
+	 * @return bool
+	 */
+	public function can_cache() {
+		$proxy_filename = $this->get_proxied_directory();
+
+		return is_dir( $proxy_filename ) && is_writable( $proxy_filename );
 	}
 }
