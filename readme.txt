@@ -2,7 +2,7 @@
 Contributors: automattic, batmoo, johnny5, aaronfc
 Tags: avatar, profile, privacy, comments, profile picture
 Tested up to: 6.6
-Stable tag: 0.3.0
+Stable tag: 0.3.1
 License: GPLv2
 
 Profile Block, Better Comments, and Privacy.
@@ -79,7 +79,10 @@ A: It sends a single, polite email to commenters without Gravatars, inviting the
 
 == Changelog ==
 
-= 0.3 =
+= 0.3.1 =
+* Fix hardcoded address on profile page
+
+= 0.3.0 =
 * Use SHA256 instead of MD5
 * Add a referrerpolicy option
 * Add option to force default avatar style
