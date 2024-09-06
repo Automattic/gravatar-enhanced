@@ -20,8 +20,6 @@
 	"release-it": {
 		"github": {
 			"release": true,
-			"host": "github.a8c.com",
-			"web": true,
 			"autoGenerate": true,
 			"preRelease": true,
 			"assets": [
@@ -31,8 +29,8 @@
 		"npm": false
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^28.5.0",
-		"npm-check-updates": "^17.0.6",
+		"@wordpress/scripts": "^29.0.0",
+		"npm-check-updates": "^17.1.1",
 		"release-it": "^17.6.0"
 	},
 	"dependencies": {

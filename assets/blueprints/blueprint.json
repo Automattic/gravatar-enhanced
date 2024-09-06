@@ -24,11 +24,7 @@
 		{
 			"step": "setSiteOptions",
 			"options": {
-				"gravatar_hide_referrer": 1,
-				"gravatar_hovercards": 1,
-				"gravatar_proxy": 1,
-				"gravatar_proxy_hash": "local",
-				"gravatar_invitation_email": 1
+				"gravatar_enhanced_options": "a:4:{s:7:\"version\";s:5:\"0.3.0\";s:6:\"avatar\";a:2:{s:20:\"force_default_avatar\";b:0;s:9:\"force_alt\";b:1;}s:5:\"proxy\";a:2:{s:4:\"type\";s:7:\"private\";s:4:\"time\";i:0;}s:9:\"analytics\";a:1:{s:7:\"enabled\";b:1;}}"
 			}
 		}
 	]

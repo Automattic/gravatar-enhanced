@@ -4,6 +4,8 @@ namespace Automattic\Gravatar\GravatarEnhanced\WpCli;
 
 use Automattic\Gravatar\GravatarEnhanced\Proxy;
 use Automattic\Gravatar\GravatarEnhanced\Email;
+use Automattic\Gravatar\GravatarEnhanced\Options;
+use Automattic\Gravatar\GravatarEnhanced\Plugin;
 use WP_CLI_Command;
 use WP_CLI;
 use WP_Comment;
@@ -91,7 +93,8 @@ class GravatarCli extends WP_CLI_Command {
 			'comment_author_url' => $assoc_args['commenter_url'] ?? 'https://example.com',
 		];
 
-		$notify = new Email\EmailNotification();
+		$options = new Options\SavedOptions( Plugin::OPTION_NAME_LAZY, false );
+		$notify = new Email\EmailNotification( new Email\Preferences( $options ) );
 		$result = $notify->send_invitation( $email, $post, $comment, 'wp.cli' );
 
 		if ( $result ) {

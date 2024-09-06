@@ -11,7 +11,6 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		const formData = new FormData( ev.target as HTMLFormElement );
 		const entries = Object.fromEntries( formData );
 		const gravEntries = {
-			hideReferrer: entries.gravatar_hide_referrer === '1' ? true : false,
 			sendEmail: entries.gravatar_invitation_email === '1' ? true : false,
 			forceDefault: entries.gravatar_force_default_avatar === '1' ? true : false,
 			proxy: entries.gravatar_proxy === '1' ? true : false,

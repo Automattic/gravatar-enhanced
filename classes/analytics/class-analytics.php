@@ -2,18 +2,28 @@
 
 namespace Automattic\Gravatar\GravatarEnhanced\Analytics;
 
-use Automattic\Gravatar\GravatarEnhanced\Settings;
+require_once __DIR__ . '/class-analytics-options.php';
+require_once __DIR__ . '/class-analytics-preferences.php';
 
 class Analytics {
-	use Settings\SettingsCheckbox;
-
 	const OPTION_ANALYTICS = 'gravatar_analytics';
+
+	/**
+	 * @var Options
+	 */
+	private $options;
+
+	/**
+	 * @param Preferences $preferences
+	 */
+	public function __construct( $preferences ) {
+		$this->options = $preferences->get_options();
+	}
 
 	/**
 	 * @return void
 	 */
 	public function init() {
-		add_action( 'admin_init', [ $this, 'admin_init' ], 5 );
 		add_action( 'admin_head-options-discussion.php', [ $this, 'add_discussion' ] );
 
 		// Enable analytics on these pages
@@ -38,40 +48,10 @@ class Analytics {
 	}
 
 	/**
-	 * Remove the options
-	 *
-	 * @return void
-	 */
-	public function uninstall() {
-	}
-
-	/**
-	 * Main admin_init function used to hook into and register stuff and init plugin settings.
-	 *
-	 * @return void
-	 */
-	public function admin_init() {
-		register_setting( 'discussion', self::OPTION_ANALYTICS );
-
-		add_settings_field(
-			self::OPTION_ANALYTICS,
-			__( 'Enable usage tracking', 'gravatar-enhanced' ),
-			[ $this, 'display_checkbox_setting' ],
-			'discussion',
-			'avatars',
-			array(
-				'id' => self::OPTION_ANALYTICS,
-				'label' => __( 'Enable anonymous analytics', 'gravatar-enhanced' ),
-				'description' => __( 'Help us make Gravatar better by allowing us to collect anonymous usage tracking of the features used.', 'gravatar-enhanced' ),
-			)
-		);
-	}
-
-	/**
 	 * @return void
 	 */
 	public function maybe_add_analytics() {
-		if ( ! get_option( self::OPTION_ANALYTICS, false ) ) {
+		if ( ! $this->options->enabled ) {
 			return;
 		}
 

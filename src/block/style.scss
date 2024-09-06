@@ -24,5 +24,6 @@
 }
 
 .wp-block-gravatar-block.aligncenter{
-  text-align:center;
+  display: flex;
+  justify-content: center;
 }
