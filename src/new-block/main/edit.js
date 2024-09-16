@@ -13,7 +13,7 @@ export default function Edit() {
 			[
 				[
 					'gravatar/block-column',
-					{ className: 'gravatar-block-column--avatar' },
+					{},
 					[
 						[
 							'gravatar/block-image',
@@ -79,7 +79,7 @@ export default function Edit() {
 		],
 		[
 			'gravatar/block-column',
-			{ className: 'gravatar-block-column--verified-accounts gravatar-block-column--align-center' },
+			{ className: 'gravatar-block-column--footer gravatar-block-column--align-center' },
 			[
 				[
 					'gravatar/block-image',

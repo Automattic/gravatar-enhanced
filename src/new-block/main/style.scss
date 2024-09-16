@@ -57,11 +57,7 @@ $color-blue: #3858E9;
         align-items: center;
     }
 
-    &.gravatar-block-column--avatar {
-        margin-right: 10px;
-    }
-
-    &.gravatar-block-column--verified-accounts > .block-editor-inner-blocks > .block-editor-block-list__layout {
+    &.gravatar-block-column--footer > .block-editor-inner-blocks > .block-editor-block-list__layout {
         gap: 8px;
     }
 
@@ -69,7 +65,7 @@ $color-blue: #3858E9;
         display: flex;
 
         &:not(:first-of-type)::before {
-            content: ", ";
+            content: " · ";
             white-space: pre;
         }
 
@@ -85,6 +81,7 @@ $color-blue: #3858E9;
 
     &.gravatar-block-image--avatar .gravatar-block-image__image {
         border-radius: 50%;
+        margin-right: 10px;
     }
 }
 
