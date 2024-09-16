@@ -145,7 +145,6 @@ export default function Edit() {
 					},
 				],
 				[
-					// TODO: Lock this block.
 					'gravatar/block-link',
 					{
 						linkUrl: 'https://gravatar.com/wellyshen?utm_source=gravatar-block',
