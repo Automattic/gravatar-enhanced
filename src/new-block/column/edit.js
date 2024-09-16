@@ -31,7 +31,7 @@ export default function Edit( { clientId, attributes } ) {
 			style={ { color } }
 			linkUrl={ linkUrl }
 		>
-			<InnerBlocks allowedBlocks={ [] } template={ [ [ 'gravatar/block-column', {}, template ] ] } />
+			<InnerBlocks allowedBlocks={ [] } template={ template } />
 		</MaybeLink>
 	);
 }

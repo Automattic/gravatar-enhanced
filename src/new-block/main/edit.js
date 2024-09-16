@@ -41,7 +41,7 @@ export default function Edit() {
 						[
 							'gravatar/block-name',
 							{
-								text: 'dfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsd',
+								text: 'Welly Shen',
 								className: 'gravatar-block-text-truncate-2-lines',
 								color: '#101517',
 							},
@@ -53,18 +53,8 @@ export default function Edit() {
 								color: '#50575E',
 							},
 							[
-								[
-									'gravatar/block-paragraph',
-									{
-										text: 'dfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsd',
-									},
-								],
-								[
-									'gravatar/block-paragraph',
-									{
-										text: 'dfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsd',
-									},
-								],
+								[ 'gravatar/block-paragraph', { text: 'Software Engineer' } ],
+								[ 'gravatar/block-paragraph', { text: 'Automattic' } ],
 							],
 						],
 						[
@@ -73,20 +63,7 @@ export default function Edit() {
 								className: 'gravatar-block-column--comma-separated',
 								color: '#50575E',
 							},
-							[
-								[
-									'gravatar/block-paragraph',
-									{
-										text: 'dfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsd',
-									},
-								],
-								[
-									'gravatar/block-paragraph',
-									{
-										text: 'dfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsd',
-									},
-								],
-							],
+							[ [ 'gravatar/block-paragraph', { text: 'Taipei, Taiwan' } ] ],
 						],
 					],
 				],
@@ -95,7 +72,7 @@ export default function Edit() {
 		[
 			'gravatar/block-paragraph',
 			{
-				text: 'dfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsd.',
+				text: "I'm a bird in the sky 🪽.",
 				className: 'gravatar-block-text-truncate-2-lines',
 				color: '#101517',
 			},
