@@ -38,28 +38,68 @@ export default function Edit() {
 					},
 					[
 						// TODO: Lock this block.
-						[ 'gravatar/block-name', { text: 'Welly Shen', color: '#101517' } ],
+						[
+							'gravatar/block-name',
+							{
+								text: 'dfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsd',
+								className: 'gravatar-block-text-truncate-2-lines',
+								color: '#101517',
+							},
+						],
 						[
 							'gravatar/block-column',
-							{ className: 'gravatar-block-column--comma-separated', color: '#50575E' },
+							{
+								className: 'gravatar-block-column--comma-separated',
+								color: '#50575E',
+							},
 							[
-								[ 'gravatar/block-paragraph', { text: 'Software Engineer' } ],
-								[ 'gravatar/block-paragraph', { text: 'Automattic' } ],
+								[
+									'gravatar/block-paragraph',
+									{
+										text: 'dfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsd',
+									},
+								],
+								[
+									'gravatar/block-paragraph',
+									{
+										text: 'dfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsd',
+									},
+								],
 							],
 						],
 						[
 							'gravatar/block-column',
-							{ className: 'gravatar-block-column--comma-separated', color: '#50575E' },
+							{
+								className: 'gravatar-block-column--comma-separated',
+								color: '#50575E',
+							},
 							[
-								[ 'gravatar/block-paragraph', { text: 'Taipei' } ],
-								[ 'gravatar/block-paragraph', { text: 'Taiwan' } ],
+								[
+									'gravatar/block-paragraph',
+									{
+										text: 'dfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsd',
+									},
+								],
+								[
+									'gravatar/block-paragraph',
+									{
+										text: 'dfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsd',
+									},
+								],
 							],
 						],
 					],
 				],
 			],
 		],
-		[ 'gravatar/block-paragraph', { text: "I'm a bird in the sky 🪽", color: '#101517' } ],
+		[
+			'gravatar/block-paragraph',
+			{
+				text: 'dfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsddfsdfdsfsdfsd.',
+				className: 'gravatar-block-text-truncate-2-lines',
+				color: '#101517',
+			},
+		],
 		[
 			'gravatar/block-column',
 			{ className: 'gravatar-block-column--verified-accounts gravatar-block-column--align-center' },
