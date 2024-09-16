@@ -9,6 +9,7 @@ An enhanced version of Gravatar for WordPress.
 - Clone this repo to the `wp-content/plugins` directory of a WordPress installation
 - `composer install`
 - `yarn install`
+- `yarn build`
 - Activate plugin
 - Configure plugin from the Settings > Discussion page
 

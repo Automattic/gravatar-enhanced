@@ -1,0 +1,28 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gravatar/block-paragraph",
+	"version": "0.1.0",
+	"title": "Paragraph",
+    "parent": [],
+	"attributes": {
+		"linkUrl": {
+			"type": "string"
+		},
+		"text": {
+			"type": "string"
+		},
+		"className": {
+			"type": "string"
+		},
+		"color": {
+			"type": "string"
+		}
+	},
+	"supports": {
+        "html": false,
+		"inserter": false
+    },
+	"textdomain": "gravatar-enhanced",
+    "editorScript": "file:../../block-paragraph.js"
+}

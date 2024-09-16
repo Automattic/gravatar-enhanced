@@ -1,0 +1,89 @@
+$font: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+
+$color-blue: #3858E9;
+
+.gravatar-block {
+    font-family: $font;
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 24px;
+    border: 1px solid $color-blue;
+    box-sizing: border-box;
+
+    > .block-editor-inner-blocks > .block-editor-block-list__layout {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    h4,
+    p {
+        margin: 0;
+    }
+
+    h4 {
+        font-family: inherit;
+    }
+
+    a {
+        text-decoration: none;
+    }
+}
+
+.gravatar-block-column {
+    > .block-editor-inner-blocks > .block-editor-block-list__layout {
+        display: flex;
+    }
+
+    &.gravatar-block-column--vertical-alignment > .block-editor-inner-blocks > .block-editor-block-list__layout {
+        flex-direction: column;
+    }
+
+    &.gravatar-block-column--align-center > .block-editor-inner-blocks > .block-editor-block-list__layout {
+        align-items: center;
+    }
+
+    &.gravatar-block-column--avatar {
+        margin-right: 10px;
+    }
+
+    &.gravatar-block-column--verified-accounts > .block-editor-inner-blocks > .block-editor-block-list__layout {
+        gap: 8px;
+    }
+
+    &.gravatar-block-column--comma-separated .gravatar-block-paragraph {
+        display: flex;
+
+        &:not(:first-of-type)::before {
+            content: ", ";
+            white-space: pre;
+        }
+    }
+}
+
+.gravatar-block-image {
+    /* Fix the extra bottom padding issue. */
+    display: flex;
+
+    &.gravatar-block-image--avatar .gravatar-block-image__image {
+        border-radius: 50%;
+    }
+}
+
+.gravatar-block-name {
+    .gravatar-block-name__text {
+        font-size: 18px;
+        line-height: normal;
+        font-weight: 700;
+    }
+}
+
+.gravatar-block-link {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    &.gravatar-block-link--at-right {
+        margin-left: auto;
+    }
+}

@@ -10,6 +10,7 @@ require_once __DIR__ . '/proxy/class-proxy.php';
 require_once __DIR__ . '/quick-editor/class-quick-editor.php';
 require_once __DIR__ . '/analytics/class-analytics.php';
 require_once __DIR__ . '/block/class-block.php';
+require_once __DIR__ . '/block/class-new-block.php';
 
 class Plugin {
 	const OPTION_NAME_AUTO = 'gravatar_enhanced_options';
@@ -61,6 +62,11 @@ class Plugin {
 	private $block;
 
 	/**
+	 * @var Block\NewBlock
+	 */
+	private $new_block;
+
+	/**
 	 * @var Options\DiscussionsPage
 	 */
 	private $discussions;
@@ -84,6 +90,7 @@ class Plugin {
 		$this->quick_editor = new QuickEditor\QuickEditor();
 		$this->analytics = new Analytics\Analytics( new Analytics\Preferences( $this->auto_options ) );
 		$this->block = new Block\Block();
+		$this->new_block = new Block\NewBlock();
 
 		// Ensure the options always exist. We don't need data saved in it as this is provided by the defaults
 		if ( get_option( self::OPTION_NAME_AUTO, null ) === null ) {
@@ -105,6 +112,7 @@ class Plugin {
 		$this->discussions->init();
 		$this->analytics->init();
 		$this->block->init();
+		$this->new_block->init();
 	}
 
 	/**

@@ -1,0 +1,16 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gravatar/new-block",
+	"version": "0.1.0",
+	"title": "Gravatar Card",
+	"category": "widgets",
+	"description": "Display user information directly from Gravatar Public Profiles.",
+	"attributes": {},
+	"supports": {
+        "html": false
+    },
+	"textdomain": "gravatar-enhanced",
+	"editorScript": "file:../../new-block.js",
+	"editorStyle": "file:../../style-new-block.css"
+}
