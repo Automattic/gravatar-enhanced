@@ -1,9 +1,19 @@
+import { BlockEditProps } from '@wordpress/blocks'; 
 import { useBlockProps } from '@wordpress/block-editor';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import { MaybeLink } from '../components';
 
-export default function Edit( { attributes } ) {
+type Props = BlockEditProps< {
+	linkUrl?: string;
+	imageUrl: string;
+	imageWidth: number;
+	imageHeight: number;
+	alt: string;
+	className?: string;
+} >;
+
+export default function Edit( { attributes }: Props ) {
 	const { linkUrl, imageUrl, imageWidth, imageHeight, alt, className } = attributes;
 
 	const blockProps = useBlockProps();
@@ -11,7 +21,7 @@ export default function Edit( { attributes } ) {
 	return (
 		<MaybeLink
 			{ ...blockProps }
-			className={ classNames( 'gravatar-block-image', blockProps.className, className ) }
+			className={ clsx( 'gravatar-block-image', blockProps.className, className ) }
 			linkUrl={ linkUrl }
 		>
 			<img

@@ -1,10 +1,18 @@
+import { BlockEditProps } from '@wordpress/blocks'; 
 import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import { MaybeLink } from '../components';
 
-export default function Edit( { clientId, attributes } ) {
+type Props = BlockEditProps< Partial< {
+	linkUrl: string;
+	verticalAlignment: boolean;
+	className: string;
+	color: string;
+} > >;
+
+export default function Edit( { attributes, clientId }: Props ) {
 	const { linkUrl, verticalAlignment, className, color } = attributes;
 
 	const blockProps = useBlockProps();
@@ -22,7 +30,7 @@ export default function Edit( { clientId, attributes } ) {
 	return (
 		<MaybeLink
 			{ ...blockProps }
-			className={ classNames(
+			className={ clsx(
 				'gravatar-block-column',
 				{ 'gravatar-block-column--vertical-alignment': verticalAlignment },
 				blockProps.className,

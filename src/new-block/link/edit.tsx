@@ -1,7 +1,15 @@
+import { BlockEditProps } from '@wordpress/blocks'; 
 import { useBlockProps } from '@wordpress/block-editor';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
-export default function Edit( { attributes } ) {
+type Props = BlockEditProps< {
+	linkUrl: string;
+	text: string;
+	className?: string;
+	color?: string;
+} >;
+
+export default function Edit( { attributes }: Props ) {
 	const { linkUrl, text, className, color } = attributes;
 
 	const blockProps = useBlockProps();
@@ -9,7 +17,7 @@ export default function Edit( { attributes } ) {
 	return (
 		<a
 			{ ...blockProps }
-			className={ classNames( 'gravatar-block-link', blockProps.className, className ) }
+			className={ clsx( 'gravatar-block-link', blockProps.className, className ) }
 			style={ { color } }
 			href={ linkUrl }
 			target="_blank"

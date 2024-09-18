@@ -1,9 +1,17 @@
+import { BlockEditProps } from '@wordpress/blocks'; 
 import { useBlockProps } from '@wordpress/block-editor';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import { MaybeLink } from '../components';
 
-export default function Edit( { attributes } ) {
+type Props = BlockEditProps< {
+	linkUrl?: string;
+	text: string;
+	className?: string;
+	color?: string;
+} >;
+
+export default function Edit( { attributes }: Props ) {
 	const { linkUrl, text, className, color } = attributes;
 
 	const blockProps = useBlockProps();
@@ -11,7 +19,7 @@ export default function Edit( { attributes } ) {
 	return (
 		<MaybeLink
 			{ ...blockProps }
-			className={ classNames( 'gravatar-block-name', blockProps.className, className ) }
+			className={ clsx( 'gravatar-block-name', blockProps.className, className ) }
 			linkUrl={ linkUrl }
 		>
 			<h4 className="gravatar-block-name__text" style={ { color } }>
