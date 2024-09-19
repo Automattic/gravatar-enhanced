@@ -5,12 +5,12 @@ import clsx from 'clsx';
 import { MaybeLink } from '../components';
 
 type Props = BlockEditProps< {
-	linkUrl?: string;
+	linkUrl: string;
 	imageUrl: string;
 	imageWidth: number;
 	imageHeight: number;
 	alt: string;
-	className?: string;
+	className: string;
 } >;
 
 export default function Edit( { attributes }: Props ) {

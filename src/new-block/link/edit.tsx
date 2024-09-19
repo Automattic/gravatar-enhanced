@@ -5,8 +5,8 @@ import clsx from 'clsx';
 type Props = BlockEditProps< {
 	linkUrl: string;
 	text: string;
-	className?: string;
-	color?: string;
+	className: string;
+	color: string;
 } >;
 
 export default function Edit( { attributes }: Props ) {

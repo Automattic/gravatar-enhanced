@@ -5,12 +5,12 @@ import clsx from 'clsx';
 
 import { MaybeLink } from '../components';
 
-type Props = BlockEditProps< Partial< {
+type Props = BlockEditProps< {
 	linkUrl: string;
 	verticalAlignment: boolean;
 	className: string;
 	color: string;
-} > >;
+} >;
 
 export default function Edit( { attributes, clientId }: Props ) {
 	const { linkUrl, verticalAlignment, className, color } = attributes;
