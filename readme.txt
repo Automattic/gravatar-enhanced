@@ -79,6 +79,9 @@ A: It sends a single, polite email to commenters without Gravatars, inviting the
 
 == Changelog ==
 
+= 0.3.2 =
+* Hide verified accounts that are set to hide from Gravatar hovercards
+
 = 0.3.1 =
 * Fix hardcoded address on profile page
 
