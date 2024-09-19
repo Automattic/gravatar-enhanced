@@ -3,6 +3,7 @@ interface GravatarAPIAccount {
 	service_label: string;
 	service_icon: string;
 	service_type: string;
+	is_hidden: boolean;
 }
 
 interface GravatarAPIProfile {
