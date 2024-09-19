@@ -2,7 +2,7 @@
 Contributors: automattic, batmoo, johnny5, aaronfc
 Tags: avatar, profile, privacy, comments, profile picture
 Tested up to: 6.6
-Stable tag: 0.3.1
+Stable tag: 0.3.2
 License: GPLv2
 
 Profile Block, Better Comments, and Privacy.
