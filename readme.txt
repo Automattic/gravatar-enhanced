@@ -2,7 +2,7 @@
 Contributors: automattic, batmoo, johnny5, aaronfc
 Tags: avatar, profile, privacy, comments, profile picture
 Tested up to: 6.6
-Stable tag: 0.3.1
+Stable tag: 0.3.2
 License: GPLv2
 
 Profile Block, Better Comments, and Privacy.
@@ -78,6 +78,9 @@ A: It sends a single, polite email to commenters without Gravatars, inviting the
 3. Gravatar block
 
 == Changelog ==
+
+= 0.3.2 =
+* Hide verified accounts that are set to hide from Gravatar hovercards
 
 = 0.3.1 =
 * Fix hardcoded address on profile page
