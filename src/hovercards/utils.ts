@@ -25,11 +25,12 @@ export function convertJsonToUser( profile: GravatarAPIProfile, avatarUrl: strin
 		location,
 		jobTitle,
 		verifiedAccounts: verifiedAccounts.map(
-			( { url, service_label: label, service_icon: icon, service_type: type } ) => ( {
-				label,
-				icon,
+			( { url, service_label, service_icon, service_type, is_hidden } ) => ( {
 				url,
-				type,
+				label: service_label,
+				icon: service_icon,
+				type: service_type,
+				isHidden: is_hidden,
 			} )
 		),
 	};

@@ -5,6 +5,5 @@ dist
 node_modules
 svn
 .phpunit.result.cache
-hovercards.css
-hovercards.js
 build
+.DS_Store
