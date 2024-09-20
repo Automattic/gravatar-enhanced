@@ -1,3 +1,4 @@
+import type { BlockConfiguration } from '@wordpress/blocks';
 import { registerBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 
@@ -7,7 +8,7 @@ import metadata from './block.json';
 
 import './style.scss';
 
-registerBlockType( metadata.name, {
+const blockConfig: BlockConfiguration = {
 	...metadata,
 	icon: GravatarCardIcon,
 	title: __( 'Gravatar Card', 'gravatar-enhanced' ),
@@ -21,4 +22,6 @@ registerBlockType( metadata.name, {
 		__( 'card', 'gravatar-enhanced' ),
 	],
 	edit: Edit,
-} );
+};
+
+registerBlockType( metadata.name, blockConfig );
