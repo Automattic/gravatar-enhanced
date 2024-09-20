@@ -40,7 +40,7 @@ The plugin will be available in the `release` directory.
 
 To produce a released and versioned distribution of the plugin run:
 
-`yarn dist`
+`yarn dist:github`
 
 This will produce a zip file, upload it to Github, and mark it as an official release.
 
