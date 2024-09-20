@@ -5,14 +5,14 @@ import clsx from 'clsx';
 
 import { MaybeLink } from '../components';
 
-type Props = BlockEditProps< {
+interface BlockAttrs {
 	linkUrl: string;
 	verticalAlignment: boolean;
 	className: string;
 	color: string;
-} >;
+}
 
-export default function Edit( { attributes, clientId }: Props ) {
+export default function Edit( { attributes, clientId }: BlockEditProps< BlockAttrs > ) {
 	const { linkUrl, verticalAlignment, className, color } = attributes;
 
 	const blockProps = useBlockProps();

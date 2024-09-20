@@ -4,8 +4,16 @@
 	"name": "gravatar/new-block",
 	"version": "0.1.0",
 	"title": "Gravatar Card",
-	"category": "widgets",
 	"description": "Display user information directly from Gravatar Public Profiles.",
+	"category": "widgets",
+	"keywords": [
+		"gravatar",
+		"profile",
+		"author",
+		"user",
+		"avatar",
+		"card"
+	],
 	"attributes": {},
 	"supports": {
         "html": false

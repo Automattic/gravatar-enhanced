@@ -4,25 +4,33 @@
 	"name": "gravatar/block-image",
 	"version": "0.1.0",
 	"title": "Image",
+	"description": "The Image block of the Gravatar Card.",
+	"category": "layout",
     "parent": [],
 	"attributes": {
 		"linkUrl": {
-			"type": "string"
+			"type": "string",
+			"default": ""
 		},
 		"imageUrl": {
-            "type": "string"
+            "type": "string",
+			"default": ""
         },
         "imageWidth": {
-            "type": "number"
+            "type": "number",
+			"default": 0
         },
         "imageHeight": {
-            "type": "number"
+            "type": "number",
+			"default": 0
         },
 		"imageAlt": {
-            "type": "string"
+            "type": "string",
+			"default": ""
         },
 		"className": {
-			"type": "string"
+			"type": "string",
+			"default": ""
 		}
 	},
 	"supports": {

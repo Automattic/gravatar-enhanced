@@ -4,19 +4,25 @@
 	"name": "gravatar/block-name",
 	"version": "0.1.0",
 	"title": "Name",
+	"description": "The Name block of the Gravatar Card.",
+	"category": "layout",
     "parent": [],
 	"attributes": {
 		"linkUrl": {
-			"type": "string"
+			"type": "string",
+			"default": ""
 		},
 		"text": {
-			"type": "string"
+			"type": "string",
+			"default": ""
 		},
 		"className": {
-			"type": "string"
+			"type": "string",
+			"default": ""
 		},
 		"color": {
-			"type": "string"
+			"type": "string",
+			"default": ""
 		}
 	},
 	"supports": {

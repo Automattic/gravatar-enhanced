@@ -4,19 +4,25 @@
 	"name": "gravatar/block-column",
 	"version": "0.1.0",
 	"title": "Column",
+	"description": "The Column block of the Gravatar Card.",
+	"category": "layout",
     "parent": [],
 	"attributes": {
 		"linkUrl": {
-			"type": "string"
+			"type": "string",
+			"default": ""
 		},
 		"verticalAlignment": {
-			"type": "boolean"
+			"type": "boolean",
+			"default": false
 		},
 		"className": {
-			"type": "string"
+			"type": "string",
+			"default": ""
 		},
 		"color": {
-			"type": "string"
+			"type": "string",
+			"default": ""
 		}
 	},
 	"supports": {

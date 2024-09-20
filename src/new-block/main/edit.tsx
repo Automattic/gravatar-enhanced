@@ -4,11 +4,11 @@ import { PanelBody } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import clsx from 'clsx';
 
-type Props = BlockEditProps< {
+interface BlockAttrs {
 	// TODO...
-} >;
+}
 
-export default function Edit( { attributes }: Props ) {
+export default function Edit( { attributes }: BlockEditProps< BlockAttrs > ) {
 	const blockProps = useBlockProps();
 
 	const template: TemplateArray = [
