@@ -26,8 +26,7 @@
 				"dist/gravatar-enhanced.zip"
 			]
 		},
-		"npm": false,
-		"increment": true
+		"npm": false
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^29.0.0",
