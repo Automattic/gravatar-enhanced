@@ -1,8 +1,8 @@
-import { React } from 'react';
+import type { ReactNode } from 'react';
 
 interface Props {
     linkUrl?: string;
-    children: React.ReactNode;
+    children: ReactNode;
     [ key: string ]: any; 
 }
 

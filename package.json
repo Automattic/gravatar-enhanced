@@ -29,6 +29,8 @@
 		"npm": false
 	},
 	"devDependencies": {
+		"@types/wordpress__block-editor": "^11.5.15",
+		"@types/wordpress__blocks": "^12.5.14",
 		"@wordpress/scripts": "^29.0.0",
 		"npm-check-updates": "^17.1.1",
 		"release-it": "^17.6.0"

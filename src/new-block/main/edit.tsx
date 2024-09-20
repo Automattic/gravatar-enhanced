@@ -1,4 +1,4 @@
-import { BlockEditProps } from '@wordpress/blocks'; 
+import { BlockEditProps, TemplateArray } from '@wordpress/blocks'; 
 import { InspectorControls, InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
@@ -11,7 +11,7 @@ type Props = BlockEditProps< {
 export default function Edit( { attributes }: Props ) {
 	const blockProps = useBlockProps();
 
-	const template = [
+	const template: TemplateArray = [
 		[
 			'gravatar/block-column',
 			{ className: 'gravatar-block-column--align-center' },
@@ -149,7 +149,7 @@ export default function Edit( { attributes }: Props ) {
 				className={ clsx( 'gravatar-block', blockProps.className ) }
 				style={ { borderRadius: '2px', backgroundColor: '#FFF' } }
 			>
-				<InnerBlocks allowedBlocks={ [] } template={ template } renderAppender={ false } />
+				<InnerBlocks allowedBlocks={ [] } template={ template } renderAppender={ undefined } />
 			</div>
 		</>
 	);

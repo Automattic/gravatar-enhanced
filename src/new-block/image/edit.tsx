@@ -1,4 +1,4 @@
-import { BlockEditProps } from '@wordpress/blocks'; 
+import type { BlockEditProps } from '@wordpress/blocks'; 
 import { useBlockProps } from '@wordpress/block-editor';
 import clsx from 'clsx';
 
