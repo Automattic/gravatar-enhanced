@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
 
 interface Props {
-    linkUrl?: string;
-    children: ReactNode;
-    [ key: string ]: any; 
+	linkUrl?: string;
+	children: ReactNode;
+	[ key: string ]: any;
 }
 
 export default function MaybeLink( { linkUrl, children, ...restProps }: Props ) {

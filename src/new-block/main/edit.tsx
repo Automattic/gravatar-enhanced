@@ -1,17 +1,13 @@
-import { BlockEditProps, TemplateArray } from '@wordpress/blocks'; 
+import { BlockEditProps, TemplateArray } from '@wordpress/blocks';
 import { InspectorControls, InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import clsx from 'clsx';
-import { textdomain } from './block.json';
 
 interface BlockAttrs {
 	// TODO...
 }
 
 export default function Edit( { attributes }: BlockEditProps< BlockAttrs > ) {
-	const blockProps = useBlockProps();
-
 	const template: TemplateArray = [
 		[
 			'gravatar/block-column',
@@ -131,7 +127,7 @@ export default function Edit( { attributes }: BlockEditProps< BlockAttrs > ) {
 					'gravatar/block-link',
 					{
 						linkUrl: 'https://gravatar.com/wellyshen?utm_source=gravatar-block',
-						text: __( 'View profile', textdomain ),
+						text: __( 'View profile', 'gravatar-enhanced' ),
 						className: 'gravatar-block-link--at-right',
 						color: '#50575E',
 					},
@@ -143,14 +139,12 @@ export default function Edit( { attributes }: BlockEditProps< BlockAttrs > ) {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody title={ __( 'Settings', textdomain ) }>{ /* TODO... */ }</PanelBody>
+				<PanelBody title={ __( 'Settings', 'gravatar-enhanced' ) }>{ /* TODO... */ }</PanelBody>
 			</InspectorControls>
-			<div
-				{ ...blockProps }
-				className={ clsx( 'gravatar-block', blockProps.className ) }
-				style={ { borderRadius: '2px', backgroundColor: '#FFF' } }
-			>
-				<InnerBlocks allowedBlocks={ [] } template={ template } renderAppender={ undefined } />
+			<div { ...useBlockProps() }>
+				<div className="gravatar-block" style={ { borderRadius: '2px', backgroundColor: '#FFF' } }>
+					<InnerBlocks allowedBlocks={ [] } template={ template } renderAppender={ undefined } />
+				</div>
 			</div>
 		</>
 	);

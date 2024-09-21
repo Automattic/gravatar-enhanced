@@ -16,7 +16,11 @@
 	],
 	"attributes": {},
 	"supports": {
-        "html": false
+        "html": false,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
     },
 	"textdomain": "gravatar-enhanced",
 	"editorScript": "file:../../new-block.js",

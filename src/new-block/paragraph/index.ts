@@ -7,8 +7,8 @@ import metadata from './block.json';
 
 const blockConfig: BlockConfiguration = {
 	...metadata,
-	title: __( 'Paragraph', metadata.textdomain ),
-	description: __( 'The Paragraph block of the Gravatar Card.', metadata.textdomain ),
+	title: __( 'Paragraph', 'gravatar-enhanced' ),
+	description: __( 'The Paragraph block of the Gravatar Card.', 'gravatar-enhanced' ),
 	edit: Edit,
 };
 
