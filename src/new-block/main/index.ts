@@ -8,18 +8,20 @@ import metadata from './block.json';
 
 import './style.scss';
 
+const textdomain = metadata.textdomain;
+
 const blockConfig: BlockConfiguration = {
 	...metadata,
 	icon: GravatarCardIcon,
-	title: __( 'Gravatar Card', 'gravatar-enhanced' ),
-	description: __( 'Display user information directly from Gravatar Public Profiles.', 'gravatar-enhanced' ),
+	title: __( 'Gravatar Card', textdomain ),
+	description: __( 'Display user information directly from Gravatar Public Profiles.', textdomain ),
 	keywords: [
-		__( 'gravatar', 'gravatar-enhanced' ),
-		__( 'profile', 'gravatar-enhanced' ),
-		__( 'author', 'gravatar-enhanced' ),
-		__( 'user', 'gravatar-enhanced' ),
-		__( 'avatar', 'gravatar-enhanced' ),
-		__( 'card', 'gravatar-enhanced' ),
+		__( 'gravatar', textdomain ),
+		__( 'profile', textdomain ),
+		__( 'author', textdomain ),
+		__( 'user', textdomain ),
+		__( 'avatar', textdomain ),
+		__( 'card', textdomain ),
 	],
 	edit: Edit,
 };

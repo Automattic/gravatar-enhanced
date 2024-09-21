@@ -3,6 +3,7 @@ import { InspectorControls, InnerBlocks, useBlockProps } from '@wordpress/block-
 import { PanelBody } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import clsx from 'clsx';
+import { textdomain } from './block.json';
 
 interface BlockAttrs {
 	// TODO...
@@ -130,7 +131,7 @@ export default function Edit( { attributes }: BlockEditProps< BlockAttrs > ) {
 					'gravatar/block-link',
 					{
 						linkUrl: 'https://gravatar.com/wellyshen?utm_source=gravatar-block',
-						text: __( 'View profile', 'gravatar-enhanced' ),
+						text: __( 'View profile', textdomain ),
 						className: 'gravatar-block-link--at-right',
 						color: '#50575E',
 					},
@@ -142,7 +143,7 @@ export default function Edit( { attributes }: BlockEditProps< BlockAttrs > ) {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody title={ __( 'Settings', 'gravatar-enhanced' ) }>{ /* TODO... */ }</PanelBody>
+				<PanelBody title={ __( 'Settings', textdomain ) }>{ /* TODO... */ }</PanelBody>
 			</InspectorControls>
 			<div
 				{ ...blockProps }
