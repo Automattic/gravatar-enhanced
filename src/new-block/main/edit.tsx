@@ -42,7 +42,7 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 		}
 	}, [ authorEmail, setAttributes, userEmail, userType ] );
 
-	function onUserTypeChange( type: UserTypeOptions ) {
+	function handleUserTypeChange( type: UserTypeOptions ) {
 		let email = '';
 
 		if ( type === UserTypeOptions.AUTHOR ) {
@@ -191,7 +191,7 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 						label={ __( 'Select User Type', 'gravatar-enhanced' ) }
 						value={ userType }
 						options={ userTypeOptions }
-						onChange={ onUserTypeChange }
+						onChange={ handleUserTypeChange }
 					/>
 					{ userType === UserTypeOptions.USER && (
 						<SelectControl
