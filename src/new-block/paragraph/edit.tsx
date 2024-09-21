@@ -1,7 +1,13 @@
+/**
+ * External dependencies
+ */
 import type { BlockEditProps } from '@wordpress/blocks';
 import { useBlockProps } from '@wordpress/block-editor';
 import clsx from 'clsx';
 
+/**
+ * Internal dependencies
+ */
 import { MaybeLink } from '../components';
 
 interface BlockAttrs {

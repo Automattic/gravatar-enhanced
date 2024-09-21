@@ -1,3 +1,6 @@
+/**
+ * External dependencies
+ */
 import type { ReactNode } from 'react';
 
 interface Props {
