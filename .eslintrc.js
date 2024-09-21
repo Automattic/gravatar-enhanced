@@ -6,10 +6,6 @@ module.exports = {
 	env: {
 		browser: true,
 	},
-	globals: {
-		gravatarProfile: true,
-	},
-	ignorePatterns: [ '**/wapuu/' ],
 	plugins: [
 		// other plugins...
 		'prettier', // Enables eslint-plugin-prettier
