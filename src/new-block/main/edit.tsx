@@ -31,8 +31,11 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 	const [ errorMsg, setErrorMsg ] = useState( '' );
 
 	const authorEmail = useSelect( ( select: SelectFn ) => {
-		const id = select( 'core/editor' ).getEditedPostAttribute( 'author' );
-		return select( 'core' ).getEntityRecord( 'root', 'user', id )?.email || '';
+		const postType = select( 'core/editor' ).getCurrentPostType();
+		const postId = select( 'core/editor' ).getCurrentPostId();
+		const authorId = select( 'core' ).getEntityRecord( 'postType', postType, postId )?.author;
+
+		return select( 'core' ).getEntityRecord( 'root', 'user', authorId )?.email || '';
 	}, [] );
 
 	const userTypeOptions = [
@@ -42,8 +45,9 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 	];
 
 	const userNameOptions = useSelect( ( select: SelectFn ) => {
-		const authors = select( 'core' ).getUsers( { who: 'authors' } ) || [];
-		return authors.map( ( { name, nickname, email } ) => ( { label: `${ name } (${ nickname })`, value: email } ) );
+		const users = select( 'core' ).getUsers() || [];
+
+		return users.map( ( { name, nickname, email } ) => ( { label: `${ name } (${ nickname })`, value: email } ) );
 	}, [] );
 
 	useEffect( () => {

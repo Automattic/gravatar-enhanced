@@ -27,6 +27,7 @@ export default function Edit( { attributes, clientId }: BlockEditProps< BlockAtt
 		( select: SelectFn ) => {
 			const { getBlock } = select( 'core/block-editor' );
 			const blocks = getBlock( clientId )?.innerBlocks || [];
+
 			return blocks.map( ( { name, attrs } ) => [ name, attrs ] );
 		},
 		[ clientId ]
