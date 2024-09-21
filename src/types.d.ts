@@ -1,3 +1,5 @@
+import type { EditorStore } from '@wordpress/editor';
+
 interface GravatarAPIAccount {
 	url: string;
 	service_label: string;
@@ -6,39 +8,43 @@ interface GravatarAPIAccount {
 	is_hidden: boolean;
 }
 
-interface GravatarAPIProfile {
-	hash: string;
-	display_name: string;
-	description: string;
-	profile_url: string;
-	location: string;
-	job_title: string;
-	company: string;
-	verified_accounts: GravatarAPIAccount[];
-}
+declare global {
+	interface GravatarAPIProfile {
+		hash: string;
+		display_name: string;
+		description: string;
+		profile_url: string;
+		location: string;
+		job_title: string;
+		company: string;
+		verified_accounts: GravatarAPIAccount[];
+	}
 
-interface QuickEditorText {
-	createButton: string;
-	updateButton: string;
-	viewButton: string;
-	errorTitle: string;
-	errorDescription: string;
-	unknownTitle: string;
-	unknownDescription: string;
-	otherUnknownTitle: string;
-	otherUnknownDescription: string;
-}
+	interface QuickEditorText {
+		createButton: string;
+		updateButton: string;
+		viewButton: string;
+		errorTitle: string;
+		errorDescription: string;
+		unknownTitle: string;
+		unknownDescription: string;
+		otherUnknownTitle: string;
+		otherUnknownDescription: string;
+	}
 
-declare interface QuickEditor {
-	locale: string;
-	email: string;
-	hash: string;
-	text: QuickEditorText;
-	avatar: string;
-	canEdit: boolean;
-}
+	interface QuickEditor {
+		locale: string;
+		email: string;
+		hash: string;
+		text: QuickEditorText;
+		avatar: string;
+		canEdit: boolean;
+	}
 
-declare var geQuickEditor: QuickEditor;
-declare var gravatar: {
-	recordTrackEvent: ( name: string, options?: any ) => void;
-};
+	var geQuickEditor: QuickEditor;
+	var gravatar: {
+		recordTrackEvent: ( name: string, options?: any ) => void;
+	};
+
+	type SelectFn = ( store: string ) => EditorStore;
+}

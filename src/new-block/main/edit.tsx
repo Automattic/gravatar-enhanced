@@ -1,13 +1,35 @@
-import { BlockEditProps, TemplateArray } from '@wordpress/blocks';
+import type { BlockEditProps, TemplateArray } from '@wordpress/blocks';
 import { InspectorControls, InnerBlocks, useBlockProps } from '@wordpress/block-editor';
-import { PanelBody } from '@wordpress/components';
+import { PanelBody, SelectControl } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 
+enum UserTypeOptions {
+	AUTHOR = 'author',
+	USER = 'user',
+	EMAIL = 'email',
+}
+
 interface BlockAttrs {
-	// TODO...
+	userType: UserTypeOptions;
+	userValue: string;
 }
 
 export default function Edit( { attributes }: BlockEditProps< BlockAttrs > ) {
+	const { userType, userValue } = attributes;
+
+	const authorEmail = useSelect( ( select: SelectFn ) => {
+		const id = select( 'core/editor' ).getEditedPostAttribute( 'author' );
+
+		return select( 'core' ).getEntityRecord( 'root', 'user', id )?.email;
+	}, [] );
+
+	const userTypeOptions = [
+		...( authorEmail ? [ { label: __( 'Author', 'gravatar-enhanced' ), value: UserTypeOptions.AUTHOR } ] : [] ),
+		{ label: __( 'User', 'gravatar-enhanced' ), value: UserTypeOptions.USER },
+		{ label: __( 'Custom email', 'gravatar-enhanced' ), value: UserTypeOptions.EMAIL },
+	];
+
 	const template: TemplateArray = [
 		[
 			'gravatar/block-column',
@@ -139,7 +161,13 @@ export default function Edit( { attributes }: BlockEditProps< BlockAttrs > ) {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody title={ __( 'Settings', 'gravatar-enhanced' ) }>{ /* TODO... */ }</PanelBody>
+				<PanelBody title={ __( 'Settings', 'gravatar-enhanced' ) }>
+					<SelectControl
+						label={ __( 'Select User', 'gravatar-enhanced' ) }
+						value={ userType }
+						options={ userTypeOptions }
+					/>
+				</PanelBody>
 			</InspectorControls>
 			<div { ...useBlockProps() }>
 				<div className="gravatar-block" style={ { borderRadius: '2px', backgroundColor: '#FFF' } }>

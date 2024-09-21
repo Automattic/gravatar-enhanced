@@ -1,4 +1,4 @@
-import type { BlockEditProps, TemplateArray } from '@wordpress/blocks'; 
+import type { BlockEditProps, TemplateArray } from '@wordpress/blocks';
 import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 import clsx from 'clsx';
@@ -18,9 +18,8 @@ export default function Edit( { attributes, clientId }: BlockEditProps< BlockAtt
 	const blockProps = useBlockProps();
 
 	const template: TemplateArray = useSelect(
-		( select ) => {
+		( select: SelectFn ) => {
 			const { getBlock } = select( 'core/block-editor' );
-			// @ts-ignore
 			const blocks = getBlock( clientId )?.innerBlocks || [];
 
 			return blocks.map( ( { name, attrs } ) => [ name, attrs ] );

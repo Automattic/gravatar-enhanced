@@ -14,7 +14,16 @@
 		"avatar",
 		"card"
 	],
-	"attributes": {},
+	"attributes": {
+		"userType": {
+			"type": "string",
+			"default": "author"
+		},
+		"userValue": {
+			"type": "string",
+			"default": ""
+		}
+	},
 	"supports": {
         "html": false,
 		"spacing": {
