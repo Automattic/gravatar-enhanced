@@ -27,8 +27,9 @@ If you want to build production files (minified and without debugging) then:
 
 Please update the following information in the relevant files before releasing:
 
-- The [Version](https://github.com/Automattic/gravatar-enhanced/blob/trunk/gravatar-enhanced.php#L7) in `gravatar-enhanced.php`
-- The [Stable tag](https://github.com/Automattic/gravatar-enhanced/blob/trunk/readme.txt#L5) and [Changelog](https://github.com/Automattic/gravatar-enhanced/blob/trunk/readme.txt#L80) in `readme.txt`
+- The [Version](./gravatar-enhanced.php#L7) in `gravatar-enhanced.php`
+- The [Stable tag](./readme.txt#L5) and [Changelog](./readme.txt#L80) in `readme.txt`
+- The [version](./package.json#L3) in `package.json`
 
 A release packages up all the JS, CSS, and PHP files into a clean directory without any development tooling.
 

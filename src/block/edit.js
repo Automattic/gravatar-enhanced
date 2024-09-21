@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, SelectControl, TextControl, RangeControl } from '@wordpress/components';
+import { PanelBody, SelectControl, TextControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { useEffect, useState, useCallback, useRef } from '@wordpress/element';
 import { useEntityProp } from '@wordpress/core-data';
