@@ -1,7 +1,8 @@
 import type { BlockEditProps, TemplateArray } from '@wordpress/blocks';
 import { InspectorControls, InnerBlocks, useBlockProps } from '@wordpress/block-editor';
-import { PanelBody, SelectControl } from '@wordpress/components';
+import { PanelBody, SelectControl, TextControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
+import { useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 enum UserTypeOptions {
@@ -12,16 +13,15 @@ enum UserTypeOptions {
 
 interface BlockAttrs {
 	userType: UserTypeOptions;
-	userValue: string;
+	userEmail: string;
 }
 
-export default function Edit( { attributes }: BlockEditProps< BlockAttrs > ) {
-	const { userType, userValue } = attributes;
+export default function Edit( { attributes, setAttributes }: BlockEditProps< BlockAttrs > ) {
+	const { userType, userEmail } = attributes;
 
 	const authorEmail = useSelect( ( select: SelectFn ) => {
 		const id = select( 'core/editor' ).getEditedPostAttribute( 'author' );
-
-		return select( 'core' ).getEntityRecord( 'root', 'user', id )?.email;
+		return select( 'core' ).getEntityRecord( 'root', 'user', id )?.email || '';
 	}, [] );
 
 	const userTypeOptions = [
@@ -29,6 +29,31 @@ export default function Edit( { attributes }: BlockEditProps< BlockAttrs > ) {
 		{ label: __( 'User', 'gravatar-enhanced' ), value: UserTypeOptions.USER },
 		{ label: __( 'Custom email', 'gravatar-enhanced' ), value: UserTypeOptions.EMAIL },
 	];
+
+	const userNameOptions = useSelect( ( select: SelectFn ) => {
+		const users = select( 'core' ).getUsers( { who: 'authors' } ) || [];
+		return users.map( ( { name, nickname, email } ) => ( { label: `${ name } (${ nickname })`, value: email } ) );
+	}, [] );
+
+	useEffect( () => {
+		// When the block is first added, set the user email to the author email.
+		if ( userType === UserTypeOptions.AUTHOR && ! userEmail ) {
+			setAttributes( { userEmail: authorEmail } );
+		}
+	}, [ authorEmail, setAttributes, userEmail, userType ] );
+
+	function onUserTypeChange( type: UserTypeOptions ) {
+		let email = '';
+
+		if ( type === UserTypeOptions.AUTHOR ) {
+			email = authorEmail || '';
+		}
+		if ( type === UserTypeOptions.USER ) {
+			email = userNameOptions[ 0 ]?.value || '';
+		}
+
+		setAttributes( { userType: type, userEmail: email } );
+	}
 
 	const template: TemplateArray = [
 		[
@@ -163,10 +188,28 @@ export default function Edit( { attributes }: BlockEditProps< BlockAttrs > ) {
 			<InspectorControls>
 				<PanelBody title={ __( 'Settings', 'gravatar-enhanced' ) }>
 					<SelectControl
-						label={ __( 'Select User', 'gravatar-enhanced' ) }
+						label={ __( 'Select User Type', 'gravatar-enhanced' ) }
 						value={ userType }
 						options={ userTypeOptions }
+						onChange={ onUserTypeChange }
 					/>
+					{ userType === UserTypeOptions.USER && (
+						<SelectControl
+							label={ __( 'Select User', 'gravatar-enhanced' ) }
+							hideLabelFromVision
+							value={ userEmail }
+							options={ userNameOptions }
+							onChange={ ( email ) => setAttributes( { userEmail: email } ) }
+						/>
+					) }
+					{ userType === UserTypeOptions.EMAIL && (
+						<TextControl
+							value={ userEmail }
+							onChange={ ( email ) => setAttributes( { userEmail: email } ) }
+							type="email"
+							placeholder={ __( 'Enter email', 'gravatar-enhanced' ) }
+						/>
+					) }
 				</PanelBody>
 			</InspectorControls>
 			<div { ...useBlockProps() }>

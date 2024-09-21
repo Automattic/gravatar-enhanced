@@ -19,7 +19,7 @@
 			"type": "string",
 			"default": "author"
 		},
-		"userValue": {
+		"userEmail": {
 			"type": "string",
 			"default": ""
 		}
