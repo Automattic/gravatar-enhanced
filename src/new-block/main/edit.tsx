@@ -7,7 +7,7 @@ import { PanelBody, SelectControl, TextControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import debounce from 'lodash.debounce';
+import _debounce from 'lodash.debounce';
 import { sha256 } from 'js-sha256';
 
 enum UserTypeOptions {
@@ -57,53 +57,61 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 		}
 	}, [ authorEmail, setAttributes, userEmail, userType ] );
 
-	useEffect( () => {
-		if ( ! userEmail || ! validateEmail( userEmail ) ) {
-			return setErrorMsg( __( 'Please enter a valid email.', 'gravatar-enhanced' ) );
-		}
-
-		const fetchProfile = async ( email: string ) => {
-			setIsLoading( true );
-			setErrorMsg( '' );
-
-			try {
-				const hashedEmail = sha256( email.trim().toLowerCase() );
-				const res = await fetch( `${ BASE_API_URL }/${ hashedEmail }?source=gravatar-block` );
-
-				if ( res.status !== 200 ) {
-					throw res.status;
-				}
-
-				const data = await res.json();
-
-				setProfileData( { ...data, profile_url: `${ data.profile_url }?utm_source=gravatar-block` } );
-			} catch ( code ) {
-				let message = __( 'Sorry, we are unable to load this Gravatar profile.', 'gravatar-enhanced' );
-
-				switch ( code ) {
-					case 404:
-						message = __( 'Profile not found.', 'gravatar-enhanced' );
-						break;
-					case 429:
-						message = __( 'Too Many Requests.', 'gravatar-enhanced' );
-						break;
-					case 500:
-						message = __( 'Internal Server Error.', 'gravatar-enhanced' );
-						break;
-				}
-
-				setErrorMsg( message );
+	useEffect(
+		() => {
+			if ( ! userEmail || ! validateEmail( userEmail ) ) {
+				return setErrorMsg( __( 'Please enter a valid email.', 'gravatar-enhanced' ) );
 			}
 
-			setIsLoading( false );
-		};
+			const fetchProfile = async ( email: string ) => {
+				setIsLoading( true );
+				setErrorMsg( '' );
 
-		const debouncedFetchProfile = debounce( fetchProfile, 500 );
+				try {
+					const hashedEmail = sha256( email.trim().toLowerCase() );
+					const res = await fetch( `${ BASE_API_URL }/${ hashedEmail }?source=gravatar-block` );
 
-		debouncedFetchProfile( userEmail );
+					if ( res.status !== 200 ) {
+						throw res.status;
+					}
 
-		return () => debouncedFetchProfile.cancel();
-	}, [ userEmail ] );
+					const data = await res.json();
+
+					setProfileData( { ...data, profile_url: `${ data.profile_url }?utm_source=gravatar-block` } );
+				} catch ( code ) {
+					let message = __( 'Sorry, we are unable to load this Gravatar profile.', 'gravatar-enhanced' );
+
+					switch ( code ) {
+						case 404:
+							message = __( 'Profile not found.', 'gravatar-enhanced' );
+							break;
+						case 429:
+							message = __( 'Too many requests.', 'gravatar-enhanced' );
+							break;
+						case 500:
+							message = __( 'Internal server error.', 'gravatar-enhanced' );
+							break;
+					}
+
+					setErrorMsg( message );
+				}
+
+				setIsLoading( false );
+			};
+
+			const debouncedFetchProfile = _debounce( fetchProfile, 500 );
+
+			if ( userType === UserTypeOptions.EMAIL ) {
+				debouncedFetchProfile( userEmail );
+			} else {
+				fetchProfile( userEmail );
+			}
+
+			return () => debouncedFetchProfile.cancel();
+		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[ userEmail ]
+	);
 
 	function handleUserTypeChange( type: UserTypeOptions ) {
 		let email = '';
