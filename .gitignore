@@ -7,3 +7,4 @@ svn
 .phpunit.result.cache
 build
 .DS_Store
+.idea

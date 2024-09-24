@@ -10,6 +10,7 @@ require_once __DIR__ . '/proxy/class-proxy.php';
 require_once __DIR__ . '/quick-editor/class-quick-editor.php';
 require_once __DIR__ . '/analytics/class-analytics.php';
 require_once __DIR__ . '/block/class-block.php';
+require_once __DIR__ . '/woocommerce/class-account-details-avatar.php';
 
 class Plugin {
 	const OPTION_NAME_AUTO = 'gravatar_enhanced_options';
@@ -65,6 +66,11 @@ class Plugin {
 	 */
 	private $discussions;
 
+	/**
+	 * @var Woocommerce\AccountDetailsAvatar
+	 */
+	private $woocommerce_account_details_avatar;
+
 	public function __construct() {
 		$this->auto_options = new Options\SavedOptions( self::OPTION_NAME_AUTO, true );
 		$this->lazy_options = new Options\SavedOptions( self::OPTION_NAME_LAZY, false );
@@ -84,6 +90,7 @@ class Plugin {
 		$this->quick_editor = new QuickEditor\QuickEditor();
 		$this->analytics = new Analytics\Analytics( new Analytics\Preferences( $this->auto_options ) );
 		$this->block = new Block\Block();
+		$this->woocommerce_account_details_avatar = new Woocommerce\AccountDetailsAvatar();
 
 		// Ensure the options always exist. We don't need data saved in it as this is provided by the defaults
 		if ( get_option( self::OPTION_NAME_AUTO, null ) === null ) {
@@ -105,6 +112,7 @@ class Plugin {
 		$this->discussions->init();
 		$this->analytics->init();
 		$this->block->init();
+		$this->woocommerce_account_details_avatar->init();
 	}
 
 	/**
