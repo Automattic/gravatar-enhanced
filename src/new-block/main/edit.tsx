@@ -218,7 +218,7 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 					{
 						linkUrl: 'https://gravatar.com/wellyshen?utm_source=gravatar-block',
 						text: __( 'View profile', 'gravatar-enhanced' ),
-						className: 'gravatar-block-link--at-right',
+						className: 'gravatar-block-link--align-right',
 						color: '#50575E',
 					},
 				],
