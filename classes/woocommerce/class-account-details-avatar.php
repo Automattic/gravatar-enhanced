@@ -4,17 +4,72 @@ namespace Automattic\Gravatar\GravatarEnhanced\Woocommerce;
 
 class AccountDetailsAvatar {
 	public function init() {
-		add_action('woocommerce_before_edit_account_form', [ $this, 'display_gravatar' ] );
+		add_action('woocommerce_before_account_navigation', [ $this, 'start_capture_page' ] );
+		add_action('woocommerce_after_account_navigation', [ $this, 'end_capture_page' ] );
+	}
+
+	public function start_capture_page() {
+		$this->setup();
+
+		ob_start();
+	}
+
+	public function end_capture_page() {
+		$content = ob_get_contents();
+		ob_end_clean();
+
+		if ( $content === false ) {
+			return;
+		}
+
+		$content = (string) preg_replace( '@(<nav.*?>)@s', '$1' . $this->display_gravatar() , $content, 1 );
+
+		echo $content;
+	}
+
+	function setup() {
+		$asset_file = dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/woocommerce.asset.php';
+		$assets = file_exists( $asset_file ) ? require $asset_file : [ 'dependencies' => [], 'version' => time() ];
+
+		//FIXME: Remove duplicated code
+		$current_user = wp_get_current_user();
+		$user_email = $current_user->user_email;
+
+		$current_user_locale = get_user_locale( $current_user );
+		// Gravatar only wants the first part of a locale, so we strip the country code.
+		$current_user_locale = (string) preg_replace( '/_.*$/', '', $current_user_locale );
+
+		$settings = [
+			'email' => $user_email,
+			'locale' => $current_user_locale === 'en' ? '' : $current_user_locale,
+		];
+
+		wp_enqueue_script( 'gravatar-enhanced-woocommerce', plugins_url( 'build/woocommerce.js', GRAVATAR_ENHANCED_PLUGIN_FILE ), $assets['dependencies'], $assets['version'], true );
+		wp_localize_script( 'gravatar-enhanced-woocommerce', 'geWooCommerce', $settings );
+
+		wp_register_style( 'gravatar-enhanced-woocommerce', plugins_url( 'build/style-woocommerce.css', GRAVATAR_ENHANCED_PLUGIN_FILE ), [], $assets['version'] );
+		wp_enqueue_style( 'gravatar-enhanced-woocommerce' );
 	}
 
 	function display_gravatar() {
-		$user_email = wp_get_current_user()->user_email;
+		$current_user = wp_get_current_user();
+		$user_email = $current_user->user_email;
+		$avatar = get_avatar( $user_email, 100, '', 'User Avatar', array( 'class' => 'woocommerce-account-gravatar__avatar' ) );
+		$display_name = esc_html( $current_user->display_name );
+		$edit_text = esc_html( 'Change avatar', 'gravatar-enhanced' );
 
-		?>
-		<div class="account-gravatar">
-			<?php echo get_avatar( $user_email, 100, '', 'User Avatar', array( 'class' => 'woocommerce-account-gravatar' ) );
-			?>
+		$html = <<<HTML
+		<div class="woocommerce-account-gravatar">
+			<div class="woocommerce-account-gravatar__avatar-wrapper">
+				$avatar
+				<div class="woocommerce-account-gravatar__edit-wrapper">
+					<a class="woocommerce-account-gravatar__edit">$edit_text</a>
+				</div>
+			</div>
+			<span class="woocommerce-account-gravatar__display-name">$display_name</span>
 		</div>
-		<?php
+		HTML;
+
+		return $html;
 	}
 }

@@ -38,7 +38,13 @@ declare interface QuickEditor {
 	canEdit: boolean;
 }
 
+declare interface WooCommerce {
+	locale: string;
+	email: string;
+}
+
 declare var geQuickEditor: QuickEditor;
+declare var geWooCommerce: QuickEditor;
 declare var gravatar: {
 	recordTrackEvent: ( name: string, options?: any ) => void;
 };

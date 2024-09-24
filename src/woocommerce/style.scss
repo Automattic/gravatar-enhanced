@@ -1,0 +1,67 @@
+//TODO: Make this shared and remove duplicated from quick editor
+@keyframes gravatar-pulse {
+	0% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0.2;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+.woocommerce-account-gravatar {
+	width: 120px;
+	max-width: 30%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 32px;
+}
+
+.woocommerce-account-gravatar__avatar-wrapper {
+	border-radius: 50%;
+	overflow: hidden;
+	aspect-ratio: 1;
+	position: relative;
+
+	&:hover {
+		.woocommerce-account-gravatar__edit-wrapper {
+			opacity: 1;
+		}
+	}
+}
+
+.woocommerce-account-gravatar__avatar {
+	&.avatar-loading {
+		animation: gravatar-pulse 2s infinite ease-in-out;
+	}
+}
+
+.woocommerce-account-gravatar__edit-wrapper {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+	background-color: rgba(255,255,255, 0.8);
+}
+
+.woocommerce-account-gravatar__edit {
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+}
+
+.woocommerce-account-gravatar__display-name {
+	line-height: 24px;
+}
