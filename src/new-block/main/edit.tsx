@@ -5,7 +5,7 @@ import type { BlockEditProps, TemplateArray } from '@wordpress/blocks';
 import { InspectorControls, InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, SelectControl, TextControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
-import { useEffect, useState, useCallback } from '@wordpress/element';
+import { useEffect, useState, useRef, useCallback } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import _debounce from 'lodash.debounce';
 
@@ -28,10 +28,10 @@ interface BlockAttrs {
 export default function Edit( { attributes, setAttributes }: BlockEditProps< BlockAttrs > ) {
 	const { userType, userEmail } = attributes;
 
-	const [ emailInputVal, setEmailInputVal ] = useState( '' );
 	const [ profileData, setProfileData ] = useState( null );
 	const [ isLoading, setIsLoading ] = useState( true );
 	const [ errorMsg, setErrorMsg ] = useState( '' );
+	const emailInputRef = useRef< HTMLInputElement >( null );
 
 	const authorEmail = useSelect( ( select: SelectFn ) => {
 		const postType = select( 'core/editor' ).getCurrentPostType();
@@ -95,7 +95,7 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 		}
 
 		setAttributes( { userType: type, userEmail: email } );
-		setEmailInputVal( '' );
+		emailInputRef.current.value = '';
 	}
 
 	const template: TemplateArray = [
@@ -246,13 +246,11 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 						/>
 					) }
 					{ userType === UserTypeOptions.EMAIL && (
+						// @ts-ignore
 						<TextControl
-							value={ emailInputVal }
-							onChange={ ( email ) => {
-								setEmailInputVal( email );
-								debouncedSetUserEmail( email );
-							} }
+							onChange={ ( email ) => debouncedSetUserEmail( email ) }
 							placeholder={ __( 'Enter email', 'gravatar-enhanced' ) }
+							ref={ emailInputRef }
 						/>
 					) }
 				</PanelBody>
