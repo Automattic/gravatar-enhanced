@@ -5,7 +5,7 @@ import type { BlockEditProps, TemplateArray } from '@wordpress/blocks';
 import { InspectorControls, InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, SelectControl, TextControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useState, useCallback } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import _debounce from 'lodash.debounce';
 
@@ -28,6 +28,7 @@ interface BlockAttrs {
 export default function Edit( { attributes, setAttributes }: BlockEditProps< BlockAttrs > ) {
 	const { userType, userEmail } = attributes;
 
+	const [ emailInputVal, setEmailInputVal ] = useState( '' );
 	const [ profileData, setProfileData ] = useState( null );
 	const [ isLoading, setIsLoading ] = useState( true );
 	const [ errorMsg, setErrorMsg ] = useState( '' );
@@ -52,6 +53,11 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 		return users.map( ( { name, nickname, email } ) => ( { label: `${ name } (${ nickname })`, value: email } ) );
 	}, [] );
 
+	const debouncedSetUserEmail = useCallback(
+		_debounce( ( email: string ) => setAttributes( { userEmail: email } ), 500 ),
+		[]
+	);
+
 	useEffect( () => {
 		// When the block is created, set the default email to the author's email.
 		if ( userType === UserTypeOptions.AUTHOR && ! userEmail ) {
@@ -59,48 +65,37 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 		}
 	}, [ authorEmail, setAttributes, userEmail, userType ] );
 
-	useEffect(
-		() => {
-			const fetchProfile = async ( email: string ) => {
-				setIsLoading( true );
-				setErrorMsg( '' );
+	useEffect( () => {
+		const fetchProfile = async ( email: string ) => {
+			setIsLoading( true );
+			setErrorMsg( '' );
 
-				const { error, data } = await basedFetchProfile( email );
+			const { error, data } = await basedFetchProfile( email );
 
-				if ( error ) {
-					setErrorMsg( error );
-				} else {
-					setProfileData( data );
-				}
-
-				setIsLoading( false );
-			};
-
-			const debouncedFetchProfile = _debounce( fetchProfile, 500 );
-
-			if ( userType === UserTypeOptions.EMAIL ) {
-				debouncedFetchProfile( userEmail );
+			if ( error ) {
+				setErrorMsg( error );
 			} else {
-				fetchProfile( userEmail );
+				setProfileData( data );
 			}
 
-			return () => debouncedFetchProfile.cancel();
-		},
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[ userEmail ]
-	);
+			setIsLoading( false );
+		};
+
+		fetchProfile( userEmail );
+	}, [ userEmail ] );
 
 	function handleUserTypeChange( type: UserTypeOptions ) {
 		let email = '';
 
-		if ( type === UserTypeOptions.AUTHOR ) {
-			email = authorEmail || '';
+		if ( UserTypeOptions.AUTHOR ) {
+			email = authorEmail;
 		}
-		if ( type === UserTypeOptions.USER ) {
+		if ( UserTypeOptions.USER ) {
 			email = userNameOptions[ 0 ]?.value || '';
 		}
 
 		setAttributes( { userType: type, userEmail: email } );
+		setEmailInputVal( '' );
 	}
 
 	const template: TemplateArray = [
@@ -252,8 +247,11 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 					) }
 					{ userType === UserTypeOptions.EMAIL && (
 						<TextControl
-							value={ userEmail }
-							onChange={ ( email ) => setAttributes( { userEmail: email } ) }
+							value={ emailInputVal }
+							onChange={ ( email ) => {
+								setEmailInputVal( email );
+								debouncedSetUserEmail( email );
+							} }
 							placeholder={ __( 'Enter email', 'gravatar-enhanced' ) }
 						/>
 					) }
