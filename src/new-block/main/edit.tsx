@@ -8,7 +8,11 @@ import { useSelect } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import _debounce from 'lodash.debounce';
-import { sha256 } from 'js-sha256';
+
+/**
+ * Internal dependencies
+ */
+import { fetchProfile as basedFetchProfile } from '../utils';
 
 enum UserTypeOptions {
 	AUTHOR = 'author',
@@ -20,8 +24,6 @@ interface BlockAttrs {
 	userType: UserTypeOptions;
 	userEmail: string;
 }
-
-const BASE_API_URL = 'https://api.gravatar.com/v3/profiles';
 
 export default function Edit( { attributes, setAttributes }: BlockEditProps< BlockAttrs > ) {
 	const { userType, userEmail } = attributes;
@@ -59,41 +61,16 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 
 	useEffect(
 		() => {
-			if ( ! userEmail || ! validateEmail( userEmail ) ) {
-				return setErrorMsg( __( 'Please enter a valid email.', 'gravatar-enhanced' ) );
-			}
-
 			const fetchProfile = async ( email: string ) => {
 				setIsLoading( true );
 				setErrorMsg( '' );
 
-				try {
-					const hashedEmail = sha256( email.trim().toLowerCase() );
-					const res = await fetch( `${ BASE_API_URL }/${ hashedEmail }?source=gravatar-block` );
+				const { error, data } = await basedFetchProfile( email );
 
-					if ( res.status !== 200 ) {
-						throw res.status;
-					}
-
-					const data = await res.json();
-
-					setProfileData( { ...data, profile_url: `${ data.profile_url }?utm_source=gravatar-block` } );
-				} catch ( code ) {
-					let message = __( 'Sorry, we are unable to load this Gravatar profile.', 'gravatar-enhanced' );
-
-					switch ( code ) {
-						case 404:
-							message = __( 'Profile not found.', 'gravatar-enhanced' );
-							break;
-						case 429:
-							message = __( 'Too many requests.', 'gravatar-enhanced' );
-							break;
-						case 500:
-							message = __( 'Internal server error.', 'gravatar-enhanced' );
-							break;
-					}
-
-					setErrorMsg( message );
+				if ( error ) {
+					setErrorMsg( error );
+				} else {
+					setProfileData( data );
 				}
 
 				setIsLoading( false );
@@ -289,8 +266,4 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 			</div>
 		</>
 	);
-}
-
-function validateEmail( email: string ) {
-	return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test( email );
 }
