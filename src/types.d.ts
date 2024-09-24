@@ -14,9 +14,13 @@ declare global {
 		display_name: string;
 		description: string;
 		profile_url: string;
+		avatar_url: string;
+		avatar_alt_text: string;
 		location: string;
 		job_title: string;
 		company: string;
+		pronunciation: string;
+		pronouns: string;
 		verified_accounts: GravatarAPIAccount[];
 	}
 
