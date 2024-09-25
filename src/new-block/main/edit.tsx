@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import type { BlockEditProps, TemplateArray } from '@wordpress/blocks';
+import type { BlockEditProps, TemplateArray, BlockInstance } from '@wordpress/blocks';
 import { InspectorControls, InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, SelectControl, TextControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
@@ -25,7 +25,21 @@ interface BlockAttrs {
 	userEmail: string;
 }
 
-export default function Edit( { attributes, setAttributes }: BlockEditProps< BlockAttrs > ) {
+function getExistingBlocks( blocks: BlockInstance[], map = {} ) {
+	blocks.forEach( ( { innerBlocks, attributes } ) => {
+		if ( attributes.name ) {
+			map[ attributes.name ] = true;
+		}
+
+		if ( innerBlocks.length ) {
+			getExistingBlocks( innerBlocks, map );
+		}
+	} );
+
+	return map;
+}
+
+export default function Edit( { attributes, setAttributes, clientId }: BlockEditProps< BlockAttrs > ) {
 	const { userType, userEmail } = attributes;
 
 	const [ profileData, setProfileData ] = useState( null );
@@ -56,6 +70,14 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 	const debouncedSetUserEmail = useCallback(
 		_debounce( ( email: string ) => setAttributes( { userEmail: email } ), 500 ),
 		[]
+	);
+
+	useSelect(
+		( select: SelectFn ) => {
+			const blocks = select( 'core/block-editor' ).getBlock( clientId )?.innerBlocks || [];
+			console.log( 'LOG ===> blocks: ', getExistingBlocks( blocks ) );
+		},
+		[ clientId ]
 	);
 
 	useEffect( () => {
@@ -101,16 +123,16 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 	const template: TemplateArray = [
 		[
 			'gravatar/block-column',
-			{ className: 'gravatar-block-column--align-center' },
+			{ name: 'col-1', className: 'gravatar-block-column--align-center' },
 			[
 				[
 					'gravatar/block-column',
-					{},
+					{ name: 'col-1-1' },
 					[
 						[
 							'gravatar/block-image',
 							{
-								// TODO: Don't forget the `utm_source`.
+								name: 'avatar',
 								linkUrl: 'https://gravatar.com/wellyshen?utm_source=gravatar-block',
 								imageUrl:
 									'https://gravatar.com/avatar/c3bb8d897bb538896708195dd9eb162f585654611c50a3a1c9a16a7b64f33270',
@@ -125,6 +147,7 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 				[
 					'gravatar/block-column',
 					{
+						name: 'col-1-2',
 						linkUrl: 'https://gravatar.com/wellyshen?utm_source=gravatar-block',
 						verticalAlignment: true,
 					},
@@ -133,6 +156,7 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 						[
 							'gravatar/block-name',
 							{
+								name: 'display-name',
 								text: 'Welly Shen',
 								className: 'gravatar-block-text-truncate-2-lines',
 								color: '#101517',
@@ -141,21 +165,23 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 						[
 							'gravatar/block-column',
 							{
+								name: 'col-1-2-1',
 								className: 'gravatar-block-column--comma-separated',
 								color: '#50575E',
 							},
 							[
-								[ 'gravatar/block-paragraph', { text: 'Software Engineer' } ],
-								[ 'gravatar/block-paragraph', { text: 'Automattic' } ],
+								[ 'gravatar/block-paragraph', { name: 'job-title', text: 'Software Engineer' } ],
+								[ 'gravatar/block-paragraph', { name: 'company', text: 'Automattic' } ],
 							],
 						],
 						[
 							'gravatar/block-column',
 							{
+								name: 'col-1-2-2',
 								className: 'gravatar-block-column--comma-separated',
 								color: '#50575E',
 							},
-							[ [ 'gravatar/block-paragraph', { text: 'Taipei, Taiwan' } ] ],
+							[ [ 'gravatar/block-paragraph', { name: 'location', text: 'Taipei, Taiwan' } ] ],
 						],
 					],
 				],
@@ -164,6 +190,7 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 		[
 			'gravatar/block-paragraph',
 			{
+				name: 'about',
 				text: "I'm a bird in the sky 🪽.",
 				className: 'gravatar-block-text-truncate-2-lines',
 				color: '#101517',
@@ -171,11 +198,12 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 		],
 		[
 			'gravatar/block-column',
-			{ className: 'gravatar-block-column--footer gravatar-block-column--align-center' },
+			{ name: 'col-2', className: 'gravatar-block-column--footer gravatar-block-column--align-center' },
 			[
 				[
 					'gravatar/block-image',
 					{
+						name: 'gravatar',
 						linkUrl: 'https://gravatar.com/wellyshen?utm_source=gravatar-block',
 						imageUrl: 'https://secure.gravatar.com/icons/gravatar.svg',
 						imageWidth: 32,
@@ -186,6 +214,7 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 				[
 					'gravatar/block-image',
 					{
+						name: 'wordpress',
 						linkUrl: 'https://wellyshen.wordpress.com',
 						imageUrl: 'https://gravatar.com/icons/wordpress.svg',
 						imageWidth: 32,
@@ -196,6 +225,7 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 				[
 					'gravatar/block-image',
 					{
+						name: 'instagram',
 						linkUrl: 'https://www.instagram.com/welly_shen',
 						imageUrl: 'https://gravatar.com/icons/instagram.svg',
 						imageWidth: 32,
@@ -206,6 +236,7 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 				[
 					'gravatar/block-image',
 					{
+						name: 'twitter',
 						linkUrl: 'https://twitter.com/welly_shen',
 						imageUrl: 'https://gravatar.com/icons/twitter-alt.svg',
 						imageWidth: 32,
@@ -216,6 +247,7 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 				[
 					'gravatar/block-link',
 					{
+						name: 'view-profile',
 						linkUrl: 'https://gravatar.com/wellyshen?utm_source=gravatar-block',
 						text: __( 'View profile', 'gravatar-enhanced' ),
 						className: 'gravatar-block-link--align-right',

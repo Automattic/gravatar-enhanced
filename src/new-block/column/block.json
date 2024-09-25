@@ -8,6 +8,10 @@
 	"category": "layout",
     "parent": [],
 	"attributes": {
+		"name": {
+			"type": "string",
+			"default": ""
+		},
 		"linkUrl": {
 			"type": "string",
 			"default": ""
