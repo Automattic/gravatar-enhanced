@@ -1,48 +1,103 @@
-import { GravatarQuickEditorCore } from '@gravatar-com/quick-editor';
+import { GravatarQuickEditorCore, Scope, ProfileUpdatedType } from '@gravatar-com/quick-editor';
 import './style.scss';
 
-const UPDATE_DELAY = 2000;
-const LOADING_CLASS = 'avatar-loading';
-
-function updateAvatars() {
-	const images: NodeListOf< HTMLImageElement > = document.querySelectorAll(
-		'.woocommerce-account-gravatar__avatar'
-	);
-
-	// Make all the avatars start pulsating
-	images.forEach( ( img ) => {
-		img.classList.add( LOADING_CLASS );
-	} );
-
-	// Wait a bit and then update the URL
-	setTimeout( () => {
-		const cacheFlush = '&t=' + new Date().getTime();
-
-		images.forEach( ( img ) => {
-			img.src = img.src.replace( /&t=\d*/, cacheFlush );
-			img.srcset = img.srcset.replace( / /, cacheFlush + ' ' );
-			img.classList.remove( LOADING_CLASS );
-		} );
-	}, UPDATE_DELAY );
+interface GeWooCommerce {
+    email: string;
+    locale: string;
 }
 
-document.addEventListener( 'DOMContentLoaded', () => {
-	if ( ! geWooCommerce ) {
-		return;
-	}
+declare const geWooCommerce: GeWooCommerce;
 
-	document.querySelector( '.woocommerce-account-gravatar__edit' )?.addEventListener( 'click', () => {
-		const quickEditor = new GravatarQuickEditorCore( {
-			email: geWooCommerce.email,
-			locale: geWooCommerce.locale,
-			scope: [ 'avatars' ],
-			onProfileUpdated: ( type ) => {
-				if ( type === 'avatar_updated' ) {
-					updateAvatars();
-				}
-			},
-		} );
+const UPDATE_DELAY = 4000;
+const LOADING_CLASS = 'avatar-loading';
+const AVATAR_SELECTOR = '.woocommerce-account-gravatar__avatar';
+const EDIT_BUTTON_SELECTOR = '.woocommerce-account-gravatar__edit';
 
-		quickEditor.open();
-	} );
-} );
+/**
+ * Updates a URL by adding or updating the cache-busting parameter.
+ * @param url The original URL.
+ * @returns The updated URL with the cache-busting parameter.
+ */
+function updateUrlWithCacheBuster(url: string): string {
+    const urlObj = new URL(url, window.location.origin);
+    urlObj.searchParams.set('t', Date.now().toString());
+    return urlObj.toString();
+}
+
+/**
+ * Updates all avatar images by adding a cache-busting parameter to force reload.
+ */
+function updateAvatars(): void {
+    const images: NodeListOf<HTMLImageElement> = document.querySelectorAll(AVATAR_SELECTOR);
+
+    // Add loading class to all avatars
+    images.forEach((img) => {
+        img.classList.add(LOADING_CLASS);
+    });
+
+    // Wait and then update the URLs
+    setTimeout(() => {
+        images.forEach((img) => {
+            // Update img.src
+            img.src = updateUrlWithCacheBuster(img.src);
+
+            // Update img.srcset
+            if (img.srcset) {
+                img.srcset = img.srcset
+                    .split(',')
+                    .map((src) => {
+                        const [url, descriptor] = src.trim().split(' ');
+                        const updatedUrl = updateUrlWithCacheBuster(url);
+                        return descriptor ? `${updatedUrl} ${descriptor}` : updatedUrl;
+                    })
+                    .join(', ');
+            }
+
+            img.classList.remove(LOADING_CLASS);
+        });
+    }, UPDATE_DELAY);
+}
+
+/**
+ * Initializes the Gravatar Quick Editor and sets up event listeners.
+ */
+function initGravatarEditor(): void {
+    if (typeof geWooCommerce === 'undefined' || !geWooCommerce) {
+        console.error('geWooCommerce is not defined. Ensure wp_localize_script is set up correctly.');
+        return;
+    }
+
+    const editButton = document.querySelector<HTMLAnchorElement>(EDIT_BUTTON_SELECTOR);
+    if (!editButton) {
+        console.warn(`Edit button not found using selector: ${EDIT_BUTTON_SELECTOR}`);
+        return;
+    }
+
+    /**
+     * Opens the Gravatar Quick Editor with the specified scope.
+     * @param scope The scopes to edit.
+     */
+    const openEditor = (scope: Scope) => {
+        const quickEditor = new GravatarQuickEditorCore({
+            email: geWooCommerce.email,
+            locale: geWooCommerce.locale,
+            scope,
+            onProfileUpdated: (type: ProfileUpdatedType) => {
+                if (type === 'avatar_updated') {
+                    updateAvatars();
+                }
+            },
+        });
+
+        quickEditor.open();
+    };
+
+    editButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        openEditor(['avatars']);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initGravatarEditor();
+});
