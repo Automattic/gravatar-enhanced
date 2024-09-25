@@ -75,7 +75,7 @@ class AccountDetailsAvatar {
 	private function display_gravatar() {
 		$this->get_user_data();
 
-		$avatar    = get_avatar( $this->user_email, 100, '', 'User Avatar', [ 'class' => 'woocommerce-account-gravatar__avatar' ] );
+		$avatar    = get_avatar( $this->user_email, 120, '', 'User Avatar', [ 'class' => 'woocommerce-account-gravatar__avatar' ] );
 		$edit_text = esc_html__( 'Change avatar', 'gravatar-enhanced' );
 
 		$html = <<<HTML

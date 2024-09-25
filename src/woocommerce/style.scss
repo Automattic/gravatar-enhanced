@@ -1,21 +1,7 @@
-//TODO: Make this shared and remove duplicated from quick editor
-@keyframes gravatar-pulse {
-	0% {
-		opacity: 1;
-	}
-
-	50% {
-		opacity: 0.2;
-	}
-
-	100% {
-		opacity: 1;
-	}
-}
+@import "../shared/style";
 
 .woocommerce-account-gravatar {
-	width: 120px;
-	max-width: 30%;
+	width: 140px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -32,6 +18,7 @@
 	&:hover {
 		.woocommerce-account-gravatar__edit-wrapper {
 			opacity: 1;
+			z-index: 0;
 		}
 	}
 }
@@ -51,12 +38,15 @@
 	height: 100%;
 	top: 0;
 	left: 0;
+	z-index: -1;
 	opacity: 0;
+	cursor: pointer;
 	transition: opacity 0.3s ease;
 	background-color: rgba(255,255,255, 0.8);
 }
 
 .woocommerce-account-gravatar__edit {
+	font-size: 13px;
 	cursor: pointer;
 	text-align: center;
 	text-decoration: none;
