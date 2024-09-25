@@ -1,5 +1,5 @@
 import { GravatarQuickEditorCore, Scope, ProfileUpdatedType } from '@gravatar-com/quick-editor';
-import './style.scss';
+import './style-account-details.scss';
 
 const UPDATE_DELAY = 4000;
 const LOADING_CLASS = 'avatar-loading';
@@ -58,7 +58,7 @@ function updateAvatars(): void {
  * Initializes the Gravatar Quick Editor and sets up event listeners.
  */
 function initGravatarEditor(): void {
-	if ( typeof geWooCommerce === 'undefined' || ! geWooCommerce ) {
+	if ( typeof geWcAccountDetails === 'undefined' || ! geWcAccountDetails ) {
 		return;
 	}
 
@@ -75,8 +75,8 @@ function initGravatarEditor(): void {
 	 */
 	const openEditor = ( scope: Scope ): void => {
 		const quickEditor = new GravatarQuickEditorCore( {
-			email: geWooCommerce.email,
-			locale: geWooCommerce.locale,
+			email: geWcAccountDetails.email,
+			locale: geWcAccountDetails.locale,
 			scope,
 			onProfileUpdated: ( type: ProfileUpdatedType ) => {
 				if ( type === 'avatar_updated' ) {

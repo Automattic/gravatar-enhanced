@@ -47,7 +47,7 @@ class AccountDetailsAvatar {
 	private function enqueue_assets() {
 		$this->get_user_data();
 
-		$asset_file = dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/woocommerce.asset.php';
+		$asset_file = dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/wc-account-details.asset.php';
 		$assets     = file_exists( $asset_file ) ? require $asset_file : [ 'dependencies' => [], 'version' => time() ];
 
 		$settings = [
@@ -56,17 +56,17 @@ class AccountDetailsAvatar {
 		];
 
 		wp_enqueue_script(
-			'gravatar-enhanced-woocommerce',
-			plugins_url( 'build/woocommerce.js', GRAVATAR_ENHANCED_PLUGIN_FILE ),
+			'gravatar-enhanced-wc-account-details',
+			plugins_url( 'build/wc-account-details.js', GRAVATAR_ENHANCED_PLUGIN_FILE ),
 			$assets['dependencies'],
 			$assets['version'],
 			true
 		);
-		wp_localize_script( 'gravatar-enhanced-woocommerce', 'geWooCommerce', $settings );
+		wp_localize_script( 'gravatar-enhanced-wc-account-details', 'geWcAccountDetails', $settings );
 
 		wp_enqueue_style(
-			'gravatar-enhanced-woocommerce',
-			plugins_url( 'build/style-woocommerce.css', GRAVATAR_ENHANCED_PLUGIN_FILE ),
+			'gravatar-enhanced-wc-account-details',
+			plugins_url( 'build/wc-account-details.css', GRAVATAR_ENHANCED_PLUGIN_FILE ),
 			[],
 			$assets['version']
 		);

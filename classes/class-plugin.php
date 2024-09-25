@@ -11,6 +11,7 @@ require_once __DIR__ . '/quick-editor/class-quick-editor.php';
 require_once __DIR__ . '/analytics/class-analytics.php';
 require_once __DIR__ . '/block/class-block.php';
 require_once __DIR__ . '/woocommerce/class-account-details-avatar.php';
+require_once __DIR__ . '/woocommerce/class-admin-customers-page.php';
 
 class Plugin {
 	const OPTION_NAME_AUTO = 'gravatar_enhanced_options';
@@ -71,6 +72,11 @@ class Plugin {
 	 */
 	private $woocommerce_account_details_avatar;
 
+	/**
+	 * @var Woocommerce\AdminCustomersPage
+	 */
+	private $woocommerce_admin_customers_page;
+
 	public function __construct() {
 		$this->auto_options = new Options\SavedOptions( self::OPTION_NAME_AUTO, true );
 		$this->lazy_options = new Options\SavedOptions( self::OPTION_NAME_LAZY, false );
@@ -91,6 +97,7 @@ class Plugin {
 		$this->analytics = new Analytics\Analytics( new Analytics\Preferences( $this->auto_options ) );
 		$this->block = new Block\Block();
 		$this->woocommerce_account_details_avatar = new Woocommerce\AccountDetailsAvatar();
+		$this->woocommerce_admin_customers_page = new Woocommerce\AdminCustomersPage();
 
 		// Ensure the options always exist. We don't need data saved in it as this is provided by the defaults
 		if ( get_option( self::OPTION_NAME_AUTO, null ) === null ) {
@@ -113,6 +120,7 @@ class Plugin {
 		$this->analytics->init();
 		$this->block->init();
 		$this->woocommerce_account_details_avatar->init();
+		$this->woocommerce_admin_customers_page->init();
 	}
 
 	/**
