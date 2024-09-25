@@ -25,20 +25,6 @@ interface BlockAttrs {
 	userEmail: string;
 }
 
-function getExistingBlocks( blocks: BlockInstance[], map = {} ) {
-	blocks.forEach( ( { innerBlocks, attributes } ) => {
-		if ( attributes.name ) {
-			map[ attributes.name ] = true;
-		}
-
-		if ( innerBlocks.length ) {
-			getExistingBlocks( innerBlocks, map );
-		}
-	} );
-
-	return map;
-}
-
 export default function Edit( { attributes, setAttributes, clientId }: BlockEditProps< BlockAttrs > ) {
 	const { userType, userEmail } = attributes;
 
@@ -293,4 +279,18 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 			</div>
 		</>
 	);
+}
+
+function getExistingBlocks( blocks: BlockInstance[] = [], map = {} ) {
+	blocks.forEach( ( { name, innerBlocks, attributes } ) => {
+		const isEmptyCol = name === 'gravatar/block-column' && ! innerBlocks?.length;
+
+		if ( attributes.name && ! isEmptyCol ) {
+			map[ attributes.name ] = true;
+		}
+
+		getExistingBlocks( innerBlocks, map );
+	} );
+
+	return map;
 }
