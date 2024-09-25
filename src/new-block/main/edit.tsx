@@ -231,15 +231,13 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 			<InspectorControls>
 				<PanelBody title={ __( 'Settings', 'gravatar-enhanced' ) }>
 					<SelectControl
-						label={ __( 'Select User Type', 'gravatar-enhanced' ) }
+						label={ __( 'Select User', 'gravatar-enhanced' ) }
 						value={ userType }
 						options={ userTypeOptions }
 						onChange={ handleUserTypeChange }
 					/>
 					{ userType === UserTypeOptions.USER && (
 						<SelectControl
-							label={ __( 'Select User', 'gravatar-enhanced' ) }
-							hideLabelFromVision
 							value={ userEmail }
 							options={ userNameOptions }
 							onChange={ ( email ) => setAttributes( { userEmail: email } ) }
@@ -248,6 +246,7 @@ export default function Edit( { attributes, setAttributes }: BlockEditProps< Blo
 					{ userType === UserTypeOptions.EMAIL && (
 						// @ts-ignore
 						<TextControl
+							type="email"
 							onChange={ ( email ) => debouncedSetUserEmail( email ) }
 							placeholder={ __( 'Enter email', 'gravatar-enhanced' ) }
 							ref={ emailInputRef }
