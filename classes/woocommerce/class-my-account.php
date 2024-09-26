@@ -2,12 +2,35 @@
 
 namespace Automattic\Gravatar\GravatarEnhanced\Woocommerce;
 
-class AccountDetailsAvatar {
+class MyAccount {
+	/**
+	 * @var string
+	 */
+	const FILTER_GRAVATAR_WC_MY_ACCOUNT_MODULE_ENABLED = 'gravatar_enhanced_wc_my_account_module_enabled';
+
+	/**
+	 * Check if the module is disabled by a filter.
+	 *
+	 * @return bool
+	 */
+	private function is_module_disabled() {
+		// Check if module is manually disabled by the filter.
+		if ( ! apply_filters( self::FILTER_GRAVATAR_WC_MY_ACCOUNT_MODULE_ENABLED, true ) ) {
+			return true; // Disabled by filter.
+		}
+
+		return false;
+	}
 
 	/**
 	 * @return void
 	 */
 	public function init() {
+		// Bail if the module is disabled.
+		if ( $this->is_module_disabled() ) {
+			return;
+		}
+
 		add_action( 'woocommerce_before_account_navigation', [ $this, 'start_capture_page' ] );
 		add_action( 'woocommerce_after_account_navigation', [ $this, 'end_capture_page' ] );
 	}
@@ -45,7 +68,7 @@ class AccountDetailsAvatar {
 	 * @return void
 	 */
 	private function enqueue_assets() {
-		$asset_file = dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/woocommerce.asset.php';
+		$asset_file = dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/wc-my-account.asset.php';
 		$assets     = file_exists( $asset_file ) ? require $asset_file : [ 'dependencies' => [], 'version' => time() ];
 
 		$current_user        = wp_get_current_user();
@@ -61,17 +84,17 @@ class AccountDetailsAvatar {
 		];
 
 		wp_enqueue_script(
-			'gravatar-enhanced-woocommerce',
-			plugins_url( 'build/woocommerce.js', GRAVATAR_ENHANCED_PLUGIN_FILE ),
+			'gravatar-enhanced-wc-my-account',
+			plugins_url( 'build/wc-my-account.js', GRAVATAR_ENHANCED_PLUGIN_FILE ),
 			$assets['dependencies'],
 			$assets['version'],
 			true
 		);
-		wp_localize_script( 'gravatar-enhanced-woocommerce', 'geWooCommerce', $settings );
+		wp_localize_script( 'gravatar-enhanced-wc-my-account', 'geWcMyAccount', $settings );
 
 		wp_enqueue_style(
-			'gravatar-enhanced-woocommerce',
-			plugins_url( 'build/style-woocommerce.css', GRAVATAR_ENHANCED_PLUGIN_FILE ),
+			'gravatar-enhanced-wc-my-account',
+			plugins_url( 'build/wc-my-account.css', GRAVATAR_ENHANCED_PLUGIN_FILE ),
 			[],
 			$assets['version']
 		);
@@ -84,7 +107,7 @@ class AccountDetailsAvatar {
 	 */
 	private function display_gravatar() {
 		$current_user = wp_get_current_user();
-		$user_email = $current_user->user_email;
+		$user_email   = $current_user->user_email;
 		$avatar       = get_avatar(
 			$user_email,
 			120,
