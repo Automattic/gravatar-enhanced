@@ -69,7 +69,7 @@ class Plugin {
 	/**
 	 * @var Woocommerce\AccountDetailsAvatar
 	 */
-	private $woocommerce_account_details_avatar;
+	private $wc_account_details_avatar;
 
 	public function __construct() {
 		$this->auto_options = new Options\SavedOptions( self::OPTION_NAME_AUTO, true );
@@ -90,7 +90,7 @@ class Plugin {
 		$this->quick_editor = new QuickEditor\QuickEditor();
 		$this->analytics = new Analytics\Analytics( new Analytics\Preferences( $this->auto_options ) );
 		$this->block = new Block\Block();
-		$this->woocommerce_account_details_avatar = new Woocommerce\AccountDetailsAvatar();
+		$this->wc_account_details_avatar = new Woocommerce\AccountDetailsAvatar();
 
 		// Ensure the options always exist. We don't need data saved in it as this is provided by the defaults
 		if ( get_option( self::OPTION_NAME_AUTO, null ) === null ) {
@@ -112,7 +112,7 @@ class Plugin {
 		$this->discussions->init();
 		$this->analytics->init();
 		$this->block->init();
-		$this->woocommerce_account_details_avatar->init();
+		$this->wc_account_details_avatar->init();
 	}
 
 	/**
