@@ -22,6 +22,10 @@
 		"userEmail": {
 			"type": "string",
 			"default": ""
+		},
+		"deletedElements": {
+			"type": [ "object", "null" ],
+			"default": {}
 		}
 	},
 	"supports": {

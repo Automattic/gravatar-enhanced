@@ -57,6 +57,10 @@ $color-blue: #3858E9;
         align-items: center;
     }
 
+    &.gravatar-block-column--header > .block-editor-inner-blocks > .block-editor-block-list__layout {
+        gap: 10px;
+    }
+
     &.gravatar-block-column--footer > .block-editor-inner-blocks > .block-editor-block-list__layout {
         gap: 8px;
     }
@@ -81,7 +85,6 @@ $color-blue: #3858E9;
 
     &.gravatar-block-image--avatar .gravatar-block-image__image {
         border-radius: 50%;
-        margin-right: 10px;
     }
 }
 

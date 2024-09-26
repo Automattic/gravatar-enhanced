@@ -1,7 +1,9 @@
+/* eslint-disable camelcase */
+
 /**
  * External dependencies
  */
-import type { BlockEditProps, TemplateArray, BlockInstance } from '@wordpress/blocks';
+import type { BlockEditProps, Template, TemplateArray } from '@wordpress/blocks';
 import { InspectorControls, InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, SelectControl, TextControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
@@ -12,7 +14,7 @@ import _debounce from 'lodash.debounce';
 /**
  * Internal dependencies
  */
-import { fetchProfile as basedFetchProfile } from '../utils';
+import { fetchProfile as basedFetchProfile, getExistingElements } from '../utils';
 
 enum UserTypeOptions {
 	AUTHOR = 'author',
@@ -23,12 +25,13 @@ enum UserTypeOptions {
 interface BlockAttrs {
 	userType: UserTypeOptions;
 	userEmail: string;
+	deletedElements: Record< string, boolean >;
 }
 
 export default function Edit( { attributes, setAttributes, clientId }: BlockEditProps< BlockAttrs > ) {
-	const { userType, userEmail } = attributes;
+	const { userType, userEmail, deletedElements } = attributes;
 
-	const [ profileData, setProfileData ] = useState( null );
+	const [ profileData, setProfileData ] = useState< GravatarAPIProfile >( null );
 	const [ isLoading, setIsLoading ] = useState( true );
 	const [ errorMsg, setErrorMsg ] = useState( '' );
 	const emailInputRef = useRef< HTMLInputElement >( null );
@@ -58,13 +61,17 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 		[]
 	);
 
-	useSelect(
+	/* useSelect(
 		( select: SelectFn ) => {
 			const blocks = select( 'core/block-editor' ).getBlock( clientId )?.innerBlocks || [];
-			console.log( 'LOG ===> blocks: ', getExistingBlocks( blocks ) );
+			const existingElements = getExistingElements( blocks );
+
+			if ( Object.keys( existingElements ).length !== Object.keys( deletedElements ).length ) {
+				setAttributes( { deletedElements: existingElements } );
+			}
 		},
-		[ clientId ]
-	);
+		[ clientId, deletedElements, setAttributes ]
+	); */
 
 	useEffect( () => {
 		// When the block is created, set the default email to the author's email.
@@ -106,143 +113,151 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 		emailInputRef.current.value = '';
 	}
 
-	const template: TemplateArray = [
-		[
-			'gravatar/block-column',
-			{ name: 'col-1', className: 'gravatar-block-column--align-center' },
-			[
-				[
-					'gravatar/block-column',
-					{ name: 'col-1-1' },
-					[
-						[
-							'gravatar/block-image',
-							{
-								name: 'avatar',
-								linkUrl: 'https://gravatar.com/wellyshen?utm_source=gravatar-block',
-								imageUrl:
-									'https://gravatar.com/avatar/c3bb8d897bb538896708195dd9eb162f585654611c50a3a1c9a16a7b64f33270',
-								imageWidth: 72,
-								imageHeight: 72,
-								imageAlt: 'Welly Shen',
-								className: 'gravatar-block-image--avatar',
-							},
-						],
-					],
-				],
-				[
-					'gravatar/block-column',
-					{
-						name: 'col-1-2',
-						linkUrl: 'https://gravatar.com/wellyshen?utm_source=gravatar-block',
-						verticalAlignment: true,
-					},
-					[
-						// TODO: Lock this block.
-						[
-							'gravatar/block-name',
-							{
-								name: 'display-name',
-								text: 'Welly Shen',
-								className: 'gravatar-block-text-truncate-2-lines',
-								color: '#101517',
-							},
-						],
-						[
-							'gravatar/block-column',
-							{
-								name: 'col-1-2-1',
-								className: 'gravatar-block-column--comma-separated',
-								color: '#50575E',
-							},
-							[
-								[ 'gravatar/block-paragraph', { name: 'job-title', text: 'Software Engineer' } ],
-								[ 'gravatar/block-paragraph', { name: 'company', text: 'Automattic' } ],
-							],
-						],
-						[
-							'gravatar/block-column',
-							{
-								name: 'col-1-2-2',
-								className: 'gravatar-block-column--comma-separated',
-								color: '#50575E',
-							},
-							[ [ 'gravatar/block-paragraph', { name: 'location', text: 'Taipei, Taiwan' } ] ],
-						],
-					],
-				],
-			],
-		],
-		[
-			'gravatar/block-paragraph',
-			{
-				name: 'about',
-				text: "I'm a bird in the sky 🪽.",
+	function getBlockTempate(
+		blockName: string,
+		elementName: string,
+		attrs?: Record< string, any >,
+		innerBlocks: TemplateArray = []
+	): Template | null {
+		return ! deletedElements[ elementName ]
+			? [ blockName, { ...attrs, name: elementName }, innerBlocks.filter( Boolean ) ]
+			: null;
+	}
+
+	function getTemplate(): TemplateArray {
+		const {
+			avatar_url,
+			avatar_alt_text,
+			profile_url,
+			display_name,
+			job_title,
+			company: companyData,
+			location: locationData,
+			description: descriptionData,
+			verified_accounts = [],
+		} = profileData || {};
+
+		const avatar =
+			avatar_url &&
+			getBlockTempate( 'gravatar/block-image', 'avatar', {
+				linkUrl: profile_url,
+				imageUrl: avatar_url,
+				imageWidth: 72,
+				imageHeight: 72,
+				imageAlt: avatar_alt_text || display_name,
+				className: 'gravatar-block-image--avatar',
+			} );
+
+		const displayName =
+			display_name &&
+			getBlockTempate( 'gravatar/block-name', 'displayName', {
+				text: display_name,
 				className: 'gravatar-block-text-truncate-2-lines',
 				color: '#101517',
-			},
-		],
-		[
-			'gravatar/block-column',
-			{ name: 'col-2', className: 'gravatar-block-column--footer gravatar-block-column--align-center' },
-			[
-				[
-					'gravatar/block-image',
-					{
-						name: 'gravatar',
-						linkUrl: 'https://gravatar.com/wellyshen?utm_source=gravatar-block',
-						imageUrl: 'https://secure.gravatar.com/icons/gravatar.svg',
-						imageWidth: 32,
-						imageHeight: 32,
-						imageAlt: 'Gravatar',
-					},
-				],
-				[
-					'gravatar/block-image',
-					{
-						name: 'wordpress',
-						linkUrl: 'https://wellyshen.wordpress.com',
-						imageUrl: 'https://gravatar.com/icons/wordpress.svg',
-						imageWidth: 32,
-						imageHeight: 32,
-						imageAlt: 'WordPress',
-					},
-				],
-				[
-					'gravatar/block-image',
-					{
-						name: 'instagram',
-						linkUrl: 'https://www.instagram.com/welly_shen',
-						imageUrl: 'https://gravatar.com/icons/instagram.svg',
-						imageWidth: 32,
-						imageHeight: 32,
-						imageAlt: 'Instagram',
-					},
-				],
-				[
-					'gravatar/block-image',
-					{
-						name: 'twitter',
-						linkUrl: 'https://twitter.com/welly_shen',
-						imageUrl: 'https://gravatar.com/icons/twitter-alt.svg',
-						imageWidth: 32,
-						imageHeight: 32,
-						imageAlt: 'X',
-					},
-				],
-				[
-					'gravatar/block-link',
-					{
-						name: 'view-profile',
-						linkUrl: 'https://gravatar.com/wellyshen?utm_source=gravatar-block',
-						text: __( 'View profile', 'gravatar-enhanced' ),
-						className: 'gravatar-block-link--align-right',
-						color: '#50575E',
-					},
-				],
-			],
-		],
-	];
+			} );
+
+		const jobTitle = job_title && getBlockTempate( 'gravatar/block-paragraph', 'jobTitle', { text: job_title } );
+
+		const company = companyData && getBlockTempate( 'gravatar/block-paragraph', 'company', { text: companyData } );
+
+		const location =
+			locationData && getBlockTempate( 'gravatar/block-paragraph', 'location', { text: locationData } );
+
+		const avatarWrapper = avatar && getBlockTempate( 'gravatar/block-column', 'avatarWrapper', {}, [ avatar ] );
+
+		const jobTitleAndCompanyWrapper =
+			( jobTitle || company ) &&
+			getBlockTempate(
+				'gravatar/block-column',
+				'jobTitleAndCompanyWrapper',
+				{
+					className: 'gravatar-block-column--comma-separated',
+					color: '#50575E',
+				},
+				[ jobTitle, company ]
+			);
+
+		const locationWrapper =
+			location &&
+			getBlockTempate(
+				'gravatar/block-column',
+				'locationWrapper',
+				{
+					className: 'gravatar-block-column--comma-separated',
+					color: '#50575E',
+				},
+				[ location ]
+			);
+
+		const userInfo =
+			( displayName || jobTitleAndCompanyWrapper || locationWrapper ) &&
+			getBlockTempate(
+				'gravatar/block-column',
+				'userInfo',
+				{
+					linkUrl: profile_url,
+					verticalAlignment: true,
+				},
+				[ displayName, jobTitleAndCompanyWrapper, locationWrapper ]
+			);
+
+		const header =
+			( avatarWrapper || userInfo ) &&
+			getBlockTempate(
+				'gravatar/block-column',
+				'header',
+				{ className: 'gravatar-block-column--header gravatar-block-column--align-center' },
+				[ avatarWrapper, userInfo ]
+			);
+
+		const description =
+			descriptionData &&
+			getBlockTempate( 'gravatar/block-paragraph', 'description', {
+				text: descriptionData,
+				className: 'gravatar-block-text-truncate-2-lines',
+				color: '#101517',
+			} );
+
+		const gravatar = getBlockTempate( 'gravatar/block-image', 'gravatar', {
+			linkUrl: profile_url,
+			imageUrl: 'https://secure.gravatar.com/icons/gravatar.svg',
+			imageWidth: 32,
+			imageHeight: 32,
+			imageAlt: 'Gravatar',
+		} );
+
+		const verifiedAccounts = verified_accounts.map(
+			( { url, service_type, service_icon, service_label, is_hidden } ) =>
+				! is_hidden &&
+				getBlockTempate( 'gravatar/block-image', service_type, {
+					linkUrl: url,
+					imageUrl: service_icon,
+					imageWidth: 32,
+					imageHeight: 32,
+					imageAlt: service_label,
+				} )
+		);
+
+		const viewProfile = getBlockTempate( 'gravatar/block-link', 'viewProfile', {
+			linkUrl: profile_url,
+			text: __( 'View profile', 'gravatar-enhanced' ),
+			className: 'gravatar-block-link--align-right',
+			color: '#50575E',
+		} );
+
+		const footer =
+			( gravatar || verifiedAccounts.length || viewProfile ) &&
+			getBlockTempate(
+				'gravatar/block-column',
+				'footer',
+				{
+					className: 'gravatar-block-column--footer gravatar-block-column--align-center',
+				},
+				[ gravatar, ...verifiedAccounts, viewProfile ]
+			);
+
+		return [ header, description, footer ].filter( Boolean );
+	}
 
 	return (
 		<>
@@ -273,24 +288,14 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 				</PanelBody>
 			</InspectorControls>
 			<div { ...useBlockProps() }>
-				<div className="gravatar-block" style={ { borderRadius: '2px', backgroundColor: '#FFF' } }>
-					<InnerBlocks allowedBlocks={ [] } template={ template } renderAppender={ undefined } />
-				</div>
+				{ isLoading && <div>{ __( 'Loading…', 'gravatar-enhanced' ) }</div> }
+				{ errorMsg && <div>{ errorMsg }</div> }
+				{ profileData && (
+					<div className="gravatar-block" style={ { borderRadius: '2px', backgroundColor: '#FFF' } }>
+						<InnerBlocks allowedBlocks={ [] } template={ getTemplate() } renderAppender={ undefined } />
+					</div>
+				) }
 			</div>
 		</>
 	);
-}
-
-function getExistingBlocks( blocks: BlockInstance[] = [], map = {} ) {
-	blocks.forEach( ( { name, innerBlocks, attributes } ) => {
-		const isEmptyCol = name === 'gravatar/block-column' && ! innerBlocks?.length;
-
-		if ( attributes.name && ! isEmptyCol ) {
-			map[ attributes.name ] = true;
-		}
-
-		getExistingBlocks( innerBlocks, map );
-	} );
-
-	return map;
 }
