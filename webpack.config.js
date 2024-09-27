@@ -9,7 +9,7 @@ const config = {
 		'block-view': './src/block/view.js',
 		hovercards: './src/hovercards/index.ts',
 		discussion: './src/discussion/index.ts',
-		'wc-account-details': './src/woocommerce/account-details.ts',
+		'wc-my-account': './src/woocommerce/my-account.ts',
 		'wc-admin-customers': './src/woocommerce/admin-customers.ts',
 	},
 };

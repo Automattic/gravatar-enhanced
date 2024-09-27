@@ -10,8 +10,8 @@ require_once __DIR__ . '/proxy/class-proxy.php';
 require_once __DIR__ . '/quick-editor/class-quick-editor.php';
 require_once __DIR__ . '/analytics/class-analytics.php';
 require_once __DIR__ . '/block/class-block.php';
-require_once __DIR__ . '/woocommerce/class-account-details-avatar.php';
 require_once __DIR__ . '/woocommerce/class-admin-customers-page.php';
+require_once __DIR__ . '/woocommerce/class-my-account.php';
 
 class Plugin {
 	const OPTION_NAME_AUTO = 'gravatar_enhanced_options';
@@ -68,14 +68,14 @@ class Plugin {
 	private $discussions;
 
 	/**
-	 * @var Woocommerce\AccountDetailsAvatar
-	 */
-	private $woocommerce_account_details_avatar;
-
-	/**
 	 * @var Woocommerce\AdminCustomersPage
 	 */
-	private $woocommerce_admin_customers_page;
+	private $wc_admin_customers_page;
+
+	/**
+	 * @var Woocommerce\MyAccount
+	 */
+	private $wc_my_account;
 
 	public function __construct() {
 		$this->auto_options = new Options\SavedOptions( self::OPTION_NAME_AUTO, true );
@@ -96,8 +96,8 @@ class Plugin {
 		$this->quick_editor = new QuickEditor\QuickEditor();
 		$this->analytics = new Analytics\Analytics( new Analytics\Preferences( $this->auto_options ) );
 		$this->block = new Block\Block();
-		$this->woocommerce_account_details_avatar = new Woocommerce\AccountDetailsAvatar();
-		$this->woocommerce_admin_customers_page = new Woocommerce\AdminCustomersPage();
+		$this->wc_admin_customers_page = new Woocommerce\AdminCustomersPage();
+		$this->wc_my_account = new Woocommerce\MyAccount();
 
 		// Ensure the options always exist. We don't need data saved in it as this is provided by the defaults
 		if ( get_option( self::OPTION_NAME_AUTO, null ) === null ) {
@@ -119,8 +119,8 @@ class Plugin {
 		$this->discussions->init();
 		$this->analytics->init();
 		$this->block->init();
-		$this->woocommerce_account_details_avatar->init();
-		$this->woocommerce_admin_customers_page->init();
+		$this->wc_admin_customers_page->init();
+		$this->wc_my_account->init();
 	}
 
 	/**
