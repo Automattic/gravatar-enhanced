@@ -2,7 +2,7 @@
 
 namespace Automattic\Gravatar\GravatarEnhanced\Woocommerce;
 
-class AdminCustomersPage {
+class AdminCustomers {
 	/**
 	 * @var string
 	 */
