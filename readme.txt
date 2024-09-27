@@ -18,6 +18,7 @@ Key Features:
 - Easy profile updates
 - Versatile Gravatar Profile block
 - Commenter engagement tools
+- WooCommerce Integration
 
 === Privacy Protection ===
 
@@ -34,6 +35,13 @@ Add Gravatar profiles to posts, pages, author bios, or company pages using our c
 
 === Boost Engagement ===
 Automatically remind commenters without avatars to create a Gravatar, increasing visual engagement on your blog.
+
+=== WooCommerce Integration ===
+Enhance your WooCommerce store by displaying user Gravatar avatars on the My Account page. Customers can view and update their avatars directly from their account dashboard, improving personalization and user engagement.
+
+- Seamless Integration: Automatically works if WooCommerce is installed and activated.
+- Direct Avatar Management: Users can change their Gravatar avatars without leaving your site.
+- Improved Personalization: Adds a personal touch to the shopping experience, fostering customer loyalty.
 
 == Frequently Asked Questions ==
 Q: Will this plugin impact site performance?
@@ -78,6 +86,9 @@ A: It sends a single, polite email to commenters without Gravatars, inviting the
 3. Gravatar block
 
 == Changelog ==
+
+= 0.4.0 =
+* New Feature: Added integration with WooCommerce My Account page.
 
 = 0.3.2 =
 * Hide verified accounts that are set to hide from Gravatar hovercards

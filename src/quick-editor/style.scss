@@ -1,21 +1,4 @@
-@mixin pulsate {
-	background-color: #999;
-	animation: gravatar-pulse 2s infinite ease-in-out;
-}
-
-@keyframes gravatar-pulse {
-	0% {
-		opacity: 1;
-	}
-
-	50% {
-		opacity: 0.2;
-	}
-
-	100% {
-		opacity: 1;
-	}
-}
+@import "../shared/style";
 
 // Background colour for profile page
 .user-profile-picture td,
