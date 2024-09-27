@@ -3,9 +3,13 @@ import { Hovercards } from '@gravatar-com/hovercards';
 import './style-admin-customers.scss';
 import '@gravatar-com/hovercards/dist/style.css';
 
+/** Selector for the customer table */
 const CUSTOMER_TABLE_SELECTOR = '.woocommerce-table__table:not(.is-loading) table';
+/** Selector for the main content area */
 const MAIN_CONTENT_SELECTOR = '.woocommerce-layout__main';
+/** Selector for table rows excluding the header */
 const TABLE_ROWS_SELECTOR = 'tr:not(:first-child)';
+/** Selector for email links within table cells */
 const EMAIL_CELL_SELECTOR = 'td a[href^="mailto:"]';
 
 document.addEventListener( 'DOMContentLoaded', () => {
@@ -20,6 +24,13 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
 	mainContentObserver.observe( main, { childList: true, subtree: true } );
 
+	/**
+	 * Callback function for main content mutation observer.
+	 * Checks for the presence of the customer table and injects avatars when the table is loaded.
+	 *
+	 * @param {MutationRecord[]} mutationList - Array of mutation records.
+	 * @return {void}
+	 */
 	function onMainContentChanged( mutationList ) {
 		for ( const mutation of mutationList ) {
 			if ( mutation.type === 'childList' ) {
@@ -38,12 +49,23 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		}
 	}
 
+	/**
+	 * Callback function for customer table mutation observer.
+	 * Re-injects avatars when changes are detected in the customer table.
+	 *
+	 * @return {void}
+	 */
 	function onCustomerTableChange() {
 		mainContentObserver.disconnect();
 		customerTableObserver.disconnect();
 		injectAvatars();
 	}
 
+	/**
+	 * Injects Gravatar avatars into the customer table and attaches hovercards.
+	 *
+	 * @return {void}
+	 */
 	function injectAvatars() {
 		const hovercards = new Hovercards();
 		const table = main.querySelector< HTMLTableElement >( CUSTOMER_TABLE_SELECTOR );
@@ -103,6 +125,12 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		observeChanges( table );
 	}
 
+	/**
+	 * Observes changes in the main content and customer table to re-inject avatars when necessary.
+	 *
+	 * @param {HTMLTableElement | null} table - The customer table element to observe.
+	 * @return {void}
+	 */
 	function observeChanges( table ) {
 		mainContentObserver.observe( main, { childList: true, subtree: true } );
 
