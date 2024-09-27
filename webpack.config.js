@@ -10,6 +10,7 @@ const config = {
 		hovercards: './src/hovercards/index.ts',
 		discussion: './src/discussion/index.ts',
 		'wc-my-account': './src/woocommerce/my-account.ts',
+		'wc-admin-customers': './src/woocommerce/admin-customers.ts',
 	},
 };
 
