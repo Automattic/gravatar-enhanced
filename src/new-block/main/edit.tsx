@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 /**
  * External dependencies
  */
@@ -113,33 +111,44 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 		emailInputRef.current.value = '';
 	}
 
+	// TODO: useCallback?
 	function getBlockTempate(
 		blockName: string,
-		elementName: string,
-		attrs?: Record< string, any >,
+		attrs: { name: string } & Record< string, any >,
 		innerBlocks: TemplateArray = []
 	): Template | null {
-		return ! deletedElements[ elementName ]
-			? [ blockName, { ...attrs, name: elementName }, innerBlocks.filter( Boolean ) ]
-			: null;
+		if ( deletedElements[ attrs?.name ] ) {
+			return null;
+		}
+
+		innerBlocks = innerBlocks.filter( Boolean );
+		const isEmptyCol = blockName === 'gravatar/block-column' && ! innerBlocks.length;
+
+		if ( isEmptyCol ) {
+			return null;
+		}
+
+		return [ blockName, attrs, innerBlocks ];
 	}
 
+	/* eslint-disable camelcase */
 	function getTemplate(): TemplateArray {
-		const {
+		let {
 			avatar_url,
 			avatar_alt_text,
 			profile_url,
 			display_name,
 			job_title,
-			company: companyData,
-			location: locationData,
-			description: descriptionData,
+			company: com,
+			location: loc,
+			description: desc,
 			verified_accounts = [],
 		} = profileData || {};
 
 		const avatar =
 			avatar_url &&
-			getBlockTempate( 'gravatar/block-image', 'avatar', {
+			getBlockTempate( 'gravatar/block-image', {
+				name: 'avatar',
 				linkUrl: profile_url,
 				imageUrl: avatar_url,
 				imageWidth: 72,
@@ -150,114 +159,110 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 
 		const displayName =
 			display_name &&
-			getBlockTempate( 'gravatar/block-name', 'displayName', {
+			getBlockTempate( 'gravatar/block-name', {
+				name: 'displayName',
 				text: display_name,
 				className: 'gravatar-block-text-truncate-2-lines',
 				color: '#101517',
 			} );
 
-		const jobTitle = job_title && getBlockTempate( 'gravatar/block-paragraph', 'jobTitle', { text: job_title } );
+		const jobTitle = job_title && getBlockTempate( 'gravatar/block-paragraph', { name: 'job', text: job_title } );
 
-		const company = companyData && getBlockTempate( 'gravatar/block-paragraph', 'company', { text: companyData } );
+		const company = com && getBlockTempate( 'gravatar/block-paragraph', { name: 'company', text: com } );
 
-		const location =
-			locationData && getBlockTempate( 'gravatar/block-paragraph', 'location', { text: locationData } );
-
-		const avatarWrapper = avatar && getBlockTempate( 'gravatar/block-column', 'avatarWrapper', {}, [ avatar ] );
-
-		const jobTitleAndCompanyWrapper =
-			( jobTitle || company ) &&
-			getBlockTempate(
-				'gravatar/block-column',
-				'jobTitleAndCompanyWrapper',
-				{
-					className: 'gravatar-block-column--comma-separated',
-					color: '#50575E',
-				},
-				[ jobTitle, company ]
-			);
-
-		const locationWrapper =
-			location &&
-			getBlockTempate(
-				'gravatar/block-column',
-				'locationWrapper',
-				{
-					className: 'gravatar-block-column--comma-separated',
-					color: '#50575E',
-				},
-				[ location ]
-			);
-
-		const userInfo =
-			( displayName || jobTitleAndCompanyWrapper || locationWrapper ) &&
-			getBlockTempate(
-				'gravatar/block-column',
-				'userInfo',
-				{
-					linkUrl: profile_url,
-					verticalAlignment: true,
-				},
-				[ displayName, jobTitleAndCompanyWrapper, locationWrapper ]
-			);
-
-		const header =
-			( avatarWrapper || userInfo ) &&
-			getBlockTempate(
-				'gravatar/block-column',
-				'header',
-				{ className: 'gravatar-block-column--header gravatar-block-column--align-center' },
-				[ avatarWrapper, userInfo ]
-			);
+		const location = loc && getBlockTempate( 'gravatar/block-paragraph', { name: 'location', text: loc } );
 
 		const description =
-			descriptionData &&
-			getBlockTempate( 'gravatar/block-paragraph', 'description', {
-				text: descriptionData,
+			desc &&
+			getBlockTempate( 'gravatar/block-paragraph', {
+				name: 'description',
+				text: desc,
 				className: 'gravatar-block-text-truncate-2-lines',
 				color: '#101517',
 			} );
 
-		const gravatar = getBlockTempate( 'gravatar/block-image', 'gravatar', {
-			linkUrl: profile_url,
-			imageUrl: 'https://secure.gravatar.com/icons/gravatar.svg',
-			imageWidth: 32,
-			imageHeight: 32,
-			imageAlt: 'Gravatar',
-		} );
+		verified_accounts = [
+			{
+				url: profile_url,
+				service_type: 'gravatar',
+				service_icon: 'https://secure.gravatar.com/icons/gravatar.svg',
+				service_label: 'Gravatar',
+				is_hidden: false,
+			},
+			...verified_accounts,
+		];
+		const verifiedAccounts = verified_accounts
+			.map(
+				( { url, service_type, service_icon, service_label, is_hidden } ) =>
+					! is_hidden &&
+					getBlockTempate( 'gravatar/block-image', {
+						name: service_type,
+						linkUrl: url,
+						imageUrl: service_icon,
+						imageWidth: 32,
+						imageHeight: 32,
+						imageAlt: service_label,
+					} )
+			)
+			.filter( Boolean );
 
-		const verifiedAccounts = verified_accounts.map(
-			( { url, service_type, service_icon, service_label, is_hidden } ) =>
-				! is_hidden &&
-				getBlockTempate( 'gravatar/block-image', service_type, {
-					linkUrl: url,
-					imageUrl: service_icon,
-					imageWidth: 32,
-					imageHeight: 32,
-					imageAlt: service_label,
-				} )
-		);
-
-		const viewProfile = getBlockTempate( 'gravatar/block-link', 'viewProfile', {
+		const viewProfile = getBlockTempate( 'gravatar/block-link', {
+			name: 'viewProfile',
 			linkUrl: profile_url,
 			text: __( 'View profile', 'gravatar-enhanced' ),
 			className: 'gravatar-block-link--align-right',
 			color: '#50575E',
 		} );
 
-		const footer =
-			( gravatar || verifiedAccounts.length || viewProfile ) &&
+		return [
 			getBlockTempate(
 				'gravatar/block-column',
-				'footer',
+				{ name: 'header', className: 'gravatar-block-column--header gravatar-block-column--align-center' },
+				[
+					getBlockTempate( 'gravatar/block-column', { name: 'avatarWrapper' }, [ avatar ] ),
+					getBlockTempate(
+						'gravatar/block-column',
+						{
+							name: 'jobCompanyLocationWrapper',
+							linkUrl: profile_url,
+							verticalAlignment: true,
+						},
+						[
+							displayName,
+							getBlockTempate(
+								'gravatar/block-column',
+								{
+									name: 'jobCompanyWrapper',
+									className: 'gravatar-block-column--comma-separated',
+									color: '#50575E',
+								},
+								[ jobTitle, company ]
+							),
+							getBlockTempate(
+								'gravatar/block-column',
+								{
+									name: 'locationWrapper',
+									className: 'gravatar-block-column--comma-separated',
+									color: '#50575E',
+								},
+								[ location ]
+							),
+						]
+					),
+				]
+			),
+			description,
+			getBlockTempate(
+				'gravatar/block-column',
 				{
+					name: 'footer',
 					className: 'gravatar-block-column--footer gravatar-block-column--align-center',
 				},
-				[ gravatar, ...verifiedAccounts, viewProfile ]
-			);
-
-		return [ header, description, footer ].filter( Boolean );
+				[ ...verifiedAccounts, viewProfile ]
+			),
+		].filter( Boolean );
 	}
+	/* eslint-enable camelcase */
 
 	return (
 		<>
