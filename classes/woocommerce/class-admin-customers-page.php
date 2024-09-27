@@ -4,9 +4,33 @@ namespace Automattic\Gravatar\GravatarEnhanced\Woocommerce;
 
 class AdminCustomersPage {
 	/**
+	 * @var string
+	 */
+	const FILTER_GRAVATAR_WC_ADMIN_CUSTOMERS_MODULE_ENABLED = 'gravatar_enhanced_wc_admin_customers_module_enabled';
+
+	/**
+	 * Check if the module is disabled by a filter.
+	 *
+	 * @return bool
+	 */
+	private function is_module_disabled() {
+		// Check if module is manually disabled by the filter.
+		if ( ! apply_filters( self::FILTER_GRAVATAR_WC_ADMIN_CUSTOMERS_MODULE_ENABLED, true ) ) {
+			return true; // Disabled by filter.
+		}
+
+		return false;
+	}
+
+	/**
 	 * @return void
 	 */
 	public function init() {
+		// Bail if the module is disabled.
+		if ( $this->is_module_disabled() ) {
+			return;
+		}
+
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 	}
 
