@@ -40,10 +40,10 @@ interface BlockAttrs {
 export default function Edit( { attributes, setAttributes, clientId }: BlockEditProps< BlockAttrs > ) {
 	const { userType, userEmail, deletedElements } = attributes;
 
+	const [ emailInputVal, setEmailInputVal ] = useState( userEmail );
 	const [ profileData, setProfileData ] = useState< GravatarAPIProfile >( null );
 	const [ isLoading, setIsLoading ] = useState( true );
 	const [ errorMsg, setErrorMsg ] = useState( '' );
-	const emailInputRef = useRef< HTMLInputElement >( null );
 	const prevExistingBlocksRef = useRef< Names >( null );
 
 	const authorEmail = useSelect( ( select: SelectFn ) => {
@@ -66,6 +66,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 		return users.map( ( { name, nickname, email } ) => ( { label: `${ name } (${ nickname })`, value: email } ) );
 	}, [] );
 
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const debouncedSetUserEmail = useCallback(
 		_debounce( ( email: string ) => setAttributes( { userEmail: email } ), 500 ),
 		[]
@@ -101,10 +102,6 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 	}, [ authorEmail, setAttributes, userEmail, userType ] );
 
 	useEffect( () => {
-		if ( ! userEmail ) {
-			return;
-		}
-
 		const fetchProfile = async ( email: string ) => {
 			setIsLoading( true );
 			setErrorMsg( '' );
@@ -127,15 +124,15 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 	function handleUserTypeChange( type: UserTypes ) {
 		let email = '';
 
-		if ( UserTypes.AUTHOR ) {
+		if ( type === UserTypes.AUTHOR ) {
 			email = authorEmail;
 		}
-		if ( UserTypes.USER ) {
+		if ( type === UserTypes.USER ) {
 			email = userNameOptions[ 0 ]?.value || '';
 		}
 
 		setAttributes( { userType: type, userEmail: email } );
-		emailInputRef.current.value = '';
+		setEmailInputVal( '' );
 	}
 
 	function getBlockTempate(
@@ -309,12 +306,14 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 						/>
 					) }
 					{ userType === UserTypes.EMAIL && (
-						// @ts-ignore
 						<TextControl
 							type="email"
-							onChange={ ( email ) => debouncedSetUserEmail( email ) }
+							value={ emailInputVal }
+							onChange={ ( email ) => {
+								setEmailInputVal( email );
+								debouncedSetUserEmail( email );
+							} }
 							placeholder={ __( 'Enter email', 'gravatar-enhanced' ) }
-							ref={ emailInputRef }
 						/>
 					) }
 				</PanelBody>
@@ -324,6 +323,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 					{ isLoading && <div>{ __( 'Loading…', 'gravatar-enhanced' ) }</div> }
 					{ errorMsg && <div>{ errorMsg }</div> }
 					{ profileData && (
+						// FIXME: Inner blocks are not updated when the profile data changes.
 						<InnerBlocks allowedBlocks={ [] } template={ getTemplate() } renderAppender={ undefined } />
 					) }
 				</div>
