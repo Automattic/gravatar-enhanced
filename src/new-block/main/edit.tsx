@@ -12,16 +12,27 @@ import _debounce from 'lodash.debounce';
 /**
  * Internal dependencies
  */
-import { fetchProfile as basedFetchProfile, getExistingElements } from '../utils';
+import type { Names } from '../utils/get-existing-blocks';
+import { fetchProfile as basedFetchProfile, getExistingBlocks } from '../utils';
 
-enum UserTypeOptions {
+export enum BlockNames {
+	COLUMN = 'gravatar/block-column',
+	IMAGE = 'gravatar/block-image',
+	NAME = 'gravatar/block-name',
+	PARAGRAPH = 'gravatar/block-paragraph',
+	LINK = 'gravatar/block-link',
+}
+
+type BlockName = `${ BlockNames }`;
+
+enum UserTypes {
 	AUTHOR = 'author',
 	USER = 'user',
 	EMAIL = 'email',
 }
 
 interface BlockAttrs {
-	userType: UserTypeOptions;
+	userType: UserTypes;
 	userEmail: string;
 	deletedElements: Record< string, boolean >;
 }
@@ -33,6 +44,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 	const [ isLoading, setIsLoading ] = useState( true );
 	const [ errorMsg, setErrorMsg ] = useState( '' );
 	const emailInputRef = useRef< HTMLInputElement >( null );
+	const prevExistingBlocksRef = useRef< Names >( null );
 
 	const authorEmail = useSelect( ( select: SelectFn ) => {
 		const postType = select( 'core/editor' ).getCurrentPostType();
@@ -43,9 +55,9 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 	}, [] );
 
 	const userTypeOptions = [
-		...( authorEmail ? [ { label: __( 'Author', 'gravatar-enhanced' ), value: UserTypeOptions.AUTHOR } ] : [] ),
-		{ label: __( 'User', 'gravatar-enhanced' ), value: UserTypeOptions.USER },
-		{ label: __( 'Custom email', 'gravatar-enhanced' ), value: UserTypeOptions.EMAIL },
+		...( authorEmail ? [ { label: __( 'Author', 'gravatar-enhanced' ), value: UserTypes.AUTHOR } ] : [] ),
+		{ label: __( 'User', 'gravatar-enhanced' ), value: UserTypes.USER },
+		{ label: __( 'Custom email', 'gravatar-enhanced' ), value: UserTypes.EMAIL },
 	];
 
 	const userNameOptions = useSelect( ( select: SelectFn ) => {
@@ -59,29 +71,44 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 		[]
 	);
 
-	/* useSelect(
+	useSelect(
 		( select: SelectFn ) => {
 			const blocks = select( 'core/block-editor' ).getBlock( clientId )?.innerBlocks || [];
-			const existingElements = getExistingElements( blocks );
+			const currExistingBlocks = getExistingBlocks( blocks );
 
-			if ( Object.keys( existingElements ).length !== Object.keys( deletedElements ).length ) {
-				setAttributes( { deletedElements: existingElements } );
+			if ( prevExistingBlocksRef.current?.length > currExistingBlocks.length ) {
+				const nextDeletedElements = { ...deletedElements };
+
+				prevExistingBlocksRef.current.forEach( ( name: string ) => {
+					if ( ! currExistingBlocks.includes( name ) ) {
+						nextDeletedElements[ name ] = true;
+					}
+				} );
+
+				setAttributes( { deletedElements: nextDeletedElements } );
 			}
+
+			prevExistingBlocksRef.current = currExistingBlocks;
 		},
 		[ clientId, deletedElements, setAttributes ]
-	); */
+	);
 
 	useEffect( () => {
 		// When the block is created, set the default email to the author's email.
-		if ( userType === UserTypeOptions.AUTHOR && ! userEmail ) {
+		if ( userType === UserTypes.AUTHOR && ! userEmail ) {
 			setAttributes( { userEmail: authorEmail } );
 		}
 	}, [ authorEmail, setAttributes, userEmail, userType ] );
 
 	useEffect( () => {
+		if ( ! userEmail ) {
+			return;
+		}
+
 		const fetchProfile = async ( email: string ) => {
 			setIsLoading( true );
 			setErrorMsg( '' );
+			setProfileData( null );
 
 			const { error, data } = await basedFetchProfile( email );
 
@@ -97,13 +124,13 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 		fetchProfile( userEmail );
 	}, [ userEmail ] );
 
-	function handleUserTypeChange( type: UserTypeOptions ) {
+	function handleUserTypeChange( type: UserTypes ) {
 		let email = '';
 
-		if ( UserTypeOptions.AUTHOR ) {
+		if ( UserTypes.AUTHOR ) {
 			email = authorEmail;
 		}
-		if ( UserTypeOptions.USER ) {
+		if ( UserTypes.USER ) {
 			email = userNameOptions[ 0 ]?.value || '';
 		}
 
@@ -111,9 +138,8 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 		emailInputRef.current.value = '';
 	}
 
-	// TODO: useCallback?
 	function getBlockTempate(
-		blockName: string,
+		name: BlockName,
 		attrs: { name: string } & Record< string, any >,
 		innerBlocks: TemplateArray = []
 	): Template | null {
@@ -122,13 +148,13 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 		}
 
 		innerBlocks = innerBlocks.filter( Boolean );
-		const isEmptyCol = blockName === 'gravatar/block-column' && ! innerBlocks.length;
+		const isEmptyCol = name === BlockNames.COLUMN && ! innerBlocks.length;
 
 		if ( isEmptyCol ) {
 			return null;
 		}
 
-		return [ blockName, attrs, innerBlocks ];
+		return [ name, attrs, innerBlocks ];
 	}
 
 	/* eslint-disable camelcase */
@@ -145,6 +171,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 			verified_accounts = [],
 		} = profileData || {};
 
+		// TODO: Reuse these main UI elements to compose patterns.
 		const avatar =
 			avatar_url &&
 			getBlockTempate( 'gravatar/block-image', {
@@ -219,7 +246,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 				'gravatar/block-column',
 				{ name: 'header', className: 'gravatar-block-column--header gravatar-block-column--align-center' },
 				[
-					getBlockTempate( 'gravatar/block-column', { name: 'avatarWrapper' }, [ avatar ] ),
+					avatar,
 					getBlockTempate(
 						'gravatar/block-column',
 						{
@@ -274,14 +301,14 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 						options={ userTypeOptions }
 						onChange={ handleUserTypeChange }
 					/>
-					{ userType === UserTypeOptions.USER && (
+					{ userType === UserTypes.USER && (
 						<SelectControl
 							value={ userEmail }
 							options={ userNameOptions }
 							onChange={ ( email ) => setAttributes( { userEmail: email } ) }
 						/>
 					) }
-					{ userType === UserTypeOptions.EMAIL && (
+					{ userType === UserTypes.EMAIL && (
 						// @ts-ignore
 						<TextControl
 							type="email"
@@ -293,13 +320,13 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 				</PanelBody>
 			</InspectorControls>
 			<div { ...useBlockProps() }>
-				{ isLoading && <div>{ __( 'Loading…', 'gravatar-enhanced' ) }</div> }
-				{ errorMsg && <div>{ errorMsg }</div> }
-				{ profileData && (
-					<div className="gravatar-block" style={ { borderRadius: '2px', backgroundColor: '#FFF' } }>
+				<div className="gravatar-block" style={ { borderRadius: '2px', backgroundColor: '#FFF' } }>
+					{ isLoading && <div>{ __( 'Loading…', 'gravatar-enhanced' ) }</div> }
+					{ errorMsg && <div>{ errorMsg }</div> }
+					{ profileData && (
 						<InnerBlocks allowedBlocks={ [] } template={ getTemplate() } renderAppender={ undefined } />
-					</div>
-				) }
+					) }
+				</div>
 			</div>
 		</>
 	);

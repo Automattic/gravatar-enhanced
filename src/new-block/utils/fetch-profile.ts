@@ -12,7 +12,7 @@ interface Response {
 const BASE_API_URL = 'https://api.gravatar.com/v3/profiles';
 
 export default async function fetchProfile( email: string ): Promise< Response > {
-	if ( ! email || ! validateEmail( email ) ) {
+	if ( ! validateEmail( email ) ) {
 		return { error: __( 'Invalid email address.', 'gravatar-enhanced' ) };
 	}
 
