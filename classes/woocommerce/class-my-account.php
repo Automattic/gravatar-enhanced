@@ -119,7 +119,6 @@ class MyAccount {
 		$display_name = esc_html( $current_user->display_name );
 
 		$html = <<<HTML
-        
         <div class="woocommerce-account-gravatar">
             <div class="woocommerce-account-gravatar__avatar-wrapper">
                 $avatar
