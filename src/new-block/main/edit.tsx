@@ -66,16 +66,10 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 		return users.map( ( { name, nickname, email } ) => ( { label: `${ name } (${ nickname })`, value: email } ) );
 	}, [] );
 
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	const debouncedSetUserEmail = useCallback(
-		_debounce( ( email: string ) => setAttributes( { userEmail: email } ), 500 ),
-		[]
-	);
-
 	useSelect(
 		( select: SelectFn ) => {
-			const blocks = select( 'core/block-editor' ).getBlock( clientId )?.innerBlocks || [];
-			const currExistingBlocks = getExistingBlocks( blocks );
+			const { innerBlocks = [] } = select( 'core/block-editor' ).getBlock( clientId );
+			const currExistingBlocks = getExistingBlocks( innerBlocks );
 
 			if ( prevExistingBlocksRef.current?.length > currExistingBlocks.length ) {
 				const nextDeletedElements = { ...deletedElements };
@@ -134,6 +128,12 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 		setAttributes( { userType: type, userEmail: email } );
 		setEmailInputVal( '' );
 	}
+
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const debouncedSetUserEmail = useCallback(
+		_debounce( ( email: string ) => setAttributes( { userEmail: email } ), 500 ),
+		[]
+	);
 
 	function getBlockTempate(
 		name: BlockName,

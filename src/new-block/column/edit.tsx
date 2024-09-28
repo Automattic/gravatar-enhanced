@@ -25,9 +25,9 @@ export default function Edit( { attributes, clientId }: BlockEditProps< BlockAtt
 
 	const template: TemplateArray = useSelect(
 		( select: SelectFn ) => {
-			const blocks = select( 'core/block-editor' ).getBlock( clientId )?.innerBlocks || [];
+			const { innerBlocks = [] } = select( 'core/block-editor' ).getBlock( clientId );
 
-			return blocks.map( ( { name, attrs } ) => [ name, attrs ] );
+			return innerBlocks.map( ( { name, attrs } ) => [ name, attrs ] );
 		},
 		[ clientId ]
 	);
