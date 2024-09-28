@@ -8,18 +8,18 @@ import type { BlockInstance } from '@wordpress/blocks';
  */
 import { BlockNames } from '../main/edit';
 
-export type Names = string[];
+export type AttrNames = string[];
 
-export default function getExistingBlocks( blocks: BlockInstance[] = [], names: Names = [] ): Names {
+export default function getExistingBlocks( blocks: BlockInstance[] = [], attrNames: AttrNames = [] ): AttrNames {
 	blocks.forEach( ( { name, innerBlocks, attributes } ) => {
 		const isEmptyCol = name === BlockNames.COLUMN && ! innerBlocks?.length;
 
 		if ( attributes.name && ! isEmptyCol ) {
-			names.push( attributes.name );
+			attrNames.push( attributes.name );
 		}
 
-		getExistingBlocks( innerBlocks, names );
+		getExistingBlocks( innerBlocks, attrNames );
 	} );
 
-	return names;
+	return attrNames;
 }

@@ -12,7 +12,7 @@ import _debounce from 'lodash.debounce';
 /**
  * Internal dependencies
  */
-import type { Names } from '../utils/get-existing-blocks';
+import type { AttrNames } from '../utils/get-existing-blocks';
 import { fetchProfile as basedFetchProfile, getExistingBlocks } from '../utils';
 
 export enum BlockNames {
@@ -44,7 +44,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 	const [ profileData, setProfileData ] = useState< GravatarAPIProfile >( null );
 	const [ isLoading, setIsLoading ] = useState( true );
 	const [ errorMsg, setErrorMsg ] = useState( '' );
-	const prevExistingBlocksRef = useRef< Names >( null );
+	const prevExistingBlocksRef = useRef< AttrNames >( [] );
 
 	const authorEmail = useSelect( ( select: SelectFn ) => {
 		const postType = select( 'core/editor' ).getCurrentPostType();
@@ -66,15 +66,22 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 		return users.map( ( { name, nickname, email } ) => ( { label: `${ name } (${ nickname })`, value: email } ) );
 	}, [] );
 
+	useEffect( () => {
+		// When the block is created, set the default email to the author's email.
+		if ( userType === UserTypes.AUTHOR && ! userEmail ) {
+			setAttributes( { userEmail: authorEmail } );
+		}
+	}, [ authorEmail, setAttributes, userEmail, userType ] );
+
 	useSelect(
 		( select: SelectFn ) => {
 			const { innerBlocks = [] } = select( 'core/block-editor' ).getBlock( clientId );
 			const currExistingBlocks = getExistingBlocks( innerBlocks );
 
-			if ( prevExistingBlocksRef.current?.length > currExistingBlocks.length ) {
+			if ( prevExistingBlocksRef.current.length > currExistingBlocks.length ) {
 				const nextDeletedElements = { ...deletedElements };
 
-				prevExistingBlocksRef.current.forEach( ( name: string ) => {
+				prevExistingBlocksRef.current.forEach( ( name ) => {
 					if ( ! currExistingBlocks.includes( name ) ) {
 						nextDeletedElements[ name ] = true;
 					}
@@ -89,13 +96,6 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 	);
 
 	useEffect( () => {
-		// When the block is created, set the default email to the author's email.
-		if ( userType === UserTypes.AUTHOR && ! userEmail ) {
-			setAttributes( { userEmail: authorEmail } );
-		}
-	}, [ authorEmail, setAttributes, userEmail, userType ] );
-
-	useEffect( () => {
 		const fetchProfile = async ( email: string ) => {
 			setIsLoading( true );
 			setErrorMsg( '' );
@@ -105,8 +105,10 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 
 			if ( error ) {
 				setErrorMsg( error );
+				setProfileData( null );
 			} else {
 				setProfileData( data );
+				setErrorMsg( '' );
 			}
 
 			setIsLoading( false );
@@ -135,27 +137,30 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 		[]
 	);
 
-	function getBlockTempate(
-		name: BlockName,
-		attrs: { name: string } & Record< string, any >,
-		innerBlocks: TemplateArray = []
-	): Template | null {
-		if ( deletedElements[ attrs?.name ] ) {
-			return null;
-		}
+	const getBlockTempate = useCallback(
+		(
+			name: BlockName,
+			attrs: { name: string } & Record< string, any >,
+			innerBlocks: TemplateArray = []
+		): Template | null => {
+			if ( deletedElements[ attrs?.name ] ) {
+				return null;
+			}
 
-		innerBlocks = innerBlocks.filter( Boolean );
-		const isEmptyCol = name === BlockNames.COLUMN && ! innerBlocks.length;
+			innerBlocks = innerBlocks.filter( Boolean );
+			const isEmptyCol = name === BlockNames.COLUMN && ! innerBlocks.length;
 
-		if ( isEmptyCol ) {
-			return null;
-		}
+			if ( isEmptyCol ) {
+				return null;
+			}
 
-		return [ name, attrs, innerBlocks ];
-	}
+			return [ name, attrs, innerBlocks ];
+		},
+		[ deletedElements ]
+	);
 
 	/* eslint-disable camelcase */
-	function getTemplate(): TemplateArray {
+	const getTemplate = useCallback( (): TemplateArray => {
 		let {
 			avatar_url,
 			avatar_alt_text,
@@ -194,7 +199,8 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 
 		const company = com && getBlockTempate( 'gravatar/block-paragraph', { name: 'company', text: com } );
 
-		const location = loc && getBlockTempate( 'gravatar/block-paragraph', { name: 'location', text: loc } );
+		const location =
+			loc && getBlockTempate( 'gravatar/block-paragraph', { name: 'location', text: loc, color: '#50575E' } );
 
 		const description =
 			desc &&
@@ -262,15 +268,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 								},
 								[ jobTitle, company ]
 							),
-							getBlockTempate(
-								'gravatar/block-column',
-								{
-									name: 'locationWrapper',
-									className: 'gravatar-block-column--comma-separated',
-									color: '#50575E',
-								},
-								[ location ]
-							),
+							location,
 						]
 					),
 				]
@@ -285,7 +283,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 				[ ...verifiedAccounts, viewProfile ]
 			),
 		].filter( Boolean );
-	}
+	}, [ getBlockTempate, profileData ] );
 	/* eslint-enable camelcase */
 
 	return (
