@@ -1,10 +1,11 @@
 /**
  * External dependencies
  */
-import type { BlockEditProps, Template, TemplateArray } from '@wordpress/blocks';
+import type { BlockEditProps, InnerBlockTemplate } from '@wordpress/blocks';
+import { createBlocksFromInnerBlocksTemplate } from '@wordpress/blocks';
 import { InspectorControls, InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, SelectControl, TextControl } from '@wordpress/components';
-import { useSelect } from '@wordpress/data';
+import { useSelect, useDispatch } from '@wordpress/data';
 import { useEffect, useState, useRef, useCallback } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import _debounce from 'lodash.debounce';
@@ -40,11 +41,12 @@ interface BlockAttrs {
 export default function Edit( { attributes, setAttributes, clientId }: BlockEditProps< BlockAttrs > ) {
 	const { userType, userEmail, deletedElements } = attributes;
 
+	const { replaceInnerBlocks } = useDispatch( 'core/block-editor' );
 	const [ emailInputVal, setEmailInputVal ] = useState( userEmail );
-	const [ profileData, setProfileData ] = useState< GravatarAPIProfile >( null );
 	const [ isLoading, setIsLoading ] = useState( true );
 	const [ errorMsg, setErrorMsg ] = useState( '' );
-	const prevExistingBlocksRef = useRef< AttrNames >( [] );
+	const [ profileData, setProfileData ] = useState< GravatarAPIProfile >( null );
+	const prevExistingBlocksRef = useRef< AttrNames >( null );
 
 	const authorEmail = useSelect( ( select: SelectFn ) => {
 		const postType = select( 'core/editor' ).getCurrentPostType();
@@ -66,33 +68,40 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 		return users.map( ( { name, nickname, email } ) => ( { label: `${ name } (${ nickname })`, value: email } ) );
 	}, [] );
 
+	// When the block is created, set the default email to the author's email.
 	useEffect( () => {
-		// When the block is created, set the default email to the author's email.
 		if ( userType === UserTypes.AUTHOR && ! userEmail ) {
 			setAttributes( { userEmail: authorEmail } );
 		}
 	}, [ authorEmail, setAttributes, userEmail, userType ] );
 
+	// Set the deleted elements when the inner blocks change.
 	useSelect(
 		( select: SelectFn ) => {
+			// If the profile data is not available, don't set the deleted elements and reset the previous existing blocks.
+			if ( ! profileData ) {
+				prevExistingBlocksRef.current = null;
+				return;
+			}
+
 			const { innerBlocks = [] } = select( 'core/block-editor' ).getBlock( clientId );
 			const currExistingBlocks = getExistingBlocks( innerBlocks );
 
-			if ( prevExistingBlocksRef.current.length > currExistingBlocks.length ) {
-				const nextDeletedElements = { ...deletedElements };
+			if ( prevExistingBlocksRef.current?.length > currExistingBlocks.length ) {
+				const newDeletedElements = { ...deletedElements };
 
 				prevExistingBlocksRef.current.forEach( ( name ) => {
 					if ( ! currExistingBlocks.includes( name ) ) {
-						nextDeletedElements[ name ] = true;
+						newDeletedElements[ name ] = true;
 					}
 				} );
 
-				setAttributes( { deletedElements: nextDeletedElements } );
+				setAttributes( { deletedElements: newDeletedElements } );
 			}
 
 			prevExistingBlocksRef.current = currExistingBlocks;
 		},
-		[ clientId, deletedElements, setAttributes ]
+		[ clientId, deletedElements, profileData, setAttributes ]
 	);
 
 	useEffect( () => {
@@ -141,8 +150,8 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 		(
 			name: BlockName,
 			attrs: { name: string } & Record< string, any >,
-			innerBlocks: TemplateArray = []
-		): Template | null => {
+			innerBlocks: InnerBlockTemplate[] = []
+		): InnerBlockTemplate | null => {
 			if ( deletedElements[ attrs?.name ] ) {
 				return null;
 			}
@@ -160,7 +169,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 	);
 
 	/* eslint-disable camelcase */
-	const getTemplate = useCallback( (): TemplateArray => {
+	const getTemplate = useCallback( (): InnerBlockTemplate[] => {
 		let {
 			avatar_url,
 			avatar_alt_text,
@@ -286,6 +295,11 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 	}, [ getBlockTempate, profileData ] );
 	/* eslint-enable camelcase */
 
+	// Update inner blocks when the profile data changes.
+	useEffect( () => {
+		replaceInnerBlocks( clientId, createBlocksFromInnerBlocksTemplate( getTemplate() ) );
+	}, [ clientId, getTemplate, replaceInnerBlocks ] );
+
 	return (
 		<>
 			<InspectorControls>
@@ -320,10 +334,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 				<div className="gravatar-block" style={ { borderRadius: '2px', backgroundColor: '#FFF' } }>
 					{ isLoading && <div>{ __( 'Loading…', 'gravatar-enhanced' ) }</div> }
 					{ errorMsg && <div>{ errorMsg }</div> }
-					{ profileData && (
-						// FIXME: Inner blocks are not updated when the profile data changes.
-						<InnerBlocks allowedBlocks={ [] } template={ getTemplate() } renderAppender={ undefined } />
-					) }
+					{ profileData && <InnerBlocks allowedBlocks={ [] } renderAppender={ undefined } /> }
 				</div>
 			</div>
 		</>
