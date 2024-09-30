@@ -2,7 +2,6 @@
  * External dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { sha256 } from 'js-sha256';
 
 interface Response {
 	data?: GravatarAPIProfile;
@@ -11,13 +10,8 @@ interface Response {
 
 const BASE_API_URL = 'https://api.gravatar.com/v3/profiles';
 
-export default async function fetchProfile( email: string ): Promise< Response > {
-	if ( ! validateEmail( email ) ) {
-		return { error: __( 'Invalid email address.', 'gravatar-enhanced' ) };
-	}
-
+export default async function fetchProfile( hashedEmail: string ): Promise< Response > {
 	try {
-		const hashedEmail = sha256( email.trim().toLowerCase() );
 		const res = await fetch( `${ BASE_API_URL }/${ hashedEmail }?source=gravatar-block` );
 
 		if ( res.status !== 200 ) {
@@ -44,8 +38,4 @@ export default async function fetchProfile( email: string ): Promise< Response >
 
 		return { error: message };
 	}
-}
-
-function validateEmail( email: string ) {
-	return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test( email );
 }

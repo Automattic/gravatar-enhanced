@@ -9,12 +9,13 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import { useEffect, useState, useRef, useCallback } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import _debounce from 'lodash.debounce';
+import { sha256 } from 'js-sha256';
 
 /**
  * Internal dependencies
  */
 import type { AttrNames } from '../utils/get-existing-blocks';
-import { fetchProfile as basedFetchProfile, getExistingBlocks } from '../utils';
+import { fetchProfile as basedFetchProfile, getExistingBlocks, validateEmail } from '../utils';
 
 export enum BlockNames {
 	COLUMN = 'gravatar/block-column',
@@ -25,6 +26,8 @@ export enum BlockNames {
 }
 
 type BlockName = `${ BlockNames }`;
+
+type ApiStatus = 'loading' | 'error' | 'success';
 
 enum UserTypes {
 	AUTHOR = 'author',
@@ -43,9 +46,9 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 
 	const { replaceInnerBlocks } = useDispatch( 'core/block-editor' );
 	const [ emailInputVal, setEmailInputVal ] = useState( userEmail );
-	const [ isLoading, setIsLoading ] = useState( true );
-	const [ isProfileLoaded, setIsProfileLoaded ] = useState( false );
+	const [ apiStatus, setApiStatus ] = useState< ApiStatus >( 'loading' );
 	const [ errorMsg, setErrorMsg ] = useState( '' );
+	const [ profileData, setProfileData ] = useState< GravatarAPIProfile >( null );
 	const prevExistingBlocksRef = useRef< AttrNames >( null );
 
 	const authorEmail = useSelect( ( select: SelectFn ) => {
@@ -78,7 +81,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 	// Set the deleted elements when the inner blocks change.
 	useSelect(
 		( select: SelectFn ) => {
-			if ( ! isProfileLoaded ) {
+			if ( apiStatus !== 'success' ) {
 				prevExistingBlocksRef.current = null;
 				return;
 			}
@@ -100,8 +103,36 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 
 			prevExistingBlocksRef.current = currExistingBlocks;
 		},
-		[ clientId, deletedElements, isProfileLoaded, setAttributes ]
+		[ apiStatus, clientId, deletedElements, setAttributes ]
 	);
+
+	// Fetch the profile data when the email changes.
+	useEffect( () => {
+		const fetchProfile = async ( email: string ) => {
+			setApiStatus( 'loading' );
+			setErrorMsg( '' );
+			setProfileData( null );
+
+			if ( ! validateEmail( email ) ) {
+				setApiStatus( 'error' );
+				setErrorMsg( __( 'Please enter a valid email.', 'gravatar-enhanced' ) );
+				return;
+			}
+
+			const hashedEmail = sha256( email.trim().toLowerCase() );
+			const { error, data } = await basedFetchProfile( hashedEmail );
+
+			if ( error ) {
+				setApiStatus( 'error' );
+				setErrorMsg( error );
+			} else {
+				setApiStatus( 'success' );
+				setProfileData( data );
+			}
+		};
+
+		fetchProfile( userEmail );
+	}, [ userEmail ] );
 
 	const getBlockTempate = useCallback(
 		(
@@ -126,161 +157,136 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 	);
 
 	/* eslint-disable camelcase */
-	const getTemplate = useCallback(
-		( profileData: GravatarAPIProfile ): InnerBlockTemplate[] => {
-			let {
-				avatar_url,
-				avatar_alt_text,
-				profile_url,
-				display_name,
-				job_title,
-				company: com,
-				location: loc,
-				description: desc,
-				verified_accounts = [],
-			} = profileData;
+	const getTemplate = useCallback( (): InnerBlockTemplate[] => {
+		let {
+			avatar_url,
+			avatar_alt_text,
+			profile_url,
+			display_name,
+			job_title,
+			company: com,
+			location: loc,
+			description: desc,
+			verified_accounts = [],
+		} = profileData || {};
 
-			// TODO: Reuse these main UI elements to compose patterns.
-			const avatar =
-				avatar_url &&
-				getBlockTempate( 'gravatar/block-image', {
-					name: 'avatar',
-					linkUrl: profile_url,
-					imageUrl: avatar_url,
-					imageWidth: 72,
-					imageHeight: 72,
-					imageAlt: avatar_alt_text || display_name,
-					className: 'gravatar-block-image--avatar',
-				} );
-
-			const displayName =
-				display_name &&
-				getBlockTempate( 'gravatar/block-name', {
-					name: 'displayName',
-					text: display_name,
-					className: 'gravatar-block-text-truncate-2-lines',
-					color: '#101517',
-				} );
-
-			const jobTitle =
-				job_title && getBlockTempate( 'gravatar/block-paragraph', { name: 'job', text: job_title } );
-
-			const company = com && getBlockTempate( 'gravatar/block-paragraph', { name: 'company', text: com } );
-
-			const location =
-				loc && getBlockTempate( 'gravatar/block-paragraph', { name: 'location', text: loc, color: '#50575E' } );
-
-			const description =
-				desc &&
-				getBlockTempate( 'gravatar/block-paragraph', {
-					name: 'description',
-					text: desc,
-					className: 'gravatar-block-text-truncate-2-lines',
-					color: '#101517',
-				} );
-
-			verified_accounts = [
-				{
-					url: profile_url,
-					service_type: 'gravatar',
-					service_icon: 'https://secure.gravatar.com/icons/gravatar.svg',
-					service_label: 'Gravatar',
-					is_hidden: false,
-				},
-				...verified_accounts,
-			];
-			const verifiedAccounts = verified_accounts
-				.map(
-					( { url, service_type, service_icon, service_label, is_hidden } ) =>
-						! is_hidden &&
-						getBlockTempate( 'gravatar/block-image', {
-							name: service_type,
-							linkUrl: url,
-							imageUrl: service_icon,
-							imageWidth: 32,
-							imageHeight: 32,
-							imageAlt: service_label,
-						} )
-				)
-				.filter( Boolean );
-
-			const viewProfile = getBlockTempate( 'gravatar/block-link', {
-				name: 'viewProfile',
+		// TODO: Reuse these main UI elements to compose patterns.
+		const avatar =
+			avatar_url &&
+			getBlockTempate( 'gravatar/block-image', {
+				name: 'avatar',
 				linkUrl: profile_url,
-				text: __( 'View profile', 'gravatar-enhanced' ),
-				className: 'gravatar-block-link--align-right',
-				color: '#50575E',
+				imageUrl: avatar_url,
+				imageWidth: 72,
+				imageHeight: 72,
+				imageAlt: avatar_alt_text || display_name,
+				className: 'gravatar-block-image--avatar',
 			} );
 
-			return [
-				getBlockTempate(
-					'gravatar/block-column',
-					{ name: 'header', className: 'gravatar-block-column--header gravatar-block-column--align-center' },
-					[
-						avatar,
-						getBlockTempate(
-							'gravatar/block-column',
-							{
-								name: 'jobCompanyLocationWrapper',
-								linkUrl: profile_url,
-								verticalAlignment: true,
-							},
-							[
-								displayName,
-								getBlockTempate(
-									'gravatar/block-column',
-									{
-										name: 'jobCompanyWrapper',
-										className: 'gravatar-block-column--comma-separated',
-										color: '#50575E',
-									},
-									[ jobTitle, company ]
-								),
-								location,
-							]
-						),
-					]
-				),
-				description,
-				getBlockTempate(
-					'gravatar/block-column',
-					{
-						name: 'footer',
-						className: 'gravatar-block-column--footer gravatar-block-column--align-center',
-					},
-					[ ...verifiedAccounts, viewProfile ]
-				),
-			].filter( Boolean );
-		},
-		[ getBlockTempate ]
-	);
+		const displayName =
+			display_name &&
+			getBlockTempate( 'gravatar/block-name', {
+				name: 'displayName',
+				text: display_name,
+				className: 'gravatar-block-text-truncate-2-lines',
+				color: '#101517',
+			} );
+
+		const jobTitle = job_title && getBlockTempate( 'gravatar/block-paragraph', { name: 'job', text: job_title } );
+
+		const company = com && getBlockTempate( 'gravatar/block-paragraph', { name: 'company', text: com } );
+
+		const location =
+			loc && getBlockTempate( 'gravatar/block-paragraph', { name: 'location', text: loc, color: '#50575E' } );
+
+		const description =
+			desc &&
+			getBlockTempate( 'gravatar/block-paragraph', {
+				name: 'description',
+				text: desc,
+				className: 'gravatar-block-text-truncate-2-lines',
+				color: '#101517',
+			} );
+
+		verified_accounts = [
+			{
+				url: profile_url,
+				service_type: 'gravatar',
+				service_icon: 'https://secure.gravatar.com/icons/gravatar.svg',
+				service_label: 'Gravatar',
+				is_hidden: false,
+			},
+			...verified_accounts,
+		];
+		const verifiedAccounts = verified_accounts
+			.map(
+				( { url, service_type, service_icon, service_label, is_hidden } ) =>
+					! is_hidden &&
+					getBlockTempate( 'gravatar/block-image', {
+						name: service_type,
+						linkUrl: url,
+						imageUrl: service_icon,
+						imageWidth: 32,
+						imageHeight: 32,
+						imageAlt: service_label,
+					} )
+			)
+			.filter( Boolean );
+
+		const viewProfile = getBlockTempate( 'gravatar/block-link', {
+			name: 'viewProfile',
+			linkUrl: profile_url,
+			text: __( 'View profile', 'gravatar-enhanced' ),
+			className: 'gravatar-block-link--align-right',
+			color: '#50575E',
+		} );
+
+		return [
+			getBlockTempate(
+				'gravatar/block-column',
+				{ name: 'header', className: 'gravatar-block-column--header gravatar-block-column--align-center' },
+				[
+					avatar,
+					getBlockTempate(
+						'gravatar/block-column',
+						{
+							name: 'jobCompanyLocationWrapper',
+							linkUrl: profile_url,
+							verticalAlignment: true,
+						},
+						[
+							displayName,
+							getBlockTempate(
+								'gravatar/block-column',
+								{
+									name: 'jobCompanyWrapper',
+									className: 'gravatar-block-column--comma-separated',
+									color: '#50575E',
+								},
+								[ jobTitle, company ]
+							),
+							location,
+						]
+					),
+				]
+			),
+			description,
+			getBlockTempate(
+				'gravatar/block-column',
+				{
+					name: 'footer',
+					className: 'gravatar-block-column--footer gravatar-block-column--align-center',
+				},
+				[ ...verifiedAccounts, viewProfile ]
+			),
+		].filter( Boolean );
+	}, [ getBlockTempate, profileData ] );
 	/* eslint-enable camelcase */
 
-	// Fetch the profile data when the user email changes and then update the inner blocks.
+	// Update inner blocks when the profile data changes.
 	useEffect( () => {
-		const fetchProfile = async ( email: string ) => {
-			setIsLoading( true );
-			setErrorMsg( '' );
-			setIsProfileLoaded( false );
-
-			const { error, data } = await basedFetchProfile( email );
-
-			if ( error ) {
-				setIsProfileLoaded( false );
-				setErrorMsg( error );
-			} else {
-				setIsProfileLoaded( true );
-				setErrorMsg( '' );
-
-				// Update inner blocks when the profile data changes.
-				replaceInnerBlocks( clientId, createBlocksFromInnerBlocksTemplate( getTemplate( data ) ) );
-			}
-
-			setIsLoading( false );
-		};
-
-		fetchProfile( userEmail );
-	}, [ clientId, getTemplate, replaceInnerBlocks, userEmail ] );
+		replaceInnerBlocks( clientId, createBlocksFromInnerBlocksTemplate( getTemplate() ) );
+	}, [ clientId, getTemplate, replaceInnerBlocks ] );
 
 	function handleUserTypeChange( type: UserTypes ) {
 		let email = '';
@@ -334,9 +340,9 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 			</InspectorControls>
 			<div { ...useBlockProps() }>
 				<div className="gravatar-block" style={ { borderRadius: '2px', backgroundColor: '#FFF' } }>
-					{ isLoading && <div>{ __( 'Loading…', 'gravatar-enhanced' ) }</div> }
-					{ errorMsg && <div>{ errorMsg }</div> }
-					{ isProfileLoaded && <InnerBlocks allowedBlocks={ [] } renderAppender={ undefined } /> }
+					{ apiStatus === 'loading' && <div>{ __( 'Loading…', 'gravatar-enhanced' ) }</div> }
+					{ apiStatus === 'error' && <div>{ errorMsg }</div> }
+					{ apiStatus === 'success' && <InnerBlocks allowedBlocks={ [] } renderAppender={ undefined } /> }
 				</div>
 			</div>
 		</>

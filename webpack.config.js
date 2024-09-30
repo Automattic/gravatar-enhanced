@@ -8,6 +8,7 @@ const config = {
 		block: './src/block',
 		'block-view': './src/block/view.js',
 		'new-block': './src/new-block/main',
+		'new-block-view': './src/new-block/main/view.ts',
 		'block-column': './src/new-block/column',
 		'block-image': './src/new-block/image',
 		'block-name': './src/new-block/name',

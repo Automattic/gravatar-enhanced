@@ -24,7 +24,7 @@
 			"default": ""
 		},
 		"deletedElements": {
-			"type": [ "object", "null" ],
+			"type": "object",
 			"default": {}
 		}
 	},
@@ -37,5 +37,7 @@
     },
 	"textdomain": "gravatar-enhanced",
 	"editorScript": "file:../../new-block.js",
-	"editorStyle": "file:../../style-new-block.css"
+	"editorStyle": "file:../../style-new-block.css",
+	"render": "file:./render.php",
+	"viewScript": "file:../../new-block-view.js"
 }
