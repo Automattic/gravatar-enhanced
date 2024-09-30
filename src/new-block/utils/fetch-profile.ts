@@ -1,6 +1,7 @@
 /**
  * External dependencies
  */
+import { addQueryArgs } from '@wordpress/url';
 import { __ } from '@wordpress/i18n';
 
 interface Response {
@@ -12,15 +13,18 @@ const BASE_API_URL = 'https://api.gravatar.com/v3/profiles';
 
 export default async function fetchProfile( hashedEmail: string ): Promise< Response > {
 	try {
-		const res = await fetch( `${ BASE_API_URL }/${ hashedEmail }?source=gravatar-block` );
+		const source = 'gravatar-block';
+		const url = addQueryArgs( `${ BASE_API_URL }/${ hashedEmail }`, { source } );
+		const res = await fetch( url );
 
 		if ( res.status !== 200 ) {
 			throw res.status;
 		}
 
 		const data = await res.json();
+		const profileUrl = addQueryArgs( data.profile_url, { utm_source: source } );
 
-		return { data: { ...data, profile_url: `${ data.profile_url }?utm_source=gravatar-block` } };
+		return { data: { ...data, profile_url: profileUrl } };
 	} catch ( code ) {
 		let message = __( 'Sorry, we are unable to load this Gravatar profile.', 'gravatar-enhanced' );
 

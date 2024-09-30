@@ -4072,6 +4072,14 @@
     "@babel/runtime" "^7.16.0"
     "@wordpress/is-shallow-equal" "^5.8.1"
 
+"@wordpress/url@^4.8.0":
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/@wordpress/url/-/url-4.8.0.tgz#6ff817bd41395d32d4612623e33c86d9c9156cf5"
+  integrity sha512-8Za/lrTTH3+Y5/shsqmDgQ493Sr1Do99tIyCu62Z2hm6KmP5KH6nHX+kInKtBamdW+fHTBFN56cZj5/AgByM8w==
+  dependencies:
+    "@babel/runtime" "^7.16.0"
+    remove-accents "^0.5.0"
+
 "@wordpress/url@^4.8.1":
   version "4.8.1"
   resolved "https://registry.yarnpkg.com/@wordpress/url/-/url-4.8.1.tgz#52b04c84721245848056252430bf6b2a31318ba4"
