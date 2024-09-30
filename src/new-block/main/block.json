@@ -37,7 +37,8 @@
     },
 	"textdomain": "gravatar-enhanced",
 	"editorScript": "file:../../new-block.js",
-	"editorStyle": "file:../../style-new-block.css",
+	"editorStyle": "file:../../style-block-edit.css",
 	"render": "file:./render.php",
-	"viewScript": "file:../../new-block-view.js"
+	"viewScript": "file:../../new-block-view.js",
+	"viewStyle": "file:../../style-block-view.css"
 }

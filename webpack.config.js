@@ -14,6 +14,8 @@ const config = {
 		'block-name': './src/new-block/name',
 		'block-paragraph': './src/new-block/paragraph',
 		'block-link': './src/new-block/link',
+		'style-block-edit': './src/new-block/main/edit.scss',
+		'style-block-view': './src/new-block/main/view.scss',
 		hovercards: './src/hovercards',
 		discussion: './src/discussion',
 	},

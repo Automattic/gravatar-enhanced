@@ -12,11 +12,6 @@ import Edit from './edit';
 import { GravatarCardIcon } from '../components';
 import metadata from './block.json';
 
-/**
- * Style dependencies
- */
-import './style.scss';
-
 const blockConfig: BlockConfiguration = {
 	...metadata,
 	icon: GravatarCardIcon,

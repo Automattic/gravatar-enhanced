@@ -2,18 +2,16 @@ $font: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxy
 
 $color-blue: #3858E9;
 
-.gravatar-block-text-truncate {
+@mixin text-truncate( $lines: 1 ) {
     display: -webkit-box;
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: $lines;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .gravatar-block-text-truncate-2-lines {
-    @extend .gravatar-block-text-truncate;
-
-    -webkit-line-clamp: 2;
+    @include text-truncate( 2 );
 }
 
 .gravatar-block {
@@ -74,7 +72,7 @@ $color-blue: #3858E9;
         }
 
         .gravatar-block-paragraph__text {
-            @extend .gravatar-block-text-truncate;
+            @include text-truncate( 1 );
         }
     }
 }
