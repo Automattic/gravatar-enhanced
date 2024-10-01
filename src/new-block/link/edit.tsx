@@ -5,14 +5,14 @@ import type { BlockEditProps } from '@wordpress/blocks';
 import { useBlockProps } from '@wordpress/block-editor';
 import clsx from 'clsx';
 
-interface BlockAttrs {
+export interface Attrs {
 	linkUrl: string;
 	text: string;
-	className: string;
-	color: string;
+	className?: string;
+	color?: string;
 }
 
-export default function Edit( { attributes }: BlockEditProps< BlockAttrs > ) {
+export default function Edit( { attributes }: BlockEditProps< Attrs > ) {
 	const { linkUrl, text, className, color } = attributes;
 
 	const blockProps = useBlockProps();

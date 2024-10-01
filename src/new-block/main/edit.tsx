@@ -14,7 +14,12 @@ import { sha256 } from 'js-sha256';
 /**
  * Internal dependencies
  */
-import type { AttrNames } from '../utils/get-existing-blocks';
+import type { Names as ElemNames } from '../utils/get-existing-blocks';
+import type { Attrs as ColumnAttrs } from '../column/edit';
+import type { Attrs as ImageAttrs } from '../image/edit';
+import type { Attrs as NameAttrs } from '../name/edit';
+import type { Attrs as ParagraphAttrs } from '../paragraph/edit';
+import type { Attrs as LinkAttrs } from '../link/edit';
 import { fetchProfile as basedFetchProfile, getExistingBlocks, validateEmail } from '../utils';
 
 export enum BlockNames {
@@ -25,7 +30,28 @@ export enum BlockNames {
 	LINK = 'gravatar/block-link',
 }
 
-type BlockName = `${ BlockNames }`;
+export enum KnownElemNames {
+	AVATAR = 'avatar',
+	DISPLAY_NAME = 'displayName',
+	JOB = 'job',
+	COMPANY = 'company',
+	LOCATION = 'location',
+	DESCRIPTION = 'description',
+	GRAVATAR = 'gravatar',
+	VIEW_PROFILE = 'viewProfile',
+	HEADER = 'header',
+	JOB_COMPANY_LOCATION_WRAPPER = 'jobCompanyLocationWrapper',
+	JOB_COMPANY_WRAPPER = 'jobCompanyWrapper',
+	FOOTER = 'footer',
+}
+
+export interface InnerBlockAttrsMap {
+	[ BlockNames.COLUMN ]: ColumnAttrs;
+	[ BlockNames.IMAGE ]: ImageAttrs;
+	[ BlockNames.NAME ]: NameAttrs;
+	[ BlockNames.PARAGRAPH ]: ParagraphAttrs;
+	[ BlockNames.LINK ]: LinkAttrs;
+}
 
 type ApiStatus = 'loading' | 'error' | 'success';
 
@@ -35,13 +61,13 @@ enum UserTypes {
 	EMAIL = 'email',
 }
 
-interface BlockAttrs {
+export interface Attrs {
 	userType: UserTypes;
 	userEmail: string;
 	deletedElements: Record< string, boolean >;
 }
 
-export default function Edit( { attributes, setAttributes, clientId }: BlockEditProps< BlockAttrs > ) {
+export default function Edit( { attributes, setAttributes, clientId }: BlockEditProps< Attrs > ) {
 	const { userType, userEmail, deletedElements } = attributes;
 
 	const { replaceInnerBlocks } = useDispatch( 'core/block-editor' );
@@ -49,7 +75,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 	const [ apiStatus, setApiStatus ] = useState< ApiStatus >( 'loading' );
 	const [ errorMsg, setErrorMsg ] = useState( '' );
 	const [ profileData, setProfileData ] = useState< GravatarAPIProfile >( null );
-	const prevExistingBlocksRef = useRef< AttrNames >( null );
+	const prevExistingBlocksRef = useRef< ElemNames >( null );
 
 	const authorEmail = useSelect( ( select: SelectFn ) => {
 		const postType = select( 'core/editor' ).getCurrentPostType();
@@ -135,28 +161,29 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 	}, [ userEmail ] );
 
 	const getBlockTempate = useCallback(
-		(
-			name: BlockName,
-			attrs: { name: string } & Record< string, any >,
-			innerBlocks: InnerBlockTemplate[] = []
+		< T extends BlockNames >(
+			blockName: T,
+			elemName: string,
+			attrs: InnerBlockAttrsMap[ T ],
+			innerBlocks?: T extends BlockNames.COLUMN ? InnerBlockTemplate[] : never
 		): InnerBlockTemplate | null => {
-			if ( deletedElements[ attrs?.name ] ) {
+			if ( deletedElements[ elemName ] ) {
 				return null;
 			}
 
-			innerBlocks = innerBlocks.filter( Boolean );
-			const isEmptyCol = name === BlockNames.COLUMN && ! innerBlocks.length;
+			const blocks = Array.isArray( innerBlocks ) ? innerBlocks.filter( Boolean ) : [];
 
-			if ( isEmptyCol ) {
+			if ( ! blocks.length ) {
 				return null;
 			}
 
-			return [ name, attrs, innerBlocks ];
+			return [ blockName, attrs, blocks ];
 		},
 		[ deletedElements ]
 	);
 
 	/* eslint-disable camelcase */
+	// TODO: More templates to be added for different patterns.
 	const getTemplate = useCallback( (): InnerBlockTemplate[] => {
 		let {
 			avatar_url,
@@ -173,8 +200,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 		// TODO: Reuse these main UI elements to compose patterns.
 		const avatar =
 			avatar_url &&
-			getBlockTempate( 'gravatar/block-image', {
-				name: 'avatar',
+			getBlockTempate( BlockNames.IMAGE, KnownElemNames.AVATAR, {
 				linkUrl: profile_url,
 				imageUrl: avatar_url,
 				imageWidth: 72,
@@ -185,24 +211,25 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 
 		const displayName =
 			display_name &&
-			getBlockTempate( 'gravatar/block-name', {
-				name: 'displayName',
+			getBlockTempate( BlockNames.NAME, KnownElemNames.DISPLAY_NAME, {
 				text: display_name,
 				className: 'gravatar-block-text-truncate-2-lines',
 				color: '#101517',
 			} );
 
-		const jobTitle = job_title && getBlockTempate( 'gravatar/block-paragraph', { name: 'job', text: job_title } );
+		const jobTitle =
+			job_title &&
+			getBlockTempate( BlockNames.PARAGRAPH, KnownElemNames.JOB, { text: job_title, color: '#50575E' } );
 
-		const company = com && getBlockTempate( 'gravatar/block-paragraph', { name: 'company', text: com } );
+		const company =
+			com && getBlockTempate( BlockNames.PARAGRAPH, KnownElemNames.COMPANY, { text: com, color: '#50575E' } );
 
 		const location =
-			loc && getBlockTempate( 'gravatar/block-paragraph', { name: 'location', text: loc, color: '#50575E' } );
+			loc && getBlockTempate( BlockNames.PARAGRAPH, KnownElemNames.LOCATION, { text: loc, color: '#50575E' } );
 
 		const description =
 			desc &&
-			getBlockTempate( 'gravatar/block-paragraph', {
-				name: 'description',
+			getBlockTempate( BlockNames.PARAGRAPH, KnownElemNames.DESCRIPTION, {
 				text: desc,
 				className: 'gravatar-block-text-truncate-2-lines',
 				color: '#101517',
@@ -222,8 +249,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 			.map(
 				( { url, service_type, service_icon, service_label, is_hidden } ) =>
 					! is_hidden &&
-					getBlockTempate( 'gravatar/block-image', {
-						name: service_type,
+					getBlockTempate( BlockNames.IMAGE, service_type, {
 						linkUrl: url,
 						imageUrl: service_icon,
 						imageWidth: 32,
@@ -233,36 +259,32 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 			)
 			.filter( Boolean );
 
-		const viewProfile = getBlockTempate( 'gravatar/block-link', {
-			name: 'viewProfile',
-			linkUrl: profile_url,
-			text: __( 'View profile', 'gravatar-enhanced' ),
-			className: 'gravatar-block-link--align-right',
-			color: '#50575E',
-		} );
+		const viewProfile =
+			profile_url &&
+			getBlockTempate( BlockNames.LINK, KnownElemNames.VIEW_PROFILE, {
+				linkUrl: profile_url,
+				text: __( 'View profile', 'gravatar-enhanced' ),
+				className: 'gravatar-block-link--align-right',
+				color: '#50575E',
+			} );
 
 		return [
 			getBlockTempate(
-				'gravatar/block-column',
-				{ name: 'header', className: 'gravatar-block-column--header gravatar-block-column--align-center' },
+				BlockNames.COLUMN,
+				KnownElemNames.HEADER,
+				{ className: 'gravatar-block-column--header gravatar-block-column--align-center' },
 				[
 					avatar,
 					getBlockTempate(
-						'gravatar/block-column',
-						{
-							name: 'jobCompanyLocationWrapper',
-							linkUrl: profile_url,
-							verticalAlignment: true,
-						},
+						BlockNames.COLUMN,
+						KnownElemNames.JOB_COMPANY_LOCATION_WRAPPER,
+						{ linkUrl: profile_url, verticalAlignment: true },
 						[
 							displayName,
 							getBlockTempate(
-								'gravatar/block-column',
-								{
-									name: 'jobCompanyWrapper',
-									className: 'gravatar-block-column--comma-separated',
-									color: '#50575E',
-								},
+								BlockNames.COLUMN,
+								KnownElemNames.JOB_COMPANY_WRAPPER,
+								{ className: 'gravatar-block-column--comma-separated' },
 								[ jobTitle, company ]
 							),
 							location,
@@ -272,11 +294,9 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 			),
 			description,
 			getBlockTempate(
-				'gravatar/block-column',
-				{
-					name: 'footer',
-					className: 'gravatar-block-column--footer gravatar-block-column--align-center',
-				},
+				BlockNames.COLUMN,
+				KnownElemNames.FOOTER,
+				{ className: 'gravatar-block-column--footer gravatar-block-column--align-center' },
 				[ ...verifiedAccounts, viewProfile ]
 			),
 		].filter( Boolean );

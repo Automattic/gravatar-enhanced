@@ -3,7 +3,7 @@
  */
 import type { ReactNode } from 'react';
 
-interface Props {
+export interface Props {
 	linkUrl?: string;
 	children: ReactNode;
 	[ key: string ]: any;

@@ -11,14 +11,14 @@ import clsx from 'clsx';
  */
 import { MaybeLink } from '../components';
 
-interface BlockAttrs {
+export type Attrs = Partial< {
 	linkUrl: string;
 	verticalAlignment: boolean;
 	className: string;
 	color: string;
-}
+} >;
 
-export default function Edit( { attributes, clientId }: BlockEditProps< BlockAttrs > ) {
+export default function Edit( { attributes, clientId }: BlockEditProps< Attrs > ) {
 	const { linkUrl, verticalAlignment, className, color } = attributes;
 
 	const blockProps = useBlockProps();

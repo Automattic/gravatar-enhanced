@@ -10,17 +10,17 @@ import clsx from 'clsx';
  */
 import { MaybeLink } from '../components';
 
-interface BlockAttrs {
-	linkUrl: string;
+export interface Attrs {
+	linkUrl?: string;
 	imageUrl: string;
 	imageWidth: number;
 	imageHeight: number;
-	alt: string;
-	className: string;
+	imageAlt: string;
+	className?: string;
 }
 
-export default function Edit( { attributes }: BlockEditProps< BlockAttrs > ) {
-	const { linkUrl, imageUrl, imageWidth, imageHeight, alt, className } = attributes;
+export default function Edit( { attributes }: BlockEditProps< Attrs > ) {
+	const { linkUrl, imageUrl, imageWidth, imageHeight, imageAlt, className } = attributes;
 
 	const blockProps = useBlockProps();
 
@@ -35,7 +35,7 @@ export default function Edit( { attributes }: BlockEditProps< BlockAttrs > ) {
 				src={ imageUrl }
 				width={ imageWidth }
 				height={ imageHeight }
-				alt={ alt }
+				alt={ imageAlt }
 			/>
 		</MaybeLink>
 	);
