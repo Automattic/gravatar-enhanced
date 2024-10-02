@@ -6,7 +6,7 @@ import clsx from 'clsx';
 /**
  * Internal dependencies
  */
-import type { Attrs } from '../link/edit';
+import type { Attrs } from '../blocks/link/edit';
 
 export type Props = Attrs;
 

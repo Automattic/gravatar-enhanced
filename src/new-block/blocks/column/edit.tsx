@@ -9,7 +9,7 @@ import clsx from 'clsx';
 /**
  * Internal dependencies
  */
-import { MaybeLink } from '../components';
+import { MaybeLink } from '../../components';
 
 export type Attrs = Partial< {
 	linkUrl: string;

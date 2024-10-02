@@ -42,5 +42,5 @@
 		"inserter": false
     },
 	"textdomain": "gravatar-enhanced",
-    "editorScript": "file:../../block-image.js"
+    "editorScript": "file:../../../block-image.js"
 }

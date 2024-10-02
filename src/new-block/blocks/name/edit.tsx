@@ -8,7 +8,7 @@ import clsx from 'clsx';
 /**
  * Internal dependencies
  */
-import { MaybeLink } from '../components';
+import { MaybeLink } from '../../components';
 
 export interface Attrs {
 	linkUrl?: string;

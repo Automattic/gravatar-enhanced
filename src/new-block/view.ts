@@ -8,13 +8,13 @@ import { __ } from '@wordpress/i18n';
  */
 import type { Attrs as EditAttrs, InnerBlockAttrsMap as PropsMap } from './edit';
 import { BlockNames, KnownElemNames } from './edit';
-import type { Props as ColumnProps } from '../elements/get-column';
-import type { Props as ImageProps } from '../elements/get-image';
-import type { Props as NameProps } from '../elements/get-name';
-import type { Props as ParagraphProps } from '../elements/get-paragraph';
-import type { Props as LinkProps } from '../elements/get-link';
-import { getColumn, getImage, getName, getParagraph, getLink } from '../elements';
-import { fetchProfile } from '../utils';
+import type { Props as ColumnProps } from './elements/get-column';
+import type { Props as ImageProps } from './elements/get-image';
+import type { Props as NameProps } from './elements/get-name';
+import type { Props as ParagraphProps } from './elements/get-paragraph';
+import type { Props as LinkProps } from './elements/get-link';
+import { getColumn, getImage, getName, getParagraph, getLink } from './elements';
+import { fetchProfile } from './utils';
 
 interface Attrs {
 	hashedEmail: string;
@@ -51,15 +51,19 @@ document.addEventListener( 'DOMContentLoaded', () => {
 				return '';
 			}
 
-			const ch = Array.isArray( children ) ? children.filter( Boolean ) : [];
+			let filteredChildren: string[] = [];
 
-			if ( ! ch.length ) {
-				return '';
+			if ( Array.isArray( children ) ) {
+				filteredChildren = children.filter( Boolean );
+
+				if ( ! filteredChildren.length ) {
+					return '';
+				}
 			}
 
 			switch ( blockName ) {
 				case BlockNames.COLUMN:
-					return getColumn( props as ColumnProps, ch );
+					return getColumn( props as ColumnProps, filteredChildren );
 				case BlockNames.IMAGE:
 					return getImage( props as ImageProps );
 				case BlockNames.NAME:

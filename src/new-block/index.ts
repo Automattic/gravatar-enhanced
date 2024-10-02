@@ -9,7 +9,7 @@ import { __ } from '@wordpress/i18n';
  * Internal dependencies
  */
 import Edit from './edit';
-import { GravatarCardIcon } from '../components';
+import { GravatarCardIcon } from './components';
 import metadata from './block.json';
 
 const blockConfig: BlockConfiguration = {

@@ -1,10 +1,10 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "gravatar/block-link",
+	"name": "gravatar/block-column",
 	"version": "0.1.0",
-	"title": "Link",
-	"description": "The Link block of the Gravatar Card.",
+	"title": "Column",
+	"description": "The Column block of the Gravatar Card.",
 	"category": "layout",
     "parent": [],
 	"attributes": {
@@ -16,9 +16,9 @@
 			"type": "string",
 			"default": ""
 		},
-		"text": {
-			"type": "string",
-			"default": ""
+		"verticalAlignment": {
+			"type": "boolean",
+			"default": false
 		},
 		"className": {
 			"type": "string",
@@ -34,5 +34,5 @@
 		"inserter": false
     },
 	"textdomain": "gravatar-enhanced",
-    "editorScript": "file:../../block-link.js"
+    "editorScript": "file:../../../block-column.js"
 }

@@ -8,35 +8,29 @@ import clsx from 'clsx';
 /**
  * Internal dependencies
  */
-import { MaybeLink } from '../components';
+import { MaybeLink } from '../../components';
 
 export interface Attrs {
 	linkUrl?: string;
-	imageUrl: string;
-	imageWidth: number;
-	imageHeight: number;
-	imageAlt: string;
+	text: string;
 	className?: string;
+	color?: string;
 }
 
 export default function Edit( { attributes }: BlockEditProps< Attrs > ) {
-	const { linkUrl, imageUrl, imageWidth, imageHeight, imageAlt, className } = attributes;
+	const { linkUrl, text, className, color } = attributes;
 
 	const blockProps = useBlockProps();
 
 	return (
 		<MaybeLink
 			{ ...blockProps }
-			className={ clsx( 'gravatar-block-image', blockProps.className, className ) }
+			className={ clsx( 'gravatar-block-paragraph', blockProps.className, className ) }
 			linkUrl={ linkUrl }
 		>
-			<img
-				className="gravatar-block-image__image"
-				src={ imageUrl }
-				width={ imageWidth }
-				height={ imageHeight }
-				alt={ imageAlt }
-			/>
+			<p className="gravatar-block-paragraph__text" style={ { color } }>
+				{ text }
+			</p>
 		</MaybeLink>
 	);
 }

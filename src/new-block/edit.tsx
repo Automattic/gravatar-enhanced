@@ -14,13 +14,13 @@ import { sha256 } from 'js-sha256';
 /**
  * Internal dependencies
  */
-import type { Names as ElemNames } from '../utils/get-existing-blocks';
-import type { Attrs as ColumnAttrs } from '../column/edit';
-import type { Attrs as ImageAttrs } from '../image/edit';
-import type { Attrs as NameAttrs } from '../name/edit';
-import type { Attrs as ParagraphAttrs } from '../paragraph/edit';
-import type { Attrs as LinkAttrs } from '../link/edit';
-import { fetchProfile as basedFetchProfile, getExistingBlocks, validateEmail } from '../utils';
+import type { Names as ElemNames } from './utils/get-existing-blocks';
+import type { Attrs as ColumnAttrs } from './blocks/column/edit';
+import type { Attrs as ImageAttrs } from './blocks/image/edit';
+import type { Attrs as NameAttrs } from './blocks/name/edit';
+import type { Attrs as ParagraphAttrs } from './blocks/paragraph/edit';
+import type { Attrs as LinkAttrs } from './blocks/link/edit';
+import { fetchProfile as basedFetchProfile, getExistingBlocks, validateEmail } from './utils';
 
 export enum BlockNames {
 	COLUMN = 'gravatar/block-column',
@@ -171,13 +171,17 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 				return null;
 			}
 
-			const blocks = Array.isArray( innerBlocks ) ? innerBlocks.filter( Boolean ) : [];
+			let filteredBlocks: InnerBlockTemplate[] = [];
 
-			if ( ! blocks.length ) {
-				return null;
+			if ( Array.isArray( innerBlocks ) ) {
+				filteredBlocks = innerBlocks.filter( Boolean );
+
+				if ( ! filteredBlocks.length ) {
+					return null;
+				}
 			}
 
-			return [ blockName, attrs, blocks ];
+			return [ blockName, attrs, filteredBlocks ];
 		},
 		[ deletedElements ]
 	);

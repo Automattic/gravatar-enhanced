@@ -24,11 +24,11 @@ class NewBlock {
 	public function create_block_gravatar_block_block_init() {
 		$block_dir = dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/new-block';
 
-		register_block_type( $block_dir . '/main' );
-		register_block_type( $block_dir . '/column' );
-		register_block_type( $block_dir . '/image' );
-		register_block_type( $block_dir . '/name' );
-		register_block_type( $block_dir . '/paragraph' );
-		register_block_type( $block_dir . '/link' );
+		register_block_type( $block_dir . '/' );
+		register_block_type( $block_dir . '/blocks/column' );
+		register_block_type( $block_dir . '/blocks/image' );
+		register_block_type( $block_dir . '/blocks/name' );
+		register_block_type( $block_dir . '/blocks/paragraph' );
+		register_block_type( $block_dir . '/blocks/link' );
 	}
 }

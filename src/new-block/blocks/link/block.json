@@ -1,10 +1,10 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "gravatar/block-name",
+	"name": "gravatar/block-link",
 	"version": "0.1.0",
-	"title": "Name",
-	"description": "The Name block of the Gravatar Card.",
+	"title": "Link",
+	"description": "The Link block of the Gravatar Card.",
 	"category": "layout",
     "parent": [],
 	"attributes": {
@@ -34,5 +34,5 @@
 		"inserter": false
     },
 	"textdomain": "gravatar-enhanced",
-    "editorScript": "file:../../block-name.js"
+    "editorScript": "file:../../../block-link.js"
 }
