@@ -181,7 +181,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 				}
 			}
 
-			return [ blockName, attrs, filteredBlocks ];
+			return [ blockName, { name: elemName, ...attrs }, filteredBlocks ];
 		},
 		[ deletedElements ]
 	);
