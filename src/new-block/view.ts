@@ -140,20 +140,17 @@ document.addEventListener( 'DOMContentLoaded', () => {
 				},
 				...verified_accounts,
 			];
-			const verifiedAccounts = verified_accounts
-				.map(
-					( { url, service_type, service_icon, service_label, is_hidden } ) =>
-						! is_hidden &&
-						getElement( BlockNames.IMAGE, service_type, {
-							linkUrl: url,
-							imageUrl: service_icon,
-							imageWidth: 32,
-							imageHeight: 32,
-							imageAlt: service_label,
-						} )
-				)
-				.filter( Boolean )
-				.join( '' );
+			const verifiedAccounts = verified_accounts.map(
+				( { url, service_type, service_icon, service_label, is_hidden } ) =>
+					! is_hidden &&
+					getElement( BlockNames.IMAGE, service_type, {
+						linkUrl: url,
+						imageUrl: service_icon,
+						imageWidth: 32,
+						imageHeight: 32,
+						imageAlt: service_label,
+					} )
+			);
 
 			const viewProfile =
 				profile_url &&
