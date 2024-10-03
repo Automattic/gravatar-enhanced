@@ -15,7 +15,7 @@ import metadata from './block.json';
 const blockConfig: BlockConfiguration = {
 	...metadata,
 	icon: GravatarCardIcon,
-	title: __( 'Gravatar Card', 'gravatar-enhanced' ),
+	title: __( 'Gravatar Profile', 'gravatar-enhanced' ),
 	description: __( 'Display user information directly from Gravatar Public Profiles.', 'gravatar-enhanced' ),
 	keywords: [
 		__( 'gravatar', 'gravatar-enhanced' ),

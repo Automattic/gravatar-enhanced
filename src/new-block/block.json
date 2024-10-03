@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "gravatar/new-block",
 	"version": "0.1.0",
-	"title": "Gravatar Card",
+	"title": "Gravatar Profile",
 	"description": "Display user information directly from Gravatar Public Profiles.",
 	"category": "widgets",
 	"keywords": [
