@@ -181,6 +181,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 				}
 			}
 
+			// Give the block a unique name for the deleted elements to work.
 			return [ blockName, { name: elemName, ...attrs }, filteredBlocks ];
 		},
 		[ deletedElements ]

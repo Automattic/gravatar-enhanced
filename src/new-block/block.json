@@ -36,9 +36,10 @@
 		}
     },
 	"textdomain": "gravatar-enhanced",
-	"editorScript": "file:../new-block.js",
-	"editorStyle": "file:../style-block-edit.css",
 	"render": "file:./render.php",
-	"viewScript": "file:../new-block-view.js",
-	"viewStyle": "file:../style-block-view.css"
+	"editorScript": "file:../new-block.js",
+	"viewStyle": "file:../style-block-view.css",
+	"style": "file:../style-block-shared.css",
+	"editorStyle": "file:../style-block-edit.css",
+	"viewScript": "file:../new-block-view.js"
 }
