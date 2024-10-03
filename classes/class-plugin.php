@@ -119,11 +119,8 @@ class Plugin {
 		$this->discussions->init();
 		$this->analytics->init();
 		$this->block->init();
-<<<<<<< HEAD
 		$this->new_block->init();
-=======
 		$this->wc_my_account->init();
->>>>>>> trunk
 	}
 
 	/**
