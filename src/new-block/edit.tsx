@@ -218,7 +218,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 			display_name &&
 			getBlockTempate( BlockNames.NAME, KnownElemNames.DISPLAY_NAME, {
 				text: display_name,
-				className: 'gravatar-block-text-truncate-2-lines',
+				className: 'gravatar-text-truncate-2-lines',
 				color: '#101517',
 			} );
 
@@ -232,7 +232,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 		const location =
 			loc &&
 			getBlockTempate( BlockNames.PARAGRAPH, KnownElemNames.LOCATION, {
-				className: 'gravatar-block-text-truncate-1-line',
+				className: 'gravatar-text-truncate-1-line',
 				text: loc,
 				color: '#50575E',
 			} );
@@ -241,7 +241,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 			desc &&
 			getBlockTempate( BlockNames.PARAGRAPH, KnownElemNames.DESCRIPTION, {
 				text: desc,
-				className: 'gravatar-block-text-truncate-2-lines',
+				className: 'gravatar-text-truncate-2-lines',
 				color: '#101517',
 			} );
 
@@ -255,19 +255,17 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 			},
 			...verified_accounts,
 		];
-		const verifiedAccounts = verified_accounts
-			.map(
-				( { url, service_type, service_icon, service_label, is_hidden } ) =>
-					! is_hidden &&
-					getBlockTempate( BlockNames.IMAGE, service_type, {
-						linkUrl: url,
-						imageUrl: service_icon,
-						imageWidth: 32,
-						imageHeight: 32,
-						imageAlt: service_label,
-					} )
-			)
-			.filter( Boolean );
+		const verifiedAccounts = verified_accounts.map(
+			( { url, service_type, service_icon, service_label, is_hidden } ) =>
+				! is_hidden &&
+				getBlockTempate( BlockNames.IMAGE, service_type, {
+					linkUrl: url,
+					imageUrl: service_icon,
+					imageWidth: 32,
+					imageHeight: 32,
+					imageAlt: service_label,
+				} )
+		);
 
 		const viewProfile =
 			profile_url &&

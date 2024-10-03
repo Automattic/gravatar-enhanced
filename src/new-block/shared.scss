@@ -12,11 +12,11 @@ $color-blue: #3858E9;
     text-overflow: ellipsis;
 }
 
-.gravatar-block-text-truncate-1-line {
+.gravatar-text-truncate-1-line {
     @include text-truncate( 1 );
 }
 
-.gravatar-block-text-truncate-2-lines {
+.gravatar-text-truncate-2-lines {
     @include text-truncate( 2 );
 }
 

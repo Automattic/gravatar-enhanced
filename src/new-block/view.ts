@@ -108,7 +108,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 				display_name &&
 				getElement( BlockNames.NAME, KnownElemNames.DISPLAY_NAME, {
 					text: display_name,
-					className: 'gravatar-block-text-truncate-2-lines',
+					className: 'gravatar-text-truncate-2-lines',
 					color: '#101517',
 				} );
 
@@ -122,7 +122,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 			const location =
 				loc &&
 				getElement( BlockNames.PARAGRAPH, KnownElemNames.LOCATION, {
-					className: 'gravatar-block-text-truncate-1-line',
+					className: 'gravatar-text-truncate-1-line',
 					text: loc,
 					color: '#50575E',
 				} );
@@ -131,7 +131,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 				desc &&
 				getElement( BlockNames.PARAGRAPH, KnownElemNames.DESCRIPTION, {
 					text: desc,
-					className: 'gravatar-block-text-truncate-2-lines',
+					className: 'gravatar-text-truncate-2-lines',
 					color: '#101517',
 				} );
 
