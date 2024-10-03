@@ -19,6 +19,7 @@ const config = {
 		'style-block-view': './src/new-block/view.scss',
 		hovercards: './src/hovercards',
 		discussion: './src/discussion',
+		'wc-my-account': './src/woocommerce/my-account.ts',
 	},
 };
 

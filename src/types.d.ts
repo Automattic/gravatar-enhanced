@@ -46,6 +46,7 @@ declare global {
 	}
 
 	var geQuickEditor: QuickEditor;
+	var geWcMyAccount: QuickEditor;
 	var gravatar: {
 		recordTrackEvent: ( name: string, options?: any ) => void;
 	};
