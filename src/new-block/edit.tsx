@@ -311,7 +311,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 	}, [ getBlockTempate, profileData ] );
 	/* eslint-enable camelcase */
 
-	// Update inner blocks when the profile data changes.
+	// Update inner blocks when the template changes.
 	useEffect( () => {
 		replaceInnerBlocks( clientId, createBlocksFromInnerBlocksTemplate( getTemplate() ) );
 	}, [ clientId, getTemplate, replaceInnerBlocks ] );
