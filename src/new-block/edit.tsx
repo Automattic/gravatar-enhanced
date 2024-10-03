@@ -229,7 +229,12 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 			com && getBlockTempate( BlockNames.PARAGRAPH, KnownElemNames.COMPANY, { text: com, color: '#50575E' } );
 
 		const location =
-			loc && getBlockTempate( BlockNames.PARAGRAPH, KnownElemNames.LOCATION, { text: loc, color: '#50575E' } );
+			loc &&
+			getBlockTempate( BlockNames.PARAGRAPH, KnownElemNames.LOCATION, {
+				className: 'gravatar-block-text-truncate-1-line',
+				text: loc,
+				color: '#50575E',
+			} );
 
 		const description =
 			desc &&

@@ -120,7 +120,12 @@ document.addEventListener( 'DOMContentLoaded', () => {
 				com && getElement( BlockNames.PARAGRAPH, KnownElemNames.COMPANY, { text: com, color: '#50575E' } );
 
 			const location =
-				loc && getElement( BlockNames.PARAGRAPH, KnownElemNames.LOCATION, { text: loc, color: '#50575E' } );
+				loc &&
+				getElement( BlockNames.PARAGRAPH, KnownElemNames.LOCATION, {
+					className: 'gravatar-block-text-truncate-1-line',
+					text: loc,
+					color: '#50575E',
+				} );
 
 			const description =
 				desc &&
