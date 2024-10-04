@@ -75,7 +75,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 	const [ apiStatus, setApiStatus ] = useState< ApiStatus >( 'loading' );
 	const [ errorMsg, setErrorMsg ] = useState( '' );
 	const prevExistingBlocksRef = useRef< ElemNames >( null );
-	// To avoid the get template related functions to be re-created on every render.
+	// Avoid get template related functions to be re-created on every render.
 	const deletedElementsRef = useRef( deletedElements );
 	deletedElementsRef.current = deletedElements;
 
