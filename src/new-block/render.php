@@ -4,11 +4,10 @@ $data = wp_json_encode( [
     'hashedEmail' => hash( 'sha256', $sanitized_email ),
     'deletedElements' => $attributes['deletedElements'],
 ] );
+$class = 'gravatar-block' . ( isset( $attributes['textColor'] ) ? ' gravatar-block--custom-text-color' : '' );
+$attrs = get_block_wrapper_attributes( [
+    'class' => $class,
+    'data-attrs' => $data,
+] );
 ?>
-<div <?php echo get_block_wrapper_attributes(); ?>>
-    <div
-        class="gravatar-block"
-        style="border-radius: 2px; background-color: #FFF; color: '#101517';"
-        data-attrs="<?php echo esc_attr( $data ); ?>"
-    ></div>
-</div>
+<div <?php echo $attrs; ?>></div>

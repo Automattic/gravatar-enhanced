@@ -15,11 +15,10 @@ export type Attrs = Partial< {
 	linkUrl: string;
 	verticalAlignment: boolean;
 	className: string;
-	color: string;
 } >;
 
 export default function Edit( { attributes, clientId }: BlockEditProps< Attrs > ) {
-	const { linkUrl, verticalAlignment, className, color } = attributes;
+	const { linkUrl, verticalAlignment, className } = attributes;
 
 	const blockProps = useBlockProps();
 
@@ -41,7 +40,6 @@ export default function Edit( { attributes, clientId }: BlockEditProps< Attrs > 
 				blockProps.className,
 				className
 			) }
-			style={ { color } }
 			linkUrl={ linkUrl }
 		>
 			<InnerBlocks allowedBlocks={ [] } template={ template } />

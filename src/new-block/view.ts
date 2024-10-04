@@ -96,43 +96,47 @@ document.addEventListener( 'DOMContentLoaded', () => {
 			const avatar =
 				avatar_url &&
 				getElement( BlockNames.IMAGE, KnownElemNames.AVATAR, {
+					className: 'gravatar-block-image--avatar',
 					linkUrl: profile_url,
 					imageUrl: avatar_url,
 					imageWidth: 72,
 					imageHeight: 72,
 					imageAlt: avatar_alt_text || display_name,
-					className: 'gravatar-block-image--avatar',
 				} );
 
 			const displayName =
 				display_name &&
 				getElement( BlockNames.NAME, KnownElemNames.DISPLAY_NAME, {
-					text: display_name,
 					className: 'gravatar-text-truncate-2-lines',
-					color: '#101517',
+					text: display_name,
 				} );
 
 			const jobTitle =
 				job_title &&
-				getElement( BlockNames.PARAGRAPH, KnownElemNames.JOB, { text: job_title, color: '#50575E' } );
+				getElement( BlockNames.PARAGRAPH, KnownElemNames.JOB, {
+					className: 'gravatar-block-paragraph--job',
+					text: job_title,
+				} );
 
 			const company =
-				com && getElement( BlockNames.PARAGRAPH, KnownElemNames.COMPANY, { text: com, color: '#50575E' } );
+				com &&
+				getElement( BlockNames.PARAGRAPH, KnownElemNames.COMPANY, {
+					className: 'gravatar-block-paragraph--company',
+					text: com,
+				} );
 
 			const location =
 				loc &&
 				getElement( BlockNames.PARAGRAPH, KnownElemNames.LOCATION, {
-					className: 'gravatar-text-truncate-1-line',
+					className: 'gravatar-block-paragraph--location gravatar-text-truncate-1-line',
 					text: loc,
-					color: '#50575E',
 				} );
 
 			const description =
 				desc &&
 				getElement( BlockNames.PARAGRAPH, KnownElemNames.DESCRIPTION, {
-					text: desc,
 					className: 'gravatar-text-truncate-2-lines',
-					color: '#101517',
+					text: desc,
 				} );
 
 			verified_accounts = [
@@ -160,10 +164,9 @@ document.addEventListener( 'DOMContentLoaded', () => {
 			const viewProfile =
 				profile_url &&
 				getElement( BlockNames.LINK, KnownElemNames.VIEW_PROFILE, {
+					className: 'gravatar-block-link--align-right',
 					linkUrl: profile_url,
 					text: __( 'View profile', 'gravatar-enhanced' ),
-					className: 'gravatar-block-link--align-right',
-					color: '#50575E',
 				} );
 
 			return `

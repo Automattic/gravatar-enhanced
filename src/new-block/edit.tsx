@@ -10,6 +10,7 @@ import { useEffect, useState, useRef, useCallback } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import _debounce from 'lodash.debounce';
 import { sha256 } from 'js-sha256';
+import clsx from 'clsx';
 
 /**
  * Internal dependencies
@@ -78,6 +79,8 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 	// Avoid get template related functions to be re-created on every render.
 	const deletedElementsRef = useRef( deletedElements );
 	deletedElementsRef.current = deletedElements;
+
+	const blockProps = useBlockProps();
 
 	const authorEmail = useSelect( ( select: SelectFn ) => {
 		const postType = select( 'core/editor' ).getCurrentPostType();
@@ -181,43 +184,47 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 			const avatar =
 				avatar_url &&
 				getBlockTempate( BlockNames.IMAGE, KnownElemNames.AVATAR, {
+					className: 'gravatar-block-image--avatar',
 					linkUrl: profile_url,
 					imageUrl: avatar_url,
 					imageWidth: 72,
 					imageHeight: 72,
 					imageAlt: avatar_alt_text || display_name,
-					className: 'gravatar-block-image--avatar',
 				} );
 
 			const displayName =
 				display_name &&
 				getBlockTempate( BlockNames.NAME, KnownElemNames.DISPLAY_NAME, {
-					text: display_name,
 					className: 'gravatar-text-truncate-2-lines',
-					color: '#101517',
+					text: display_name,
 				} );
 
 			const jobTitle =
 				job_title &&
-				getBlockTempate( BlockNames.PARAGRAPH, KnownElemNames.JOB, { text: job_title, color: '#50575E' } );
+				getBlockTempate( BlockNames.PARAGRAPH, KnownElemNames.JOB, {
+					className: 'gravatar-block-paragraph--job',
+					text: job_title,
+				} );
 
 			const company =
-				com && getBlockTempate( BlockNames.PARAGRAPH, KnownElemNames.COMPANY, { text: com, color: '#50575E' } );
+				com &&
+				getBlockTempate( BlockNames.PARAGRAPH, KnownElemNames.COMPANY, {
+					className: 'gravatar-block-paragraph--company',
+					text: com,
+				} );
 
 			const location =
 				loc &&
 				getBlockTempate( BlockNames.PARAGRAPH, KnownElemNames.LOCATION, {
-					className: 'gravatar-text-truncate-1-line',
+					className: 'gravatar-block-paragraph--location gravatar-text-truncate-1-line',
 					text: loc,
-					color: '#50575E',
 				} );
 
 			const description =
 				desc &&
 				getBlockTempate( BlockNames.PARAGRAPH, KnownElemNames.DESCRIPTION, {
-					text: desc,
 					className: 'gravatar-text-truncate-2-lines',
-					color: '#101517',
+					text: desc,
 				} );
 
 			verified_accounts = [
@@ -245,10 +252,9 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 			const viewProfile =
 				profile_url &&
 				getBlockTempate( BlockNames.LINK, KnownElemNames.VIEW_PROFILE, {
+					className: 'gravatar-block-link--align-right',
 					linkUrl: profile_url,
 					text: __( 'View profile', 'gravatar-enhanced' ),
-					className: 'gravatar-block-link--align-right',
-					color: '#50575E',
 				} );
 
 			return [
@@ -374,12 +380,15 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 					) }
 				</PanelBody>
 			</InspectorControls>
-			<div { ...useBlockProps() }>
-				<div className="gravatar-block" style={ { borderRadius: '2px', backgroundColor: '#FFF' } }>
-					{ apiStatus === 'loading' && <div>{ __( 'Loading…', 'gravatar-enhanced' ) }</div> }
-					{ apiStatus === 'error' && <div>{ errorMsg }</div> }
-					{ apiStatus === 'success' && <InnerBlocks allowedBlocks={ [] } renderAppender={ undefined } /> }
-				</div>
+			<div
+				{ ...blockProps }
+				className={ clsx( 'gravatar-block', blockProps.className, {
+					'gravatar-block--custom-text-color': !! blockProps.style.color,
+				} ) }
+			>
+				{ apiStatus === 'loading' && <div>{ __( 'Loading…', 'gravatar-enhanced' ) }</div> }
+				{ apiStatus === 'error' && <div>{ errorMsg }</div> }
+				{ apiStatus === 'success' && <InnerBlocks allowedBlocks={ [] } renderAppender={ undefined } /> }
 			</div>
 		</>
 	);

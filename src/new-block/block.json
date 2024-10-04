@@ -30,9 +30,12 @@
 	},
 	"supports": {
         "html": false,
+		"color": {
+			"text": true,
+			"background": true
+		},
 		"spacing": {
-			"margin": true,
-			"padding": true
+			"margin": true
 		}
     },
 	"textdomain": "gravatar-enhanced",

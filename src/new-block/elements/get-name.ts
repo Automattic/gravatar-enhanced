@@ -11,12 +11,10 @@ import { getMaybeLink } from '.';
 
 export type Props = Attrs;
 
-export default function getName( { linkUrl, text, className, color }: Props ): string {
-	const style = color ? `style="color: ${ color };"` : '';
-
+export default function getName( { linkUrl, text, className }: Props ): string {
 	return getMaybeLink( {
 		linkUrl,
 		class: clsx( 'gravatar-block-name', className ),
-		children: `<h4 class="gravatar-block-name__text" ${ style }>${ text }</h4>`,
+		children: `<h4 class="gravatar-block-name__text">${ text }</h4>`,
 	} );
 }

@@ -11,10 +11,7 @@ import { getMaybeLink } from '.';
 
 export type Props = Attrs;
 
-export default function getColumn(
-	{ linkUrl, verticalAlignment, className, color }: Props,
-	children: string[]
-): string {
+export default function getColumn( { linkUrl, verticalAlignment, className }: Props, children: string[] ): string {
 	return getMaybeLink( {
 		linkUrl,
 		class: clsx(
@@ -22,7 +19,6 @@ export default function getColumn(
 			{ 'gravatar-block-column--vertical-alignment': verticalAlignment },
 			className
 		),
-		style: `color: ${ color };`,
 		children,
 	} );
 }
