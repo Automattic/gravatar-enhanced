@@ -1,11 +1,11 @@
-=== Gravatar Enhanced ===
+=== Gravatar Enhanced - Avatars, Profiles, and Privacy ===
 Contributors: automattic, batmoo, johnny5, aaronfc
 Tags: avatar, profile, privacy, comments, profile picture
 Tested up to: 6.6
-Stable tag: 0.3.2
+Stable tag: 0.4.0
 License: GPLv2
 
-Profile Block, Better Comments, and Privacy.
+The official Gravatar plugin, featuring privacy-focused settings, easy profile updates, and customizable Gravatar Profile blocks.
 
 == Description ==
 
@@ -88,7 +88,8 @@ A: It sends a single, polite email to commenters without Gravatars, inviting the
 == Changelog ==
 
 = 0.4.0 =
-* New Feature: Added integration with WooCommerce My Account page.
+* New feature: integration with WooCommerce on My Account page
+* New feature: show avatar on WooCommerce customers page
 
 = 0.3.2 =
 * Hide verified accounts that are set to hide from Gravatar hovercards
