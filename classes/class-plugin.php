@@ -10,6 +10,7 @@ require_once __DIR__ . '/proxy/class-proxy.php';
 require_once __DIR__ . '/quick-editor/class-quick-editor.php';
 require_once __DIR__ . '/analytics/class-analytics.php';
 require_once __DIR__ . '/block/class-block.php';
+require_once __DIR__ . '/woocommerce/class-admin-customers.php';
 require_once __DIR__ . '/woocommerce/class-my-account.php';
 
 class Plugin {
@@ -67,6 +68,11 @@ class Plugin {
 	private $discussions;
 
 	/**
+	 * @var Woocommerce\AdminCustomers
+	 */
+	private $wc_admin_customers;
+
+	/**
 	 * @var Woocommerce\MyAccount
 	 */
 	private $wc_my_account;
@@ -90,6 +96,7 @@ class Plugin {
 		$this->quick_editor = new QuickEditor\QuickEditor();
 		$this->analytics = new Analytics\Analytics( new Analytics\Preferences( $this->auto_options ) );
 		$this->block = new Block\Block();
+		$this->wc_admin_customers = new Woocommerce\AdminCustomers();
 		$this->wc_my_account = new Woocommerce\MyAccount();
 
 		// Ensure the options always exist. We don't need data saved in it as this is provided by the defaults
@@ -112,6 +119,7 @@ class Plugin {
 		$this->discussions->init();
 		$this->analytics->init();
 		$this->block->init();
+		$this->wc_admin_customers->init();
 		$this->wc_my_account->init();
 	}
 
