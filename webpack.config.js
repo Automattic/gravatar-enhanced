@@ -20,6 +20,7 @@ const config = {
 		hovercards: './src/hovercards',
 		discussion: './src/discussion',
 		'wc-my-account': './src/woocommerce/my-account.ts',
+		'wc-admin-customers': './src/woocommerce/admin-customers.ts',
 	},
 };
 
