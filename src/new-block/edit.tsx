@@ -102,12 +102,21 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 		return users.map( ( { name, nickname, email } ) => ( { label: `${ name } (${ nickname })`, value: email } ) );
 	}, [] );
 
-	// When the block is created, set the default email to the author's email.
+	// When the block is created, set the `userType` and `userEmail` based on the available data.
 	useEffect( () => {
-		if ( userType === UserTypes.AUTHOR && ! userEmail ) {
-			setAttributes( { userEmail: authorEmail } );
+		if ( userType || userEmail ) {
+			return;
 		}
-	}, [ authorEmail, setAttributes, userEmail, userType ] );
+
+		if ( authorEmail ) {
+			setAttributes( { userType: UserTypes.AUTHOR, userEmail: authorEmail } );
+		}
+		// When first time to edit a FSE's template, the authorEmail is not available.
+		// So, we set the first user's email as the default email.
+		else if ( userNameOptions.length ) {
+			setAttributes( { userType: UserTypes.USER, userEmail: userNameOptions[ 0 ].value } );
+		}
+	}, [ authorEmail, setAttributes, userEmail, userNameOptions, userType ] );
 
 	// Set the deleted elements when the inner blocks change.
 	useSelect(
