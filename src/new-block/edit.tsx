@@ -111,8 +111,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 		if ( authorEmail ) {
 			setAttributes( { userType: UserTypes.AUTHOR, userEmail: authorEmail } );
 		}
-		// When first time to edit a FSE's template, the authorEmail is not available.
-		// So, we set the first user's email as the default email.
+		// When first time to edit a FSE's template, the `authorEmail` is not available. Use the first user's email as a fallback.
 		else if ( userNameOptions.length ) {
 			setAttributes( { userType: UserTypes.USER, userEmail: userNameOptions[ 0 ].value } );
 		}
