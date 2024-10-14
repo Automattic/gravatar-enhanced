@@ -32,7 +32,8 @@
         "html": false,
 		"color": {
 			"text": true,
-			"background": true
+			"background": true,
+			"gradients": true
 		},
 		"spacing": {
 			"margin": true
