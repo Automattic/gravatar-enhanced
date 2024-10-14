@@ -126,7 +126,8 @@ class Plugin {
 		$this->discussions->init();
 		$this->analytics->init();
 		$this->block->init();
-		$this->new_block->init();
+		// TODO: We will replace the block with the new block before the release.
+		// $this->new_block->init();
 		$this->wc_admin_customers->init();
 		$this->wc_my_account->init();
 	}
