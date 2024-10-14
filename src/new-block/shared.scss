@@ -32,6 +32,7 @@ $color-gray: #50575E;
     border-radius: 4px;
     box-sizing: border-box;
     background-color: $color-white;
+    min-width: 400px;
 
     &,
     h4 {
