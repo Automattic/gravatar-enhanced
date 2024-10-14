@@ -38,9 +38,9 @@
 		}
 	},
 	"supports": {
-        "html": false,
+		"html": false,
 		"inserter": false
-    },
+	},
 	"textdomain": "gravatar-enhanced",
     "editorScript": "file:../../../block-image.js"
 }
