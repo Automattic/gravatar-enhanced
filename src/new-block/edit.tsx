@@ -121,15 +121,15 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 			const currExistingBlocks = getExistingBlocks( innerBlocks );
 
 			if ( prevExistingBlocksRef.current?.length > currExistingBlocks.length ) {
-				const newDeletedElements = { ...deletedElements };
+				const nextDeletedElements = { ...deletedElements };
 
 				prevExistingBlocksRef.current.forEach( ( name ) => {
 					if ( ! currExistingBlocks.includes( name ) ) {
-						newDeletedElements[ name ] = true;
+						nextDeletedElements[ name ] = true;
 					}
 				} );
 
-				setAttributes( { deletedElements: newDeletedElements } );
+				setAttributes( { deletedElements: nextDeletedElements } );
 			}
 
 			prevExistingBlocksRef.current = currExistingBlocks;
