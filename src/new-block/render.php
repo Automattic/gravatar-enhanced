@@ -1,5 +1,6 @@
 <?php
-$sanitized_email = sanitize_email( $attributes['userEmail'] ) ?: '';
+$user_email = strtolower( trim( $attributes['userEmail'] ) );
+$sanitized_email = sanitize_email( $user_email ) ?: '';
 $data = wp_json_encode( [
     'hashedEmail' => hash( 'sha256', $sanitized_email ),
     'deletedElements' => $attributes['deletedElements'],
