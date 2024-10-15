@@ -17,7 +17,7 @@
 	"attributes": {
 		"userType": {
 			"type": "string",
-			"default": ""
+			"default": "author"
 		},
 		"userEmail": {
 			"type": "string",

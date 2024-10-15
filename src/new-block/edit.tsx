@@ -102,19 +102,21 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 		return users.map( ( { name, nickname, email } ) => ( { label: `${ name } (${ nickname })`, value: email } ) );
 	}, [] );
 
+	const isEditingTemplate = useSelect( ( select: SelectFn ) => select( 'core/edit-site' )?.isPage() === false, [] );
+
 	// When the block is created, set the `userType` and `userEmail` based on the available data.
 	useEffect( () => {
-		if ( userType || userEmail ) {
+		if ( userType === UserTypes.EMAIL || userEmail ) {
 			return;
 		}
 
-		if ( authorEmail ) {
-			setAttributes( { userType: UserTypes.AUTHOR, userEmail: authorEmail } );
-		} else {
-			// When first time to edit a FSE's template, the `authorEmail` is not available. Use the first user's email as a fallback.
+		// When first time to edit a template, the `authorEmail` is not available. Use the first user's email as a fallback.
+		if ( isEditingTemplate && userType === UserTypes.AUTHOR ) {
 			setAttributes( { userType: UserTypes.USER, userEmail: userNameOptions[ 0 ]?.value || '' } );
+		} else {
+			setAttributes( { userEmail: authorEmail } );
 		}
-	}, [ authorEmail, setAttributes, userEmail, userNameOptions, userType ] );
+	}, [ authorEmail, isEditingTemplate, setAttributes, userEmail, userNameOptions, userType ] );
 
 	// Set the deleted elements when the inner blocks change.
 	useSelect(
