@@ -1,7 +1,7 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "gravatar/new-block",
+	"name": "gravatar/block",
 	"version": "0.2.0",
 	"title": "Gravatar Profile",
 	"description": "Display user information directly from Gravatar Public Profiles.",

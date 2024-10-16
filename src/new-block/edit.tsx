@@ -96,11 +96,27 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 		{ label: __( 'Custom email', 'gravatar-enhanced' ), value: UserTypes.EMAIL },
 	];
 
-	const userNameOptions = useSelect( ( select: SelectFn ) => {
-		const users = select( 'core' ).getUsers() || [];
+	const users = useSelect( ( select: SelectFn ) => select( 'core' ).getUsers() || [], [] );
 
-		return users.map( ( { name, nickname, email } ) => ( { label: `${ name } (${ nickname })`, value: email } ) );
-	}, [] );
+	const userNameOptions = users.map( ( { name, nickname, email } ) => ( {
+		label: `${ name } (${ nickname })`,
+		value: email,
+	} ) );
+
+	// In the v0.1.0 migration, `userValue` is converted to `userEmail`.
+	// It handles both cases where userValue could be an email or a user ID.
+	useEffect( () => {
+		if ( isNaN( Number( userEmail ) ) ) {
+			return;
+		}
+
+		const { email } = users.find( ( { id } ) => id === Number( userEmail ) ) || {};
+
+		if ( email ) {
+			setAttributes( { userEmail: email } );
+			setEmailInputVal( email );
+		}
+	}, [ setAttributes, userEmail, users ] );
 
 	const isEditingTemplate = useSelect( ( select: SelectFn ) => select( 'core/edit-site' )?.isPage() === false, [] );
 
