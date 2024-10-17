@@ -95,6 +95,8 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 		return users.map( ( { name, nickname, email } ) => ( { label: `${ name } (${ nickname })`, value: email } ) );
 	}, [] );
 
+	const firstUserEmail = userNameOptions[ 0 ]?.value || '';
+
 	const isEditingTemplate = useSelect( ( select: SelectFn ) => select( 'core/edit-site' )?.isPage() === false, [] );
 
 	// When the block is created, set the `userType` and `userEmail` based on the available data.
@@ -105,11 +107,11 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 
 		// When first time to edit a template, the `authorEmail` is not available. Use the first user's email as a fallback.
 		if ( isEditingTemplate && userType === UserTypes.AUTHOR ) {
-			setAttributes( { userType: UserTypes.USER, userEmail: userNameOptions[ 0 ]?.value || '' } );
+			setAttributes( { userType: UserTypes.USER, userEmail: firstUserEmail } );
 		} else {
 			setAttributes( { userEmail: authorEmail } );
 		}
-	}, [ authorEmail, isEditingTemplate, setAttributes, userEmail, userNameOptions, userType ] );
+	}, [ authorEmail, firstUserEmail, isEditingTemplate, setAttributes, userEmail, userType ] );
 
 	// Set the deleted elements when the inner blocks change.
 	useSelect(
@@ -339,7 +341,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 			email = authorEmail;
 		}
 		if ( type === UserTypes.USER ) {
-			email = userNameOptions[ 0 ]?.value || '';
+			email = firstUserEmail;
 		}
 
 		setAttributes( { userType: type, userEmail: email } );
