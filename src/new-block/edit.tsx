@@ -1,6 +1,3 @@
-/**
- * External dependencies
- */
 import type { BlockEditProps, InnerBlockTemplate } from '@wordpress/blocks';
 import { createBlocksFromInnerBlocksTemplate } from '@wordpress/blocks';
 import { InspectorControls, InnerBlocks, useBlockProps } from '@wordpress/block-editor';
@@ -11,10 +8,6 @@ import { __ } from '@wordpress/i18n';
 import _debounce from 'lodash.debounce';
 import { sha256 } from 'js-sha256';
 import clsx from 'clsx';
-
-/**
- * Internal dependencies
- */
 import type { Names as ElemNames } from './utils/get-existing-blocks';
 import type { Attrs as ColumnAttrs } from './blocks/column/edit';
 import type { Attrs as ImageAttrs } from './blocks/image/edit';

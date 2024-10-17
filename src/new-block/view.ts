@@ -1,11 +1,4 @@
-/**
- * External dependencies
- */
 import { __ } from '@wordpress/i18n';
-
-/**
- * Internal dependencies
- */
 import type { Attrs as EditAttrs, InnerBlockAttrsMap as PropsMap } from './edit';
 import { BlockNames, KnownElemNames } from './edit';
 import type { Props as ColumnProps } from './elements/get-column';

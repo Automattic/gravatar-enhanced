@@ -1,11 +1,4 @@
-/**
- * External dependencies
- */
 import type { BlockInstance } from '@wordpress/blocks';
-
-/**
- * Internal dependencies
- */
 import { BlockNames } from '../edit';
 
 export type Names = string[];

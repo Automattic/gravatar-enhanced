@@ -1,11 +1,4 @@
-/**
- * External dependencies
- */
 import clsx from 'clsx';
-
-/**
- * Internal dependencies
- */
 import type { Attrs } from '../blocks/paragraph/edit';
 import { getMaybeLink } from '.';
 
