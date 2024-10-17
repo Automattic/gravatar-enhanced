@@ -16,6 +16,9 @@ import type { Attrs as ParagraphAttrs } from './blocks/paragraph/edit';
 import type { Attrs as LinkAttrs } from './blocks/link/edit';
 import { fetchProfile as basedFetchProfile, getExistingBlocks, validateEmail } from './utils';
 
+import './shared.scss';
+import './edit.scss';
+
 export enum BlockNames {
 	COLUMN = 'gravatar/block-column',
 	IMAGE = 'gravatar/block-image',
