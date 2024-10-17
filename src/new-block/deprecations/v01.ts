@@ -1,6 +1,3 @@
-/**
- * External dependencies
- */
 import type { BlockDeprecation } from '@wordpress/blocks';
 
 interface NewAttrs {
