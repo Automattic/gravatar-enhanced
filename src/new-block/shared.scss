@@ -23,7 +23,7 @@ $color-gray: #50575E;
     @include text-truncate( 2 );
 }
 
-.gravatar-block {
+div.gravatar-block {
     font-family: $font;
     font-size: 14px;
     line-height: 1.5;
@@ -35,7 +35,8 @@ $color-gray: #50575E;
     min-width: 400px;
 
     &,
-    h4 {
+    h4,
+    p {
         color: $color-black;
     }
 
@@ -49,71 +50,79 @@ $color-gray: #50575E;
     }
 
     a {
-        text-decoration: none;
+        /* We're using non-underlined links, so using `!important` here to override themes' default styles. */
+        text-decoration: none !important;
     }
-}
 
-.gravatar-block-column {
-    &.gravatar-block-column--comma-separated .gravatar-block-paragraph {
-        display: flex;
+    img {
+        padding: 0; /* Override themes' default styles. */
+        border: none; /* Override themes' default styles. */
+        box-shadow: none; /* Override themes' default styles. */
+    }
 
-        &:not(:first-of-type)::before {
-            content: " · ";
-            white-space: pre;
+    .gravatar-block-column {
+        &.gravatar-block-column--comma-separated .gravatar-block-paragraph {
+            display: flex;
+    
+            &:not(:first-of-type)::before {
+                content: " · ";
+                white-space: pre;
+            }
+    
+            .gravatar-block-paragraph__text {
+                @include text-truncate( 1 );
+            }
         }
+    }
 
-        .gravatar-block-paragraph__text {
-            @include text-truncate( 1 );
+    .gravatar-block-image {
+        display: flex; /* Fix the extra bottom padding issue. */
+
+        &.gravatar-block-image--avatar .gravatar-block-image__image {
+            max-width: 72px; /* Override themes' default styles. */
+            border-radius: 50%;
         }
     }
-}
 
-.gravatar-block-image {
-    /* Fix the extra bottom padding issue. */
-    display: flex;
-
-    &.gravatar-block-image--avatar .gravatar-block-image__image {
-        border-radius: 50%;
+    .gravatar-block-name {
+        word-break: break-word;
+    
+        .gravatar-block-name__text {
+            font-size: 18px;
+            line-height: normal;
+            font-weight: 700;
+        }
     }
-}
 
-.gravatar-block-name {
-    word-break: break-word;
-
-    .gravatar-block-name__text {
-        font-size: 18px;
-        line-height: normal;
-        font-weight: 700;
+    .gravatar-block-paragraph {
+        word-break: break-word;
+    
+        &.gravatar-block-paragraph--job .gravatar-block-paragraph__text,
+        &.gravatar-block-paragraph--company .gravatar-block-paragraph__text,
+        &.gravatar-block-paragraph--location .gravatar-block-paragraph__text {
+            color: $color-gray;
+        }
     }
-}
 
-.gravatar-block-paragraph {
-    word-break: break-word;
-
-    &.gravatar-block-paragraph--job,
-    &.gravatar-block-paragraph--company,
-    &.gravatar-block-paragraph--location {
-        color: $color-gray;
-    }
-}
-
-.gravatar-block-link {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    color: $color-gray;
-
-    &.gravatar-block-link--align-right {
-        margin-left: auto;
-    }
-}
-
-.gravatar-block--custom-text-color {
-    h4,
-    .gravatar-block-paragraph--job,
-    .gravatar-block-paragraph--company,
-    .gravatar-block-paragraph--location,
     .gravatar-block-link {
-        color: unset;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        color: $color-gray;
+    
+        &.gravatar-block-link--align-right {
+            margin-left: auto;
+        }
+    }
+
+    &.gravatar-block--custom-text-color {
+        h4,
+        p,
+        .gravatar-block-paragraph--job .gravatar-block-paragraph__text,
+        .gravatar-block-paragraph--company .gravatar-block-paragraph__text,
+        .gravatar-block-paragraph--location .gravatar-block-paragraph__text,
+        .gravatar-block-link {
+            color: unset;
+        }
     }
 }

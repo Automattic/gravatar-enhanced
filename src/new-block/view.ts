@@ -9,6 +9,9 @@ import type { Props as LinkProps } from './elements/get-link';
 import { getColumn, getImage, getName, getParagraph, getLink } from './elements';
 import { fetchProfile } from './utils';
 
+import './shared.scss';
+import './view.scss';
+
 interface Attrs {
 	hashedEmail: string;
 	deletedElements: Pick< EditAttrs, 'deletedElements' >;
