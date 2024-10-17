@@ -1,6 +1,3 @@
-/**
- * Internal dependencies
- */
 import type { Props as BasedProps } from '../components/maybe-link';
 
 interface Props extends BasedProps {
@@ -14,6 +11,6 @@ export default function getMaybeLink( { linkUrl, children, ...rest }: Props ): s
 	children = Array.isArray( children ) ? children.join( '' ) : children;
 
 	return linkUrl
-		? `<a href="${ linkUrl }" ${ attrs } target="_blank" rel="noreferrer">${ children }</a>`
+		? `<a href="${ linkUrl }" ${ attrs } target="_blank">${ children }</a>`
 		: `<div ${ attrs }>${ children }</div>`;
 }

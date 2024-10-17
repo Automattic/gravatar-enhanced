@@ -1,6 +1,3 @@
-/**
- * External dependencies
- */
 import type { ReactNode } from 'react';
 
 export interface Props {
@@ -11,7 +8,8 @@ export interface Props {
 
 export default function MaybeLink( { linkUrl, children, ...restProps }: Props ) {
 	return linkUrl ? (
-		<a { ...restProps } href={ linkUrl } target="_blank" rel="noreferrer">
+		// eslint-disable-next-line react/jsx-no-target-blank
+		<a { ...restProps } href={ linkUrl } target="_blank">
 			{ children }
 		</a>
 	) : (
