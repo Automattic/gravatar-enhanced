@@ -99,22 +99,25 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 		value: email,
 	} ) );
 
+	const firstUserEmail = userNameOptions[ 0 ]?.value || '';
+
 	// In the v0.1.0 migration, `userValue` is converted to `userEmail`.
 	// It handles both cases where `userValue` could be an email or a user ID.
 	useEffect( () => {
-		if ( isNaN( Number( userEmail ) ) ) {
+		if ( userEmail === '' || isNaN( Number( userEmail ) ) || ! users.length ) {
 			return;
 		}
 
-		const { email } = users.find( ( { id } ) => id === Number( userEmail ) ) || {};
+		const userId = Number( userEmail );
+		const { email } = users.find( ( { id } ) => id === userId ) || {};
 
 		if ( email ) {
 			setAttributes( { userEmail: email } );
-			setEmailInputVal( email );
+		} else {
+			// If the user email is not found, use the first user's email as a fallback.
+			setAttributes( { userEmail: firstUserEmail } );
 		}
-	}, [ setAttributes, userEmail, users ] );
-
-	const firstUserEmail = userNameOptions[ 0 ]?.value || '';
+	}, [ firstUserEmail, setAttributes, userEmail, users ] );
 
 	const isEditingTemplate = useSelect( ( select: SelectFn ) => select( 'core/edit-site' )?.isPage() === false, [] );
 
