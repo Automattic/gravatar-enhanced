@@ -51,11 +51,10 @@ div.wp-block-gravatar-new-block.gravatar-block {
 
     a {
         text-decoration: none;
+        box-shadow: none; /* Override themes' default styles. */
     }
 
     img {
-        padding: 0; /* Override themes' default styles. */
-        border: none; /* Override themes' default styles. */
         box-shadow: none; /* Override themes' default styles. */
     }
 
