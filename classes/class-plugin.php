@@ -10,7 +10,6 @@ require_once __DIR__ . '/proxy/class-proxy.php';
 require_once __DIR__ . '/quick-editor/class-quick-editor.php';
 require_once __DIR__ . '/analytics/class-analytics.php';
 require_once __DIR__ . '/block/class-block.php';
-require_once __DIR__ . '/block/class-new-block.php';
 require_once __DIR__ . '/woocommerce/class-admin-customers.php';
 require_once __DIR__ . '/woocommerce/class-my-account.php';
 
@@ -64,11 +63,6 @@ class Plugin {
 	private $block;
 
 	/**
-	 * @var Block\NewBlock
-	 */
-	private $new_block;
-
-	/**
 	 * @var Options\DiscussionsPage
 	 */
 	private $discussions;
@@ -102,7 +96,6 @@ class Plugin {
 		$this->quick_editor = new QuickEditor\QuickEditor();
 		$this->analytics = new Analytics\Analytics( new Analytics\Preferences( $this->auto_options ) );
 		$this->block = new Block\Block();
-		$this->new_block = new Block\NewBlock();
 		$this->wc_admin_customers = new Woocommerce\AdminCustomers();
 		$this->wc_my_account = new Woocommerce\MyAccount();
 
@@ -126,8 +119,6 @@ class Plugin {
 		$this->discussions->init();
 		$this->analytics->init();
 		$this->block->init();
-		// TODO: We will replace the block with the new block before the release.
-		// $this->new_block->init();
 		$this->wc_admin_customers->init();
 		$this->wc_my_account->init();
 	}
