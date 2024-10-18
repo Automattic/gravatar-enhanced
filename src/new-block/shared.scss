@@ -23,7 +23,7 @@ $color-gray: #50575E;
     @include text-truncate( 2 );
 }
 
-div.gravatar-block {
+div.wp-block-gravatar-new-block.gravatar-block {
     font-family: $font;
     font-size: 14px;
     line-height: 1.5;
@@ -50,8 +50,7 @@ div.gravatar-block {
     }
 
     a {
-        /* We're using non-underlined links, so using `!important` here to override themes' default styles. */
-        text-decoration: none !important;
+        text-decoration: none;
     }
 
     img {
