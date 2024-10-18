@@ -23,7 +23,7 @@ $color-gray: #50575E;
     @include text-truncate( 2 );
 }
 
-div.wp-block-gravatar-new-block.gravatar-block {
+div.wp-block-gravatar-block.gravatar-block {
     font-family: $font;
     font-size: 14px;
     line-height: 1.5;

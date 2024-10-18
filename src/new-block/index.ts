@@ -3,6 +3,7 @@ import { registerBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 import Edit from './edit';
 import { GravatarCardIcon } from './components';
+import { v01 } from './deprecations';
 import metadata from './block.json';
 
 const blockConfig: BlockConfiguration = {
@@ -18,6 +19,7 @@ const blockConfig: BlockConfiguration = {
 		__( 'avatar', 'gravatar-enhanced' ),
 		__( 'card', 'gravatar-enhanced' ),
 	],
+	deprecated: [ v01 ],
 	edit: Edit,
 };
 
