@@ -100,7 +100,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 	} ) );
 
 	// In the v0.1.0 migration, `userValue` is converted to `userEmail`.
-	// It handles both cases where userValue could be an email or a user ID.
+	// It handles both cases where `userValue` could be an email or a user ID.
 	useEffect( () => {
 		if ( isNaN( Number( userEmail ) ) ) {
 			return;
