@@ -1,0 +1,27 @@
+/* Custom styles for the frontend view */
+
+div.wp-block-gravatar-new-block.gravatar-block {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .gravatar-block-column {
+        display: flex;
+
+        &.gravatar-block-column--vertical-alignment {
+            flex-direction: column;
+        }
+
+        &.gravatar-block-column--align-center {
+            align-items: center;
+        }
+
+        &.gravatar-block-column--header {
+            gap: 10px;
+        }
+
+        &.gravatar-block-column--footer {
+            gap: 8px;
+        }
+    }
+}

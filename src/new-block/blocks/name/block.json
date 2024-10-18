@@ -1,0 +1,34 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gravatar/block-name",
+	"version": "0.2.0",
+	"title": "Name",
+	"description": "The Name block of the Gravatar Card.",
+	"category": "layout",
+    "parent": [],
+	"attributes": {
+		"name": {
+			"type": "string",
+			"default": ""
+		},
+		"linkUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"text": {
+			"type": "string",
+			"default": ""
+		},
+		"className": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"inserter": false
+	},
+	"textdomain": "gravatar-enhanced",
+    "editorScript": "file:../../../block-name.js"
+}
