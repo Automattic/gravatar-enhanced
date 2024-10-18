@@ -101,8 +101,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 
 	const firstUserEmail = userNameOptions[ 0 ]?.value || '';
 
-	// In the v0.1.0 migration, `userValue` is converted to `userEmail`.
-	// It handles both cases where `userValue` could be an email or a user ID.
+	// In v0.1.0, `userValue` is migrated to `userEmail`, which may be a user ID.
 	useEffect( () => {
 		if ( userEmail === '' || isNaN( Number( userEmail ) ) || ! users.length ) {
 			return;
