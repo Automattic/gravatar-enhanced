@@ -10,8 +10,7 @@ export default function getLink( { linkUrl, text, className }: Props ): string {
 			href="${ linkUrl }"
 			target="_blank"
 		>
-			<span>${ text }</span>
-			<span>&#8594;</span>
+			${ text }
 		</a>
 	`;
 }

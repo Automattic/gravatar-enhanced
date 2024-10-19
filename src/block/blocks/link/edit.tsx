@@ -21,8 +21,7 @@ export default function Edit( { attributes }: BlockEditProps< Attrs > ) {
 			href={ linkUrl }
 			target="_blank"
 		>
-			<span>{ text }</span>
-			<span>&#8594;</span>
+			{ text }
 		</a>
 	);
 }

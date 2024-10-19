@@ -279,7 +279,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 				getBlockTempate( BlockNames.LINK, KnownElemNames.VIEW_PROFILE, {
 					className: 'gravatar-block-link--align-right',
 					linkUrl: profile_url,
-					text: __( 'View profile', 'gravatar-enhanced' ),
+					text: __( 'View profile →', 'gravatar-enhanced' ),
 				} );
 
 			return [
