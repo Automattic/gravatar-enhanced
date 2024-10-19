@@ -2,13 +2,13 @@ import type { BlockConfiguration } from '@wordpress/blocks';
 import { registerBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 import Edit from './edit';
-import { GravatarCardIcon } from './components';
+import { GravatarProfileIcon } from './components';
 import { v01 } from './deprecations';
 import metadata from './block.json';
 
 const blockConfig: BlockConfiguration = {
 	...metadata,
-	icon: GravatarCardIcon,
+	icon: GravatarProfileIcon,
 	title: __( 'Gravatar Profile', 'gravatar-enhanced' ),
 	description: __( 'Display user information directly from Gravatar Public Profiles.', 'gravatar-enhanced' ),
 	keywords: [

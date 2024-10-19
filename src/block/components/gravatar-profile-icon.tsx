@@ -1,6 +1,6 @@
 import { SVG, Path } from '@wordpress/components';
 
-export default function GravatarCardIcon() {
+export default function GravatarProfileIcon() {
 	return (
 		<SVG
 			xmlns="http://www.w3.org/2000/svg"
