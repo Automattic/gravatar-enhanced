@@ -4,7 +4,7 @@
 	"name": "gravatar/block-name",
 	"version": "0.2.0",
 	"title": "Name",
-	"description": "The Name block of the Gravatar Card.",
+	"description": "The Name block for the Gravatar block.",
 	"category": "layout",
     "parent": [],
 	"attributes": {

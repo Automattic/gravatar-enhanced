@@ -4,7 +4,7 @@
 	"name": "gravatar/block-column",
 	"version": "0.2.0",
 	"title": "Column",
-	"description": "The Column block of the Gravatar Card.",
+	"description": "The Column block for the Gravatar block.",
 	"category": "layout",
     "parent": [],
 	"attributes": {

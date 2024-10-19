@@ -4,7 +4,7 @@
 	"name": "gravatar/block-paragraph",
 	"version": "0.2.0",
 	"title": "Paragraph",
-	"description": "The Paragraph block of the Gravatar Card.",
+	"description": "The Paragraph block for the Gravatar block.",
 	"category": "layout",
     "parent": [],
 	"attributes": {

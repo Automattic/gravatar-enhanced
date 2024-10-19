@@ -4,7 +4,7 @@
 	"name": "gravatar/block-link",
 	"version": "0.2.0",
 	"title": "Link",
-	"description": "The Link block of the Gravatar Card.",
+	"description": "The Link block for the Gravatar block.",
 	"category": "layout",
     "parent": [],
 	"attributes": {

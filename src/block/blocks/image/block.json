@@ -4,7 +4,7 @@
 	"name": "gravatar/block-image",
 	"version": "0.2.0",
 	"title": "Image",
-	"description": "The Image block of the Gravatar Card.",
+	"description": "The Image block for the Gravatar block.",
 	"category": "layout",
     "parent": [],
 	"attributes": {

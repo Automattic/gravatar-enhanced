@@ -9,7 +9,7 @@ const blockConfig: BlockConfiguration = {
 	...metadata,
 	icon: TextIcon,
 	title: __( 'Name', 'gravatar-enhanced' ),
-	description: __( 'The Name block of the Gravatar Card.', 'gravatar-enhanced' ),
+	description: __( 'The Name block for the Gravatar block.', 'gravatar-enhanced' ),
 	edit: Edit,
 };
 
