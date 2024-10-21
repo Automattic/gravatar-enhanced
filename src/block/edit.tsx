@@ -263,9 +263,9 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 				...verified_accounts,
 			];
 			const verifiedAccounts = verified_accounts.map(
-				( { url, service_type, service_icon, service_label, is_hidden } ) =>
+				( { url, service_icon, service_label, is_hidden } ) =>
 					! is_hidden &&
-					getBlockTempate( BlockNames.IMAGE, service_type, {
+					getBlockTempate( BlockNames.IMAGE, service_label, {
 						linkUrl: url,
 						imageUrl: service_icon,
 						imageWidth: 32,
