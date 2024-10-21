@@ -7,7 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Block {
-
 	/**
 	 * @return void
 	 */
@@ -23,6 +22,13 @@ class Block {
 	 * @return void
 	 */
 	public function create_block_gravatar_block_block_init() {
-		register_block_type( dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/block' );
+		$block_dir = dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/block';
+
+		register_block_type( $block_dir . '/' );
+		register_block_type( $block_dir . '/blocks/column' );
+		register_block_type( $block_dir . '/blocks/image' );
+		register_block_type( $block_dir . '/blocks/name' );
+		register_block_type( $block_dir . '/blocks/paragraph' );
+		register_block_type( $block_dir . '/blocks/link' );
 	}
 }

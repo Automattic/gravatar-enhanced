@@ -1,0 +1,123 @@
+/* Styles for both the editor and the frontend view */
+
+$font: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+
+$color-white: #FFF;
+$color-black: #101517;
+$color-light-gray: #D8DBDD;
+$color-gray: #50575E;
+
+@mixin text-truncate( $lines: 1 ) {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.gravatar-text-truncate-1-line {
+    @include text-truncate( 1 );
+}
+
+.gravatar-text-truncate-2-lines {
+    @include text-truncate( 2 );
+}
+
+div.wp-block-gravatar-block.gravatar-block {
+    font-family: $font;
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 24px;
+    border: 1px solid $color-light-gray;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: $color-white;
+    min-width: 400px;
+
+    &,
+    h4,
+    p {
+        color: $color-black;
+    }
+
+    h4,
+    p {
+        margin: 0;
+    }
+
+    h4 {
+        font-family: inherit;
+    }
+
+    a {
+        text-decoration: none;
+        box-shadow: none; /* Override themes' default styles. */
+    }
+
+    img {
+        box-shadow: none; /* Override themes' default styles. */
+    }
+
+    .gravatar-block-column {
+        &.gravatar-block-column--comma-separated .gravatar-block-paragraph {
+            display: flex;
+    
+            &:not(:first-of-type)::before {
+                content: " · ";
+                white-space: pre;
+            }
+    
+            .gravatar-block-paragraph__text {
+                @include text-truncate( 1 );
+            }
+        }
+    }
+
+    .gravatar-block-image {
+        display: flex; /* Fix the extra bottom padding issue. */
+
+        &.gravatar-block-image--avatar .gravatar-block-image__image {
+            max-width: 72px; /* Override themes' default styles. */
+            border-radius: 50%;
+        }
+    }
+
+    .gravatar-block-name {
+        word-break: break-word;
+    
+        .gravatar-block-name__text {
+            font-size: 18px;
+            line-height: normal;
+            font-weight: 700;
+        }
+    }
+
+    .gravatar-block-paragraph {
+        word-break: break-word;
+    
+        &.gravatar-block-paragraph--job .gravatar-block-paragraph__text,
+        &.gravatar-block-paragraph--company .gravatar-block-paragraph__text,
+        &.gravatar-block-paragraph--location .gravatar-block-paragraph__text {
+            color: $color-gray;
+        }
+    }
+
+    .gravatar-block-link {
+        color: $color-gray;
+    
+        &.gravatar-block-link--align-right {
+            margin-left: auto;
+        }
+    }
+
+    &.gravatar-block--custom-text-color {
+        h4,
+        p,
+        .gravatar-block-paragraph--job .gravatar-block-paragraph__text,
+        .gravatar-block-paragraph--company .gravatar-block-paragraph__text,
+        .gravatar-block-paragraph--location .gravatar-block-paragraph__text,
+        .gravatar-block-link {
+            color: unset;
+        }
+    }
+}
