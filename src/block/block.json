@@ -29,7 +29,7 @@
 		}
 	},
 	"supports": {
-        "html": false,
+			"html": false,
 		"color": {
 			"text": true,
 			"background": true,
@@ -43,7 +43,7 @@
 		"spacing": {
 			"margin": true
 		}
-    },
+	},
 	"textdomain": "gravatar-enhanced",
 	"render": "file:./render.php",
 	"editorScript": "file:../block.js",

@@ -88,7 +88,7 @@ A: It sends a single, polite email to commenters without Gravatars, inviting the
 == Changelog ==
 
 = 0.5.0 =
-* Release Gravatar profile block v0.2.0
+* Make Gravatar profile block customizable (v0.2.0) 
 
 = 0.4.0 =
 * New feature: integration with WooCommerce on My Account page
