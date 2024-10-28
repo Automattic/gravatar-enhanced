@@ -141,7 +141,6 @@ class Plugin {
 		$this->hovercards->uninstall();
 		$this->auto_options->uninstall();
 		$this->lazy_options->uninstall();
-		$this->oembed->uninstall();
 
 		// Just in case, flush the cache
 		wp_cache_flush();
