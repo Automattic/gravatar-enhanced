@@ -13,7 +13,7 @@ require_once __DIR__ . '/block/class-block.php';
 require_once __DIR__ . '/block/class-new-block.php';
 require_once __DIR__ . '/woocommerce/class-admin-customers.php';
 require_once __DIR__ . '/woocommerce/class-my-account.php';
-require_once __DIR__ . '/oembed-provider/class-oembed-provider.php';
+require_once __DIR__ . '/oembed/class-oembed.php';
 
 class Plugin {
 	const OPTION_NAME_AUTO = 'gravatar_enhanced_options';
@@ -85,9 +85,9 @@ class Plugin {
 	private $wc_my_account;
 
 	/**
-	 * @var OEmbedProvider\OEmbedProvider
+	 * @var OEmbed\OEmbed
 	 */
-	private $oembed_provider;
+	private $oembed;
 
 	public function __construct() {
 		$this->auto_options = new Options\SavedOptions( self::OPTION_NAME_AUTO, true );
@@ -111,7 +111,7 @@ class Plugin {
 		$this->new_block = new Block\NewBlock();
 		$this->wc_admin_customers = new Woocommerce\AdminCustomers();
 		$this->wc_my_account = new Woocommerce\MyAccount();
-		$this->oembed_provider = new OEmbedProvider\OEmbedProvider();
+		$this->oembed = new OEmbed\OEmbed();
 
 		// Ensure the options always exist. We don't need data saved in it as this is provided by the defaults
 		if ( get_option( self::OPTION_NAME_AUTO, null ) === null ) {
@@ -137,7 +137,7 @@ class Plugin {
 		// $this->new_block->init();
 		$this->wc_admin_customers->init();
 		$this->wc_my_account->init();
-		$this->oembed_provider->init();
+		$this->oembed->init();
 	}
 
 	/**
@@ -150,6 +150,7 @@ class Plugin {
 		$this->hovercards->uninstall();
 		$this->auto_options->uninstall();
 		$this->lazy_options->uninstall();
+		$this->oembed->uninstall();
 
 		// Just in case, flush the cache
 		wp_cache_flush();
