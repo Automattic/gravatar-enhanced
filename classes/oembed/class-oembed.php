@@ -9,7 +9,7 @@ class OEmbed {
 	 * @return void
 	 */
 	public function init() {
-		add_action( 'init', [ $this, 'register_oembed_provider' ] );
+		$this->register_oembed_provider();
 	}
 
 	/**
