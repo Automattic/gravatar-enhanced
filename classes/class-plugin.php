@@ -12,6 +12,7 @@ require_once __DIR__ . '/analytics/class-analytics.php';
 require_once __DIR__ . '/block/class-block.php';
 require_once __DIR__ . '/woocommerce/class-admin-customers.php';
 require_once __DIR__ . '/woocommerce/class-my-account.php';
+require_once __DIR__ . '/oembed/class-oembed.php';
 
 class Plugin {
 	const OPTION_NAME_AUTO = 'gravatar_enhanced_options';
@@ -77,6 +78,11 @@ class Plugin {
 	 */
 	private $wc_my_account;
 
+	/**
+	 * @var OEmbed\OEmbed
+	 */
+	private $oembed;
+
 	public function __construct() {
 		$this->auto_options = new Options\SavedOptions( self::OPTION_NAME_AUTO, true );
 		$this->lazy_options = new Options\SavedOptions( self::OPTION_NAME_LAZY, false );
@@ -98,6 +104,7 @@ class Plugin {
 		$this->block = new Block\Block();
 		$this->wc_admin_customers = new Woocommerce\AdminCustomers();
 		$this->wc_my_account = new Woocommerce\MyAccount();
+		$this->oembed = new OEmbed\OEmbed();
 
 		// Ensure the options always exist. We don't need data saved in it as this is provided by the defaults
 		if ( get_option( self::OPTION_NAME_AUTO, null ) === null ) {
@@ -121,6 +128,7 @@ class Plugin {
 		$this->block->init();
 		$this->wc_admin_customers->init();
 		$this->wc_my_account->init();
+		$this->oembed->init();
 	}
 
 	/**
