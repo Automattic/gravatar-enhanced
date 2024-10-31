@@ -17,6 +17,7 @@ Key Features:
 - Improved accessibility
 - Easy profile updates
 - Versatile Gravatar Profile block
+- Automatically embed Gravatar profile cards
 - Commenter engagement tools
 - WooCommerce Integration
 
