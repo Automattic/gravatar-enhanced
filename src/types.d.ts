@@ -22,6 +22,8 @@ declare global {
 		pronunciation: string;
 		pronouns: string;
 		verified_accounts: GravatarAPIAccount[];
+		background_color: string;
+		header_image: string;
 	}
 
 	interface QuickEditorText {
