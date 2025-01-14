@@ -30,7 +30,7 @@ function createHovercard(
 ) {
 	const options = {
 		i18n: {
-			'View profile': buttonText,
+			'View profile →': buttonText,
 		},
 		additionalClass: canEdit ? 'gravatar-hovercard--editable' : '',
 	};

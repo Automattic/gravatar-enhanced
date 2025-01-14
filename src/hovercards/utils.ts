@@ -12,6 +12,8 @@ export function convertJsonToUser( profile: GravatarAPIProfile, avatarUrl: strin
 		location,
 		job_title: jobTitle,
 		verified_accounts: verifiedAccounts,
+		background_color,
+		header_image
 	} = profile;
 
 	return {
@@ -32,5 +34,7 @@ export function convertJsonToUser( profile: GravatarAPIProfile, avatarUrl: strin
 			isHidden: is_hidden,
 		} ) ),
 		/* eslint-enable camelcase */
+		backgroundColor: background_color,
+		headerImage: header_image,
 	};
 }
