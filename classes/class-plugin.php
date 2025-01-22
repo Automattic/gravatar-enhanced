@@ -10,6 +10,7 @@ require_once __DIR__ . '/proxy/class-proxy.php';
 require_once __DIR__ . '/quick-editor/class-quick-editor.php';
 require_once __DIR__ . '/analytics/class-analytics.php';
 require_once __DIR__ . '/block/class-block.php';
+require_once __DIR__ . '/patterns/class-patterns.php';
 require_once __DIR__ . '/woocommerce/class-admin-customers.php';
 require_once __DIR__ . '/woocommerce/class-my-account.php';
 require_once __DIR__ . '/oembed/class-oembed.php';
@@ -64,6 +65,11 @@ class Plugin {
 	private $block;
 
 	/**
+	 * @var Patterns
+	 */
+	private $patterns;
+
+	/**
 	 * @var Options\DiscussionsPage
 	 */
 	private $discussions;
@@ -102,6 +108,7 @@ class Plugin {
 		$this->quick_editor = new QuickEditor\QuickEditor();
 		$this->analytics = new Analytics\Analytics( new Analytics\Preferences( $this->auto_options ) );
 		$this->block = new Block\Block();
+		$this->patterns = new Patterns\Patterns();
 		$this->wc_admin_customers = new Woocommerce\AdminCustomers();
 		$this->wc_my_account = new Woocommerce\MyAccount();
 		$this->oembed = new OEmbed\OEmbed();
@@ -126,6 +133,7 @@ class Plugin {
 		$this->discussions->init();
 		$this->analytics->init();
 		$this->block->init();
+		$this->patterns->init();
 		$this->wc_admin_customers->init();
 		$this->wc_my_account->init();
 		$this->oembed->init();
@@ -141,6 +149,7 @@ class Plugin {
 		$this->hovercards->uninstall();
 		$this->auto_options->uninstall();
 		$this->lazy_options->uninstall();
+		$this->patterns->uninstall();
 
 		// Just in case, flush the cache
 		wp_cache_flush();
