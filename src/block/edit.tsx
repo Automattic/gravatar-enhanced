@@ -1,3 +1,5 @@
+import type { InnerBlockAttrsMap, MainEditAttrs } from './shared-types';
+import { BlockNames, KnownElemNames, UserTypes } from './shared-types'
 import type { BlockEditProps, InnerBlockTemplate } from '@wordpress/blocks';
 import { createBlocksFromInnerBlocksTemplate } from '@wordpress/blocks';
 import { InspectorControls, InnerBlocks, useBlockProps } from '@wordpress/block-editor';
@@ -8,70 +10,23 @@ import { __ } from '@wordpress/i18n';
 import _debounce from 'lodash.debounce';
 import { sha256 } from 'js-sha256';
 import clsx from 'clsx';
-import type { Names as ElemNames } from './utils/get-existing-blocks';
-import type { Attrs as ColumnAttrs } from './blocks/column/edit';
-import type { Attrs as ImageAttrs } from './blocks/image/edit';
-import type { Attrs as NameAttrs } from './blocks/name/edit';
-import type { Attrs as ParagraphAttrs } from './blocks/paragraph/edit';
-import type { Attrs as LinkAttrs } from './blocks/link/edit';
 import { fetchProfile as basedFetchProfile, getExistingBlocks, validateEmail } from './utils';
 
 import './shared.scss';
 import './edit.scss';
 
-export enum BlockNames {
-	COLUMN = 'gravatar/block-column',
-	IMAGE = 'gravatar/block-image',
-	NAME = 'gravatar/block-name',
-	PARAGRAPH = 'gravatar/block-paragraph',
-	LINK = 'gravatar/block-link',
-}
-
-export enum KnownElemNames {
-	AVATAR = 'avatar',
-	DISPLAY_NAME = 'displayName',
-	JOB = 'job',
-	COMPANY = 'company',
-	LOCATION = 'location',
-	DESCRIPTION = 'description',
-	GRAVATAR = 'gravatar',
-	VIEW_PROFILE = 'viewProfile',
-	HEADER = 'header',
-	JOB_COMPANY_LOCATION_WRAPPER = 'jobCompanyLocationWrapper',
-	JOB_COMPANY_WRAPPER = 'jobCompanyWrapper',
-	FOOTER = 'footer',
-}
-
-export interface InnerBlockAttrsMap {
-	[ BlockNames.COLUMN ]: ColumnAttrs;
-	[ BlockNames.IMAGE ]: ImageAttrs;
-	[ BlockNames.NAME ]: NameAttrs;
-	[ BlockNames.PARAGRAPH ]: ParagraphAttrs;
-	[ BlockNames.LINK ]: LinkAttrs;
-}
-
 type ApiStatus = 'loading' | 'error' | 'success';
 
-enum UserTypes {
-	AUTHOR = 'author',
-	USER = 'user',
-	EMAIL = 'email',
-}
+type Props = BlockEditProps< MainEditAttrs >;
 
-export interface Attrs {
-	userType: UserTypes;
-	userEmail: string;
-	deletedElements: Record< string, boolean >;
-}
-
-export default function Edit( { attributes, setAttributes, clientId }: BlockEditProps< Attrs > ) {
+export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 	const { userType, userEmail, deletedElements } = attributes;
 
 	const { replaceInnerBlocks } = useDispatch( 'core/block-editor' );
 	const [ emailInputVal, setEmailInputVal ] = useState( userEmail );
 	const [ apiStatus, setApiStatus ] = useState< ApiStatus >( 'loading' );
 	const [ errorMsg, setErrorMsg ] = useState( '' );
-	const prevExistingBlocksRef = useRef< ElemNames >( null );
+	const prevExistingBlocksRef = useRef< string[] >( null );
 	// Avoid get template related functions to be re-created on every render.
 	const deletedElementsRef = useRef( deletedElements );
 	deletedElementsRef.current = deletedElements;

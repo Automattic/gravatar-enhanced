@@ -1,8 +1,8 @@
+import type { NameAttrs } from '../shared-types';
 import clsx from 'clsx';
-import type { Attrs } from '../blocks/name/edit';
 import { getMaybeLink } from '.';
 
-export type Props = Attrs;
+type Props = NameAttrs;
 
 export default function getName( { linkUrl, text, className }: Props ): string {
 	return getMaybeLink( {

@@ -1,8 +1,8 @@
+import type { ParagraphAttrs } from '../shared-types';
 import clsx from 'clsx';
-import type { Attrs } from '../blocks/paragraph/edit';
 import { getMaybeLink } from '.';
 
-export type Props = Attrs;
+type Props = ParagraphAttrs;
 
 export default function getParagraph( { linkUrl, text, className }: Props ): string {
 	return getMaybeLink( {

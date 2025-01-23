@@ -1,16 +1,13 @@
+import type { ColumnAttrs } from '../../shared-types';
 import type { BlockEditProps, TemplateArray } from '@wordpress/blocks';
 import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 import clsx from 'clsx';
 import { MaybeLink } from '../../components';
 
-export type Attrs = Partial< {
-	linkUrl: string;
-	verticalAlignment: boolean;
-	className: string;
-} >;
+type Props = BlockEditProps< ColumnAttrs >;
 
-export default function Edit( { attributes, clientId }: BlockEditProps< Attrs > ) {
+export default function Edit( { attributes, clientId }: Props ) {
 	const { linkUrl, verticalAlignment, className } = attributes;
 
 	const blockProps = useBlockProps();

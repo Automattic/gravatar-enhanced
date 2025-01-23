@@ -1,18 +1,12 @@
+import type { ImageAttrs } from '../../shared-types';
 import type { BlockEditProps } from '@wordpress/blocks';
 import { useBlockProps } from '@wordpress/block-editor';
 import clsx from 'clsx';
 import { MaybeLink } from '../../components';
 
-export interface Attrs {
-	linkUrl?: string;
-	imageUrl: string;
-	imageWidth: number;
-	imageHeight: number;
-	imageAlt: string;
-	className?: string;
-}
+type Props = BlockEditProps< ImageAttrs >;
 
-export default function Edit( { attributes }: BlockEditProps< Attrs > ) {
+export default function Edit( { attributes }: Props ) {
 	const { linkUrl, imageUrl, imageWidth, imageHeight, imageAlt, className } = attributes;
 
 	const blockProps = useBlockProps();

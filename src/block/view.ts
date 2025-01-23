@@ -1,11 +1,6 @@
+import type { InnerBlockAttrsMap, MainEditAttrs, ColumnAttrs, ImageAttrs, LinkAttrs, NameAttrs, ParagraphAttrs } from './shared-types'
+import { BlockNames, KnownElemNames } from './shared-types'
 import { __ } from '@wordpress/i18n';
-import type { Attrs as EditAttrs, InnerBlockAttrsMap as PropsMap } from './edit';
-import { BlockNames, KnownElemNames } from './edit';
-import type { Props as ColumnProps } from './elements/get-column';
-import type { Props as ImageProps } from './elements/get-image';
-import type { Props as NameProps } from './elements/get-name';
-import type { Props as ParagraphProps } from './elements/get-paragraph';
-import type { Props as LinkProps } from './elements/get-link';
 import { getColumn, getImage, getName, getParagraph, getLink } from './elements';
 import { fetchProfile } from './utils';
 
@@ -14,7 +9,7 @@ import './view.scss';
 
 interface Attrs {
 	hashedEmail: string;
-	deletedElements: Pick< EditAttrs, 'deletedElements' >;
+	deletedElements: Pick< MainEditAttrs, 'deletedElements' >;
 }
 
 document.addEventListener( 'DOMContentLoaded', () => {
@@ -40,7 +35,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		function getElement< T extends BlockNames >(
 			blockName: T,
 			elemName: string,
-			props: PropsMap[ T ],
+			props: InnerBlockAttrsMap[ T ],
 			children?: T extends BlockNames.COLUMN ? string[] : never
 		): string {
 			if ( deletedElements[ elemName ] ) {
@@ -59,15 +54,15 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
 			switch ( blockName ) {
 				case BlockNames.COLUMN:
-					return getColumn( props as ColumnProps, filteredChildren );
+					return getColumn( props as ColumnAttrs, filteredChildren );
 				case BlockNames.IMAGE:
-					return getImage( props as ImageProps );
+					return getImage( props as ImageAttrs );
 				case BlockNames.NAME:
-					return getName( props as NameProps );
+					return getName( props as NameAttrs );
 				case BlockNames.PARAGRAPH:
-					return getParagraph( props as ParagraphProps );
+					return getParagraph( props as ParagraphAttrs );
 				case BlockNames.LINK:
-					return getLink( props as LinkProps );
+					return getLink( props as LinkAttrs );
 				default:
 					return '';
 			}

@@ -1,7 +1,7 @@
+import { KnownElemNames } from '../../shared-types';
 import type { BlockConfiguration } from '@wordpress/blocks';
 import { registerBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
-import { KnownElemNames } from '../../edit';
 import Edit from './edit';
 import { LinkIcon } from '../../components';
 import metadata from './block.json';

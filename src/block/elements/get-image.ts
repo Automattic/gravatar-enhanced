@@ -1,8 +1,8 @@
+import type { ImageAttrs } from '../shared-types';
 import clsx from 'clsx';
-import type { Attrs } from '../blocks/image/edit';
 import { getMaybeLink } from '.';
 
-export type Props = Attrs;
+type Props = ImageAttrs;
 
 export default function getImage( { linkUrl, imageUrl, imageWidth, imageHeight, imageAlt, className }: Props ): string {
 	return getMaybeLink( {

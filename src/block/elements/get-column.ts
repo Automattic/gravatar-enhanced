@@ -1,8 +1,8 @@
+import type { ColumnAttrs } from '../shared-types';
 import clsx from 'clsx';
-import type { Attrs } from '../blocks/column/edit';
 import { getMaybeLink } from '.';
 
-export type Props = Attrs;
+type Props = ColumnAttrs;
 
 export default function getColumn( { linkUrl, verticalAlignment, className }: Props, children: string[] ): string {
 	return getMaybeLink( {

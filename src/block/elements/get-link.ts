@@ -1,7 +1,7 @@
+import type { LinkAttrs } from '../shared-types';
 import clsx from 'clsx';
-import type { Attrs } from '../blocks/link/edit';
 
-export type Props = Attrs;
+type Props = LinkAttrs;
 
 export default function getLink( { linkUrl, text, className }: Props ): string {
 	return `

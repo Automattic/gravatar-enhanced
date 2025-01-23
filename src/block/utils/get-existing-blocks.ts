@@ -1,9 +1,7 @@
+import { BlockNames } from '../shared-types';
 import type { BlockInstance } from '@wordpress/blocks';
-import { BlockNames } from '../edit';
 
-export type Names = string[];
-
-export default function getExistingBlocks( blocks: BlockInstance[] = [], names: Names = [] ): Names {
+export default function getExistingBlocks( blocks: BlockInstance[] = [], names: string[] = [] ): string[] {
 	blocks.forEach( ( { name, innerBlocks, attributes } ) => {
 		const isEmptyCol = name === BlockNames.COLUMN && ! innerBlocks?.length;
 

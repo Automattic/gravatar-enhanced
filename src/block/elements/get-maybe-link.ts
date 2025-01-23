@@ -1,6 +1,6 @@
-import type { Props as BasedProps } from '../components/maybe-link';
+import type { MaybeLinkProps } from "../shared-types";
 
-interface Props extends BasedProps {
+interface Props extends MaybeLinkProps {
 	children: string | string[];
 }
 
