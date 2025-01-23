@@ -25,10 +25,10 @@ class Block {
 		$block_dir = dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/block';
 
 		register_block_type( $block_dir . '/' );
-		register_block_type( $block_dir . '/blocks/column' );
-		register_block_type( $block_dir . '/blocks/image' );
-		register_block_type( $block_dir . '/blocks/name' );
-		register_block_type( $block_dir . '/blocks/paragraph' );
-		register_block_type( $block_dir . '/blocks/link' );
+		register_block_type( $block_dir . '/child-blocks/column' );
+		register_block_type( $block_dir . '/child-blocks/image' );
+		register_block_type( $block_dir . '/child-blocks/name' );
+		register_block_type( $block_dir . '/child-blocks/paragraph' );
+		register_block_type( $block_dir . '/child-blocks/link' );
 	}
 }
