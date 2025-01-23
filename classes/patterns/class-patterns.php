@@ -54,14 +54,22 @@ class Patterns {
 
 		// Grid patterns.
 		foreach ( $this->get_grid_patterns() as $pattern ) {
+			$content = $this->get_pattern_content( $pattern['name'] );
+
+			if ( ! $content ) {
+				continue;
+			}
+
 			register_block_pattern(
 				'gravatar-enhanced/' . $pattern['name'],
 				[
-					'title' => sprintf( __( 'Grid Pattern %d', 'gravatar-enhanced' ), $pattern['number'] ),
-					'description' => sprintf( __( 'Grid layout %d for Gravatar profiles.', 'gravatar-enhanced' ), $pattern['number'] ),
+					// translators: %d: Pattern number.
+					'title' => sprintf( __( 'Gravatar profiles grid layout %d', 'gravatar-enhanced' ), $pattern['number'] ),
+					// translators: %d: Pattern number.
+					'description' => sprintf( __( 'Grid layout %d for displaying Gravatar profiles.', 'gravatar-enhanced' ), $pattern['number'] ),
 					'categories' => [ 'gravatar' ],
 					'keywords' => array_merge( $base_keywords, [ 'grid' ] ),
-					'content' => $this->get_pattern_content( $pattern['name'] ),
+					'content' => $content,
 				]
 			);
 		}
@@ -88,15 +96,15 @@ class Patterns {
 	 * Get pattern content.
 	 *
 	 * @param string $pattern_name Pattern name.
-	 * @return string
+	 * @return string|null
 	 */
 	private function get_pattern_content( $pattern_name ) {
 		$pattern_file = dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/classes/patterns/' . $pattern_name . '.php';
 
-		if ( file_exists( $pattern_file ) ) {
-			return file_get_contents( $pattern_file );
+		if ( ! file_exists( $pattern_file ) ) {
+			return null;
 		}
 
-		return '';
+		return file_get_contents( $pattern_file );
 	}
 }
