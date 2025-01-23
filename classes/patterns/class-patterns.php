@@ -50,7 +50,7 @@ class Patterns {
 	 * @return void
 	 */
 	public function register_patterns() {
-		$base_keywords = [ 'gravatar', 'profile', 'profiles', 'pattern', 'layout' ];
+		$common_keywords = [ 'gravatar', 'profile', 'profiles', 'pattern', 'layout' ];
 
 		// Grid patterns.
 		foreach ( $this->get_grid_patterns() as $pattern ) {
@@ -68,7 +68,7 @@ class Patterns {
 					// translators: %d: Pattern number.
 					'description' => sprintf( __( 'Grid layout %d for displaying Gravatar profiles.', 'gravatar-enhanced' ), $pattern['number'] ),
 					'categories' => [ 'gravatar' ],
-					'keywords' => array_merge( $base_keywords, [ 'grid' ] ),
+					'keywords' => array_merge( $common_keywords, [ 'grid' ] ),
 					'content' => $content,
 				]
 			);
