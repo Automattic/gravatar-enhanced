@@ -1,16 +1,17 @@
-import type { InnerBlockAttrsMap, MainEditAttrs } from './shared-types';
-import { BlockNames, KnownElemNames, UserTypes } from './shared-types'
-import type { BlockEditProps, InnerBlockTemplate } from '@wordpress/blocks';
+import type { BlockEditProps } from '@wordpress/blocks';
+import type { MainEditAttrs } from './shared-types';
+import { UserTypes } from './shared-types';
 import { createBlocksFromInnerBlocksTemplate } from '@wordpress/blocks';
 import { InspectorControls, InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, SelectControl, TextControl } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { useEffect, useState, useRef, useCallback } from '@wordpress/element';
+import { getDefaultTemplate } from './editor-templates';
 import { __ } from '@wordpress/i18n';
 import _debounce from 'lodash.debounce';
 import { sha256 } from 'js-sha256';
-import clsx from 'clsx';
 import { fetchProfile as basedFetchProfile, getExistingBlocks, validateEmail } from './utils';
+import clsx from 'clsx';
 
 import './shared.scss';
 import './edit.scss';
@@ -117,163 +118,6 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 		[ apiStatus, clientId, deletedElements, setAttributes ]
 	);
 
-	const getBlockTempate = useCallback(
-		< T extends BlockNames >(
-			blockName: T,
-			elemName: string,
-			attrs: InnerBlockAttrsMap[ T ],
-			innerBlocks?: T extends BlockNames.COLUMN ? InnerBlockTemplate[] : never
-		): InnerBlockTemplate | null => {
-			if ( deletedElementsRef.current[ elemName ] ) {
-				return null;
-			}
-
-			let filteredBlocks: InnerBlockTemplate[] = [];
-
-			if ( Array.isArray( innerBlocks ) ) {
-				filteredBlocks = innerBlocks.filter( Boolean );
-
-				if ( ! filteredBlocks.length ) {
-					return null;
-				}
-			}
-
-			// Give the block a unique name for the deleted elements to work.
-			return [ blockName, { name: elemName, ...attrs }, filteredBlocks ];
-		},
-		[]
-	);
-
-	/* eslint-disable camelcase */
-	// TODO: More templates to be added for different patterns.
-	const getTemplate = useCallback(
-		( profileData: GravatarAPIProfile ): InnerBlockTemplate[] => {
-			let {
-				avatar_url,
-				avatar_alt_text,
-				profile_url,
-				display_name,
-				job_title,
-				company: com,
-				location: loc,
-				description: desc,
-				verified_accounts = [],
-			} = profileData;
-
-			// TODO: Reuse these main UI elements to compose patterns.
-			const avatar =
-				avatar_url &&
-				getBlockTempate( BlockNames.IMAGE, KnownElemNames.AVATAR, {
-					className: 'gravatar-block-image--avatar',
-					linkUrl: profile_url,
-					imageUrl: avatar_url,
-					imageWidth: 72,
-					imageHeight: 72,
-					imageAlt: avatar_alt_text || display_name,
-				} );
-
-			const displayName =
-				display_name &&
-				getBlockTempate( BlockNames.NAME, KnownElemNames.DISPLAY_NAME, {
-					className: 'gravatar-text-truncate-2-lines',
-					text: display_name,
-				} );
-
-			const jobTitle =
-				job_title &&
-				getBlockTempate( BlockNames.PARAGRAPH, KnownElemNames.JOB, {
-					className: 'gravatar-block-paragraph--job',
-					text: job_title,
-				} );
-
-			const company =
-				com &&
-				getBlockTempate( BlockNames.PARAGRAPH, KnownElemNames.COMPANY, {
-					className: 'gravatar-block-paragraph--company',
-					text: com,
-				} );
-
-			const location =
-				loc &&
-				getBlockTempate( BlockNames.PARAGRAPH, KnownElemNames.LOCATION, {
-					className: 'gravatar-block-paragraph--location gravatar-text-truncate-1-line',
-					text: loc,
-				} );
-
-			const description =
-				desc &&
-				getBlockTempate( BlockNames.PARAGRAPH, KnownElemNames.DESCRIPTION, {
-					className: 'gravatar-text-truncate-2-lines',
-					text: desc,
-				} );
-
-			verified_accounts = [
-				{
-					url: profile_url,
-					service_type: 'gravatar',
-					service_icon: 'https://secure.gravatar.com/icons/gravatar.svg',
-					service_label: 'Gravatar',
-					is_hidden: false,
-				},
-				...verified_accounts,
-			];
-			const verifiedAccounts = verified_accounts.map(
-				( { url, service_icon, service_label, is_hidden } ) =>
-					! is_hidden &&
-					getBlockTempate( BlockNames.IMAGE, service_label, {
-						linkUrl: url,
-						imageUrl: service_icon,
-						imageWidth: 32,
-						imageHeight: 32,
-						imageAlt: service_label,
-					} )
-			);
-
-			const viewProfile =
-				profile_url &&
-				getBlockTempate( BlockNames.LINK, KnownElemNames.VIEW_PROFILE, {
-					className: 'gravatar-block-link--align-right',
-					linkUrl: profile_url,
-					text: __( 'View profile →', 'gravatar-enhanced' ),
-				} );
-
-			return [
-				getBlockTempate(
-					BlockNames.COLUMN,
-					KnownElemNames.HEADER,
-					{ className: 'gravatar-block-column--header gravatar-block-column--align-center' },
-					[
-						avatar,
-						getBlockTempate(
-							BlockNames.COLUMN,
-							KnownElemNames.JOB_COMPANY_LOCATION_WRAPPER,
-							{ linkUrl: profile_url, verticalAlignment: true },
-							[
-								displayName,
-								getBlockTempate(
-									BlockNames.COLUMN,
-									KnownElemNames.JOB_COMPANY_WRAPPER,
-									{ className: 'gravatar-block-column--comma-separated' },
-									[ jobTitle, company ]
-								),
-								location,
-							]
-						),
-					]
-				),
-				description,
-				getBlockTempate(
-					BlockNames.COLUMN,
-					KnownElemNames.FOOTER,
-					{ className: 'gravatar-block-column--footer gravatar-block-column--align-center' },
-					[ ...verifiedAccounts, viewProfile ]
-				),
-			].filter( Boolean );
-		},
-		[ getBlockTempate ]
-	);
-	/* eslint-enable camelcase */
-
 	// Fetch the profile data when the email changes.
 	useEffect( () => {
 		const fetchProfile = async ( email: string ) => {
@@ -295,13 +139,15 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 			} else {
 				setApiStatus( 'success' );
 
-				const blocks = createBlocksFromInnerBlocksTemplate( getTemplate( data ) );
+				const blocks = createBlocksFromInnerBlocksTemplate(
+					getDefaultTemplate( data, deletedElementsRef.current )
+				);
 				replaceInnerBlocks( clientId, blocks );
 			}
 		};
 
 		fetchProfile( userEmail );
-	}, [ clientId, getTemplate, replaceInnerBlocks, userEmail ] );
+	}, [ clientId, replaceInnerBlocks, userEmail ] );
 
 	// Reset the block items from the navigation menu when the API status changes.
 	useEffect( () => {

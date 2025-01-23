@@ -15,6 +15,10 @@
 		"card"
 	],
 	"attributes": {
+		"layout": {
+			"type": "string",
+			"default": "default"
+		},
 		"userType": {
 			"type": "string",
 			"default": "author"

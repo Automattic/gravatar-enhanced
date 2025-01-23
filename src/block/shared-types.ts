@@ -59,21 +59,21 @@ export interface ImageAttrs {
 }
 
 export interface LinkAttrs {
-    linkUrl: string;
-    text: string;
-    className?: string;
+	linkUrl: string;
+	text: string;
+	className?: string;
 }
 
 export interface NameAttrs {
-    linkUrl?: string;
-    text: string;
-    className?: string;
+	linkUrl?: string;
+	text: string;
+	className?: string;
 }
 
 export interface ParagraphAttrs {
-    linkUrl?: string;
-    text: string;
-    className?: string;
+	linkUrl?: string;
+	text: string;
+	className?: string;
 }
 
 export interface MaybeLinkProps {
