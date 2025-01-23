@@ -1,6 +1,6 @@
+import type { InnerBlockTemplate } from '@wordpress/blocks';
 import type { InnerBlockAttrsMap, MainEditAttrs } from '../shared-types';
 import { BlockNames } from '../shared-types';
-import type { InnerBlockTemplate } from '@wordpress/blocks';
 
 export default function getBlockTemplate< T extends BlockNames >(
 	blockName: T,
