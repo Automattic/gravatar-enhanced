@@ -6,13 +6,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+/**
+ * How to add a new pattern:
+ *
+ * 1. Add a new entry in the `$patterns` array with its `type` and `number`
+ * 2. Create a file in `classes/patterns` named `type-number.php` (e.g., `grid-pattern-1.php`) containing the pattern content
+ * 3. Update the block pattern settings in `register_patterns` if needed
+ */
 class Patterns {
 	/**
 	 * Patterns.
-	 *
-	 * How to add a new pattern:
-	 * 1. Add a new entry to the patterns array with the `type` and `number`
-	 * 2. Create a new file in the `classes/patterns` directory with the pattern content (e.g., `grid-pattern-1.php`)
 	 *
 	 * @var array
 	 */
