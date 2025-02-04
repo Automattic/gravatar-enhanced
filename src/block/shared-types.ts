@@ -38,6 +38,7 @@ export interface InnerBlockAttrsMap {
 }
 
 export interface MainEditAttrs {
+	layout: 'default' | 'protrait' | 'landscape' | 'line';
 	userType: UserTypes;
 	userEmail: string;
 	deletedElements: Record< string, boolean >;

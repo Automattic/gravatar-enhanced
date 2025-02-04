@@ -8,11 +8,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Patterns {
 	/**
+	 * Patterns.
+	 *
+	 * How to add a new pattern:
+	 * 1. Add a new entry to the patterns array with the `type` and `number`
+	 * 2. Create a new file in the `classes/patterns` directory with the pattern content (e.g., `grid-pattern-1.php`)
+	 *
+	 * @var array
+	 */
+	private $patterns = [
+		[
+			'type' => 'grid-pattern',
+			'number' => 1,
+		],
+		// TODO: Add more patterns...
+	];
+
+	/**
 	 * @return void
 	 */
 	public function init() {
 		add_action( 'init', [ $this, 'register_pattern_category' ] );
 		add_action( 'init', [ $this, 'register_patterns' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_view_style' ] );
+		add_action( 'admin_init', [ $this, 'enqueue_editor_style' ] );
+		// TODO: Ensure the CSS file is enqueued in all the necessary places.
 	}
 
 	/**
@@ -31,50 +51,71 @@ class Patterns {
 	}
 
 	/**
-	 * Get grid patterns.
-	 *
-	 * @return array
-	 */
-	private function get_grid_patterns() {
-		return [
-			[
-				'number' => 1,
-				'name' => 'grid-pattern-1',
-			],
-		];
-	}
-
-	/**
 	 * Register patterns.
 	 *
 	 * @return void
 	 */
 	public function register_patterns() {
-		$common_keywords = [ 'gravatar', 'profile', 'profiles', 'pattern', 'layout' ];
-
-		// Grid patterns.
-		foreach ( $this->get_grid_patterns() as $pattern ) {
-			$content = $this->get_pattern_content( $pattern['name'] );
+		foreach ( $this->patterns as $pattern ) {
+			$pattern_name = $pattern['type'] . '-' . $pattern['number'];
+			$content = $this->get_pattern_content( $pattern_name );
 
 			if ( ! $content ) {
 				continue;
 			}
 
+			$title = '';
+			$description = '';
+			$keywords = [ 'gravatar', 'profile', 'profiles', 'pattern', 'layout' ];
+
+			switch ( $pattern['type'] ) {
+				case 'grid-pattern':
+					// translators: %d: Pattern number.
+					$title = sprintf( __( 'Gravatar profiles grid layout %d', 'gravatar-enhanced' ), $pattern['number'] );
+					// translators: %d: Pattern number.
+					$description = sprintf( __( 'Grid layout %d to display Gravatar profiles.', 'gravatar-enhanced' ), $pattern['number'] );
+					$keywords[] = 'grid';
+					break;
+				// TODO: Add more types...
+			}
+
 			register_block_pattern(
-				'gravatar-enhanced/' . $pattern['name'],
+				'gravatar-enhanced/' . $pattern_name,
 				[
-					// translators: %d: Pattern number.
-					'title' => sprintf( __( 'Grid Layout %d for Gravatar profiles', 'gravatar-enhanced' ), $pattern['number'] ),
-					// translators: %d: Pattern number.
-					'description' => sprintf( __( 'Grid layout %d to display Gravatar profiles.', 'gravatar-enhanced' ), $pattern['number'] ),
+					'title' => $title,
+					'description' => $description,
 					'categories' => [ 'gravatar' ],
-					'keywords' => array_merge( $common_keywords, [ 'grid' ] ),
+					'keywords' => $keywords,
 					'content' => $content,
 				]
 			);
 		}
+	}
 
-		// TODO: Add more patterns...
+	/**
+	 * Enqueue view styles for patterns.
+	 *
+	 * @return void
+	 */
+	public function enqueue_view_style() {
+		$asset_file = dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/patterns.asset.php';
+		$assets = file_exists( $asset_file ) ? require $asset_file : [ 'dependencies' => [], 'version' => time() ];
+
+		wp_enqueue_style(
+			'gravatar-enhanced-patterns',
+			plugins_url( 'build/style-patterns.css', GRAVATAR_ENHANCED_PLUGIN_FILE ),
+			[],
+			$assets['version']
+		);
+	}
+
+	/**
+	 * Enqueue editor styles for patterns.
+	 *
+	 * @return void
+	 */
+	public function enqueue_editor_style() {
+		add_editor_style( plugins_url( 'build/style-patterns.css', GRAVATAR_ENHANCED_PLUGIN_FILE ) );
 	}
 
 	/**
@@ -85,10 +126,8 @@ class Patterns {
 	public function uninstall() {
 		unregister_block_pattern_category( 'gravatar' );
 
-		$patterns = array_merge( $this->get_grid_patterns() );
-
-		foreach ( $patterns as $pattern ) {
-			unregister_block_pattern( 'gravatar-enhanced/' . $pattern['name'] );
+		foreach ( $this->patterns as $pattern ) {
+			unregister_block_pattern( 'gravatar-enhanced/' . $pattern['type'] . '-' . $pattern['number'] );
 		}
 	}
 

@@ -133,7 +133,8 @@ class Plugin {
 		$this->discussions->init();
 		$this->analytics->init();
 		$this->block->init();
-		$this->patterns->init();
+		// TODO: Uncomment this line when the patterns are ready.
+		// $this->patterns->init();
 		$this->wc_admin_customers->init();
 		$this->wc_my_account->init();
 		$this->oembed->init();
@@ -149,7 +150,8 @@ class Plugin {
 		$this->hovercards->uninstall();
 		$this->auto_options->uninstall();
 		$this->lazy_options->uninstall();
-		$this->patterns->uninstall();
+		// TODO: Uncomment this line when the patterns are ready.
+		// $this->patterns->uninstall();
 
 		// Just in case, flush the cache
 		wp_cache_flush();

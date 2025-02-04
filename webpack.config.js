@@ -16,6 +16,7 @@ const config = {
 		discussion: './src/discussion',
 		'wc-my-account': './src/woocommerce/my-account.ts',
 		'wc-admin-customers': './src/woocommerce/admin-customers.ts',
+		patterns: './classes/patterns/style.scss',
 	},
 };
 
