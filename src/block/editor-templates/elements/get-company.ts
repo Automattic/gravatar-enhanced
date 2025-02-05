@@ -11,7 +11,7 @@ export default function getCompany(
 		return null;
 	}
 
-	getBlockTemplate( BlockNames.PARAGRAPH, KnownElemNames.COMPANY, deletedElements, {
+	return getBlockTemplate( BlockNames.PARAGRAPH, KnownElemNames.COMPANY, deletedElements, {
 		className: 'gravatar-block-paragraph--company',
 		text: profileData.company,
 	} );

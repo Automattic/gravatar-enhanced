@@ -17,7 +17,7 @@
 	"attributes": {
 		"layout": {
 			"type": "string",
-			"default": "default"
+			"default": "portrait"
 		},
 		"userType": {
 			"type": "string",

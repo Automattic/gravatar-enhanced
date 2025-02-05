@@ -18,19 +18,17 @@ export default function getVerifiedAccounts(
 		...profileData.verified_accounts,
 	];
 
-	return verifiedAccounts
-		.map( ( account ) => {
-			if ( account.is_hidden ) {
-				return null;
-			}
+	return verifiedAccounts.map( ( account ) => {
+		if ( account.is_hidden ) {
+			return null;
+		}
 
-			return getBlockTemplate( BlockNames.IMAGE, account.service_label, deletedElements, {
-				linkUrl: account.url,
-				imageUrl: account.service_icon,
-				imageWidth: 32,
-				imageHeight: 32,
-				imageAlt: account.service_label,
-			} );
-		} )
-		.filter( Boolean );
+		return getBlockTemplate( BlockNames.IMAGE, account.service_label, deletedElements, {
+			linkUrl: account.url,
+			imageUrl: account.service_icon,
+			imageWidth: 32,
+			imageHeight: 32,
+			imageAlt: account.service_label,
+		} );
+	} );
 }

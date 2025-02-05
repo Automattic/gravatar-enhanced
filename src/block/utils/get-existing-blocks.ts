@@ -1,5 +1,5 @@
-import { BlockNames } from '../shared-types';
 import type { BlockInstance } from '@wordpress/blocks';
+import { BlockNames } from '../shared-types';
 
 export default function getExistingBlocks( blocks: BlockInstance[] = [], names: string[] = [] ): string[] {
 	blocks.forEach( ( { name, innerBlocks, attributes } ) => {

@@ -1,5 +1,5 @@
 import type { MainEditAttrs } from './shared-types';
-import { getDefaultTemplate } from './view-templates';
+import { getDefaultTemplate, getPortraitTemplate } from './view-templates';
 import { fetchProfile } from './utils';
 import { __ } from '@wordpress/i18n';
 
@@ -7,6 +7,7 @@ import './shared.scss';
 import './view.scss';
 
 interface Attrs {
+	layout: MainEditAttrs[ 'layout' ];
 	hashedEmail: string;
 	deletedElements: MainEditAttrs[ 'deletedElements' ];
 }
@@ -22,7 +23,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 			return;
 		}
 
-		const { hashedEmail = '', deletedElements = {} } = JSON.parse( block.dataset.attrs ) as Attrs;
+		const { layout, hashedEmail = '', deletedElements = {} } = JSON.parse( block.dataset.attrs ) as Attrs;
 
 		const { error, data } = await fetchProfile( hashedEmail );
 
@@ -31,6 +32,20 @@ document.addEventListener( 'DOMContentLoaded', () => {
 			return;
 		}
 
-		block.innerHTML = getDefaultTemplate( data, deletedElements );
+		let template = getDefaultTemplate( data, deletedElements );
+
+		switch ( layout ) {
+			case 'portrait':
+				template = getPortraitTemplate( data, deletedElements );
+				break;
+			case 'landscape':
+				// TODO: Implement landscape layout...
+				break;
+			case 'line':
+				// TODO: Implement line layout...
+				break;
+		}
+
+		block.innerHTML = template;
 	} );
 } );

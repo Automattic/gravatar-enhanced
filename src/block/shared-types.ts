@@ -27,6 +27,7 @@ export enum KnownElemNames {
 	JOB_COMPANY_LOCATION_WRAPPER = 'jobCompanyLocationWrapper',
 	JOB_COMPANY_WRAPPER = 'jobCompanyWrapper',
 	FOOTER = 'footer',
+	VERIFIED_ACCOUNTS = 'verifiedAccounts',
 }
 
 export interface InnerBlockAttrsMap {
@@ -38,7 +39,7 @@ export interface InnerBlockAttrsMap {
 }
 
 export interface MainEditAttrs {
-	layout: 'default' | 'protrait' | 'landscape' | 'line';
+	layout: 'default' | 'portrait' | 'landscape' | 'line';
 	userType: UserTypes;
 	userEmail: string;
 	deletedElements: Record< string, boolean >;

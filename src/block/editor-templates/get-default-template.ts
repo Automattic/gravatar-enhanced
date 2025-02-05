@@ -1,6 +1,4 @@
 import type { InnerBlockTemplate } from '@wordpress/blocks';
-import type { MainEditAttrs } from '../shared-types';
-import { BlockNames, KnownElemNames } from '../shared-types';
 import {
 	getAvatar,
 	getDisplayName,
@@ -11,6 +9,8 @@ import {
 	getVerifiedAccounts,
 	getViewProfile,
 } from './elements';
+import type { MainEditAttrs } from '../shared-types';
+import { BlockNames, KnownElemNames } from '../shared-types';
 import { getBlockTemplate } from '../utils';
 
 export default function getDefaultTemplate(

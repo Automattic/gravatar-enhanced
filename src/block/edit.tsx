@@ -6,7 +6,7 @@ import { InspectorControls, InnerBlocks, useBlockProps } from '@wordpress/block-
 import { PanelBody, SelectControl, TextControl } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { useEffect, useState, useRef, useCallback } from '@wordpress/element';
-import { getDefaultTemplate } from './editor-templates';
+import { getDefaultTemplate, getPortraitTemplate } from './editor-templates';
 import { __ } from '@wordpress/i18n';
 import _debounce from 'lodash.debounce';
 import { sha256 } from 'js-sha256';
@@ -20,8 +20,14 @@ type ApiStatus = 'loading' | 'error' | 'success';
 
 type Props = BlockEditProps< MainEditAttrs >;
 
+const layoutClassMap = {
+	portrait: 'gravatar-block--portrait',
+	landscape: 'gravatar-block--landscape',
+	line: 'gravatar-block--line',
+};
+
 export default function Edit( { attributes, setAttributes, clientId }: Props ) {
-	const { userType, userEmail, deletedElements } = attributes;
+	const { layout, userType, userEmail, deletedElements } = attributes;
 
 	const { replaceInnerBlocks } = useDispatch( 'core/block-editor' );
 	const [ emailInputVal, setEmailInputVal ] = useState( userEmail );
@@ -139,15 +145,27 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 			} else {
 				setApiStatus( 'success' );
 
-				const blocks = createBlocksFromInnerBlocksTemplate(
-					getDefaultTemplate( data, deletedElementsRef.current )
-				);
+				let template = getDefaultTemplate( data, deletedElementsRef.current );
+
+				switch ( layout ) {
+					case 'portrait':
+						template = getPortraitTemplate( data, deletedElementsRef.current );
+						break;
+					case 'landscape':
+						// TODO: Implement landscape layout...
+						break;
+					case 'line':
+						// TODO: Implement line layout...
+						break;
+				}
+
+				const blocks = createBlocksFromInnerBlocksTemplate( template );
 				replaceInnerBlocks( clientId, blocks );
 			}
 		};
 
 		fetchProfile( userEmail );
-	}, [ clientId, replaceInnerBlocks, userEmail ] );
+	}, [ clientId, layout, replaceInnerBlocks, userEmail ] );
 
 	// Reset the block items from the navigation menu when the API status changes.
 	useEffect( () => {
@@ -208,7 +226,7 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 			</InspectorControls>
 			<div
 				{ ...blockProps }
-				className={ clsx( 'gravatar-block', blockProps.className, {
+				className={ clsx( 'gravatar-block', layoutClassMap[ layout ], blockProps.className, {
 					'gravatar-block--custom-text-color': !! blockProps.style.color,
 				} ) }
 			>
