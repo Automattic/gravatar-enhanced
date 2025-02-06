@@ -9,10 +9,10 @@ export default function getPortraitTemplate(
 ): string {
 	return `
 		${ getAvatar( profileData, deletedElements, 354, 354 ) }
-		${ getDisplayName( profileData, deletedElements ) }
+		${ getDisplayName( profileData, deletedElements, { linkToProfile: true } ) }
 		${ getJobTitle( profileData, deletedElements ) }
 		${ getLocation( profileData, deletedElements ) }
-		${ getDescription( profileData, deletedElements, 'gravatar-text-truncate-3-lines' ) }
+		${ getDescription( profileData, deletedElements, { className: 'gravatar-text-truncate-3-lines' } ) }
 		${ getViewElement(
 			BlockNames.COLUMN,
 			KnownElemNames.VERIFIED_ACCOUNTS,

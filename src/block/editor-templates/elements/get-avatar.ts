@@ -1,6 +1,6 @@
 import type { InnerBlockTemplate } from '@wordpress/blocks';
 import clsx from 'clsx';
-import type { MainEditAttrs } from '../../shared-types';
+import type { MainEditAttrs, ElemOptions } from '../../shared-types';
 import { BlockNames, KnownElemNames } from '../../shared-types';
 import { getBlockTemplate } from '../../utils';
 
@@ -9,15 +9,15 @@ export default function getAvatar(
 	deletedElements: MainEditAttrs[ 'deletedElements' ],
 	imageWidth,
 	imageHeight,
-	className?: string
+	options: ElemOptions = { linkToProfile: true }
 ): InnerBlockTemplate | null {
 	if ( ! profileData.avatar_url ) {
 		return null;
 	}
 
 	return getBlockTemplate( BlockNames.IMAGE, KnownElemNames.AVATAR, deletedElements, {
-		className: clsx( 'gravatar-block-image--avatar', className ),
-		linkUrl: profileData.profile_url,
+		className: clsx( 'gravatar-block-image--avatar', options.className ),
+		linkUrl: options.linkToProfile && profileData.profile_url,
 		imageUrl: profileData.avatar_url,
 		imageWidth,
 		imageHeight,
