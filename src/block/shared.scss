@@ -139,8 +139,9 @@ div.wp-block-gravatar-block.gravatar-block--portrait {
 
 	.gravatar-block-image.gravatar-block-image--avatar .gravatar-block-image__image {
 		max-width: 100%; /* Override themes' default styles. */
+		height: auto;
 		border-radius: 0;
-		object-fit: cover;
+		aspect-ratio: 1 / 1;
 		margin-bottom: 24px;
 	}
 
