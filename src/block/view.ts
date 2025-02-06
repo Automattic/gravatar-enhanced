@@ -6,11 +6,8 @@ import { fetchProfile, getAvatarUrlWithSize } from './utils';
 import './shared.scss';
 import './view.scss';
 
-interface Attrs {
-	layout: MainEditAttrs[ 'layout' ];
-	avatarUrlSizeParam: MainEditAttrs[ 'avatarUrlSizeParam' ];
+interface Attrs extends Omit< MainEditAttrs, 'userType' | 'userEmail' > {
 	hashedEmail: string;
-	deletedElements: MainEditAttrs[ 'deletedElements' ];
 }
 
 document.addEventListener( 'DOMContentLoaded', () => {
