@@ -19,6 +19,9 @@
 			"type": "string",
 			"default": "portrait"
 		},
+		"avatarUrlSizeParam": {
+			"type": "number"
+		},
 		"userType": {
 			"type": "string",
 			"default": "author"

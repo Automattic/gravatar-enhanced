@@ -1,5 +1,4 @@
 import type { InnerBlockTemplate } from '@wordpress/blocks';
-import { addQueryArgs } from '@wordpress/url';
 import type { MainEditAttrs } from '../../shared-types';
 import { BlockNames, KnownElemNames } from '../../shared-types';
 import { getBlockTemplate } from '../../utils';
@@ -13,9 +12,6 @@ export default function getAvatar(
 	if ( ! profileData.avatar_url ) {
 		return null;
 	}
-
-	// Use larger image for better quality in Retina displays.
-	profileData.avatar_url = addQueryArgs( profileData.avatar_url, { s: imageWidth * 2 } );
 
 	return getBlockTemplate( BlockNames.IMAGE, KnownElemNames.AVATAR, deletedElements, {
 		className: 'gravatar-block-image--avatar',

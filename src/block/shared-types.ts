@@ -40,6 +40,7 @@ export interface InnerBlockAttrsMap {
 
 export interface MainEditAttrs {
 	layout: 'default' | 'portrait' | 'landscape' | 'line';
+	avatarUrlSizeParam: number;
 	userType: UserTypes;
 	userEmail: string;
 	deletedElements: Record< string, boolean >;

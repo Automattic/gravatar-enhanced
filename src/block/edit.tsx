@@ -1,16 +1,16 @@
 import type { BlockEditProps } from '@wordpress/blocks';
-import type { MainEditAttrs } from './shared-types';
-import { UserTypes } from './shared-types';
 import { createBlocksFromInnerBlocksTemplate } from '@wordpress/blocks';
 import { InspectorControls, InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, SelectControl, TextControl } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { useEffect, useState, useRef, useCallback } from '@wordpress/element';
-import { getDefaultTemplate, getPortraitTemplate } from './editor-templates';
 import { __ } from '@wordpress/i18n';
 import _debounce from 'lodash.debounce';
 import { sha256 } from 'js-sha256';
-import { fetchProfile as basedFetchProfile, getExistingBlocks, validateEmail } from './utils';
+import type { MainEditAttrs } from './shared-types';
+import { UserTypes } from './shared-types';
+import { getDefaultTemplate, getPortraitTemplate } from './editor-templates';
+import { fetchProfile as basedFetchProfile, getExistingBlocks, validateEmail, getAvatarUrlWithSize } from './utils';
 import clsx from 'clsx';
 
 import './shared.scss';
@@ -27,7 +27,7 @@ const layoutClassMap = {
 };
 
 export default function Edit( { attributes, setAttributes, clientId }: Props ) {
-	const { layout, userType, userEmail, deletedElements } = attributes;
+	const { layout, avatarUrlSizeParam, userType, userEmail, deletedElements } = attributes;
 
 	const { replaceInnerBlocks } = useDispatch( 'core/block-editor' );
 	const [ emailInputVal, setEmailInputVal ] = useState( userEmail );
@@ -145,11 +145,13 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 			} else {
 				setApiStatus( 'success' );
 
-				let template = getDefaultTemplate( data, deletedElementsRef.current );
+				let templateFn = getDefaultTemplate;
+				let defaultAvatarSize = 72;
 
 				switch ( layout ) {
 					case 'portrait':
-						template = getPortraitTemplate( data, deletedElementsRef.current );
+						templateFn = getPortraitTemplate;
+						defaultAvatarSize = 354;
 						break;
 					case 'landscape':
 						// TODO: Implement landscape layout...
@@ -159,13 +161,15 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 						break;
 				}
 
-				const blocks = createBlocksFromInnerBlocksTemplate( template );
+				data.avatar_url = getAvatarUrlWithSize( data.avatar_url, avatarUrlSizeParam || defaultAvatarSize );
+
+				const blocks = createBlocksFromInnerBlocksTemplate( templateFn( data, deletedElementsRef.current ) );
 				replaceInnerBlocks( clientId, blocks );
 			}
 		};
 
 		fetchProfile( userEmail );
-	}, [ clientId, layout, replaceInnerBlocks, userEmail ] );
+	}, [ avatarUrlSizeParam, clientId, layout, replaceInnerBlocks, userEmail ] );
 
 	// Reset the block items from the navigation menu when the API status changes.
 	useEffect( () => {
