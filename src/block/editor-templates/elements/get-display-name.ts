@@ -1,18 +1,20 @@
 import type { InnerBlockTemplate } from '@wordpress/blocks';
+import clsx from 'clsx';
 import type { MainEditAttrs } from '../../shared-types';
 import { BlockNames, KnownElemNames } from '../../shared-types';
 import { getBlockTemplate } from '../../utils';
 
 export default function getDisplayName(
 	profileData: GravatarAPIProfile,
-	deletedElements: MainEditAttrs[ 'deletedElements' ]
+	deletedElements: MainEditAttrs[ 'deletedElements' ],
+	className?: string
 ): InnerBlockTemplate | null {
 	if ( ! profileData.display_name ) {
 		return null;
 	}
 
 	return getBlockTemplate( BlockNames.NAME, KnownElemNames.DISPLAY_NAME, deletedElements, {
-		className: 'gravatar-text-truncate-2-lines',
+		className: clsx( 'gravatar-text-truncate-2-lines', className ),
 		text: profileData.display_name,
 	} );
 }

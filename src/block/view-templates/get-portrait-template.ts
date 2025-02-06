@@ -12,7 +12,7 @@ export default function getPortraitTemplate(
 		${ getDisplayName( profileData, deletedElements ) }
 		${ getJobTitle( profileData, deletedElements ) }
 		${ getLocation( profileData, deletedElements ) }
-		${ getDescription( profileData, deletedElements ) }
+		${ getDescription( profileData, deletedElements, 'gravatar-text-truncate-3-lines' ) }
 		${ getViewElement(
 			BlockNames.COLUMN,
 			KnownElemNames.VERIFIED_ACCOUNTS,

@@ -23,7 +23,7 @@ export default function getDefaultTemplate(
 			deletedElements,
 			{ className: 'gravatar-block-column--header gravatar-block-column--align-center' },
 			[
-				getAvatar( profileData, deletedElements ),
+				getAvatar( profileData, deletedElements, 72, 72 ),
 				getViewElement(
 					BlockNames.COLUMN,
 					KnownElemNames.JOB_COMPANY_LOCATION_WRAPPER,

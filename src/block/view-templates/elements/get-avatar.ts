@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import type { MainEditAttrs } from '../../shared-types';
 import { BlockNames, KnownElemNames } from '../../shared-types';
 import { getViewElement } from '../../utils';
@@ -5,15 +6,16 @@ import { getViewElement } from '../../utils';
 export default function getAvatar(
 	profileData: GravatarAPIProfile,
 	deletedElements: MainEditAttrs[ 'deletedElements' ],
-	imageWidth = 72,
-	imageHeight = 72
+	imageWidth,
+	imageHeight,
+	className?: string
 ): string | null {
 	if ( ! profileData.avatar_url ) {
 		return null;
 	}
 
 	return getViewElement( BlockNames.IMAGE, KnownElemNames.AVATAR, deletedElements, {
-		className: 'gravatar-block-image--avatar',
+		className: clsx( 'gravatar-block-image--avatar', className ),
 		linkUrl: profileData.profile_url,
 		imageUrl: profileData.avatar_url,
 		imageWidth,
