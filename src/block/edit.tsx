@@ -234,8 +234,10 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 					'gravatar-block--custom-text-color': !! blockProps.style.color,
 				} ) }
 			>
-				{ apiStatus === 'loading' && <div>{ __( 'Loading…', 'gravatar-enhanced' ) }</div> }
-				{ apiStatus === 'error' && <div>{ errorMsg }</div> }
+				{ apiStatus === 'loading' && (
+					<div className="gravatar-block__loading">{ __( 'Loading…', 'gravatar-enhanced' ) }</div>
+				) }
+				{ apiStatus === 'error' && <div className="gravatar-block__error">{ errorMsg }</div> }
 				{ apiStatus === 'success' && <InnerBlocks allowedBlocks={ [] } renderAppender={ undefined } /> }
 			</div>
 		</>

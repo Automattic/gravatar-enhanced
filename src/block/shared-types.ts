@@ -46,7 +46,7 @@ export interface InnerBlockAttrsMap {
 }
 
 export interface MainEditAttrs {
-	layout: 'default' | 'portrait' | 'landscape' | 'line';
+	layout: Layout;
 	avatarUrlSizeParam: number;
 	userType: UserTypes;
 	userEmail: string;
