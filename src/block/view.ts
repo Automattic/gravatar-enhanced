@@ -1,5 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import type { MainEditAttrs } from './shared-types';
+import { Layout } from './shared-types';
 import { getDefaultTemplate, getPortraitTemplate } from './view-templates';
 import { fetchProfile, getAvatarUrlWithSize } from './utils';
 
@@ -39,14 +40,14 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		let defaultAvatarSize = 72;
 
 		switch ( layout ) {
-			case 'portrait':
+			case Layout.PORTRAIT:
 				templateFn = getPortraitTemplate;
 				defaultAvatarSize = 354;
 				break;
-			case 'landscape':
+			case Layout.LANDSCAPE:
 				// TODO: Implement landscape layout...
 				break;
-			case 'line':
+			case Layout.LINE:
 				// TODO: Implement line layout...
 				break;
 		}

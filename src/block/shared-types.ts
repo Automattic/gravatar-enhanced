@@ -1,5 +1,12 @@
 import type { ReactNode } from 'react';
 
+export enum Layout {
+	DEFAULT = 'default',
+	PORTRAIT = 'portrait',
+	LANDSCAPE = 'landscape',
+	LINE = 'line',
+}
+
 export enum UserTypes {
 	AUTHOR = 'author',
 	USER = 'user',

@@ -8,7 +8,7 @@ import { __ } from '@wordpress/i18n';
 import _debounce from 'lodash.debounce';
 import { sha256 } from 'js-sha256';
 import type { MainEditAttrs } from './shared-types';
-import { UserTypes } from './shared-types';
+import { Layout, UserTypes } from './shared-types';
 import { getDefaultTemplate, getPortraitTemplate } from './editor-templates';
 import { fetchProfile as basedFetchProfile, getExistingBlocks, validateEmail, getAvatarUrlWithSize } from './utils';
 import clsx from 'clsx';
@@ -149,14 +149,14 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 				let defaultAvatarSize = 72;
 
 				switch ( layout ) {
-					case 'portrait':
+					case Layout.PORTRAIT:
 						templateFn = getPortraitTemplate;
 						defaultAvatarSize = 354;
 						break;
-					case 'landscape':
+					case Layout.LANDSCAPE:
 						// TODO: Implement landscape layout...
 						break;
-					case 'line':
+					case Layout.LINE:
 						// TODO: Implement line layout...
 						break;
 				}
