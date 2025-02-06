@@ -163,8 +163,10 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 
 				data.avatar_url = getAvatarUrlWithSize( data.avatar_url, avatarUrlSizeParam || defaultAvatarSize );
 
-				const blocks = createBlocksFromInnerBlocksTemplate( templateFn( data, deletedElementsRef.current ) );
-				replaceInnerBlocks( clientId, blocks );
+				replaceInnerBlocks(
+					clientId,
+					createBlocksFromInnerBlocksTemplate( templateFn( data, deletedElementsRef.current ) )
+				);
 			}
 		};
 
