@@ -34,7 +34,6 @@ $color-gray: #50575e;
 }
 
 div.wp-block-gravatar-block.gravatar-block {
-	font-family: $font;
 	font-size: 14px;
 	line-height: 1.5;
 	padding: 24px;
@@ -47,16 +46,13 @@ div.wp-block-gravatar-block.gravatar-block {
 	&,
 	h4,
 	p {
+		font-family: $font;
 		color: $color-black;
 	}
 
 	h4,
 	p {
 		margin: 0;
-	}
-
-	h4 {
-		font-family: inherit;
 	}
 
 	a {
@@ -133,7 +129,7 @@ div.wp-block-gravatar-block.gravatar-block {
 }
 
 div.wp-block-gravatar-block.gravatar-block--portrait {
-	max-width: 434px;
+	max-width: 434px !important; /* Use `!important` to override themes' default styles. */
 	min-width: 300px;
 	padding: 40px;
 
