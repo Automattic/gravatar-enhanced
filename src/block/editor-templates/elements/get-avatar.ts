@@ -3,8 +3,8 @@ import clsx from 'clsx';
 import type { MainEditAttrs } from '../../shared-types';
 import { BlockNames, KnownElemNames } from '../../shared-types';
 import { getBlockTemplate } from '../../utils';
-// TODO: Fix this TS error...
-import avatarPlaceholder from '../../images/avatar-placeholder.svg';
+// Didn't find a way to import this image in TS, using require instead.
+const avatarPlaceholder = require( '../../images/avatar-placeholder.svg' ).default;
 
 type Options = Partial< {
 	className: string;
