@@ -21,9 +21,9 @@ type ApiStatus = 'loading' | 'error' | 'success';
 type Props = BlockEditProps< MainEditAttrs >;
 
 const layoutClassMap = {
-	portrait: 'gravatar-block--portrait',
-	landscape: 'gravatar-block--landscape',
-	line: 'gravatar-block--line',
+	[ Layout.PORTRAIT ]: 'gravatar-block--portrait',
+	[ Layout.LANDSCAPE ]: 'gravatar-block--landscape',
+	[ Layout.LINE ]: 'gravatar-block--line',
 };
 
 export default function Edit( { attributes, setAttributes, clientId }: Props ) {
