@@ -14,6 +14,7 @@ $font:
 
 $color-white: #fff;
 $color-black: #101517;
+$color-lighter-gray: #f4f4f4;
 $color-light-gray: #d8dbdd;
 $color-gray: #50575e;
 
@@ -89,6 +90,7 @@ div.wp-block-gravatar-block.gravatar-block {
 		&.gravatar-block-image--avatar .gravatar-block-image__image {
 			max-width: 72px; /* Override themes' default styles. */
 			border-radius: 50%;
+			background-color: $color-lighter-gray;
 		}
 	}
 
