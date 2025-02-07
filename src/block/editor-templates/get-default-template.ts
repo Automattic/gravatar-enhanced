@@ -1,4 +1,3 @@
-import type { InnerBlockTemplate } from '@wordpress/blocks';
 import {
 	getAvatar,
 	getDisplayName,
@@ -9,15 +8,12 @@ import {
 	getVerifiedAccounts,
 	getViewProfile,
 } from './elements';
-import type { MainEditAttrs } from '../shared-types';
+import type { EditTemplateFn } from '../shared-types';
 import { BlockNames, KnownElemNames } from '../shared-types';
 import { getBlockTemplate } from '../utils';
 
-export default function getDefaultTemplate(
-	profileData: GravatarAPIProfile,
-	deletedElements: MainEditAttrs[ 'deletedElements' ]
-): InnerBlockTemplate[] {
-	return [
+const getDefaultTemplate: EditTemplateFn = ( profileData, deletedElements ) =>
+	[
 		getBlockTemplate(
 			BlockNames.COLUMN,
 			KnownElemNames.HEADER,
@@ -53,4 +49,5 @@ export default function getDefaultTemplate(
 			[ ...getVerifiedAccounts( profileData, deletedElements ), getViewProfile( profileData, deletedElements ) ]
 		),
 	].filter( Boolean );
-}
+
+export default getDefaultTemplate;

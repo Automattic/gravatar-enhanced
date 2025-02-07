@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import type { InnerBlockTemplate } from '@wordpress/blocks';
 
 export enum Layout {
 	DEFAULT = 'default',
@@ -91,3 +92,13 @@ export interface MaybeLinkProps {
 	children: ReactNode;
 	[ key: string ]: any;
 }
+
+export type EditTemplateFn = (
+	profileData: GravatarAPIProfile,
+	deletedElements: MainEditAttrs[ 'deletedElements' ]
+) => InnerBlockTemplate[];
+
+export type ViewTemplateFn = (
+	profileData: GravatarAPIProfile,
+	deletedElements: MainEditAttrs[ 'deletedElements' ]
+) => string;
