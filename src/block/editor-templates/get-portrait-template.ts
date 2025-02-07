@@ -11,8 +11,8 @@ export default function getPortraitTemplate(
 	return [
 		getAvatar( profileData, deletedElements, 354, 354 ),
 		getDisplayName( profileData, deletedElements, { linkToProfile: true } ),
-		getJobTitle( profileData, deletedElements ),
-		getLocation( profileData, deletedElements ),
+		getJobTitle( profileData, deletedElements, { linkToProfile: true } ),
+		getLocation( profileData, deletedElements, { linkToProfile: true } ),
 		getDescription( profileData, deletedElements, { className: 'gravatar-text-truncate-3-lines' } ),
 		getBlockTemplate(
 			BlockNames.COLUMN,
