@@ -20,12 +20,6 @@ type ApiStatus = 'loading' | 'error' | 'success';
 
 type Props = BlockEditProps< MainEditAttrs >;
 
-const layoutClassMap = {
-	[ Layout.PORTRAIT ]: 'gravatar-block--portrait',
-	[ Layout.LANDSCAPE ]: 'gravatar-block--landscape',
-	[ Layout.LINE ]: 'gravatar-block--line',
-};
-
 export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 	const { layout, avatarUrlSizeParam, userType, userEmail, deletedElements } = attributes;
 
@@ -34,9 +28,25 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 	const [ apiStatus, setApiStatus ] = useState< ApiStatus >( 'loading' );
 	const [ errorMsg, setErrorMsg ] = useState( '' );
 	const prevExistingBlocksRef = useRef< string[] >( null );
-	// Avoid get template related functions to be re-created on every render.
-	const deletedElementsRef = useRef( deletedElements );
+	const deletedElementsRef = useRef( deletedElements ); // Avoid unnecessary `useEffect` calls.
 	deletedElementsRef.current = deletedElements;
+	const templateFnRef = useRef( getDefaultTemplate ); // Avoid unnecessary `useEffect` calls.
+	let defaultAvatarSize = 72;
+	let layoutClassName = '';
+
+	switch ( layout ) {
+		case Layout.PORTRAIT:
+			templateFnRef.current = getPortraitTemplate;
+			defaultAvatarSize = 354;
+			layoutClassName = 'gravatar-block--portrait';
+			break;
+		case Layout.LANDSCAPE:
+			layoutClassName = 'gravatar-block--landscape';
+			break;
+		case Layout.LINE:
+			layoutClassName = 'gravatar-block--line';
+			break;
+	}
 
 	const blockProps = useBlockProps();
 
@@ -145,33 +155,17 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 			} else {
 				setApiStatus( 'success' );
 
-				let templateFn = getDefaultTemplate;
-				let defaultAvatarSize = 72;
-
-				switch ( layout ) {
-					case Layout.PORTRAIT:
-						templateFn = getPortraitTemplate;
-						defaultAvatarSize = 354;
-						break;
-					case Layout.LANDSCAPE:
-						// TODO: Implement landscape layout...
-						break;
-					case Layout.LINE:
-						// TODO: Implement line layout...
-						break;
-				}
-
 				data.avatar_url = getAvatarUrlWithSize( data.avatar_url, avatarUrlSizeParam || defaultAvatarSize );
 
 				replaceInnerBlocks(
 					clientId,
-					createBlocksFromInnerBlocksTemplate( templateFn( data, deletedElementsRef.current ) )
+					createBlocksFromInnerBlocksTemplate( templateFnRef.current( data, deletedElementsRef.current ) )
 				);
 			}
 		};
 
 		fetchProfile( userEmail );
-	}, [ avatarUrlSizeParam, clientId, layout, replaceInnerBlocks, userEmail ] );
+	}, [ avatarUrlSizeParam, clientId, defaultAvatarSize, replaceInnerBlocks, userEmail ] );
 
 	// Reset the block items from the navigation menu when the API status changes.
 	useEffect( () => {
@@ -232,7 +226,7 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 			</InspectorControls>
 			<div
 				{ ...blockProps }
-				className={ clsx( 'gravatar-block', layoutClassMap[ layout ], blockProps.className, {
+				className={ clsx( 'gravatar-block', layoutClassName, blockProps.className, {
 					'gravatar-block--custom-text-color': !! blockProps.style.color,
 				} ) }
 			>
