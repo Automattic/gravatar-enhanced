@@ -1,13 +1,18 @@
 import type { InnerBlockTemplate } from '@wordpress/blocks';
 import clsx from 'clsx';
-import type { MainEditAttrs, ElemOptions } from '../../shared-types';
+import type { MainEditAttrs } from '../../shared-types';
 import { BlockNames, KnownElemNames } from '../../shared-types';
 import { getBlockTemplate } from '../../utils';
+
+type Options = Partial< {
+	className: string;
+	linkToProfile: boolean;
+} >;
 
 export default function getLocation(
 	profileData: GravatarAPIProfile,
 	deletedElements: MainEditAttrs[ 'deletedElements' ],
-	options: ElemOptions = {}
+	options: Options = {}
 ): InnerBlockTemplate | null {
 	if ( ! profileData.location ) {
 		return null;

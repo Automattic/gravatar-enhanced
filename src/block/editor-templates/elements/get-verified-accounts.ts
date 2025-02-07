@@ -15,7 +15,7 @@ export default function getVerifiedAccounts(
 			service_label: 'Gravatar',
 			is_hidden: false,
 		},
-		...profileData.verified_accounts,
+		...( profileData.verified_accounts || [] ),
 	];
 
 	return verifiedAccounts.map( ( account ) => {

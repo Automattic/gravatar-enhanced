@@ -1,12 +1,17 @@
 import clsx from 'clsx';
-import type { MainEditAttrs, ElemOptions } from '../../shared-types';
+import type { MainEditAttrs } from '../../shared-types';
 import { BlockNames, KnownElemNames } from '../../shared-types';
 import { getViewElement } from '../../utils';
+
+type Options = Partial< {
+	className: string;
+	linkToProfile: boolean;
+} >;
 
 export default function getDisplayName(
 	profileData: GravatarAPIProfile,
 	deletedElements: MainEditAttrs[ 'deletedElements' ],
-	options: ElemOptions = {}
+	options: Options = {}
 ): string | null {
 	if ( ! profileData.display_name ) {
 		return null;

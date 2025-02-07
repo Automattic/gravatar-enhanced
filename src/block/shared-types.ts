@@ -91,8 +91,3 @@ export interface MaybeLinkProps {
 	children: ReactNode;
 	[ key: string ]: any;
 }
-
-export type ElemOptions = Partial< {
-	className: string;
-	linkToProfile: boolean;
-} >;

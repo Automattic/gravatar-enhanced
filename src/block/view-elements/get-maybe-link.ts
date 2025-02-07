@@ -1,4 +1,4 @@
-import type { MaybeLinkProps } from "../shared-types";
+import type { MaybeLinkProps } from '../shared-types';
 
 interface Props extends MaybeLinkProps {
 	children: string | string[];

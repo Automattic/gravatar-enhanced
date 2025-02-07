@@ -13,8 +13,7 @@
 		"noImplicitThis": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
-		"resolveJsonModule": true,
-		"typeRoots": [ "node_modules/@types" ]
+		"resolveJsonModule": true
 	},
 	"include": [ "./src/**/*", "./*.js" ]
 }
