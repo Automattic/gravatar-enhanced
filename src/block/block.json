@@ -16,8 +16,7 @@
 			"type": "number"
 		},
 		"demoProfile": {
-			"type": "object",
-			"default": { "display_name": "John Doe" }
+			"type": "object"
 		},
 		"userType": {
 			"type": "string",
