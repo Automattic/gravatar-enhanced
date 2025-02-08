@@ -101,12 +101,22 @@ class Patterns {
 	 * @return void
 	 */
 	public function enqueue_view_style() {
-		$asset_file = dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/patterns.asset.php';
+		$asset_file = dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/patterns-shared.asset.php';
 		$assets = file_exists( $asset_file ) ? require $asset_file : [ 'dependencies' => [], 'version' => time() ];
 
 		wp_enqueue_style(
-			'gravatar-enhanced-patterns',
-			plugins_url( 'build/style-patterns.css', GRAVATAR_ENHANCED_PLUGIN_FILE ),
+			'gravatar-enhanced-patterns-shared',
+			plugins_url( 'build/patterns-shared.css', GRAVATAR_ENHANCED_PLUGIN_FILE ),
+			[],
+			$assets['version']
+		);
+
+		$asset_file = dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/patterns-view.asset.php';
+		$assets = file_exists( $asset_file ) ? require $asset_file : [ 'dependencies' => [], 'version' => time() ];
+
+		wp_enqueue_style(
+			'gravatar-enhanced-patterns-view',
+			plugins_url( 'build/patterns-view.css', GRAVATAR_ENHANCED_PLUGIN_FILE ),
 			[],
 			$assets['version']
 		);
@@ -118,7 +128,8 @@ class Patterns {
 	 * @return void
 	 */
 	public function enqueue_editor_style() {
-		add_editor_style( plugins_url( 'build/style-patterns.css', GRAVATAR_ENHANCED_PLUGIN_FILE ) );
+		add_editor_style( plugins_url( 'build/patterns-shared.css', GRAVATAR_ENHANCED_PLUGIN_FILE ) );
+		add_editor_style( plugins_url( 'build/patterns-edit.css', GRAVATAR_ENHANCED_PLUGIN_FILE ) );
 	}
 
 	/**
