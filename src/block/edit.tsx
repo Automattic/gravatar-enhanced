@@ -24,7 +24,7 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 	const { layout, avatarUrlSizeParam, demoProfile, userType, userEmail, deletedElements } = attributes;
 
 	const { replaceInnerBlocks } = useDispatch( 'core/block-editor' );
-	const [ emailInputVal, setEmailInputVal ] = useState( '' );
+	const [ emailInputVal, setEmailInputVal ] = useState( userEmail );
 	const [ apiStatus, setApiStatus ] = useState< ApiStatus >( 'loading' );
 	const [ errorMsg, setErrorMsg ] = useState( '' );
 	const prevExistingBlocksRef = useRef< string[] >( null );
