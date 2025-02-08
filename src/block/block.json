@@ -10,7 +10,7 @@
 	"attributes": {
 		"layout": {
 			"type": "string",
-			"default": "portrait"
+			"default": "default"
 		},
 		"avatarUrlSizeParam": {
 			"type": "number"
