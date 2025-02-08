@@ -35,7 +35,6 @@ class Patterns {
 		add_action( 'init', [ $this, 'register_patterns' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_view_style' ] );
 		add_action( 'admin_init', [ $this, 'enqueue_editor_style' ] );
-		// TODO: Ensure the CSS file is enqueued in all the necessary places.
 	}
 
 	/**
