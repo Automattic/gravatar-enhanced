@@ -9,7 +9,7 @@ type Options = Partial< {
 } >;
 
 export default function getJobTitle(
-	profileData: GravatarAPIProfile,
+	profileData: Partial< GravatarAPIProfile >,
 	deletedElements: MainEditAttrs[ 'deletedElements' ],
 	options: Options = {}
 ): string | null {

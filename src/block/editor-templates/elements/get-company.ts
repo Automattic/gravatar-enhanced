@@ -10,7 +10,7 @@ type Options = Partial< {
 } >;
 
 export default function getCompany(
-	profileData: GravatarAPIProfile,
+	profileData: Partial< GravatarAPIProfile >,
 	deletedElements: MainEditAttrs[ 'deletedElements' ],
 	options: Options = {}
 ): InnerBlockTemplate | null {

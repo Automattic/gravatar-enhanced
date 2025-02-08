@@ -49,6 +49,7 @@ export interface InnerBlockAttrsMap {
 export interface MainEditAttrs {
 	layout: Layout;
 	avatarUrlSizeParam: number;
+	mockProfile: Partial< GravatarAPIProfile >;
 	userType: UserTypes;
 	userEmail: string;
 	deletedElements: Record< string, boolean >;
@@ -94,11 +95,11 @@ export interface MaybeLinkProps {
 }
 
 export type EditTemplateFn = (
-	profileData: GravatarAPIProfile,
+	profileData: Partial< GravatarAPIProfile >,
 	deletedElements: MainEditAttrs[ 'deletedElements' ]
 ) => InnerBlockTemplate[];
 
 export type ViewTemplateFn = (
-	profileData: GravatarAPIProfile,
+	profileData: Partial< GravatarAPIProfile >,
 	deletedElements: MainEditAttrs[ 'deletedElements' ]
 ) => string;

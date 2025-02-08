@@ -39,6 +39,7 @@ $color-gray: #50575e;
 }
 
 div.wp-block-gravatar-block.gravatar-block {
+	position: relative;
 	font-size: 14px;
 	line-height: 1.5;
 	padding: 24px;
@@ -132,6 +133,22 @@ div.wp-block-gravatar-block.gravatar-block {
 			color: unset;
 		}
 	}
+
+	.gravatar-block__loading,
+	.gravatar-block__error {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba($color-white, 0.75);
+		padding: inherit;
+		border-radius: inherit;
+		box-sizing: inherit;
+		z-index: 1;
+	}
 }
 
 div.wp-block-gravatar-block.gravatar-block--portrait {
@@ -167,5 +184,10 @@ div.wp-block-gravatar-block.gravatar-block--portrait {
 
 	.gravatar-block-paragraph--job + .gravatar-block-paragraph--location {
 		margin-top: -16px;
+	}
+
+	.gravatar-block__loading,
+	.gravatar-block__error {
+		justify-content: center;
 	}
 }

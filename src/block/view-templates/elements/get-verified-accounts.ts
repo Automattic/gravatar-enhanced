@@ -3,7 +3,7 @@ import { BlockNames } from '../../shared-types';
 import { getViewElement } from '../../utils';
 
 export default function getVerifiedAccounts(
-	profileData: GravatarAPIProfile,
+	profileData: Partial< GravatarAPIProfile >,
 	deletedElements: MainEditAttrs[ 'deletedElements' ]
 ): string[] {
 	const verifiedAccounts = [

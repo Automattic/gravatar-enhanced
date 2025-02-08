@@ -6,7 +6,7 @@ import { getBlockTemplate } from '../../utils';
 import { __ } from '@wordpress/i18n';
 
 export default function getViewProfile(
-	profileData: GravatarAPIProfile,
+	profileData: Partial< GravatarAPIProfile >,
 	deletedElements: MainEditAttrs[ 'deletedElements' ],
 	className?: string
 ): InnerBlockTemplate | null {

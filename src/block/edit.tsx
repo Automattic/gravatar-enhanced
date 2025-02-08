@@ -21,22 +21,22 @@ type ApiStatus = 'loading' | 'error' | 'success';
 type Props = BlockEditProps< MainEditAttrs >;
 
 export default function Edit( { attributes, setAttributes, clientId }: Props ) {
-	const { layout, avatarUrlSizeParam, userType, userEmail, deletedElements } = attributes;
+	const { layout, avatarUrlSizeParam, mockProfile, userType, userEmail, deletedElements } = attributes;
 
 	const { replaceInnerBlocks } = useDispatch( 'core/block-editor' );
-	const [ emailInputVal, setEmailInputVal ] = useState( userEmail );
+	const [ emailInputVal, setEmailInputVal ] = useState( '' );
 	const [ apiStatus, setApiStatus ] = useState< ApiStatus >( 'loading' );
 	const [ errorMsg, setErrorMsg ] = useState( '' );
 	const prevExistingBlocksRef = useRef< string[] >( null );
 	const deletedElementsRef = useRef( deletedElements ); // Avoid unnecessary `useEffect` calls.
 	deletedElementsRef.current = deletedElements;
-	const templateFnRef = useRef( getDefaultTemplate ); // Avoid unnecessary `useEffect` calls.
+	const getTemplateRef = useRef( getDefaultTemplate ); // Avoid unnecessary `useEffect` calls.
 	let defaultAvatarSize = 72;
 	let layoutClassName = '';
 
 	switch ( layout ) {
 		case Layout.PORTRAIT:
-			templateFnRef.current = getPortraitTemplate;
+			getTemplateRef.current = getPortraitTemplate;
 			defaultAvatarSize = 354;
 			layoutClassName = 'gravatar-block--portrait';
 			break;
@@ -142,7 +142,7 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 
 			if ( ! validateEmail( email ) ) {
 				setApiStatus( 'error' );
-				setErrorMsg( __( 'Please enter a valid email.', 'gravatar-enhanced' ) );
+				setErrorMsg( __( 'Please enter a valid email in the block settings.', 'gravatar-enhanced' ) );
 				return;
 			}
 
@@ -159,7 +159,7 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 
 				replaceInnerBlocks(
 					clientId,
-					createBlocksFromInnerBlocksTemplate( templateFnRef.current( data, deletedElementsRef.current ) )
+					createBlocksFromInnerBlocksTemplate( getTemplateRef.current( data, deletedElementsRef.current ) )
 				);
 			}
 		};
@@ -170,9 +170,14 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 	// Reset the block items from the navigation menu when the API status changes.
 	useEffect( () => {
 		if ( apiStatus !== 'success' ) {
-			replaceInnerBlocks( clientId, [] );
+			replaceInnerBlocks(
+				clientId,
+				mockProfile
+					? createBlocksFromInnerBlocksTemplate( getTemplateRef.current( mockProfile, deletedElements ) )
+					: []
+			);
 		}
-	}, [ apiStatus, clientId, replaceInnerBlocks ] );
+	}, [ apiStatus, clientId, deletedElements, mockProfile, replaceInnerBlocks ] );
 
 	function handleUserTypeChange( type: UserTypes ) {
 		let email = '';
@@ -235,6 +240,14 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 				) }
 				{ apiStatus === 'error' && <div className="gravatar-block__error">{ errorMsg }</div> }
 				{ apiStatus === 'success' && <InnerBlocks allowedBlocks={ [] } renderAppender={ undefined } /> }
+				{ apiStatus !== 'success' && mockProfile && (
+					<InnerBlocks
+						allowedBlocks={ [] }
+						renderAppender={ undefined }
+						templateLock="all"
+						template={ getTemplateRef.current( mockProfile, deletedElements ) }
+					/>
+				) }
 			</div>
 		</>
 	);

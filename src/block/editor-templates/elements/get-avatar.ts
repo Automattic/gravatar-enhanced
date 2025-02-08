@@ -12,7 +12,7 @@ type Options = Partial< {
 } >;
 
 export default function getAvatar(
-	profileData: GravatarAPIProfile,
+	profileData: Partial< GravatarAPIProfile >,
 	deletedElements: MainEditAttrs[ 'deletedElements' ],
 	imageWidth,
 	imageHeight,

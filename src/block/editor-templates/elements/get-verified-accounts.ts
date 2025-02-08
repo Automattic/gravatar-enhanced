@@ -4,7 +4,7 @@ import { BlockNames } from '../../shared-types';
 import { getBlockTemplate } from '../../utils';
 
 export default function getVerifiedAccounts(
-	profileData: GravatarAPIProfile,
+	profileData: Partial< GravatarAPIProfile >,
 	deletedElements: MainEditAttrs[ 'deletedElements' ]
 ): InnerBlockTemplate[] {
 	const verifiedAccounts = [

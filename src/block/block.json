@@ -15,6 +15,9 @@
 		"avatarUrlSizeParam": {
 			"type": "number"
 		},
+		"mockProfile": {
+			"type": "object"
+		},
 		"userType": {
 			"type": "string",
 			"default": "author"
