@@ -15,6 +15,7 @@ $data = wp_json_encode(
 		'hashedEmail' => hash( 'sha256', $sanitized_email ),
 		'layout' => $attributes['layout'],
 		'avatarUrlSizeParam' => $attributes['avatarUrlSizeParam'],
+		'demoProfile' => $attributes['demoProfile'],
 		'deletedElements' => $attributes['deletedElements'],
 	]
 );

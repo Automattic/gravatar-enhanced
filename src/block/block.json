@@ -15,8 +15,9 @@
 		"avatarUrlSizeParam": {
 			"type": "number"
 		},
-		"mockProfile": {
-			"type": "object"
+		"demoProfile": {
+			"type": "object",
+			"default": { "display_name": "John Doe" }
 		},
 		"userType": {
 			"type": "string",

@@ -12,9 +12,9 @@ export default function getDescription(
 	profileData: Partial< GravatarAPIProfile >,
 	deletedElements: MainEditAttrs[ 'deletedElements' ],
 	options: Options = {}
-): string | null {
+): string {
 	if ( ! profileData.description ) {
-		return null;
+		return '';
 	}
 
 	return getViewElement( BlockNames.PARAGRAPH, KnownElemNames.DESCRIPTION, deletedElements, {

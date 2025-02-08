@@ -8,9 +8,9 @@ export default function getViewProfile(
 	profileData: Partial< GravatarAPIProfile >,
 	deletedElements: MainEditAttrs[ 'deletedElements' ],
 	className?: string
-): string | null {
+): string {
 	if ( ! profileData.profile_url ) {
-		return null;
+		return '';
 	}
 
 	return getViewElement( BlockNames.LINK, KnownElemNames.VIEW_PROFILE, deletedElements, {

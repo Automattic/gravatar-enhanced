@@ -12,9 +12,9 @@ export default function getLocation(
 	profileData: Partial< GravatarAPIProfile >,
 	deletedElements: MainEditAttrs[ 'deletedElements' ],
 	options: Options = {}
-): string | null {
+): string {
 	if ( ! profileData.location ) {
-		return null;
+		return '';
 	}
 
 	return getViewElement( BlockNames.PARAGRAPH, KnownElemNames.LOCATION, deletedElements, {

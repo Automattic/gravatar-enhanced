@@ -16,7 +16,7 @@ export default function getAvatar(
 	imageWidth,
 	imageHeight,
 	options: Options = { linkToProfile: true }
-): string | null {
+): string {
 	return getViewElement( BlockNames.IMAGE, KnownElemNames.AVATAR, deletedElements, {
 		className: clsx( 'gravatar-block-image--avatar', options.className ),
 		linkUrl: options.linkToProfile && profileData.profile_url,

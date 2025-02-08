@@ -12,9 +12,9 @@ export default function getCompany(
 	profileData: Partial< GravatarAPIProfile >,
 	deletedElements: MainEditAttrs[ 'deletedElements' ],
 	options: Options = {}
-): string | null {
+): string {
 	if ( ! profileData.company ) {
-		return null;
+		return '';
 	}
 
 	return getViewElement( BlockNames.PARAGRAPH, KnownElemNames.COMPANY, deletedElements, {

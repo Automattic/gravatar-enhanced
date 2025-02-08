@@ -12,9 +12,9 @@ export default function getJobTitle(
 	profileData: Partial< GravatarAPIProfile >,
 	deletedElements: MainEditAttrs[ 'deletedElements' ],
 	options: Options = {}
-): string | null {
+): string {
 	if ( ! profileData.job_title ) {
-		return null;
+		return '';
 	}
 
 	return getViewElement( BlockNames.PARAGRAPH, KnownElemNames.JOB, deletedElements, {

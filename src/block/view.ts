@@ -15,33 +15,20 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	const gravatarBlocks = document.querySelectorAll< HTMLDivElement >( '.gravatar-block' );
 
 	gravatarBlocks.forEach( async ( block ) => {
-		block.innerHTML = __( 'Loading…', 'gravatar-enhanced' );
-
-		if ( ! block.dataset.attrs ) {
-			block.innerHTML = __( 'Oops! Something went wrong.', 'gravatar-enhanced' );
-			return;
-		}
-
 		const {
 			layout,
 			avatarUrlSizeParam,
+			demoProfile: demoProfileData,
 			hashedEmail = '',
 			deletedElements = {},
 		} = JSON.parse( block.dataset.attrs ) as Attrs;
 
-		const { error, data } = await fetchProfile( hashedEmail );
-
-		if ( error ) {
-			block.innerHTML = error;
-			return;
-		}
-
-		let templateFn = getDefaultTemplate;
+		let getTemplate = getDefaultTemplate;
 		let defaultAvatarSize = 72;
 
 		switch ( layout ) {
 			case Layout.PORTRAIT:
-				templateFn = getPortraitTemplate;
+				getTemplate = getPortraitTemplate;
 				defaultAvatarSize = 354;
 				break;
 			case Layout.LANDSCAPE:
@@ -52,8 +39,35 @@ document.addEventListener( 'DOMContentLoaded', () => {
 				break;
 		}
 
+		const demoProfile = demoProfileData ? getTemplate( demoProfileData, deletedElements ) : '';
+
+		block.innerHTML = `
+			<div class="gravatar-block__loading">${ __( 'Loading…', 'gravatar-enhanced' ) }</div>
+			${ demoProfile }
+		`;
+
+		if ( ! block.dataset.attrs ) {
+			block.innerHTML = `
+				<div class="gravatar-block__error">${ __( 'Oops! Something went wrong', 'gravatar-enhanced' ) }</div>
+				${ demoProfile }
+			`;
+
+			return;
+		}
+
+		const { error, data } = await fetchProfile( hashedEmail );
+
+		if ( error ) {
+			block.innerHTML = `
+				<div class="gravatar-block__error">${ error }</div>
+				${ demoProfile }
+			`;
+
+			return;
+		}
+
 		data.avatar_url = getAvatarUrlWithSize( data.avatar_url, avatarUrlSizeParam || defaultAvatarSize );
 
-		block.innerHTML = templateFn( data, deletedElements );
+		block.innerHTML = getTemplate( data, deletedElements );
 	} );
 } );

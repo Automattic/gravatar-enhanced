@@ -12,9 +12,9 @@ export default function getDisplayName(
 	profileData: Partial< GravatarAPIProfile >,
 	deletedElements: MainEditAttrs[ 'deletedElements' ],
 	options: Options = {}
-): string | null {
+): string {
 	if ( ! profileData.display_name ) {
-		return null;
+		return '';
 	}
 
 	return getViewElement( BlockNames.NAME, KnownElemNames.DISPLAY_NAME, deletedElements, {
