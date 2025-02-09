@@ -18,7 +18,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		const {
 			layout,
 			avatarUrlSizeParam,
-			demoProfile: demoProfileData,
+			placeholderProfile: placeholderData,
 			hashedEmail = '',
 			deletedElements = {},
 		} = JSON.parse( block.dataset.attrs ) as Attrs;
@@ -39,17 +39,17 @@ document.addEventListener( 'DOMContentLoaded', () => {
 				break;
 		}
 
-		const demoProfile = demoProfileData ? getTemplate( demoProfileData, deletedElements ) : '';
+		const placeholderProfile = placeholderData ? getTemplate( placeholderData, deletedElements ) : '';
 
 		block.innerHTML = `
 			<div class="gravatar-block__loading">${ __( 'Loading…', 'gravatar-enhanced' ) }</div>
-			${ demoProfile }
+			${ placeholderProfile }
 		`;
 
 		if ( ! block.dataset.attrs ) {
 			block.innerHTML = `
 				<div class="gravatar-block__error">${ __( 'Oops! Something went wrong', 'gravatar-enhanced' ) }</div>
-				${ demoProfile }
+				${ placeholderProfile }
 			`;
 
 			return;
@@ -60,7 +60,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		if ( error ) {
 			block.innerHTML = `
 				<div class="gravatar-block__error">${ error }</div>
-				${ demoProfile }
+				${ placeholderProfile }
 			`;
 
 			return;

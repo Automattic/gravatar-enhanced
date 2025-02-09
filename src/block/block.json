@@ -15,8 +15,15 @@
 		"avatarUrlSizeParam": {
 			"type": "number"
 		},
-		"demoProfile": {
-			"type": "object"
+		"placeholderProfile": {
+			"type": "object",
+			"default": {
+				"display_name": "Display Name",
+				"job_title": "Job Title",
+				"company": "Company",
+				"location": "Location",
+				"description": "Welcome to Gravatar!"
+			}
 		},
 		"userType": {
 			"type": "string",

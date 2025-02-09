@@ -21,7 +21,7 @@ type ApiStatus = 'loading' | 'error' | 'success';
 type Props = BlockEditProps< MainEditAttrs >;
 
 export default function Edit( { attributes, setAttributes, clientId }: Props ) {
-	const { layout, avatarUrlSizeParam, demoProfile, userType, userEmail, deletedElements } = attributes;
+	const { layout, avatarUrlSizeParam, placeholderProfile, userType, userEmail, deletedElements } = attributes;
 
 	const { replaceInnerBlocks } = useDispatch( 'core/block-editor' );
 	const [ emailInputVal, setEmailInputVal ] = useState( userEmail );
@@ -172,12 +172,12 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 		if ( apiStatus !== 'success' ) {
 			replaceInnerBlocks(
 				clientId,
-				demoProfile
-					? createBlocksFromInnerBlocksTemplate( getTemplateRef.current( demoProfile, deletedElements ) )
+				placeholderProfile
+					? createBlocksFromInnerBlocksTemplate( getTemplateRef.current( placeholderProfile, deletedElements ) )
 					: []
 			);
 		}
-	}, [ apiStatus, clientId, deletedElements, demoProfile, replaceInnerBlocks ] );
+	}, [ apiStatus, clientId, deletedElements, placeholderProfile, replaceInnerBlocks ] );
 
 	function handleUserTypeChange( type: UserTypes ) {
 		let email = '';
@@ -240,12 +240,12 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 				) }
 				{ apiStatus === 'error' && <div className="gravatar-block__error">{ errorMsg }</div> }
 				{ apiStatus === 'success' && <InnerBlocks allowedBlocks={ [] } renderAppender={ undefined } /> }
-				{ apiStatus !== 'success' && demoProfile && (
+				{ apiStatus !== 'success' && placeholderProfile && (
 					<InnerBlocks
 						allowedBlocks={ [] }
 						renderAppender={ undefined }
 						templateLock="all"
-						template={ getTemplateRef.current( demoProfile, deletedElements ) }
+						template={ getTemplateRef.current( placeholderProfile, deletedElements ) }
 					/>
 				) }
 			</div>

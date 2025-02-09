@@ -49,7 +49,7 @@ export interface InnerBlockAttrsMap {
 export interface MainEditAttrs {
 	layout: Layout;
 	avatarUrlSizeParam: number;
-	demoProfile: Partial< GravatarAPIProfile >;
+	placeholderProfile: Partial< GravatarAPIProfile >;
 	userType: UserTypes;
 	userEmail: string;
 	deletedElements: Record< string, boolean >;
