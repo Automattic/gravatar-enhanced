@@ -134,7 +134,7 @@ class Plugin {
 		$this->analytics->init();
 		$this->block->init();
 		// TODO: Uncomment this line when the grid patterns are ready.
-		// $this->patterns->init();
+		$this->patterns->init();
 		$this->wc_admin_customers->init();
 		$this->wc_my_account->init();
 		$this->oembed->init();
@@ -151,7 +151,7 @@ class Plugin {
 		$this->auto_options->uninstall();
 		$this->lazy_options->uninstall();
 		// TODO: Uncomment this line when the grid patterns are ready.
-		// $this->patterns->uninstall();
+		$this->patterns->uninstall();
 
 		// Just in case, flush the cache
 		wp_cache_flush();

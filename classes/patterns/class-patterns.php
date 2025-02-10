@@ -33,8 +33,10 @@ class Patterns {
 	public function init() {
 		add_action( 'init', [ $this, 'register_pattern_category' ] );
 		add_action( 'init', [ $this, 'register_patterns' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_shared_style' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_view_style' ] );
-		add_action( 'admin_init', [ $this, 'enqueue_editor_style' ] );
+		add_action( 'enqueue_block_assets', [ $this, 'enqueue_shared_style' ] );
+		add_action( 'enqueue_block_assets', [ $this, 'enqueue_edit_style' ] );
 	}
 
 	/**
@@ -95,11 +97,11 @@ class Patterns {
 	}
 
 	/**
-	 * Enqueue view styles for patterns.
+	 * Enqueue the shared style.
 	 *
 	 * @return void
 	 */
-	public function enqueue_view_style() {
+	public function enqueue_shared_style() {
 		$asset_file = dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/patterns-shared.asset.php';
 		$assets = file_exists( $asset_file ) ? require $asset_file : [ 'dependencies' => [], 'version' => time() ];
 
@@ -109,7 +111,14 @@ class Patterns {
 			[],
 			$assets['version']
 		);
+	}
 
+	/**
+	 * Enqueue the view style.
+	 *
+	 * @return void
+	 */
+	public function enqueue_view_style() {
 		$asset_file = dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/patterns-view.asset.php';
 		$assets = file_exists( $asset_file ) ? require $asset_file : [ 'dependencies' => [], 'version' => time() ];
 
@@ -122,13 +131,20 @@ class Patterns {
 	}
 
 	/**
-	 * Enqueue editor styles for patterns.
+	 * Enqueue the edit style.
 	 *
 	 * @return void
 	 */
-	public function enqueue_editor_style() {
-		add_editor_style( plugins_url( 'build/patterns-shared.css', GRAVATAR_ENHANCED_PLUGIN_FILE ) );
-		add_editor_style( plugins_url( 'build/patterns-edit.css', GRAVATAR_ENHANCED_PLUGIN_FILE ) );
+	public function enqueue_edit_style() {
+		$asset_file = dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/patterns-edit.asset.php';
+		$assets = file_exists( $asset_file ) ? require $asset_file : [ 'dependencies' => [], 'version' => time() ];
+
+		wp_enqueue_style(
+			'gravatar-enhanced-patterns-edit',
+			plugins_url( 'build/patterns-edit.css', GRAVATAR_ENHANCED_PLUGIN_FILE ),
+			[],
+			$assets['version']
+		);
 	}
 
 	/**
