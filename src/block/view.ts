@@ -42,7 +42,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		const placeholderProfile = placeholderProfileData ? getTemplate( placeholderProfileData, deletedElements ) : '';
 
 		block.innerHTML = `
-			<div class="gravatar-block__loading">${ __( 'Loading…', 'gravatar-enhanced' ) }</div>
+			${ ! placeholderProfile ? `<div class="gravatar-block__loading">${ __( 'Loading…', 'gravatar-enhanced' ) }</div>` : '' }
 			${ placeholderProfile }
 		`;
 

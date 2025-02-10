@@ -173,7 +173,9 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 			replaceInnerBlocks(
 				clientId,
 				placeholderProfile
-					? createBlocksFromInnerBlocksTemplate( getTemplateRef.current( placeholderProfile, deletedElements ) )
+					? createBlocksFromInnerBlocksTemplate(
+							getTemplateRef.current( placeholderProfile, deletedElements )
+					  )
 					: []
 			);
 		}
@@ -235,7 +237,7 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 					'gravatar-block--custom-text-color': !! blockProps.style.color,
 				} ) }
 			>
-				{ apiStatus === 'loading' && (
+				{ apiStatus === 'loading' && ! placeholderProfile && (
 					<div className="gravatar-block__loading">{ __( 'Loading…', 'gravatar-enhanced' ) }</div>
 				) }
 				{ apiStatus === 'error' && <div className="gravatar-block__error">{ errorMsg }</div> }
