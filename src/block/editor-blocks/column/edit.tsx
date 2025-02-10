@@ -1,8 +1,8 @@
-import type { ColumnAttrs } from '../../shared-types';
 import type { BlockEditProps, TemplateArray } from '@wordpress/blocks';
 import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 import clsx from 'clsx';
+import type { ColumnAttrs } from '../../shared-types';
 import { MaybeLink } from '../../components';
 
 type Props = BlockEditProps< ColumnAttrs >;

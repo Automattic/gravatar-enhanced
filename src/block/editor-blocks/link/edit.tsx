@@ -1,7 +1,7 @@
-import type { LinkAttrs } from '../../shared-types';
 import type { BlockEditProps } from '@wordpress/blocks';
 import { useBlockProps } from '@wordpress/block-editor';
 import clsx from 'clsx';
+import type { LinkAttrs } from '../../shared-types';
 
 type Props = BlockEditProps< LinkAttrs >;
 
