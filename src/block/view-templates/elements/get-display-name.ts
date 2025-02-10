@@ -19,7 +19,7 @@ export default function getDisplayName(
 
 	return getViewElement( BlockNames.NAME, KnownElemNames.DISPLAY_NAME, deletedElements, {
 		className: clsx( 'gravatar-text-truncate-2-lines', options.className ),
-		linkUrl: options.linkToProfile && profileData.profile_url,
+		linkUrl: options.linkToProfile ? profileData.profile_url : '',
 		text: profileData.display_name,
 	} );
 }

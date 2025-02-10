@@ -20,7 +20,7 @@ export default function getAvatar(
 ): InnerBlockTemplate {
 	return getBlockTemplate( BlockNames.IMAGE, KnownElemNames.AVATAR, deletedElements, {
 		className: clsx( 'gravatar-block-image--avatar', options.className ),
-		linkUrl: options.linkToProfile && profileData.profile_url,
+		linkUrl: options.linkToProfile ? profileData.profile_url : '',
 		imageUrl: profileData.avatar_url || avatarPlaceholder,
 		imageWidth,
 		imageHeight,

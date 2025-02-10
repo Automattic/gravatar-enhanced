@@ -20,7 +20,7 @@ export default function getDescription(
 
 	return getBlockTemplate( BlockNames.PARAGRAPH, KnownElemNames.DESCRIPTION, deletedElements, {
 		className: clsx( 'gravatar-block-paragraph--description gravatar-text-truncate-2-lines', options.className ),
-		linkUrl: options.linkToProfile && profileData.profile_url,
+		linkUrl: options.linkToProfile ? profileData.profile_url : '',
 		text: profileData.description,
 	} );
 }

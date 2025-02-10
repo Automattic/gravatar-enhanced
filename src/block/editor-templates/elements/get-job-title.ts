@@ -20,7 +20,7 @@ export default function getJobTitle(
 
 	return getBlockTemplate( BlockNames.PARAGRAPH, KnownElemNames.JOB, deletedElements, {
 		className: clsx( 'gravatar-block-paragraph--job gravatar-text-truncate-1-line', options.className ),
-		linkUrl: options.linkToProfile && profileData.profile_url,
+		linkUrl: options.linkToProfile ? profileData.profile_url : '',
 		text: profileData.job_title,
 	} );
 }

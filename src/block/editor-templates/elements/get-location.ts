@@ -20,7 +20,7 @@ export default function getLocation(
 
 	return getBlockTemplate( BlockNames.PARAGRAPH, KnownElemNames.LOCATION, deletedElements, {
 		className: clsx( 'gravatar-block-paragraph--location gravatar-text-truncate-1-line', options.className ),
-		linkUrl: options.linkToProfile && profileData.profile_url,
+		linkUrl: options.linkToProfile ? profileData.profile_url : '',
 		text: profileData.location,
 	} );
 }

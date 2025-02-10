@@ -19,7 +19,7 @@ export default function getCompany(
 
 	return getViewElement( BlockNames.PARAGRAPH, KnownElemNames.COMPANY, deletedElements, {
 		className: clsx( 'gravatar-block-paragraph--company gravatar-text-truncate-1-line', options.className ),
-		linkUrl: options.linkToProfile && profileData.profile_url,
+		linkUrl: options.linkToProfile ? profileData.profile_url : '',
 		text: profileData.company,
 	} );
 }
