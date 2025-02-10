@@ -47,7 +47,7 @@ class Patterns {
 			'gravatar',
 			[
 				'label' => __( 'Gravatar', 'gravatar-enhanced' ),
-				'description' => __( 'A collection of patterns for displaying Gravatar profiles.', 'gravatar-enhanced' ),
+				'description' => __( 'A curated collection of block patterns to showcase Gravatar profiles.', 'gravatar-enhanced' ),
 			]
 		);
 	}
@@ -75,7 +75,7 @@ class Patterns {
 					// translators: %d: Pattern number.
 					$title = sprintf( __( 'Gravatar profiles, grid layout #%d', 'gravatar-enhanced' ), $pattern['number'] );
 					// translators: %d: Pattern number.
-					$description = sprintf( __( 'Display Gravatar profiles using Grid Layout #%d.', 'gravatar-enhanced' ), $pattern['number'] );
+					$description = sprintf( __( 'Grid layout #%d for displaying Gravatar profiles.', 'gravatar-enhanced' ), $pattern['number'] );
 					$keywords[] = 'grid';
 					break;
 				// TODO: Add more types...
