@@ -1,5 +1,5 @@
-import type { ImageAttrs } from '../shared-types';
 import clsx from 'clsx';
+import type { ImageAttrs } from '../shared-types';
 import { getMaybeLink } from '.';
 
 type Props = ImageAttrs;

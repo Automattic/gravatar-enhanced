@@ -1,8 +1,8 @@
+import { __ } from '@wordpress/i18n';
 import clsx from 'clsx';
 import type { MainEditAttrs } from '../../shared-types';
 import { BlockNames, KnownElemNames } from '../../shared-types';
 import { getViewElement } from '../../utils';
-import { __ } from '@wordpress/i18n';
 
 export default function getViewProfile(
 	profileData: Partial< GravatarAPIProfile >,

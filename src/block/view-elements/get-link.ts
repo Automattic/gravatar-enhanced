@@ -1,5 +1,5 @@
-import type { LinkAttrs } from '../shared-types';
 import clsx from 'clsx';
+import type { LinkAttrs } from '../shared-types';
 
 type Props = LinkAttrs;
 

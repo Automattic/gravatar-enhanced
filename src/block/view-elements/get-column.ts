@@ -1,5 +1,5 @@
-import type { ColumnAttrs } from '../shared-types';
 import clsx from 'clsx';
+import type { ColumnAttrs } from '../shared-types';
 import { getMaybeLink } from '.';
 
 type Props = ColumnAttrs;

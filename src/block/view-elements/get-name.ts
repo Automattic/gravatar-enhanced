@@ -1,5 +1,5 @@
-import type { NameAttrs } from '../shared-types';
 import clsx from 'clsx';
+import type { NameAttrs } from '../shared-types';
 import { getMaybeLink } from '.';
 
 type Props = NameAttrs;

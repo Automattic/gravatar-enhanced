@@ -7,11 +7,11 @@ import { useEffect, useState, useRef, useCallback } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import _debounce from 'lodash.debounce';
 import { sha256 } from 'js-sha256';
+import clsx from 'clsx';
 import type { MainEditAttrs } from './shared-types';
 import { Layout, UserTypes } from './shared-types';
 import { getDefaultTemplate, getPortraitTemplate } from './editor-templates';
 import { fetchProfile as basedFetchProfile, getExistingBlocks, validateEmail, getAvatarUrlWithSize } from './utils';
-import clsx from 'clsx';
 
 import './shared.scss';
 import './edit.scss';
