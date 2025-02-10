@@ -18,7 +18,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		const {
 			layout,
 			avatarUrlSizeParam,
-			placeholderProfile: placeholderData,
+			placeholderProfile: placeholderProfileData,
 			hashedEmail = '',
 			deletedElements = {},
 		} = JSON.parse( block.dataset.attrs ) as Attrs;
@@ -39,7 +39,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 				break;
 		}
 
-		const placeholderProfile = placeholderData ? getTemplate( placeholderData, deletedElements ) : '';
+		const placeholderProfile = placeholderProfileData ? getTemplate( placeholderProfileData, deletedElements ) : '';
 
 		block.innerHTML = `
 			<div class="gravatar-block__loading">${ __( 'Loading…', 'gravatar-enhanced' ) }</div>
