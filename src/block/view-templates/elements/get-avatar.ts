@@ -2,8 +2,8 @@ import clsx from 'clsx';
 import type { MainEditAttrs } from '../../shared-types';
 import { BlockNames, KnownElemNames } from '../../shared-types';
 import { getViewElement } from '../../utils';
-// TS Error: Didn't find a way to fix the import error, used require instead.
-const avatarPlaceholder = require( '../../images/avatar-placeholder.svg' ).default;
+// @ts-ignore: TODO - fix this TS import error.
+import avatarPlaceholder from '../../images/avatar-placeholder.svg';
 
 type Options = Partial< {
 	className: string;
