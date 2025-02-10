@@ -73,9 +73,9 @@ class Patterns {
 			switch ( $pattern['type'] ) {
 				case 'grid-pattern':
 					// translators: %d: Pattern number.
-					$title = sprintf( __( 'Gravatar profiles grid layout %d', 'gravatar-enhanced' ), $pattern['number'] );
+					$title = sprintf( __( 'Gravatar profiles, grid layout #%d', 'gravatar-enhanced' ), $pattern['number'] );
 					// translators: %d: Pattern number.
-					$description = sprintf( __( 'Grid layout %d to display Gravatar profiles.', 'gravatar-enhanced' ), $pattern['number'] );
+					$description = sprintf( __( 'Display Gravatar profiles using Grid Layout #%d.', 'gravatar-enhanced' ), $pattern['number'] );
 					$keywords[] = 'grid';
 					break;
 				// TODO: Add more types...
