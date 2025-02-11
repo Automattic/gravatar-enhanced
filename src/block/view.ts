@@ -42,13 +42,13 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		const placeholderProfile = placeholderProfileData ? getTemplate( placeholderProfileData, deletedElements ) : '';
 
 		block.innerHTML = `
-			${ ! placeholderProfile ? `<div class="gravatar-block__loading">${ __( 'Loading…', 'gravatar-enhanced' ) }</div>` : '' }
+			${ ! placeholderProfile ? `<div class="gravatar-block__status">${ __( 'Loading…', 'gravatar-enhanced' ) }</div>` : '' }
 			${ placeholderProfile }
 		`;
 
 		if ( ! block.dataset.attrs ) {
 			block.innerHTML = `
-				<div class="gravatar-block__error">${ __( 'Oops! Something went wrong', 'gravatar-enhanced' ) }</div>
+				<div class="gravatar-block__status">${ __( 'Oops! Something went wrong', 'gravatar-enhanced' ) }</div>
 				${ placeholderProfile }
 			`;
 
@@ -59,7 +59,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
 		if ( error ) {
 			block.innerHTML = `
-				<div class="gravatar-block__error">${ error }</div>
+				<div class="gravatar-block__status">${ error }</div>
 				${ placeholderProfile }
 			`;
 

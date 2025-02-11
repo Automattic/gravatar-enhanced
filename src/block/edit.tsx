@@ -238,9 +238,9 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 				} ) }
 			>
 				{ apiStatus === 'loading' && ! placeholderProfile && (
-					<div className="gravatar-block__loading">{ __( 'Loading…', 'gravatar-enhanced' ) }</div>
+					<div className="gravatar-block__status">{ __( 'Loading…', 'gravatar-enhanced' ) }</div>
 				) }
-				{ apiStatus === 'error' && <div className="gravatar-block__error">{ errorMsg }</div> }
+				{ apiStatus === 'error' && <div className="gravatar-block__status">{ errorMsg }</div> }
 				{ apiStatus === 'success' && <InnerBlocks allowedBlocks={ [] } renderAppender={ undefined } /> }
 				{ apiStatus !== 'success' && placeholderProfile && (
 					<InnerBlocks
