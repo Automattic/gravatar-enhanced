@@ -8,7 +8,7 @@ export default function getColumn( { linkUrl, verticalAlignment, className }: Pr
 	return getMaybeLink( {
 		linkUrl,
 		class: clsx(
-			'gravatar-block',
+			'gravatar-block__child',
 			'gravatar-block-column',
 			{ 'gravatar-block-column--vertical-alignment': verticalAlignment },
 			className

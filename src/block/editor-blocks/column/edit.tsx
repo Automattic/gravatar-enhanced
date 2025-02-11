@@ -25,7 +25,7 @@ export default function Edit( { attributes, clientId }: Props ) {
 		<MaybeLink
 			{ ...blockProps }
 			className={ clsx(
-				'gravatar-block',
+				'gravatar-block__child',
 				'gravatar-block-column',
 				{ 'gravatar-block-column--vertical-alignment': verticalAlignment },
 				blockProps.className,

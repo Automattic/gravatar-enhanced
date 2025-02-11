@@ -14,7 +14,7 @@ export default function Edit( { attributes }: Props ) {
 		// eslint-disable-next-line react/jsx-no-target-blank
 		<a
 			{ ...blockProps }
-			className={ clsx( 'gravatar-block', 'gravatar-block-link', blockProps.className, className ) }
+			className={ clsx( 'gravatar-block__child', 'gravatar-block-link', blockProps.className, className ) }
 			href={ linkUrl }
 			target="_blank"
 		>

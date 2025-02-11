@@ -7,7 +7,7 @@ type Props = ImageAttrs;
 export default function getImage( { linkUrl, imageUrl, imageWidth, imageHeight, imageAlt, className }: Props ): string {
 	return getMaybeLink( {
 		linkUrl,
-		class: clsx( 'gravatar-block', 'gravatar-block-image', className ),
+		class: clsx( 'gravatar-block__child', 'gravatar-block-image', className ),
 		children: `<img class="gravatar-block-image__image" src="${ imageUrl }" width="${ imageWidth }" height="${ imageHeight }" alt="${ imageAlt }"/>`,
 	} );
 }
