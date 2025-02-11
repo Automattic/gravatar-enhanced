@@ -13,7 +13,8 @@
 			"default": "default"
 		},
 		"avatarUrlSizeParam": {
-			"type": "number"
+			"type": "number",
+			"default": 0
 		},
 		"placeholderProfile": {
 			"type": "object",
@@ -24,6 +25,10 @@
 				"location": "Location",
 				"description": "Welcome to Gravatar!"
 			}
+		},
+		"isChildBlockClickable": {
+			"type": "boolean",
+			"default": true
 		},
 		"userType": {
 			"type": "string",

@@ -21,7 +21,15 @@ type ApiStatus = 'loading' | 'error' | 'success';
 type Props = BlockEditProps< MainEditAttrs >;
 
 export default function Edit( { attributes, setAttributes, clientId }: Props ) {
-	const { layout, avatarUrlSizeParam, placeholderProfile, userType, userEmail, deletedElements } = attributes;
+	const {
+		layout,
+		avatarUrlSizeParam,
+		placeholderProfile,
+		isChildBlockClickable,
+		userType,
+		userEmail,
+		deletedElements,
+	} = attributes;
 
 	const { replaceInnerBlocks } = useDispatch( 'core/block-editor' );
 	const [ emailInputVal, setEmailInputVal ] = useState( userEmail );
@@ -239,8 +247,9 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 				{ ...blockProps }
 				className={ clsx( 'gravatar-block', layoutClassName, blockProps.className, {
 					'gravatar-block--custom-text-color': !! blockProps.style.color,
-					// When the email input is empty, disable the click event of child blocks. So the user can select the block easily.
-					'gravatar-block--child-block-unclickable': userType === UserTypes.EMAIL && ! userEmail,
+					// Disable the click event of child blocks in some cases. So, the main block can be selected easily.
+					'gravatar-block--child-block-unclickable':
+						( userType === UserTypes.EMAIL && ! userEmail ) || ! isChildBlockClickable,
 				} ) }
 			>
 				{ apiStatus === 'error' && <div className="gravatar-block__status">{ errorMsg }</div> }

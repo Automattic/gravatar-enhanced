@@ -50,6 +50,7 @@ export interface MainEditAttrs {
 	layout: Layout;
 	avatarUrlSizeParam: number;
 	placeholderProfile: Partial< GravatarAPIProfile >;
+	isChildBlockClickable: boolean;
 	userType: UserTypes;
 	userEmail: string;
 	deletedElements: Record< string, boolean >;

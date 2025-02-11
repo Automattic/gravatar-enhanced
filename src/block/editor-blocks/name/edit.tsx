@@ -14,7 +14,7 @@ export default function Edit( { attributes }: Props ) {
 	return (
 		<MaybeLink
 			{ ...blockProps }
-			className={ clsx( 'gravatar-block__child', 'gravatar-block-name', blockProps.className, className ) }
+			className={ clsx( 'gravatar-block', 'gravatar-block-name', blockProps.className, className ) }
 			linkUrl={ linkUrl }
 		>
 			<h4 className="gravatar-block-name__text">{ text }</h4>
