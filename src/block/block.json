@@ -6,7 +6,7 @@
 	"title": "Gravatar Profile",
 	"description": "Display user information directly from Gravatar Public Profiles.",
 	"category": "widgets",
-	"keywords": [ "gravatar", "profile", "avatar", "card", "author", "user information", "user", "user information" ],
+	"keywords": [ "gravatar", "avatar", "profile", "card", "author", "author information", "user", "user information" ],
 	"attributes": {
 		"layout": {
 			"type": "string",
