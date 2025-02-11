@@ -25,7 +25,7 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 
 	const { replaceInnerBlocks } = useDispatch( 'core/block-editor' );
 	const [ emailInputVal, setEmailInputVal ] = useState( userEmail );
-	const [ apiStatus, setApiStatus ] = useState< ApiStatus >( 'loading' );
+	const [ apiStatus, setApiStatus ] = useState< ApiStatus >();
 	const [ errorMsg, setErrorMsg ] = useState( '' );
 	const prevExistingBlocksRef = useRef< string[] >( null );
 	const deletedElementsRef = useRef( deletedElements ); // Avoid unnecessary `useEffect` calls.
@@ -136,17 +136,25 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 
 	// Fetch the profile data when the email changes.
 	useEffect( () => {
+		setApiStatus( undefined );
+		setErrorMsg( '' );
+
+		const trimmedEmail = userEmail.trim();
+
+		if ( ! trimmedEmail ) {
+			return;
+		}
+
 		const fetchProfile = async ( email: string ) => {
 			setApiStatus( 'loading' );
-			setErrorMsg( '' );
 
 			if ( ! validateEmail( email ) ) {
 				setApiStatus( 'error' );
-				setErrorMsg( __( 'Please enter a valid email in the block settings.', 'gravatar-enhanced' ) );
+				setErrorMsg( __( 'Please enter a valid email.', 'gravatar-enhanced' ) );
 				return;
 			}
 
-			const hashedEmail = sha256( email.trim().toLowerCase() );
+			const hashedEmail = sha256( email.toLowerCase() );
 			const { error, data } = await basedFetchProfile( hashedEmail );
 
 			if ( error ) {
@@ -164,7 +172,7 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 			}
 		};
 
-		fetchProfile( userEmail );
+		fetchProfile( trimmedEmail );
 	}, [ avatarUrlSizeParam, clientId, defaultAvatarSize, replaceInnerBlocks, userEmail ] );
 
 	// Reset the block items from the navigation menu when the API status changes.
@@ -172,11 +180,7 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 		if ( apiStatus !== 'success' ) {
 			replaceInnerBlocks(
 				clientId,
-				placeholderProfile
-					? createBlocksFromInnerBlocksTemplate(
-							getTemplateRef.current( placeholderProfile, deletedElements )
-					  )
-					: []
+				createBlocksFromInnerBlocksTemplate( getTemplateRef.current( placeholderProfile, deletedElements ) )
 			);
 		}
 	}, [ apiStatus, clientId, deletedElements, placeholderProfile, replaceInnerBlocks ] );
@@ -235,14 +239,13 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 				{ ...blockProps }
 				className={ clsx( 'gravatar-block', layoutClassName, blockProps.className, {
 					'gravatar-block--custom-text-color': !! blockProps.style.color,
+					// When the email input is empty, disable the click event of child blocks. So the user can select the block easily.
+					'gravatar-block--child-block-unclickable': userType === UserTypes.EMAIL && ! userEmail,
 				} ) }
 			>
-				{ apiStatus === 'loading' && ! placeholderProfile && (
-					<div className="gravatar-block__status">{ __( 'Loading…', 'gravatar-enhanced' ) }</div>
-				) }
 				{ apiStatus === 'error' && <div className="gravatar-block__status">{ errorMsg }</div> }
 				{ apiStatus === 'success' && <InnerBlocks allowedBlocks={ [] } renderAppender={ undefined } /> }
-				{ apiStatus !== 'success' && placeholderProfile && (
+				{ apiStatus !== 'success' && (
 					<InnerBlocks
 						allowedBlocks={ [] }
 						renderAppender={ undefined }

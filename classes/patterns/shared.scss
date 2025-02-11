@@ -1,7 +1,11 @@
 /* Styles for both the editor and the frontend view. */
 
 .gravatar-grid-pattern {
-	&.gravatar-grid-pattern-1 {
+	.gravatar-grid-pattern__row {
+		max-width: 727px !important;
+	}
+
+	&.gravatar-grid-pattern--1 {
 		div.wp-block-gravatar-block.gravatar-block--portrait {
 			max-width: unset !important;
 			min-width: unset;

@@ -18,7 +18,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		const {
 			layout,
 			avatarUrlSizeParam,
-			placeholderProfile: placeholderProfileData,
+			placeholderProfile,
 			hashedEmail = '',
 			deletedElements = {},
 		} = JSON.parse( block.dataset.attrs ) as Attrs;
@@ -39,17 +39,11 @@ document.addEventListener( 'DOMContentLoaded', () => {
 				break;
 		}
 
-		const placeholderProfile = placeholderProfileData ? getTemplate( placeholderProfileData, deletedElements ) : '';
-
-		block.innerHTML = `
-			${ ! placeholderProfile ? `<div class="gravatar-block__status">${ __( 'Loading…', 'gravatar-enhanced' ) }</div>` : '' }
-			${ placeholderProfile }
-		`;
+		block.innerHTML = getTemplate( placeholderProfile, deletedElements );
 
 		if ( ! block.dataset.attrs ) {
-			block.innerHTML = `
+			block.innerHTML += `
 				<div class="gravatar-block__status">${ __( 'Oops! Something went wrong', 'gravatar-enhanced' ) }</div>
-				${ placeholderProfile }
 			`;
 
 			return;
@@ -58,9 +52,8 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		const { error, data } = await fetchProfile( hashedEmail );
 
 		if ( error ) {
-			block.innerHTML = `
+			block.innerHTML += `
 				<div class="gravatar-block__status">${ error }</div>
-				${ placeholderProfile }
 			`;
 
 			return;

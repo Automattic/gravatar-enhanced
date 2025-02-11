@@ -2,10 +2,6 @@
 
 namespace Automattic\Gravatar\GravatarEnhanced\Patterns;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
-}
-
 /**
  * How to add a new pattern:
  *

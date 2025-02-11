@@ -123,17 +123,6 @@ div.wp-block-gravatar-block.gravatar-block {
 		}
 	}
 
-	&.gravatar-block--custom-text-color {
-		h4,
-		p,
-		.gravatar-block-paragraph--job .gravatar-block-paragraph__text,
-		.gravatar-block-paragraph--company .gravatar-block-paragraph__text,
-		.gravatar-block-paragraph--location .gravatar-block-paragraph__text,
-		.gravatar-block-link {
-			color: unset;
-		}
-	}
-
 	.gravatar-block__status {
 		position: absolute;
 		display: flex;
@@ -147,7 +136,22 @@ div.wp-block-gravatar-block.gravatar-block {
 		padding: 10px;
 		border-radius: inherit;
 		box-sizing: inherit;
-		z-index: 1;
+		z-index: 1000;
+	}
+
+	&.gravatar-block--custom-text-color {
+		h4,
+		p,
+		.gravatar-block-paragraph--job .gravatar-block-paragraph__text,
+		.gravatar-block-paragraph--company .gravatar-block-paragraph__text,
+		.gravatar-block-paragraph--location .gravatar-block-paragraph__text,
+		.gravatar-block-link {
+			color: unset;
+		}
+	}
+
+	&.gravatar-block--child-block-unclickable .gravatar-block__child {
+		pointer-events: none;
 	}
 }
 
