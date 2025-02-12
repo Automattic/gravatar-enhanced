@@ -1,6 +1,6 @@
 {
 	"name": "gravatar-enhanced",
-	"version": "0.7.0",
+	"version": "0.8.0",
 	"description": "Gravatar Enhanced WordPress plugin",
 	"scripts": {
 		"start": "wp-scripts start",
@@ -37,7 +37,7 @@
 		"typescript": "^5.7.3"
 	},
 	"dependencies": {
-		"@gravatar-com/hovercards": "^0.10.3",
+		"@gravatar-com/hovercards": "^0.10.4",
 		"@gravatar-com/quick-editor": "^0.6.0",
 		"@wordpress/editor": "^14.17.1",
 		"@wordpress/url": "^4.17.0",
