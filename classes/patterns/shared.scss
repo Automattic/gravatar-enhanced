@@ -3,6 +3,9 @@
 .gravatar-grid-pattern {
 	.gravatar-grid-pattern__row {
 		max-width: 727px !important;
+		/* Ensure content is centered in some themes, e.g. Twenty Twenty-One */
+		margin-left: auto;
+		margin-right: auto;
 	}
 
 	&.gravatar-grid-pattern--1 {

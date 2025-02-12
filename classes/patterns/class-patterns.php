@@ -66,7 +66,7 @@ class Patterns {
 
 			$title = '';
 			$description = '';
-			$keywords = [ 'gravatar', 'profile', 'profiles', 'pattern', 'layout' ];
+			$keywords = [ 'gravatar', 'profile', 'user', 'user profile', 'pattern', 'layout' ];
 
 			switch ( $pattern['type'] ) {
 				case 'grid-pattern':
@@ -74,7 +74,7 @@ class Patterns {
 					$title = sprintf( __( 'Gravatar profiles, grid layout #%d', 'gravatar-enhanced' ), $pattern['number'] );
 					// translators: %d: Pattern number.
 					$description = sprintf( __( 'Grid layout #%d for displaying Gravatar profiles.', 'gravatar-enhanced' ), $pattern['number'] );
-					$keywords[] = 'grid';
+					$keywords = array_merge( $keywords, [ 'grid', 'profiles', 'profile grid', 'user profiles', 'team', 'team showcase' ] );
 					break;
 				// TODO: Add more types...
 			}
