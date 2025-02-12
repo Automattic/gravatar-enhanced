@@ -1453,7 +1453,7 @@
   dependencies:
     tslib "2"
 
-"@gravatar-com/hovercards@^0.10.3":
+"@gravatar-com/hovercards@^0.10.4":
   version "0.10.4"
   resolved "https://registry.yarnpkg.com/@gravatar-com/hovercards/-/hovercards-0.10.4.tgz#9fc49fb32110e949a6e8af394eefc6d0ddf7e2d7"
   integrity sha512-Ldqrffcxaywq2vxu/QWmKDfbsSbGI8iHPNeyGJNFgyXHAi6uSPPXQhS17+wVMUKBPs/reMGfxcrVO/hnAPXhDQ==
