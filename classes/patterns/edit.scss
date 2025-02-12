@@ -1,0 +1,13 @@
+/* Custom styles for the editor. */
+
+.gravatar-grid-pattern {
+	&.gravatar-grid-pattern--1 {
+		div.wp-block-gravatar-block.gravatar-block--portrait {
+			> .block-editor-inner-blocks > .block-editor-block-list__layout {
+				gap: 0;
+			}
+		}
+	}
+
+	/* TODO: Customize other grid patterns... */
+}

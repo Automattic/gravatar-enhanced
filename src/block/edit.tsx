@@ -1,4 +1,4 @@
-import type { BlockEditProps, InnerBlockTemplate } from '@wordpress/blocks';
+import type { BlockEditProps } from '@wordpress/blocks';
 import { createBlocksFromInnerBlocksTemplate } from '@wordpress/blocks';
 import { InspectorControls, InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, SelectControl, TextControl } from '@wordpress/components';
@@ -8,73 +8,53 @@ import { __ } from '@wordpress/i18n';
 import _debounce from 'lodash.debounce';
 import { sha256 } from 'js-sha256';
 import clsx from 'clsx';
-import type { Names as ElemNames } from './utils/get-existing-blocks';
-import type { Attrs as ColumnAttrs } from './blocks/column/edit';
-import type { Attrs as ImageAttrs } from './blocks/image/edit';
-import type { Attrs as NameAttrs } from './blocks/name/edit';
-import type { Attrs as ParagraphAttrs } from './blocks/paragraph/edit';
-import type { Attrs as LinkAttrs } from './blocks/link/edit';
-import { fetchProfile as basedFetchProfile, getExistingBlocks, validateEmail } from './utils';
+import type { MainEditAttrs } from './shared-types';
+import { Layout, UserTypes } from './shared-types';
+import { getDefaultTemplate, getPortraitTemplate } from './editor-templates';
+import { fetchProfile as basedFetchProfile, getExistingBlocks, validateEmail, getAvatarUrlWithSize } from './utils';
 
 import './shared.scss';
 import './edit.scss';
 
-export enum BlockNames {
-	COLUMN = 'gravatar/block-column',
-	IMAGE = 'gravatar/block-image',
-	NAME = 'gravatar/block-name',
-	PARAGRAPH = 'gravatar/block-paragraph',
-	LINK = 'gravatar/block-link',
-}
-
-export enum KnownElemNames {
-	AVATAR = 'avatar',
-	DISPLAY_NAME = 'displayName',
-	JOB = 'job',
-	COMPANY = 'company',
-	LOCATION = 'location',
-	DESCRIPTION = 'description',
-	GRAVATAR = 'gravatar',
-	VIEW_PROFILE = 'viewProfile',
-	HEADER = 'header',
-	JOB_COMPANY_LOCATION_WRAPPER = 'jobCompanyLocationWrapper',
-	JOB_COMPANY_WRAPPER = 'jobCompanyWrapper',
-	FOOTER = 'footer',
-}
-
-export interface InnerBlockAttrsMap {
-	[ BlockNames.COLUMN ]: ColumnAttrs;
-	[ BlockNames.IMAGE ]: ImageAttrs;
-	[ BlockNames.NAME ]: NameAttrs;
-	[ BlockNames.PARAGRAPH ]: ParagraphAttrs;
-	[ BlockNames.LINK ]: LinkAttrs;
-}
-
 type ApiStatus = 'loading' | 'error' | 'success';
 
-enum UserTypes {
-	AUTHOR = 'author',
-	USER = 'user',
-	EMAIL = 'email',
-}
+type Props = BlockEditProps< MainEditAttrs >;
 
-export interface Attrs {
-	userType: UserTypes;
-	userEmail: string;
-	deletedElements: Record< string, boolean >;
-}
-
-export default function Edit( { attributes, setAttributes, clientId }: BlockEditProps< Attrs > ) {
-	const { userType, userEmail, deletedElements } = attributes;
+export default function Edit( { attributes, setAttributes, clientId }: Props ) {
+	const {
+		layout,
+		avatarUrlSizeParam,
+		placeholderProfile,
+		isChildBlockClickable,
+		userType,
+		userEmail,
+		deletedElements,
+	} = attributes;
 
 	const { replaceInnerBlocks } = useDispatch( 'core/block-editor' );
 	const [ emailInputVal, setEmailInputVal ] = useState( userEmail );
-	const [ apiStatus, setApiStatus ] = useState< ApiStatus >( 'loading' );
+	const [ apiStatus, setApiStatus ] = useState< ApiStatus >();
 	const [ errorMsg, setErrorMsg ] = useState( '' );
-	const prevExistingBlocksRef = useRef< ElemNames >( null );
-	// Avoid get template related functions to be re-created on every render.
-	const deletedElementsRef = useRef( deletedElements );
+	const prevExistingBlocksRef = useRef< string[] >( null );
+	const deletedElementsRef = useRef( deletedElements ); // Avoid unnecessary `useEffect` calls.
 	deletedElementsRef.current = deletedElements;
+	const getTemplateRef = useRef( getDefaultTemplate ); // Avoid unnecessary `useEffect` calls.
+	let defaultAvatarSize = 72;
+	let layoutClassName = '';
+
+	switch ( layout ) {
+		case Layout.PORTRAIT:
+			getTemplateRef.current = getPortraitTemplate;
+			defaultAvatarSize = 354;
+			layoutClassName = 'gravatar-block--portrait';
+			break;
+		case Layout.LANDSCAPE:
+			layoutClassName = 'gravatar-block--landscape';
+			break;
+		case Layout.LINE:
+			layoutClassName = 'gravatar-block--line';
+			break;
+	}
 
 	const blockProps = useBlockProps();
 
@@ -162,168 +142,19 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 		[ apiStatus, clientId, deletedElements, setAttributes ]
 	);
 
-	const getBlockTempate = useCallback(
-		< T extends BlockNames >(
-			blockName: T,
-			elemName: string,
-			attrs: InnerBlockAttrsMap[ T ],
-			innerBlocks?: T extends BlockNames.COLUMN ? InnerBlockTemplate[] : never
-		): InnerBlockTemplate | null => {
-			if ( deletedElementsRef.current[ elemName ] ) {
-				return null;
-			}
-
-			let filteredBlocks: InnerBlockTemplate[] = [];
-
-			if ( Array.isArray( innerBlocks ) ) {
-				filteredBlocks = innerBlocks.filter( Boolean );
-
-				if ( ! filteredBlocks.length ) {
-					return null;
-				}
-			}
-
-			// Give the block a unique name for the deleted elements to work.
-			return [ blockName, { name: elemName, ...attrs }, filteredBlocks ];
-		},
-		[]
-	);
-
-	/* eslint-disable camelcase */
-	// TODO: More templates to be added for different patterns.
-	const getTemplate = useCallback(
-		( profileData: GravatarAPIProfile ): InnerBlockTemplate[] => {
-			let {
-				avatar_url,
-				avatar_alt_text,
-				profile_url,
-				display_name,
-				job_title,
-				company: com,
-				location: loc,
-				description: desc,
-				verified_accounts = [],
-			} = profileData;
-
-			// TODO: Reuse these main UI elements to compose patterns.
-			const avatar =
-				avatar_url &&
-				getBlockTempate( BlockNames.IMAGE, KnownElemNames.AVATAR, {
-					className: 'gravatar-block-image--avatar',
-					linkUrl: profile_url,
-					imageUrl: avatar_url,
-					imageWidth: 72,
-					imageHeight: 72,
-					imageAlt: avatar_alt_text || display_name,
-				} );
-
-			const displayName =
-				display_name &&
-				getBlockTempate( BlockNames.NAME, KnownElemNames.DISPLAY_NAME, {
-					className: 'gravatar-text-truncate-2-lines',
-					text: display_name,
-				} );
-
-			const jobTitle =
-				job_title &&
-				getBlockTempate( BlockNames.PARAGRAPH, KnownElemNames.JOB, {
-					className: 'gravatar-block-paragraph--job',
-					text: job_title,
-				} );
-
-			const company =
-				com &&
-				getBlockTempate( BlockNames.PARAGRAPH, KnownElemNames.COMPANY, {
-					className: 'gravatar-block-paragraph--company',
-					text: com,
-				} );
-
-			const location =
-				loc &&
-				getBlockTempate( BlockNames.PARAGRAPH, KnownElemNames.LOCATION, {
-					className: 'gravatar-block-paragraph--location gravatar-text-truncate-1-line',
-					text: loc,
-				} );
-
-			const description =
-				desc &&
-				getBlockTempate( BlockNames.PARAGRAPH, KnownElemNames.DESCRIPTION, {
-					className: 'gravatar-text-truncate-2-lines',
-					text: desc,
-				} );
-
-			verified_accounts = [
-				{
-					url: profile_url,
-					service_type: 'gravatar',
-					service_icon: 'https://secure.gravatar.com/icons/gravatar.svg',
-					service_label: 'Gravatar',
-					is_hidden: false,
-				},
-				...verified_accounts,
-			];
-			const verifiedAccounts = verified_accounts.map(
-				( { url, service_icon, service_label, is_hidden } ) =>
-					! is_hidden &&
-					getBlockTempate( BlockNames.IMAGE, service_label, {
-						linkUrl: url,
-						imageUrl: service_icon,
-						imageWidth: 32,
-						imageHeight: 32,
-						imageAlt: service_label,
-					} )
-			);
-
-			const viewProfile =
-				profile_url &&
-				getBlockTempate( BlockNames.LINK, KnownElemNames.VIEW_PROFILE, {
-					className: 'gravatar-block-link--align-right',
-					linkUrl: profile_url,
-					text: __( 'View profile →', 'gravatar-enhanced' ),
-				} );
-
-			return [
-				getBlockTempate(
-					BlockNames.COLUMN,
-					KnownElemNames.HEADER,
-					{ className: 'gravatar-block-column--header gravatar-block-column--align-center' },
-					[
-						avatar,
-						getBlockTempate(
-							BlockNames.COLUMN,
-							KnownElemNames.JOB_COMPANY_LOCATION_WRAPPER,
-							{ linkUrl: profile_url, verticalAlignment: true },
-							[
-								displayName,
-								getBlockTempate(
-									BlockNames.COLUMN,
-									KnownElemNames.JOB_COMPANY_WRAPPER,
-									{ className: 'gravatar-block-column--comma-separated' },
-									[ jobTitle, company ]
-								),
-								location,
-							]
-						),
-					]
-				),
-				description,
-				getBlockTempate(
-					BlockNames.COLUMN,
-					KnownElemNames.FOOTER,
-					{ className: 'gravatar-block-column--footer gravatar-block-column--align-center' },
-					[ ...verifiedAccounts, viewProfile ]
-				),
-			].filter( Boolean );
-		},
-		[ getBlockTempate ]
-	);
-	/* eslint-enable camelcase */
-
 	// Fetch the profile data when the email changes.
 	useEffect( () => {
+		setApiStatus( undefined );
+		setErrorMsg( '' );
+
+		const trimmedEmail = userEmail.trim();
+
+		if ( ! trimmedEmail ) {
+			return;
+		}
+
 		const fetchProfile = async ( email: string ) => {
 			setApiStatus( 'loading' );
-			setErrorMsg( '' );
 
 			if ( ! validateEmail( email ) ) {
 				setApiStatus( 'error' );
@@ -331,7 +162,7 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 				return;
 			}
 
-			const hashedEmail = sha256( email.trim().toLowerCase() );
+			const hashedEmail = sha256( email.toLowerCase() );
 			const { error, data } = await basedFetchProfile( hashedEmail );
 
 			if ( error ) {
@@ -340,20 +171,27 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 			} else {
 				setApiStatus( 'success' );
 
-				const blocks = createBlocksFromInnerBlocksTemplate( getTemplate( data ) );
-				replaceInnerBlocks( clientId, blocks );
+				data.avatar_url = getAvatarUrlWithSize( data.avatar_url, avatarUrlSizeParam || defaultAvatarSize );
+
+				replaceInnerBlocks(
+					clientId,
+					createBlocksFromInnerBlocksTemplate( getTemplateRef.current( data, deletedElementsRef.current ) )
+				);
 			}
 		};
 
-		fetchProfile( userEmail );
-	}, [ clientId, getTemplate, replaceInnerBlocks, userEmail ] );
+		fetchProfile( trimmedEmail );
+	}, [ avatarUrlSizeParam, clientId, defaultAvatarSize, replaceInnerBlocks, userEmail ] );
 
 	// Reset the block items from the navigation menu when the API status changes.
 	useEffect( () => {
 		if ( apiStatus !== 'success' ) {
-			replaceInnerBlocks( clientId, [] );
+			replaceInnerBlocks(
+				clientId,
+				createBlocksFromInnerBlocksTemplate( getTemplateRef.current( placeholderProfile, deletedElements ) )
+			);
 		}
-	}, [ apiStatus, clientId, replaceInnerBlocks ] );
+	}, [ apiStatus, clientId, deletedElements, placeholderProfile, replaceInnerBlocks ] );
 
 	function handleUserTypeChange( type: UserTypes ) {
 		let email = '';
@@ -407,13 +245,23 @@ export default function Edit( { attributes, setAttributes, clientId }: BlockEdit
 			</InspectorControls>
 			<div
 				{ ...blockProps }
-				className={ clsx( 'gravatar-block', blockProps.className, {
+				className={ clsx( 'gravatar-block', layoutClassName, blockProps.className, {
 					'gravatar-block--custom-text-color': !! blockProps.style.color,
+					// Disable the click event of child blocks in some cases. So, the main block can be selected easily.
+					'gravatar-block--child-block-unclickable':
+						( userType === UserTypes.EMAIL && ! userEmail ) || ! isChildBlockClickable,
 				} ) }
 			>
-				{ apiStatus === 'loading' && <div>{ __( 'Loading…', 'gravatar-enhanced' ) }</div> }
-				{ apiStatus === 'error' && <div>{ errorMsg }</div> }
+				{ apiStatus === 'error' && <div className="gravatar-block__status">{ errorMsg }</div> }
 				{ apiStatus === 'success' && <InnerBlocks allowedBlocks={ [] } renderAppender={ undefined } /> }
+				{ apiStatus !== 'success' && (
+					<InnerBlocks
+						allowedBlocks={ [] }
+						renderAppender={ undefined }
+						templateLock="all"
+						template={ getTemplateRef.current( placeholderProfile, deletedElements ) }
+					/>
+				) }
 			</div>
 		</>
 	);

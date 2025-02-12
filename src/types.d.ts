@@ -1,4 +1,4 @@
-import type { EditorStore } from '@wordpress/editor';
+import { select } from '@wordpress/data';
 
 interface GravatarAPIAccount {
 	url: string;
@@ -53,5 +53,5 @@ declare global {
 		recordTrackEvent: ( name: string, options?: any ) => void;
 	};
 
-	type SelectFn = ( store: string ) => EditorStore;
+	type SelectFn = typeof select;
 }

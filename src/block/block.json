@@ -2,19 +2,34 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "gravatar/block",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"title": "Gravatar Profile",
 	"description": "Display user information directly from Gravatar Public Profiles.",
 	"category": "widgets",
-	"keywords": [
-		"gravatar",
-		"profile",
-		"author",
-		"user",
-		"avatar",
-		"card"
-	],
+	"keywords": [ "gravatar", "avatar", "profile", "card", "author", "author information", "user", "user information" ],
 	"attributes": {
+		"layout": {
+			"type": "string",
+			"default": "default"
+		},
+		"avatarUrlSizeParam": {
+			"type": "number",
+			"default": 0
+		},
+		"placeholderProfile": {
+			"type": "object",
+			"default": {
+				"display_name": "Display Name",
+				"job_title": "Job Title",
+				"company": "Company",
+				"location": "Location",
+				"description": "Welcome to Gravatar!"
+			}
+		},
+		"isChildBlockClickable": {
+			"type": "boolean",
+			"default": true
+		},
 		"userType": {
 			"type": "string",
 			"default": "author"
@@ -29,7 +44,7 @@
 		}
 	},
 	"supports": {
-			"html": false,
+		"html": false,
 		"color": {
 			"text": true,
 			"background": true,

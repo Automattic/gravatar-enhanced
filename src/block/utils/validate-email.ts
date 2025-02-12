@@ -1,3 +1,3 @@
-export default function validateEmail( email: string ) {
-	return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test( email );
+export default function validateEmail( email: string ): boolean {
+	return /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test( email );
 }

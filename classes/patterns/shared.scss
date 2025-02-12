@@ -1,0 +1,44 @@
+/* Styles for both the editor and the frontend view. */
+
+.gravatar-grid-pattern {
+	.gravatar-grid-pattern__row {
+		max-width: 727px !important;
+		/* Ensure content is centered in some themes, e.g. Twenty Twenty-One */
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	&.gravatar-grid-pattern--1 {
+		div.wp-block-gravatar-block.gravatar-block--portrait {
+			max-width: unset !important;
+			min-width: unset;
+			width: 167px;
+			padding: 0;
+			border: 0;
+			background-color: transparent;
+
+			.gravatar-block-image.gravatar-block-image--avatar {
+				margin-bottom: 8px !important;
+
+				.gravatar-block-image__image {
+					border-radius: 8px;
+				}
+			}
+
+			.gravatar-block-name .gravatar-block-name__text {
+				font-size: 18px;
+				margin-bottom: 4px;
+			}
+
+			.gravatar-block-paragraph--location {
+				margin-top: 0;
+			}
+
+			.gravatar-block__status {
+				border: 1px dotted;
+			}
+		}
+	}
+
+	/* TODO: Customize other grid patterns... */
+}

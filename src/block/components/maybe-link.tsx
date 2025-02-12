@@ -1,10 +1,6 @@
-import type { ReactNode } from 'react';
+import type { MaybeLinkProps } from '../shared-types';
 
-export interface Props {
-	linkUrl?: string;
-	children: ReactNode;
-	[ key: string ]: any;
-}
+type Props = MaybeLinkProps;
 
 export default function MaybeLink( { linkUrl, children, ...restProps }: Props ) {
 	return linkUrl ? (
