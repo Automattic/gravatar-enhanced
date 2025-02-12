@@ -24,7 +24,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 			deletedElements = {},
 		} = JSON.parse( block.dataset.attrs ) as Attrs;
 
-		// If the user type is email, but the email is not provided, skip the block.
+		// If the `userType` is email, but the email is not provided, skip the block.
 		if ( userType === UserTypes.EMAIL && ! hashedEmail ) {
 			return;
 		}
