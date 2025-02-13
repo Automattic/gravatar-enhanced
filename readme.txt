@@ -2,7 +2,7 @@
 Contributors: automattic, batmoo, johnny5, aaronfc, wellyshen
 Tags: avatar, profile, privacy, comments, profile picture
 Tested up to: 6.6
-Stable tag: 0.8.0
+Stable tag: 0.8.0 (This version hasn't been release yet, please use it for the next release)
 License: GPLv2
 
 The official Gravatar plugin, featuring privacy-focused settings, easy profile updates, and customizable Gravatar Profile blocks.
