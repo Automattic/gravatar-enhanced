@@ -13,7 +13,7 @@ class Patterns {
 	/**
 	 * Patterns.
 	 *
-	 * @var array
+	 * @var array<array<string, int|string>>
 	 */
 	private $patterns = [
 		[
@@ -160,13 +160,13 @@ class Patterns {
 	 * Get pattern content.
 	 *
 	 * @param string $pattern_name Pattern name.
-	 * @return string|null
+	 * @return string|false
 	 */
 	private function get_pattern_content( $pattern_name ) {
 		$pattern_file = dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/classes/patterns/' . $pattern_name . '.php';
 
 		if ( ! file_exists( $pattern_file ) ) {
-			return null;
+			return false;
 		}
 
 		return file_get_contents( $pattern_file );

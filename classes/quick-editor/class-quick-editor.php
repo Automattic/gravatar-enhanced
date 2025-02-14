@@ -59,6 +59,10 @@ class QuickEditor {
 		// Remove the bio
 		$profile_page = (string) preg_replace( '@<tr class="user-description-wrap.*?</tr>@s', '', $profile_page, 1 );
 
+		if ( ! isset( $profile_details[0] ) || ! isset( $user_description[0] ) ) {
+			return;
+		}
+
 		// Add personal options before application password
 		$profile_page = (string) preg_replace( '@<div class="application-passwords@', $profile_details[0] . '<div class="application-password', $profile_page, 1 );
 
