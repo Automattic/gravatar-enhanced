@@ -33,6 +33,25 @@ class Avatar {
 		add_filter( 'get_avatar_url', [ $this, 'get_avatar_url' ], 10, 3 );
 		add_filter( 'pre_get_avatar_data', [ $this, 'pre_get_avatar_data' ], 10, 2 );
 		add_filter( 'get_avatar', [ $this, 'get_avatar' ], 10, 6 );
+		add_filter( 'avatar_defaults', [ $this, 'avatar_defaults' ] );
+	}
+
+	/**
+	 * @param array<string, string> $defaults
+	 * @return array<string, string>
+	 */
+	public function avatar_defaults( $defaults ) {
+		$defaults = array_merge(
+			[
+				'initials' => __( 'Initials (Generated, beta)', 'gravatar-enhanced' ),
+				'color'    => __( 'Color (Generated, beta)', 'gravatar-enhanced' ),
+			],
+			$defaults
+		);
+		unset( $defaults['blank'] );
+
+		$defaults['blank'] = __( 'Blank (Default)', 'gravatar-enhanced' );
+		return $defaults;
 	}
 
 	/**
