@@ -1,9 +1,22 @@
 <?php
+
 $layout_class_map = [
 	'portrait' => 'gravatar-block--portrait',
 	'landscape' => 'gravatar-block--landscape',
 	'line' => 'gravatar-block--line',
 ];
+
+/**
+ * @var array{
+ *   userEmail: string,
+ *   textColor?: string,
+ *   userType: string,
+ *   layout: string,
+ *   avatarUrlSizeParam: string,
+ *   placeholderProfile: string,
+ *   deletedElements: array<string>
+ * } $attributes
+ */
 $layout_class = isset( $layout_class_map[ $attributes['layout'] ] ) ? ' ' . $layout_class_map[ $attributes['layout'] ] : '';
 $custom_text_color_class = isset( $attributes['textColor'] ) ? ' gravatar-block--custom-text-color' : '';
 $class = 'gravatar-block' . $layout_class . $custom_text_color_class;
@@ -20,6 +33,11 @@ $data = wp_json_encode(
 		'deletedElements' => $attributes['deletedElements'],
 	]
 );
+
+if ( ! $data ) {
+	return;
+}
+
 $attrs = get_block_wrapper_attributes(
 	[
 		'class' => $class,

@@ -65,7 +65,7 @@ class Plugin {
 	private $block;
 
 	/**
-	 * @var Patterns
+	 * @var Patterns\Patterns
 	 */
 	private $patterns;
 
