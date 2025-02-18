@@ -1,0 +1,40 @@
+@import "../shared/style";
+
+.gravatar-enhanced-comments {
+	margin-bottom: calc(0.5 * var(--global--spacing-unit, 10px));
+	padding: var(--global--spacing-unit, 10px);
+	background-color: var(--wp--preset--color--white,white);
+	display: flex;
+	align-items: center;
+	gap: calc(0.5 * var(--wp--style--block-gap, 10px));
+
+	&.gravatar-enhanced-comments--hidden {
+		display: none;
+	}
+
+	img {
+		width: 64px;
+		height: 64px;
+		border-radius: 50%;
+
+		&.avatar {
+			position: inherit !important;
+		}
+	}
+
+	button {
+		background-color: transparent !important;
+		border: none;
+		padding: var(--global--spacing-unit, 8px);
+		color: var(--wp--preset--color--black, black) !important;
+		cursor: pointer;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+.gravatar-enhanced-is-loading {
+	@include pulsate();
+}

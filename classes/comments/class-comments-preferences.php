@@ -1,15 +1,15 @@
 <?php
 
-namespace Automattic\Gravatar\GravatarEnhanced\Analytics;
+namespace Automattic\Gravatar\GravatarEnhanced\Comments;
 
 use Automattic\Gravatar\GravatarEnhanced\Options as CoreOptions;
 
 /**
- * @psalm-import-type AnalyticsOptionsArray from Options
+ * @psalm-import-type CommentsOptionsArray from Options
  * @psalm-import-type OptionsArray from CoreOptions\SavedOptions
  */
 class Preferences {
-	const OPTION_NAME = 'analytics';
+	const OPTION_NAME = 'comments';
 
 	/**
 	 * @var Options
@@ -21,7 +21,7 @@ class Preferences {
 	 * @param Options | null $new_options
 	 */
 	public function __construct( $saved_options, $new_options = null ) {
-		/** @var AnalyticsOptionsArray */
+		/** @var CommentsOptionsArray */
 		$options = array_merge(
 			$this->get_default_options(),
 			$saved_options->get_group( self::OPTION_NAME ),
@@ -32,11 +32,11 @@ class Preferences {
 	}
 
 	/**
-	 * @return AnalyticsOptionsArray
+	 * @return CommentsOptionsArray
 	 */
 	private function get_default_options() {
 		return [
-			'enabled' => false,
+			'enabled' => true,
 		];
 	}
 
@@ -48,7 +48,7 @@ class Preferences {
 	}
 
 	/**
-	 * @return array<string,AnalyticsOptionsArray>
+	 * @return array<string,CommentsOptionsArray>
 	 */
 	public function get_as_preferences() {
 		return [

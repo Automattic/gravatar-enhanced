@@ -9,6 +9,11 @@ interface GravatarAPIAccount {
 }
 
 declare global {
+	interface GravatarEnhancedComments {
+		locale: string;
+		email?: string;
+	}
+
 	interface GravatarAPIProfile {
 		hash: string;
 		display_name: string;
@@ -52,6 +57,8 @@ declare global {
 	var gravatar: {
 		recordTrackEvent: ( name: string, options?: any ) => void;
 	};
+
+	var gravatarEnhancedComments : GravatarEnhancedComments;
 
 	type SelectFn = typeof select;
 }
