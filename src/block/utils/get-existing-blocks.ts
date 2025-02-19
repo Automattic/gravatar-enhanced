@@ -3,9 +3,9 @@ import { BlockNames } from '../shared-types';
 
 export default function getExistingBlocks( blocks: BlockInstance[] = [], names: string[] = [] ): string[] {
 	blocks.forEach( ( { name, innerBlocks, attributes } ) => {
-		const isEmptyCol = name === BlockNames.COLUMN && ! innerBlocks?.length;
+		const isEmptyGroup = name === BlockNames.GROUP && ! innerBlocks?.length;
 
-		if ( attributes.name && ! isEmptyCol ) {
+		if ( attributes.name && ! isEmptyGroup ) {
 			names.push( attributes.name );
 		}
 

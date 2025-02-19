@@ -1,11 +1,19 @@
 /* Styles for both the editor and the frontend view. */
 
 .gravatar-grid-pattern {
+	.gravatar-grid-pattern__title,
 	.gravatar-grid-pattern__row {
 		max-width: 727px !important;
+	}
+
+	.gravatar-grid-pattern__row {
 		/* Ensure content is centered in some themes, e.g. Twenty Twenty-One */
 		margin-left: auto;
 		margin-right: auto;
+	}
+
+	.gravatar-block__status {
+		border: 1px dotted;
 	}
 
 	&.gravatar-grid-pattern--1 {
@@ -33,12 +41,25 @@
 			.gravatar-block-paragraph--location {
 				margin-top: 0;
 			}
-
-			.gravatar-block__status {
-				border: 1px dotted;
-			}
 		}
 	}
 
-	/* TODO: Customize other grid patterns... */
+	&.gravatar-grid-pattern--2 {
+		div.wp-block-gravatar-block.gravatar-block--portrait {
+			max-width: unset !important;
+			min-width: unset;
+			width: 229px;
+			padding: 0;
+			border: 0;
+			background-color: transparent;
+
+			.gravatar-block-image.gravatar-block-image--avatar {
+				margin-bottom: 8px !important;
+			}
+
+			.gravatar-block-name .gravatar-block-name__text {
+				font-size: 24px;
+			}
+		}
+	}
 }

@@ -5,23 +5,23 @@ div.wp-block-gravatar-block.gravatar-block {
 	flex-direction: column;
 	gap: 16px;
 
-	.gravatar-block-column {
+	.gravatar-block-group {
 		display: flex;
 
-		&.gravatar-block-column--vertical-alignment {
+		&.gravatar-block-group--vertical-alignment {
 			flex-direction: column;
 		}
 
-		&.gravatar-block-column--align-center {
+		&.gravatar-block-group--align-center {
 			align-items: center;
 		}
 
-		&.gravatar-block-column--header {
+		&.gravatar-block-group--header {
 			gap: 10px;
 		}
 
-		&.gravatar-block-column--footer,
-		&.gravatar-block-column--verified-accounts {
+		&.gravatar-block-group--footer,
+		&.gravatar-block-group--verified-accounts {
 			gap: 8px;
 		}
 	}

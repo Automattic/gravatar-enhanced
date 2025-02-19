@@ -70,8 +70,8 @@ div.wp-block-gravatar-block.gravatar-block {
 		box-shadow: none; /* Override themes' default styles. */
 	}
 
-	.gravatar-block-column {
-		&.gravatar-block-column--comma-separated .gravatar-block-paragraph {
+	.gravatar-block-group {
+		&.gravatar-block-group--comma-separated .gravatar-block-paragraph {
 			display: flex;
 
 			&:not(:first-of-type)::before {

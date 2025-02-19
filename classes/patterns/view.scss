@@ -1,11 +1,10 @@
 /* Custom styles for the frontend view. */
 
 .gravatar-grid-pattern {
-	&.gravatar-grid-pattern--1 {
+	&.gravatar-grid-pattern--1,
+	&.gravatar-grid-pattern--2 {
 		div.wp-block-gravatar-block.gravatar-block--portrait {
 			gap: 0;
 		}
 	}
-
-	/* TODO: Customize other grid patterns... */
 }

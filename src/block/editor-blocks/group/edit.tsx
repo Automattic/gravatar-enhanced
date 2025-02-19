@@ -2,10 +2,10 @@ import type { BlockEditProps, TemplateArray } from '@wordpress/blocks';
 import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 import clsx from 'clsx';
-import type { ColumnAttrs } from '../../shared-types';
+import type { GroupAttrs } from '../../shared-types';
 import { MaybeLink } from '../../components';
 
-type Props = BlockEditProps< ColumnAttrs >;
+type Props = BlockEditProps< GroupAttrs >;
 
 export default function Edit( { attributes, clientId }: Props ) {
 	const { linkUrl, verticalAlignment, className } = attributes;
@@ -26,8 +26,8 @@ export default function Edit( { attributes, clientId }: Props ) {
 			{ ...blockProps }
 			className={ clsx(
 				'gravatar-block__child',
-				'gravatar-block-column',
-				{ 'gravatar-block-column--vertical-alignment': verticalAlignment },
+				'gravatar-block-group',
+				{ 'gravatar-block-group--vertical-alignment': verticalAlignment },
 				blockProps.className,
 				className
 			) }
