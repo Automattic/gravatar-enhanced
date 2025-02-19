@@ -129,7 +129,7 @@ class Avatar {
 		}
 
 		// If the default is set to 'initials' and we have a comment, use the comment author name
-		if ( $args['default'] === 'initials' && $id_or_email instanceof \WP_Comment ) {
+		if ( isset( $args['default'] ) && $args['default'] === 'initials' && $id_or_email instanceof \WP_Comment ) {
 			$url .= '&name=' . rawurlencode( $id_or_email->comment_author );
 		}
 
