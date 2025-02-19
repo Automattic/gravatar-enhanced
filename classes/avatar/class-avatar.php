@@ -128,6 +128,11 @@ class Avatar {
 			return $url;
 		}
 
+		// If the default is set to 'initials' and we have a comment, use the comment author name
+		if ( $args['default'] === 'initials' && $id_or_email instanceof \WP_Comment ) {
+			$url .= '&name=' . rawurlencode( $id_or_email->comment_author );
+		}
+
 		$user = new AvatarId( $id_or_email, $args );
 		$new_url = preg_replace( '@avatar/([a-f0-9]+)@', 'avatar/' . $user->get_hash(), $url );
 		return (string) $new_url;
