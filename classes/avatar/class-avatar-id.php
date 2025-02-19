@@ -12,7 +12,7 @@ use WP_Comment;
  *   size: number,
  *   height: number,
  *   width: number,
- *   default: string,
+ *   default?: string,
  *   force_default: boolean,
  *   rating: string,
  *   scheme: string,
