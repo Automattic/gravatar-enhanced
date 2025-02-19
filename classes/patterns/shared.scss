@@ -12,18 +12,21 @@
 		margin-right: auto;
 	}
 
+	div.wp-block-gravatar-block.gravatar-block--portrait {
+		max-width: unset !important;
+		min-width: unset;
+		padding: 0;
+		border: 0;
+		background-color: transparent;
+	}
+
 	.gravatar-block__status {
 		border: 1px dotted;
 	}
 
 	&.gravatar-grid-pattern--1 {
 		div.wp-block-gravatar-block.gravatar-block--portrait {
-			max-width: unset !important;
-			min-width: unset;
 			width: 167px;
-			padding: 0;
-			border: 0;
-			background-color: transparent;
 
 			.gravatar-block-image.gravatar-block-image--avatar {
 				margin-bottom: 8px !important;
@@ -46,12 +49,7 @@
 
 	&.gravatar-grid-pattern--2 {
 		div.wp-block-gravatar-block.gravatar-block--portrait {
-			max-width: unset !important;
-			min-width: unset;
 			width: 229px;
-			padding: 0;
-			border: 0;
-			background-color: transparent;
 
 			.gravatar-block-image.gravatar-block-image--avatar {
 				margin-bottom: 8px !important;
