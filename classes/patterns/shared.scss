@@ -60,4 +60,21 @@
 			}
 		}
 	}
+
+	&.gravatar-grid-pattern--3 {
+		div.wp-block-gravatar-block.gravatar-block--portrait {
+			width: 217px;
+			text-align: center;
+
+			.gravatar-block-image.gravatar-block-image--avatar {
+				margin-bottom: 8px !important;
+				border-radius: 50%;
+				overflow: hidden;
+			}
+
+			.gravatar-block-name .gravatar-block-name__text {
+				font-size: 24px;
+			}
+		}
+	}
 }

@@ -3,8 +3,8 @@
     <!-- wp:heading {"align":"wide","className":"gravatar-grid-pattern__title"} -->
     <h2 class="wp-block-heading alignwide gravatar-grid-pattern__title">The Team</h2>
     <!-- /wp:heading -->
-    <!-- wp:group {"align":"wide","className":"gravatar-grid-pattern__row","style":{"spacing":{"margin":{"top":"32px","bottom":"32px"}}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"top","justifyContent":"left"}} -->
-    <div class="wp-block-group alignwide gravatar-grid-pattern__row" style="margin-top:32px;margin-bottom:32px">
+    <!-- wp:group {"align":"wide","className":"gravatar-grid-pattern__row","style":{"spacing":{"margin":{"top":"32px"}}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"top","justifyContent":"left"}} -->
+    <div class="wp-block-group alignwide gravatar-grid-pattern__row" style="margin-top:32px">
         <!-- wp:gravatar/block {"layout":"portrait","avatarUrlSizeParam":458,"isChildBlockClickable":false,"userType":"email","deletedElements":{"description":true,"verifiedAccounts":true,"location":true}} /-->
         <!-- wp:gravatar/block {"layout":"portrait","avatarUrlSizeParam":458,"isChildBlockClickable":false,"userType":"email","deletedElements":{"description":true,"verifiedAccounts":true,"location":true}} /-->
         <!-- wp:gravatar/block {"layout":"portrait","avatarUrlSizeParam":458,"isChildBlockClickable":false,"userType":"email","deletedElements":{"description":true,"verifiedAccounts":true,"location":true}} /-->
