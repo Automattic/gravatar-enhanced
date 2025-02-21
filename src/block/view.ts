@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import type { MainEditAttrs } from './shared-types';
-import { UserTypes, Layout } from './shared-types';
+import { Layout } from './shared-types';
 import { getDefaultTemplate, getPortraitTemplate } from './view-templates';
 import { fetchProfile, getAvatarUrlWithSize } from './utils';
 
@@ -16,18 +16,12 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
 	gravatarBlocks.forEach( async ( block ) => {
 		const {
-			userType,
 			layout,
 			avatarUrlSizeParam,
 			placeholderProfile,
 			hashedEmail = '',
 			deletedElements = {},
 		} = JSON.parse( block.dataset.attrs ) as Attrs;
-
-		// If the `userType` is email, but the email is not provided, skip the block.
-		if ( userType === UserTypes.EMAIL && ! hashedEmail ) {
-			return;
-		}
 
 		let getTemplate = getDefaultTemplate;
 		let defaultAvatarSize = 72;

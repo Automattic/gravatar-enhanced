@@ -44,5 +44,10 @@ $attrs = get_block_wrapper_attributes(
 		'data-attrs' => $data,
 	]
 );
+
+// If the `userType` is email, but the email is not provided, don't render the block.
+if ( $attributes['userType'] === 'email' && ! $hashed_email ) {
+	return;
+}
 ?>
 <div <?php echo wp_kses_data( $attrs ); ?>></div>
