@@ -17,12 +17,18 @@ $layout_class_map = [
  *   deletedElements: array<string>
  * } $attributes
  */
+$email = strtolower( trim( $attributes['userEmail'] ) );
+$hashed_email = $email ? hash( 'sha256', sanitize_email( $email ) ) : '';
+
+// If the `userType` is email, but the email is not provided, don't render the block.
+if ( $attributes['userType'] === 'email' && ! $hashed_email ) {
+	return;
+}
+
 $layout_class = isset( $layout_class_map[ $attributes['layout'] ] ) ? ' ' . $layout_class_map[ $attributes['layout'] ] : '';
 $custom_text_color_class = isset( $attributes['textColor'] ) ? ' gravatar-block--custom-text-color' : '';
 $class = 'gravatar-block' . $layout_class . $custom_text_color_class;
 
-$email = strtolower( trim( $attributes['userEmail'] ) );
-$hashed_email = $email ? hash( 'sha256', sanitize_email( $email ) ) : '';
 $data = wp_json_encode(
 	[
 		'userType' => $attributes['userType'],
@@ -44,10 +50,5 @@ $attrs = get_block_wrapper_attributes(
 		'data-attrs' => $data,
 	]
 );
-
-// If the `userType` is email, but the email is not provided, don't render the block.
-if ( $attributes['userType'] === 'email' && ! $hashed_email ) {
-	return;
-}
 ?>
 <div <?php echo wp_kses_data( $attrs ); ?>></div>
