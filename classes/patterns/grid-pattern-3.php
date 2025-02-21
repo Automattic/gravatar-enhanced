@@ -2,15 +2,15 @@
 <div class="wp-block-group alignfull gravatar-grid-pattern gravatar-grid-pattern--3" style="padding-top:var(--wp--preset--spacing--50);padding-right:var(--wp--preset--spacing--30);padding-bottom:var(--wp--preset--spacing--50);padding-left:var(--wp--preset--spacing--30)">
     <!-- wp:group {"align":"wide","className":"gravatar-grid-pattern__row","style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"top","justifyContent":"left"}} -->
     <div class="wp-block-group alignwide gravatar-grid-pattern__row">
-        <!-- wp:gravatar/block {"layout":"portrait","avatarUrlSizeParam":434,"isChildBlockClickable":false,"userType":"email","deletedElements":{"description":true,"verifiedAccounts":true,"location":true}} /-->
-        <!-- wp:gravatar/block {"layout":"portrait","avatarUrlSizeParam":434,"isChildBlockClickable":false,"userType":"email","deletedElements":{"description":true,"verifiedAccounts":true,"location":true}} /-->
-        <!-- wp:gravatar/block {"layout":"portrait","avatarUrlSizeParam":434,"isChildBlockClickable":false,"userType":"email","deletedElements":{"description":true,"verifiedAccounts":true,"location":true}} /-->
-        <!-- wp:gravatar/block {"layout":"portrait","avatarUrlSizeParam":434,"isChildBlockClickable":false,"userType":"email","deletedElements":{"description":true,"verifiedAccounts":true,"location":true}} /-->
-        <!-- wp:gravatar/block {"layout":"portrait","avatarUrlSizeParam":434,"isChildBlockClickable":false,"userType":"email","deletedElements":{"description":true,"verifiedAccounts":true,"location":true}} /-->
-        <!-- wp:gravatar/block {"layout":"portrait","avatarUrlSizeParam":434,"isChildBlockClickable":false,"userType":"email","deletedElements":{"description":true,"verifiedAccounts":true,"location":true}} /-->
-        <!-- wp:gravatar/block {"layout":"portrait","avatarUrlSizeParam":434,"isChildBlockClickable":false,"userType":"email","deletedElements":{"description":true,"verifiedAccounts":true,"location":true}} /-->
-        <!-- wp:gravatar/block {"layout":"portrait","avatarUrlSizeParam":434,"isChildBlockClickable":false,"userType":"email","deletedElements":{"description":true,"verifiedAccounts":true,"location":true}} /-->
-        <!-- wp:gravatar/block {"layout":"portrait","avatarUrlSizeParam":434,"isChildBlockClickable":false,"userType":"email","deletedElements":{"description":true,"verifiedAccounts":true,"location":true}} /-->
+        <!-- wp:gravatar/block {"layout":"portrait","avatarUrlSizeParam":430,"isChildBlockClickable":false,"userType":"email","deletedElements":{"description":true,"verifiedAccounts":true,"location":true}} /-->
+        <!-- wp:gravatar/block {"layout":"portrait","avatarUrlSizeParam":430,"isChildBlockClickable":false,"userType":"email","deletedElements":{"description":true,"verifiedAccounts":true,"location":true}} /-->
+        <!-- wp:gravatar/block {"layout":"portrait","avatarUrlSizeParam":430,"isChildBlockClickable":false,"userType":"email","deletedElements":{"description":true,"verifiedAccounts":true,"location":true}} /-->
+        <!-- wp:gravatar/block {"layout":"portrait","avatarUrlSizeParam":430,"isChildBlockClickable":false,"userType":"email","deletedElements":{"description":true,"verifiedAccounts":true,"location":true}} /-->
+        <!-- wp:gravatar/block {"layout":"portrait","avatarUrlSizeParam":430,"isChildBlockClickable":false,"userType":"email","deletedElements":{"description":true,"verifiedAccounts":true,"location":true}} /-->
+        <!-- wp:gravatar/block {"layout":"portrait","avatarUrlSizeParam":430,"isChildBlockClickable":false,"userType":"email","deletedElements":{"description":true,"verifiedAccounts":true,"location":true}} /-->
+        <!-- wp:gravatar/block {"layout":"portrait","avatarUrlSizeParam":430,"isChildBlockClickable":false,"userType":"email","deletedElements":{"description":true,"verifiedAccounts":true,"location":true}} /-->
+        <!-- wp:gravatar/block {"layout":"portrait","avatarUrlSizeParam":430,"isChildBlockClickable":false,"userType":"email","deletedElements":{"description":true,"verifiedAccounts":true,"location":true}} /-->
+        <!-- wp:gravatar/block {"layout":"portrait","avatarUrlSizeParam":430,"isChildBlockClickable":false,"userType":"email","deletedElements":{"description":true,"verifiedAccounts":true,"location":true}} /-->
     </div>
     <!-- /wp:group -->
 </div>
