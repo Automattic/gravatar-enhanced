@@ -28,6 +28,10 @@ class Patterns {
 			'type' => 'grid-pattern',
 			'number' => 3,
 		],
+		[
+			'type' => 'grid-pattern',
+			'number' => 4,
+		],
 	];
 
 	/**
