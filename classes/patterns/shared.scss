@@ -1,21 +1,29 @@
 /* Styles for both the editor and the frontend view. */
 
 .gravatar-grid-pattern {
+	.gravatar-grid-pattern__title,
 	.gravatar-grid-pattern__row {
-		max-width: 727px !important;
+		max-width: 729px !important;
 		/* Ensure content is centered in some themes, e.g. Twenty Twenty-One */
 		margin-left: auto;
 		margin-right: auto;
 	}
 
+	div.wp-block-gravatar-block.gravatar-block--portrait {
+		max-width: unset !important;
+		min-width: unset;
+		padding: 0;
+		border: 0;
+		background-color: transparent;
+	}
+
+	.gravatar-block__status {
+		border: 1px dotted;
+	}
+
 	&.gravatar-grid-pattern--1 {
 		div.wp-block-gravatar-block.gravatar-block--portrait {
-			max-width: unset !important;
-			min-width: unset;
 			width: 167px;
-			padding: 0;
-			border: 0;
-			background-color: transparent;
 
 			.gravatar-block-image.gravatar-block-image--avatar {
 				margin-bottom: 8px !important;
@@ -25,20 +33,92 @@
 				}
 			}
 
-			.gravatar-block-name .gravatar-block-name__text {
-				font-size: 18px;
+			.gravatar-block-name {
 				margin-bottom: 4px;
+
+				.gravatar-block-name__text {
+					font-size: 18px;
+				}
+			}
+
+			.gravatar-block-paragraph--location {
+				margin-top: 0;
+			}
+		}
+	}
+
+	&.gravatar-grid-pattern--2,
+	&.gravatar-grid-pattern--5 {
+		div.wp-block-gravatar-block.gravatar-block--portrait {
+			width: 229px;
+
+			.gravatar-block-image.gravatar-block-image--avatar {
+				margin-bottom: 8px !important;
+			}
+
+			.gravatar-block-name .gravatar-block-name__text {
+				font-size: 24px;
+			}
+		}
+	}
+
+	&.gravatar-grid-pattern--3 {
+		div.wp-block-gravatar-block.gravatar-block--portrait {
+			width: 215px;
+			text-align: center;
+
+			.gravatar-block-image.gravatar-block-image--avatar {
+				margin-bottom: 8px !important;
+				border-radius: 50%;
+				overflow: hidden;
+			}
+
+			.gravatar-block-name .gravatar-block-name__text {
+				font-size: 24px;
+			}
+		}
+	}
+
+	&.gravatar-grid-pattern--4 {
+		div.wp-block-gravatar-block.gravatar-block--portrait {
+			width: 353px;
+			margin-bottom: 20px;
+
+			.gravatar-block-image.gravatar-block-image--avatar {
+				margin-bottom: 16px !important;
+			}
+
+			.gravatar-block-name {
+				margin-bottom: 8px;
+
+				.gravatar-block-name__text {
+					font-size: 32px;
+				}
 			}
 
 			.gravatar-block-paragraph--location {
 				margin-top: 0;
 			}
 
-			.gravatar-block__status {
-				border: 1px dotted;
+			.gravatar-block-paragraph--description {
+				margin-top: 16px;
+			}
+
+			.gravatar-block-group--verified-accounts {
+				margin-top: 24px;
 			}
 		}
 	}
 
-	/* TODO: Customize other grid patterns... */
+	&.gravatar-grid-pattern--5 {
+		.gravatar-grid-pattern__row {
+			container-type: inline-size;
+		}
+
+		@container (min-width: 728px) {
+			div.wp-block-gravatar-block.gravatar-block--portrait:nth-child(4n - 1) {
+				margin-left: 249px;
+			}
+		}
+	}
 }

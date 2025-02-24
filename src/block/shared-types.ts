@@ -15,7 +15,7 @@ export enum UserTypes {
 }
 
 export enum BlockNames {
-	COLUMN = 'gravatar/block-column',
+	GROUP = 'gravatar/block-group',
 	IMAGE = 'gravatar/block-image',
 	NAME = 'gravatar/block-name',
 	PARAGRAPH = 'gravatar/block-paragraph',
@@ -39,7 +39,7 @@ export enum KnownElemNames {
 }
 
 export interface InnerBlockAttrsMap {
-	[ BlockNames.COLUMN ]: ColumnAttrs;
+	[ BlockNames.GROUP ]: GroupAttrs;
 	[ BlockNames.IMAGE ]: ImageAttrs;
 	[ BlockNames.NAME ]: NameAttrs;
 	[ BlockNames.PARAGRAPH ]: ParagraphAttrs;
@@ -56,7 +56,7 @@ export interface MainEditAttrs {
 	deletedElements: Record< string, boolean >;
 }
 
-export type ColumnAttrs = Partial< {
+export type GroupAttrs = Partial< {
 	linkUrl: string;
 	verticalAlignment: boolean;
 	className: string;

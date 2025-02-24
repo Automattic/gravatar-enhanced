@@ -10,10 +10,10 @@ const getPortraitTemplate: ViewTemplateFn = ( profileData, deletedElements ) => 
 	${ getLocation( profileData, deletedElements, { linkToProfile: true } ) }
 	${ getDescription( profileData, deletedElements, { className: 'gravatar-text-truncate-3-lines' } ) }
 	${ getViewElement(
-		BlockNames.COLUMN,
+		BlockNames.GROUP,
 		KnownElemNames.VERIFIED_ACCOUNTS,
 		deletedElements,
-		{ className: 'gravatar-block-column--verified-accounts' },
+		{ className: 'gravatar-block-group--verified-accounts' },
 		getVerifiedAccounts( profileData, deletedElements )
 	) }
 `;

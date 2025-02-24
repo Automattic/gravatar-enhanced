@@ -15,24 +15,24 @@ import { getBlockTemplate } from '../utils';
 const getDefaultTemplate: EditTemplateFn = ( profileData, deletedElements ) =>
 	[
 		getBlockTemplate(
-			BlockNames.COLUMN,
+			BlockNames.GROUP,
 			KnownElemNames.HEADER,
 			deletedElements,
-			{ className: 'gravatar-block-column--header gravatar-block-column--align-center' },
+			{ className: 'gravatar-block-group--header gravatar-block-group--align-center' },
 			[
 				getAvatar( profileData, deletedElements, 72, 72 ),
 				getBlockTemplate(
-					BlockNames.COLUMN,
+					BlockNames.GROUP,
 					KnownElemNames.JOB_COMPANY_LOCATION_WRAPPER,
 					deletedElements,
 					{ linkUrl: profileData.profile_url, verticalAlignment: true },
 					[
 						getDisplayName( profileData, deletedElements ),
 						getBlockTemplate(
-							BlockNames.COLUMN,
+							BlockNames.GROUP,
 							KnownElemNames.JOB_COMPANY_WRAPPER,
 							deletedElements,
-							{ className: 'gravatar-block-column--comma-separated' },
+							{ className: 'gravatar-block-group--comma-separated' },
 							[ getJobTitle( profileData, deletedElements ), getCompany( profileData, deletedElements ) ]
 						),
 						getLocation( profileData, deletedElements ),
@@ -42,10 +42,10 @@ const getDefaultTemplate: EditTemplateFn = ( profileData, deletedElements ) =>
 		),
 		getDescription( profileData, deletedElements ),
 		getBlockTemplate(
-			BlockNames.COLUMN,
+			BlockNames.GROUP,
 			KnownElemNames.FOOTER,
 			deletedElements,
-			{ className: 'gravatar-block-column--footer gravatar-block-column--align-center' },
+			{ className: 'gravatar-block-group--footer gravatar-block-group--align-center' },
 			[ ...getVerifiedAccounts( profileData, deletedElements ), getViewProfile( profileData, deletedElements ) ]
 		),
 	].filter( Boolean );

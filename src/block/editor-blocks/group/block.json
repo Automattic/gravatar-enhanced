@@ -1,10 +1,10 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "gravatar/block-column",
-	"version": "0.3.0",
-	"title": "Column",
-	"description": "The Column block for the Gravatar block.",
+	"name": "gravatar/block-group",
+	"version": "0.4.0",
+	"title": "Group",
+	"description": "The Group block for the Gravatar block.",
 	"category": "layout",
     "parent": [],
 	"attributes": {
@@ -30,5 +30,5 @@
 		"inserter": false
 	},
 	"textdomain": "gravatar-enhanced",
-    "editorScript": "file:../../../block-column.js"
+    "editorScript": "file:../../../block-group.js"
 }

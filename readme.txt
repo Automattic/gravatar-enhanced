@@ -88,6 +88,10 @@ A: It sends a single, polite email to commenters without Gravatars, inviting the
 
 == Changelog ==
 
+= 0.9.0 =
+* Add more Gravatar patterns
+* Fix empty profile blocks are rendered in the frontend view
+
 = 0.8.0 =
 * Add the first Gravatar block pattern
 * Add color and initials default avatar

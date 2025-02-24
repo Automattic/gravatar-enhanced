@@ -20,7 +20,22 @@ class Patterns {
 			'type' => 'grid-pattern',
 			'number' => 1,
 		],
-		// TODO: Add more patterns...
+		[
+			'type' => 'grid-pattern',
+			'number' => 2,
+		],
+		[
+			'type' => 'grid-pattern',
+			'number' => 3,
+		],
+		[
+			'type' => 'grid-pattern',
+			'number' => 4,
+		],
+		[
+			'type' => 'grid-pattern',
+			'number' => 5,
+		],
 	];
 
 	/**

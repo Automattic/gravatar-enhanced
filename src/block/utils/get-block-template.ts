@@ -7,7 +7,7 @@ export default function getBlockTemplate< T extends BlockNames >(
 	elemName: string,
 	deletedElements: MainEditAttrs[ 'deletedElements' ],
 	attrs: InnerBlockAttrsMap[ T ],
-	innerBlocks?: T extends BlockNames.COLUMN ? InnerBlockTemplate[] : never
+	innerBlocks?: T extends BlockNames.GROUP ? InnerBlockTemplate[] : never
 ): InnerBlockTemplate | null {
 	if ( deletedElements[ elemName ] ) {
 		return null;

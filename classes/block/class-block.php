@@ -25,7 +25,7 @@ class Block {
 		$block_dir = dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/block';
 
 		register_block_type( $block_dir . '/' );
-		register_block_type( $block_dir . '/editor-blocks/column' );
+		register_block_type( $block_dir . '/editor-blocks/group' );
 		register_block_type( $block_dir . '/editor-blocks/image' );
 		register_block_type( $block_dir . '/editor-blocks/name' );
 		register_block_type( $block_dir . '/editor-blocks/paragraph' );

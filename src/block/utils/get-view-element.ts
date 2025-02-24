@@ -1,21 +1,21 @@
 import type {
 	InnerBlockAttrsMap,
 	MainEditAttrs,
-	ColumnAttrs,
+	GroupAttrs,
 	ImageAttrs,
 	LinkAttrs,
 	NameAttrs,
 	ParagraphAttrs,
 } from '../shared-types';
 import { BlockNames } from '../shared-types';
-import { getColumn, getImage, getName, getParagraph, getLink } from '../view-elements';
+import { getGroup, getImage, getName, getParagraph, getLink } from '../view-elements';
 
 export default function getViewElement< T extends BlockNames >(
 	blockName: T,
 	elemName: string,
 	deletedElements: MainEditAttrs[ 'deletedElements' ],
 	props: InnerBlockAttrsMap[ T ],
-	children?: T extends BlockNames.COLUMN ? string[] : never
+	children?: T extends BlockNames.GROUP ? string[] : never
 ): string {
 	if ( deletedElements[ elemName ] ) {
 		return '';
@@ -32,8 +32,8 @@ export default function getViewElement< T extends BlockNames >(
 	}
 
 	switch ( blockName ) {
-		case BlockNames.COLUMN:
-			return getColumn( props as ColumnAttrs, filteredChildren );
+		case BlockNames.GROUP:
+			return getGroup( props as GroupAttrs, filteredChildren );
 		case BlockNames.IMAGE:
 			return getImage( props as ImageAttrs );
 		case BlockNames.NAME:

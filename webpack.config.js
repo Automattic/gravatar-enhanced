@@ -7,7 +7,7 @@ const config = {
 		'quick-editor': './src/quick-editor',
 		block: './src/block',
 		'block-view': './src/block/view.ts',
-		'block-column': './src/block/editor-blocks/column',
+		'block-group': './src/block/editor-blocks/group',
 		'block-image': './src/block/editor-blocks/image',
 		'block-name': './src/block/editor-blocks/name',
 		'block-paragraph': './src/block/editor-blocks/paragraph',
