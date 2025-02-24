@@ -1,11 +1,5 @@
 <?php
 
-$layout_class_map = [
-	'portrait' => 'gravatar-block--portrait',
-	'landscape' => 'gravatar-block--landscape',
-	'line' => 'gravatar-block--line',
-];
-
 /**
  * @var array{
  *   userEmail: string,
@@ -13,18 +7,30 @@ $layout_class_map = [
  *   userType: string,
  *   layout: string,
  *   avatarUrlSizeParam: string,
- *   placeholderProfile: string,
- *   deletedElements: array<string>
+ *   placeholderProfile: array{
+ *     display_name: string,
+ *     job_title: string,
+ *     company: string,
+ *     location: string,
+ *     description: string
+ *   },
+ *   deletedElements: array<string, bool>
  * } $attributes
  */
+
 $email = strtolower( trim( $attributes['userEmail'] ) );
-$hashed_email = $email ? hash( 'sha256', sanitize_email( $email ) ) : '';
+$email = sanitize_email( $email );
 
 // If the `userType` is email, but the email is not provided, don't render the block.
-if ( $attributes['userType'] === 'email' && ! $hashed_email ) {
+if ( $attributes['userType'] === 'email' && ! $email ) {
 	return;
 }
 
+$layout_class_map = [
+	'portrait' => 'gravatar-block--portrait',
+	'landscape' => 'gravatar-block--landscape',
+	'line' => 'gravatar-block--line',
+];
 $layout_class = isset( $layout_class_map[ $attributes['layout'] ] ) ? ' ' . $layout_class_map[ $attributes['layout'] ] : '';
 $custom_text_color_class = isset( $attributes['textColor'] ) ? ' gravatar-block--custom-text-color' : '';
 $class = 'gravatar-block' . $layout_class . $custom_text_color_class;
@@ -32,7 +38,7 @@ $class = 'gravatar-block' . $layout_class . $custom_text_color_class;
 $data = wp_json_encode(
 	[
 		'userType' => $attributes['userType'],
-		'hashedEmail' => $hashed_email,
+		'hashedEmail' => hash( 'sha256', $email ),
 		'layout' => $attributes['layout'],
 		'avatarUrlSizeParam' => $attributes['avatarUrlSizeParam'],
 		'placeholderProfile' => $attributes['placeholderProfile'],
