@@ -21,7 +21,7 @@
 $email = strtolower( trim( $attributes['userEmail'] ) );
 $email = sanitize_email( $email );
 
-// If the `userType` is email, but the email is not provided, don't render the block.
+// If the `userType` is email, but the email isn't valid, don't render the block.
 if ( $attributes['userType'] === 'email' && ! $email ) {
 	return;
 }
