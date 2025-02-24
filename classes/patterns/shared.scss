@@ -47,7 +47,8 @@
 		}
 	}
 
-	&.gravatar-grid-pattern--2 {
+	&.gravatar-grid-pattern--2,
+	&.gravatar-grid-pattern--5 {
 		div.wp-block-gravatar-block.gravatar-block--portrait {
 			width: 229px;
 
@@ -105,6 +106,18 @@
 
 			.gravatar-block-group--verified-accounts {
 				margin-top: 24px;
+			}
+		}
+	}
+
+	&.gravatar-grid-pattern--5 {
+		.gravatar-grid-pattern__row {
+			container-type: inline-size;
+		}
+
+		@container (min-width: 728px) {
+			div.wp-block-gravatar-block.gravatar-block--portrait:nth-child(4n - 1) {
+				margin-left: 249px;
 			}
 		}
 	}
