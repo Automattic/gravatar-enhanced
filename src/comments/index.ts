@@ -101,7 +101,7 @@ function adjustGravatarPosition() {
 	emailField.style.paddingLeft = Math.round( height + padding * 1.3 ) + 'px';
 }
 
-function showProfile( profile ) {
+function showProfile( profile, isShowingEditor ) {
 	const gravatarImg = document.querySelector( GRAVATAR_CONTAINER + ' img' ) as HTMLImageElement;
 	const emailContainer = document.querySelector( '.comment-form-email' ) as HTMLInputElement;
 
@@ -115,7 +115,11 @@ function showProfile( profile ) {
 	adjustGravatarPosition();
 
 	// Hook up to hovercard
-	hovercards.attach( gravatarImg );
+	hovercards.attach( gravatarImg, {
+		onCanShowHovercard: () => {
+			return ! isShowingEditor();
+		},
+	} );
 }
 
 document.addEventListener( 'DOMContentLoaded', () => {
@@ -124,6 +128,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	let lastRequestEmail = '';
 	let debounceProfileTimeout: NodeJS.Timeout;
 	let debounceResizeTimeout: NodeJS.Timeout;
+	let isShowingEditor = false;
 
 	const loadProfile = async ( event ) => {
 		clearTimeout( debounceProfileTimeout );
@@ -149,13 +154,16 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
 		if ( profile ) {
 			suggestProfile( profile );
-			showProfile( profile );
+			showProfile( profile, () => isShowingEditor );
 		} else {
-			showProfile( {
-				display_name: '',
-				profile_url: '',
-				avatar_url: 'https://gravatar.com/avatar/' + sha256( emailValue.trim().toLowerCase() ),
-			} );
+			showProfile(
+				{
+					display_name: '',
+					profile_url: '',
+					avatar_url: 'https://gravatar.com/avatar/' + sha256( emailValue.trim().toLowerCase() ),
+				},
+				() => isShowingEditor
+			);
 		}
 	};
 
@@ -166,15 +174,19 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	} );
 
 	// Hook up the image to the QE
-	qeButton?.addEventListener( 'click', () =>
+	qeButton?.addEventListener( 'click', () => {
+		isShowingEditor = true;
+
 		showQuickEditor(
 			email?.value || gravatarEnhancedComments?.email || '',
 			gravatarEnhancedComments?.locale || 'en',
 			[ 'avatars' ],
 			GRAVATAR_CONTAINER + ' img',
-			() => {}
-		)
-	);
+			() => {
+				isShowingEditor = false;
+			}
+		);
+	} );
 
 	// Reposition the avatar on resize - it can get slightly out of place
 	window.addEventListener( 'resize', () => {
