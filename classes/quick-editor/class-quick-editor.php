@@ -174,10 +174,7 @@ HTML;
 		}
 
 		$current_user_email = strtolower( $current_user->user_email );
-		$current_user_locale = get_user_locale( $current_user );
-
-		// Gravatar only wants the first part of a locale, so we strip the country code.
-		$current_user_locale = (string) preg_replace( '/_.*$/', '', $current_user_locale );
+		$current_user_locale = $this->get_locale_for_user( $current_user );
 
 		$settings = [
 			'email' => $current_user_email,
@@ -214,6 +211,28 @@ HTML;
 		wp_enqueue_script( 'gravatar-enhanced-hovercards', plugins_url( 'build/hovercards.js', GRAVATAR_ENHANCED_PLUGIN_FILE ), $assets['dependencies'], $assets['version'], true );
 		wp_register_style( 'gravatar-enhanced-hovercards', plugins_url( 'build/style-hovercards.css', GRAVATAR_ENHANCED_PLUGIN_FILE ), [], $assets['version'] );
 		wp_enqueue_style( 'gravatar-enhanced-hovercards' );
+	}
+
+	/**
+	 * Get the locale for the user.
+	 *
+	 * @param WP_User $user
+	 * @return string
+	 */
+	private function get_locale_for_user( $user ) {
+		$current_user_locale = strtolower( get_user_locale( $user ) );
+
+		// Gravatar only wants the first part of a locale, so we strip the country code unless it's one of the exceptions
+		$exceptions = [
+			'zh_tw',
+			'fr_ca',
+		];
+
+		if ( in_array( $current_user_locale, $exceptions, true ) ) {
+			return str_replace( '_', '-', $current_user_locale );
+		}
+
+		return (string) preg_replace( '/_.*$/', '', $current_user_locale );
 	}
 
 	/**
