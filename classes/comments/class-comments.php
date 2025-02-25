@@ -76,6 +76,13 @@ class Comments {
 
 		wp_enqueue_script( 'gravatar-enhanced-comments', plugins_url( 'build/comments.js', GRAVATAR_ENHANCED_PLUGIN_FILE ), $assets['dependencies'], $assets['version'], true );
 
+		$theme = wp_get_theme();
+		$override_file = __DIR__ . '/theme-override/' . $theme->get_template() . '.css';
+		if ( file_exists( $override_file ) ) {
+			wp_register_style( 'gravatar-enhanced-comments-override', plugins_url( 'classes/comments/theme-override/' . $theme->get_template() . '.css', GRAVATAR_ENHANCED_PLUGIN_FILE ), [], $assets['version'] );
+			wp_enqueue_style( 'gravatar-enhanced-comments-override' );
+		}
+
 		wp_register_style( 'gravatar-enhanced-comments', plugins_url( 'build/style-comments.css', GRAVATAR_ENHANCED_PLUGIN_FILE ), [], $assets['version'] );
 		wp_enqueue_style( 'gravatar-enhanced-comments' );
 
@@ -107,15 +114,13 @@ class Comments {
 	 * @return void
 	 */
 	public function comment_form_field_email( $field ) {
+		$grav_field = '<span class="gravatar-enhanced-profile">';
+		$grav_field .= '<img src="" alt="' . esc_attr( __( 'Gravatar profile', 'gravatar-enhanced' ) ) . '" />';
+		$grav_field .= '</span>';
+
+		$field = preg_replace( '@</(\w+)>$@', $grav_field . '</$1>', $field );
+
 		echo $field;
-
-		?>
-		<div class="gravatar-enhanced-comments gravatar-enhanced-comments--hidden">
-			<img src="" alt="<?php echo esc_attr( __( 'Gravatar profile', 'gravatar-enhanced' ) ); ?>" />
-
-			<button type="button"><?php echo esc_html( __( 'Edit', 'gravatar-enhanced' ) ); ?></button>
-		</div>
-		<?php
 	}
 
 	/**
