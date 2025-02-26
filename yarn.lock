@@ -1453,10 +1453,10 @@
   dependencies:
     tslib "2"
 
-"@gravatar-com/hovercards@^0.10.4":
-  version "0.10.4"
-  resolved "https://registry.yarnpkg.com/@gravatar-com/hovercards/-/hovercards-0.10.4.tgz#9fc49fb32110e949a6e8af394eefc6d0ddf7e2d7"
-  integrity sha512-Ldqrffcxaywq2vxu/QWmKDfbsSbGI8iHPNeyGJNFgyXHAi6uSPPXQhS17+wVMUKBPs/reMGfxcrVO/hnAPXhDQ==
+"@gravatar-com/hovercards@^0.10.5":
+  version "0.10.5"
+  resolved "https://registry.yarnpkg.com/@gravatar-com/hovercards/-/hovercards-0.10.5.tgz#f22eb8d6460c8256e81b7437d8785b5c46a190eb"
+  integrity sha512-NGgCLhdQbM8amUy4PtRJng+NhgjOC8o/tn4up3Hqp1lG8PEhytOXmV7M9dyDPYagtN6o7/DYrEf/kanv375lCg==
 
 "@gravatar-com/quick-editor@^0.6.0":
   version "0.6.0"
@@ -10069,10 +10069,10 @@ npm-bundled@^1.1.1:
   dependencies:
     npm-normalize-package-bin "^1.0.1"
 
-npm-check-updates@^17.1.14:
-  version "17.1.14"
-  resolved "https://registry.yarnpkg.com/npm-check-updates/-/npm-check-updates-17.1.14.tgz#68285d98b296656bf7a8f747123c51d1adbdbb2b"
-  integrity sha512-dr4bXIxETubLI1tFGeock5hN8yVjahvaVpx+lPO4/O2md3zJuxB7FgH3MIoTvQSCgsgkIRpe0skti01IEAA5tA==
+npm-check-updates@^17.1.15:
+  version "17.1.15"
+  resolved "https://registry.yarnpkg.com/npm-check-updates/-/npm-check-updates-17.1.15.tgz#3e5734f5acf91de1c4ef3cd4ac460172d9195c99"
+  integrity sha512-miATvKu5rjec/1wxc5TGDjpsucgtCHwRVZorZpDkS6NzdWXfnUWlN4abZddWb7XSijAuBNzzYglIdTm9SbgMVg==
 
 npm-normalize-package-bin@^1.0.1:
   version "1.0.1"
