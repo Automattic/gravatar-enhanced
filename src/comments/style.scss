@@ -44,10 +44,6 @@ $gravatar-blue: #1d4fc4;
 	}
 }
 
-.gravatar-enhanced-is-loading {
-	@include pulsate();
-}
-
 @keyframes borderFlashAndGrow {
 	0%,
 	100% {

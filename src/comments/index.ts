@@ -16,16 +16,6 @@ function isEmail( email ) {
 	return emailRegex.test( email );
 }
 
-function toggleLoading( isLoading ) {
-	const author = document.getElementById( 'author' ) as HTMLInputElement;
-	const url = document.getElementById( 'url' ) as HTMLInputElement;
-	const email = document.querySelector( COMMENT_EMAIL_FIELD ) as HTMLInputElement;
-
-	email?.classList.toggle( 'gravatar-enhanced-is-loading', isLoading );
-	author?.classList.toggle( 'gravatar-enhanced-is-loading', isLoading );
-	url?.classList.toggle( 'gravatar-enhanced-is-loading', isLoading );
-}
-
 async function fetchUserProfile( email ) {
 	const hash = sha256( email.trim().toLowerCase() );
 
@@ -146,11 +136,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 			return;
 		}
 
-		toggleLoading( true );
-
 		const profile = await fetchUserProfile( emailValue );
-
-		toggleLoading( false );
 
 		lastRequestEmail = emailValue;
 
