@@ -119,16 +119,16 @@ class MyAccount {
 		$display_name = esc_html( $current_user->display_name );
 
 		$html = <<<HTML
-        <div class="woocommerce-account-gravatar">
-            <div class="woocommerce-account-gravatar__avatar-wrapper">
-                $avatar
-                <div class="woocommerce-account-gravatar__edit-wrapper">
-                    <a class="woocommerce-account-gravatar__edit">$edit_text</a>
-                </div>
-            </div>
-            <span class="woocommerce-account-gravatar__display-name">$display_name</span>
-        </div>
-        HTML;
+		<div class="woocommerce-account-gravatar">
+			<div class="woocommerce-account-gravatar__avatar-wrapper">
+				$avatar
+				<div class="woocommerce-account-gravatar__edit-wrapper">
+					<a class="woocommerce-account-gravatar__edit">$edit_text</a>
+				</div>
+			</div>
+			<span class="woocommerce-account-gravatar__display-name">$display_name</span>
+		</div>
+		HTML;
 
 		return $html;
 	}

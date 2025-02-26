@@ -51,7 +51,7 @@ class AdminCustomers {
 			$asset_file = dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/wc-admin-customers.asset.php';
 			$assets     = file_exists( $asset_file ) ? require $asset_file : [
 				'dependencies' => [],
-				'version'      => time()
+				'version'      => time(),
 			];
 
 			wp_enqueue_script(
