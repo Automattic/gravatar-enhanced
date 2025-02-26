@@ -86,10 +86,12 @@ function adjustGravatarPosition() {
 	const emailContainerRect = emailContainer.getBoundingClientRect();
 	const topRectOffset = emailFieldRect.top - emailContainerRect.top;
 	const leftRectOffset = emailFieldRect.left - emailContainerRect.left;
-	const height = Math.round( emailFieldRect.height * 0.8 );
-	const heightDifference = emailFieldRect.height - height;
-	const leftOffset = Math.round( leftRectOffset + padding / 2 ) + parseInt( computedStyle.borderLeftWidth );
-	const topOffset = Math.round( topRectOffset + heightDifference / 2 );
+	const height = parseFloat( ( emailFieldRect.height * 0.8 ).toFixed( 1 ) );
+	const heightDifference = parseFloat( ( emailFieldRect.height - height ).toFixed( 1 ) );
+	const leftOffset = parseFloat(
+		( leftRectOffset + padding / 2 + parseInt( computedStyle.borderLeftWidth ) ).toFixed( 1 )
+	);
+	const topOffset = parseFloat( ( topRectOffset + heightDifference / 2 ).toFixed( 1 ) );
 
 	// Position the Gravatar inside the text field
 	gravatarProfile.style.height = height + 'px';
@@ -98,7 +100,7 @@ function adjustGravatarPosition() {
 	gravatarProfile.style.left = leftOffset + 'px';
 
 	// Move the text up to allow the Gravatar to fit
-	emailField.style.paddingLeft = Math.round( height + padding * 1.3 ) + 'px';
+	emailField.style.paddingLeft = parseFloat( ( height + padding * 1.3 ).toFixed( 1 ) ) + 'px';
 }
 
 function showProfile( profile, isShowingEditor ) {
