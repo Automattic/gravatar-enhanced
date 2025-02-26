@@ -11,30 +11,28 @@ The official Gravatar plugin, featuring privacy-focused settings, easy profile u
 
 Elevate your WordPress site with Gravatar Enhanced - the plugin that simplifies digital identity and improves user engagement.
 
-Key Features:
+Six Ways Gravatar Enhanced Improves WordPress:
 
-- Privacy-focused settings
-- Improved accessibility
-- Easy profile updates
-- Versatile Gravatar Profile block
-- Automatically embed Gravatar profile cards
-- Commenter engagement tools
-- WooCommerce Integration
+✓ Privacy Protection - Automatic referrer blocking and optional IP address proxy
+✓ Accessibility Improvements - Alt-text for all avatars to support screen readers
+✓ One-Click Profile Updates - Edit Gravatar directly from the WordPress dashboard
+✓ Versatile Profile Block & Patterns - Showcase authors and team members anywhere
+✓ Comment Engagement Tools - Remind users to create avatars for better discussions
+✓ WooCommerce Integration - Personalized account pages for customers
 
 === Privacy Protection ===
-
 Just by enabling the plugin, the plugin ensures that no referrer information is sent to Gravatar. The opt-in proxy service also keeps IP addresses from being exposed or logged.
 
 === Accessibility Improvements ===
 All avatars now include alt-text, enhancing the experience for users with screen readers. Alt-text can be edited in the Gravatar Profile editor.
 
-=== Simplified Profile Management ===
+=== One-Click Profile Updates ===
 Visit Users > Your Profile to edit your Gravatar profile directly from WordPress. Preview your hovercard and make updates with ease.
 
-=== Gravatar Profile Block ===
-Add Gravatar profiles to posts, pages, author bios, or company pages using our custom block. Perfect for showcasing team members or guest contributors without needing to give them access to your WordPress website.
+=== Gravatar Profile Block & Patterns ===
+Enhance your website with our custom Gravatar profile block and patterns. Seamlessly integrate Gravatar profiles into posts, pages, or biographies to elegantly showcase team members, guest contributors, speakers, event attendees, authors, and more.
 
-=== Boost Engagement ===
+=== Comment Engagement Tools ===
 Automatically remind commenters without avatars to create a Gravatar, increasing visual engagement on your blog.
 
 === WooCommerce Integration ===
@@ -85,12 +83,14 @@ A: It sends a single, polite email to commenters without Gravatars, inviting the
 1. Gravatar card on profile page
 2. Avatar options
 3. Gravatar block
+4. Gravatar pattern
 
 == Changelog ==
 
 = 0.9.0 =
 * Add more Gravatar patterns
 * Fix empty profile blocks are rendered in the frontend view
+* Replace the Gravatar profile's column block with a group block
 
 = 0.8.0 =
 * Add the first Gravatar block pattern
