@@ -31,7 +31,6 @@ class Comments {
 
 		add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ] );
 		add_action( 'comment_form_field_email', [ $this, 'comment_form_field_email' ] );
-		add_action( 'comment_form_logged_in', [ $this, 'comment_form_logged_in' ] );
 		add_filter( 'comment_form_fields', [ $this, 'comment_form_fields' ] );
 	}
 
@@ -121,23 +120,5 @@ class Comments {
 		$field = preg_replace( '@</(\w+)>$@', $grav_field . '</$1>', $field );
 
 		echo $field;
-	}
-
-	/**
-	 * Output the Gravatar-enhanced comments form field for logged-in user.
-	 *
-	 * @param string $text
-	 * @return void
-	 */
-	public function comment_form_logged_in( $text ) {
-		echo $text;
-
-		?>
-		<div class="gravatar-enhanced-comments">
-			<?php echo get_avatar( wp_get_current_user()->user_email, 128 ); ?>
-
-			<button type="button"><?php echo esc_html( __( 'Edit', 'gravatar-enhanced' ) ); ?></button>
-		</div>
-		<?php
 	}
 }
