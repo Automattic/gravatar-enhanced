@@ -49,17 +49,20 @@ class QuickEditor {
 			return;
 		}
 
+		$personal_options = __( 'Personal Options' );
+
 		// Move user information to top
-		preg_match( '@<h2>(.*?)</table>@s', $profile_page, $profile_details );
+		preg_match( '@<h2>' . $personal_options . '</h2>(.*?)</table>@s', $profile_page, $profile_details );
 		preg_match( '@<tr class="user-description-wrap.*?</tr>@s', $profile_page, $user_description );
 
 		// Remove the personal options
-		$profile_page = (string) preg_replace( '@<h2>.*?</table>@s', '', $profile_page, 1 );
+		$profile_page = (string) preg_replace( '@<h2>' . $personal_options . '</h2>.*?</table>@s', '', $profile_page, 1 );
 
 		// Remove the bio
 		$profile_page = (string) preg_replace( '@<tr class="user-description-wrap.*?</tr>@s', '', $profile_page, 1 );
 
 		if ( ! isset( $profile_details[0] ) || ! isset( $user_description[0] ) ) {
+			echo $profile_page;
 			return;
 		}
 
