@@ -49,7 +49,7 @@ class QuickEditor {
 			return;
 		}
 
-		$personal_options = __( 'Personal Options' );
+		$personal_options = preg_quote( __( 'Personal Options' ), '@' );
 
 		// Move user information to top
 		preg_match( '@<h2>' . $personal_options . '</h2>(.*?)</table>@s', $profile_page, $profile_details );
