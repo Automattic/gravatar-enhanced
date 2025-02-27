@@ -2,16 +2,13 @@
 
 namespace Automattic\Gravatar\GravatarEnhanced\Hovercards;
 
-class Hovercards {
+use Automattic\Gravatar\GravatarEnhanced\Module;
+
+class Hovercards implements Module {
 	/**
 	 * @var string
 	 */
 	const OPTION_HOVERCARDS = 'gravatar_hovercards';
-
-	/**
-	 * @var string
-	 */
-	const FILTER_GRAVATAR_HOVERCARDS_MODULE_ENABLED = 'gravatar_enhanced_hovercards_module_enabled';
 
 	/**
 	 * @return void
@@ -119,11 +116,6 @@ class Hovercards {
 	 * @return bool
 	 */
 	private function is_module_disabled() {
-		// Check if module is manually disabled by the filter.
-		if ( ! apply_filters( self::FILTER_GRAVATAR_HOVERCARDS_MODULE_ENABLED, true ) ) {
-			return true; // Disabled by filter.
-		}
-
 		// Check if Jetpack is active and has the Gravatar Hovercards module enabled.
 		if ( class_exists( '\Jetpack' ) && \Jetpack::is_module_active( 'gravatar-hovercards' ) ) {
 			return true; // Disabled due to Jetpack Gravatar Hovercards module.

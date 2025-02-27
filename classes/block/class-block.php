@@ -2,11 +2,13 @@
 
 namespace Automattic\Gravatar\GravatarEnhanced\Block;
 
+use Automattic\Gravatar\GravatarEnhanced\Module;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-class Block {
+class Block implements Module {
 	/**
 	 * @return void
 	 */
@@ -31,4 +33,6 @@ class Block {
 		register_block_type( $block_dir . '/editor-blocks/paragraph' );
 		register_block_type( $block_dir . '/editor-blocks/link' );
 	}
+
+	public function uninstall() {}
 }

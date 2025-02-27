@@ -2,6 +2,7 @@
 
 namespace Automattic\Gravatar\GravatarEnhanced\Email;
 
+use Automattic\Gravatar\GravatarEnhanced\Module;
 use WP_Http;
 use WP_Comment;
 use WP_Post;
@@ -9,7 +10,7 @@ use WP_Post;
 require_once __DIR__ . '/class-email-options.php';
 require_once __DIR__ . '/class-email-preferences.php';
 
-class EmailNotification {
+class EmailNotification implements Module {
 	/**
 	 * @var Preferences
 	 */

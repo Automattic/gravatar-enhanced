@@ -2,7 +2,9 @@
 
 namespace Automattic\Gravatar\GravatarEnhanced\Woocommerce;
 
-class AdminCustomers {
+use Automattic\Gravatar\GravatarEnhanced\Module;
+
+class AdminCustomers implements Module {
 	/**
 	 * @var string
 	 */
@@ -70,4 +72,9 @@ class AdminCustomers {
 			);
 		}
 	}
+
+	/**
+	 * @return void
+	 */
+	public function uninstall() {}
 }

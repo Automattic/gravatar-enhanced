@@ -2,9 +2,10 @@
 
 namespace Automattic\Gravatar\GravatarEnhanced\QuickEditor;
 
+use Automattic\Gravatar\GravatarEnhanced\Module;
 use WP_User;
 
-class QuickEditor {
+class QuickEditor implements Module {
 	/**
 	 * @return void
 	 */
@@ -246,4 +247,9 @@ HTML;
 
 		return get_userdata( $user_id );
 	}
+
+	/**
+	 * @return void
+	 */
+	public function uninstall() {}
 }
