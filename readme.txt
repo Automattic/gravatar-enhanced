@@ -92,6 +92,8 @@ A: It sends a single, polite email to commenters without Gravatars, inviting the
 * Pass comment initials when using initials avatar
 * Fix empty profile blocks are rendered in the frontend view
 * Replace the Gravatar profile's column block with a group block
+* Improve compatibility with quick editor and other plugins
+* Fix quick editor language support for Taiwanese
 
 = 0.8.0 =
 * Add the first Gravatar block pattern
