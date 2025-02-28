@@ -135,7 +135,7 @@ class Plugin {
 		}
 
 		// Handles the discussions settings page
-		$this->discussions = new Options\DiscussionsPage( $this->auto_options, $this->lazy_options, $enabled_modules = array_keys($this->modules) );
+		$this->discussions = new Options\DiscussionsPage( $this->auto_options, $this->lazy_options, array_keys( $this->modules ) );
 
 		// Ensure the options always exist. We don't need data saved in it as this is provided by the defaults
 		if ( get_option( self::OPTION_NAME_AUTO, null ) === null ) {
