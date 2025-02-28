@@ -17,5 +17,4 @@ interface Module {
 	 * @return void
 	 */
 	public function uninstall();
-
 }

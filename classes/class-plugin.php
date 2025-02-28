@@ -129,9 +129,9 @@ class Plugin {
 			'wc_my_account' => $this->wc_my_account,
 			'oembed' => $this->oembed,
 		];
-		$modules_whitelist = apply_filters( 'gravatar_enhanced_modules_whitelist', null);
-		if ( is_array($modules_whitelist) ) {
-			$this->modules = array_intersect_key($this->modules, array_flip($modules_whitelist));
+		$modules_whitelist = apply_filters( 'gravatar_enhanced_modules_whitelist', null );
+		if ( is_array( $modules_whitelist ) ) {
+			$this->modules = array_intersect_key( $this->modules, array_flip( $modules_whitelist ) );
 		}
 
 		// Handles the discussions settings page
@@ -149,7 +149,7 @@ class Plugin {
 	 * @return void
 	 */
 	public function init() {
-		foreach( $this->modules as $module ) {
+		foreach ( $this->modules as $module ) {
 			$module->init();
 		}
 
