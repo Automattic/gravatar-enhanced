@@ -293,6 +293,19 @@ class DiscussionsPage {
 	}
 
 	/**
+	 * @return Comments\Preferences
+	 */
+	private function get_comment_preferences() {
+		$options = [
+			'enabled' => isset( $_POST['gravatar_comments'] ),
+		];
+
+		$new_options = Comments\Options::from_array( $options );
+
+		return new Comments\Preferences( $this->auto_options, $new_options );
+	}
+
+	/**
 	 * @return Avatar\Preferences
 	 */
 	private function get_avatar_preferences() {

@@ -14,6 +14,7 @@ use Automattic\Gravatar\GravatarEnhanced\Comments;
  * @psalm-import-type AnalyticsOptionsArray from Analytics\Options
  * @psalm-import-type EmailOptionsArray from Email\Options
  * @psalm-import-type CommentsOptionsArray from Comments\Options
+ * @psalm-type Preferences Comments\Preferences | Avatar\Preferences | Proxy\Preferences | Email\Preferences | Analytics\Preferences
  *
  * @psalm-type OptionsArray = array{
  *   avatar?: AvatarOptionsArray,
@@ -86,7 +87,7 @@ class SavedOptions {
 	/**
 	 * Update the options. We only save the difference compared to the defaults.
 	 *
-	 * @param Avatar\Preferences | Proxy\Preferences | Email\Preferences | Analytics\Preferences $preferences
+	 * @param Preferences $preferences
 	 * @return void
 	 */
 	public function update( $preferences ) {
