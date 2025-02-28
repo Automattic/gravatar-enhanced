@@ -7,9 +7,10 @@ require_once __DIR__ . '/class-hash.php';
 require_once __DIR__ . '/class-proxy-options.php';
 require_once __DIR__ . '/class-proxy-preferences.php';
 
+use Automattic\Gravatar\GravatarEnhanced\Module;
 use WP_Error;
 
-class Proxy {
+class Proxy implements Module {
 	/**
 	 * @var Options
 	 */
@@ -202,4 +203,9 @@ class Proxy {
 
 		return new LocalAvatarHash( $url );
 	}
+
+	/**
+	 * @return void
+	 */
+	public function uninstall() {}
 }

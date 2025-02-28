@@ -2,7 +2,9 @@
 
 namespace Automattic\Gravatar\GravatarEnhanced\Woocommerce;
 
-class MyAccount {
+use Automattic\Gravatar\GravatarEnhanced\Module;
+
+class MyAccount implements Module {
 	/**
 	 * @var string
 	 */
@@ -132,4 +134,9 @@ class MyAccount {
 
 		return $html;
 	}
+
+	/**
+	 * @return void
+	 */
+	public function uninstall() {}
 }

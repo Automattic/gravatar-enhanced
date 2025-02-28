@@ -26,12 +26,19 @@ class DiscussionsPage {
 	private $lazy_options;
 
 	/**
+	 * @var string[]
+	 */
+	private $enabled_modules;
+
+	/**
 	 * @param SavedOptions $auto_options
 	 * @param SavedOptions $lazy_options
+	 * @param string[] $enabled_modules The enabled modules, as defined in `class-plugin.php`.
 	 */
-	public function __construct( $auto_options, $lazy_options ) {
+	public function __construct( $auto_options, $lazy_options, $enabled_modules ) {
 		$this->auto_options = $auto_options;
 		$this->lazy_options = $lazy_options;
+		$this->enabled_modules = $enabled_modules;
 	}
 
 	/**
@@ -49,37 +56,45 @@ class DiscussionsPage {
 	public function admin_init() {
 		add_action( 'load-options.php', [ $this, 'save_settings' ] );
 
-		add_settings_field(
-			'avatar-options',
-			__( 'Avatar Options', 'gravatar-enhanced' ),
-			[ $this, 'display_avatar_settings' ],
-			'discussion',
-			'avatars'
-		);
+		if ( in_array( 'avatar', $this->enabled_modules, true ) ) {
+			add_settings_field(
+				'avatar-options',
+				__( 'Avatar Options', 'gravatar-enhanced' ),
+				[ $this, 'display_avatar_settings' ],
+				'discussion',
+				'avatars'
+			);
+		}
 
-		add_settings_field(
-			'email-options',
-			__( 'Invitation', 'gravatar-enhanced' ),
-			[ $this, 'display_email_settings' ],
-			'discussion',
-			'avatars'
-		);
+		if ( in_array( 'email', $this->enabled_modules, true ) ) {
+			add_settings_field(
+				'email-options',
+				__( 'Invitation', 'gravatar-enhanced' ),
+				[ $this, 'display_email_settings' ],
+				'discussion',
+				'avatars'
+			);
+		}
 
-		add_settings_field(
-			'proxy-options',
-			__( 'Avatar Proxy', 'gravatar-enhanced' ),
-			[ $this, 'display_proxy_settings' ],
-			'discussion',
-			'avatars'
-		);
+		if ( in_array( 'proxy', $this->enabled_modules, true ) ) {
+			add_settings_field(
+				'proxy-options',
+				__( 'Avatar Proxy', 'gravatar-enhanced' ),
+				[ $this, 'display_proxy_settings' ],
+				'discussion',
+				'avatars'
+			);
+		}
 
-		add_settings_field(
-			'analytics-options',
-			__( 'Anonymous Analytics', 'gravatar-enhanced' ),
-			[ $this, 'display_analytics_settings' ],
-			'discussion',
-			'avatars'
-		);
+		if ( in_array( 'analytics', $this->enabled_modules, true ) ) {
+			add_settings_field(
+				'analytics-options',
+				__( 'Anonymous Analytics', 'gravatar-enhanced' ),
+				[ $this, 'display_analytics_settings' ],
+				'discussion',
+				'avatars'
+			);
+		}
 	}
 
 	/**
@@ -226,18 +241,26 @@ class DiscussionsPage {
 			return;
 		}
 
-		$avatar_preferences = $this->get_avatar_preferences();
-		$proxy_preferences = $this->get_proxy_preferences();
-		$analytics_preferences = $this->get_analytics_preferences();
-
-		$this->auto_options->update( $avatar_preferences );
-		$this->auto_options->update( $proxy_preferences );
-		$this->auto_options->update( $analytics_preferences );
+		// Handle auto options.
+		if ( in_array('avatar', $this->enabled_modules, true) ) {
+			$avatar_preferences = $this->get_avatar_preferences();
+			$this->auto_options->update( $avatar_preferences );
+		}
+		if ( in_array( 'proxy', $this->enabled_modules, true ) ) {
+			$proxy_preferences = $this->get_proxy_preferences();
+			$this->auto_options->update( $proxy_preferences );
+		}
+		if ( in_array( 'analytics', $this->enabled_modules, true ) ) {
+			$analytics_preferences = $this->get_analytics_preferences();
+			$this->auto_options->update( $analytics_preferences );
+		}
 		$this->auto_options->save();
 
-		$email_preferences = $this->get_email_preferences();
-
-		$this->lazy_options->update( $email_preferences );
+		// Handle lazy options.
+		if ( in_array( 'email', $this->enabled_modules, true ) ) {
+			$email_preferences = $this->get_email_preferences();
+			$this->lazy_options->update( $email_preferences );
+		}
 		$this->lazy_options->save();
 	}
 

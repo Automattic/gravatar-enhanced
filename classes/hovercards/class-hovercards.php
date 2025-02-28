@@ -2,7 +2,9 @@
 
 namespace Automattic\Gravatar\GravatarEnhanced\Hovercards;
 
-class Hovercards {
+use Automattic\Gravatar\GravatarEnhanced\Module;
+
+class Hovercards implements Module {
 	/**
 	 * @var string
 	 */

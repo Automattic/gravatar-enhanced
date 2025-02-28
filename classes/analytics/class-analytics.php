@@ -2,10 +2,12 @@
 
 namespace Automattic\Gravatar\GravatarEnhanced\Analytics;
 
+use Automattic\Gravatar\GravatarEnhanced\Module;
+
 require_once __DIR__ . '/class-analytics-options.php';
 require_once __DIR__ . '/class-analytics-preferences.php';
 
-class Analytics {
+class Analytics implements Module {
 	const OPTION_ANALYTICS = 'gravatar_analytics';
 
 	/**
@@ -98,4 +100,9 @@ class Analytics {
 		// phpcs:ignore
 		echo $js;
 	}
+
+	/**
+	 * @return void
+	 */
+	public function uninstall() {}
 }

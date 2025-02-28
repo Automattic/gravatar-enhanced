@@ -2,6 +2,8 @@
 
 namespace Automattic\Gravatar\GravatarEnhanced\Patterns;
 
+use Automattic\Gravatar\GravatarEnhanced\Module;
+
 /**
  * How to add a new pattern:
  *
@@ -9,7 +11,7 @@ namespace Automattic\Gravatar\GravatarEnhanced\Patterns;
  * 2. Create a file in `classes/patterns` named `type-number.php` (e.g., `grid-pattern-1.php`) containing the pattern content
  * 3. Update the block pattern settings in `register_patterns` if needed
  */
-class Patterns {
+class Patterns implements Module {
 	/**
 	 * Patterns.
 	 *

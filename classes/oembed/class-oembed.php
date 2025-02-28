@@ -2,7 +2,9 @@
 
 namespace Automattic\Gravatar\GravatarEnhanced\OEmbed;
 
-class OEmbed {
+use Automattic\Gravatar\GravatarEnhanced\Module;
+
+class OEmbed implements Module {
 	private const API_ENDPOINT = 'https://api.gravatar.com/v3/oembed';
 
 	/**
@@ -20,4 +22,9 @@ class OEmbed {
 	public function register_oembed_provider() {
 		wp_oembed_add_provider( '/^https?:\/\/((www|[a-z]{2}(-[A-Z]{2})?)\.)?gravatar\.com\/([a-zA-Z0-9]+)\/?$/', self::API_ENDPOINT, true );
 	}
+
+	/**
+	 * @return void
+	 */
+	public function uninstall() {}
 }

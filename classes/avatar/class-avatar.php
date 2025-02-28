@@ -2,6 +2,8 @@
 
 namespace Automattic\Gravatar\GravatarEnhanced\Avatar;
 
+use Automattic\Gravatar\GravatarEnhanced\Module;
+
 require_once __DIR__ . '/class-avatar-id.php';
 require_once __DIR__ . '/class-avatar-options.php';
 require_once __DIR__ . '/class-avatar-preferences.php';
@@ -10,7 +12,7 @@ require_once __DIR__ . '/class-avatar-preferences.php';
  * @phpstan-import-type WPAvatarId from AvatarId
  * @phpstan-import-type WPAvatar from AvatarId
  */
-class Avatar {
+class Avatar implements Module {
 	const FILTER_HASH_ENCODING = 'gravatar_hash_encoding';
 	const FILTER_REFERRER_POLICY = 'gravatar_referrer_policy';
 
@@ -137,4 +139,9 @@ class Avatar {
 		$new_url = preg_replace( '@avatar/([a-f0-9]+)@', 'avatar/' . $user->get_hash(), $url );
 		return (string) $new_url;
 	}
+
+	/**
+	 * @return void
+	 */
+	public function uninstall() {}
 }

@@ -2,6 +2,7 @@
 
 namespace Automattic\Gravatar\GravatarEnhanced;
 
+require_once __DIR__ . '/class-module.php';
 require_once __DIR__ . '/options/class-discussions.php';
 require_once __DIR__ . '/email/class-email.php';
 require_once __DIR__ . '/hovercards/class-hovercards.php';
@@ -89,6 +90,11 @@ class Plugin {
 	 */
 	private $oembed;
 
+	/**
+	 * @var Module[]
+	 */
+	private $modules;
+
 	public function __construct() {
 		$this->auto_options = new Options\SavedOptions( self::OPTION_NAME_AUTO, true );
 		$this->lazy_options = new Options\SavedOptions( self::OPTION_NAME_LAZY, false );
@@ -96,9 +102,6 @@ class Plugin {
 		// Migrate old options. We're only interested in email settings. This will only run once.
 		$migrator = new Options\Migrate();
 		$migrator->maybe_migrate( $this->lazy_options, self::OPTION_NAME_LAZY );
-
-		// Handles the discussions settings page
-		$this->discussions = new Options\DiscussionsPage( $this->auto_options, $this->lazy_options );
 
 		// Modules
 		$this->email = new Email\EmailNotification( new Email\Preferences( $this->lazy_options ) );
@@ -112,6 +115,27 @@ class Plugin {
 		$this->wc_admin_customers = new Woocommerce\AdminCustomers();
 		$this->wc_my_account = new Woocommerce\MyAccount();
 		$this->oembed = new OEmbed\OEmbed();
+		// Collect all modules and filter them based on the whitelist if available.
+		$this->modules = [
+			'email' => $this->email,
+			'hovercards' => $this->hovercards,
+			'avatar' => $this->avatar,
+			'proxy' => $this->proxy,
+			'quick_editor' => $this->quick_editor,
+			'analytics' => $this->analytics,
+			'block' => $this->block,
+			'patterns' => $this->patterns,
+			'wc_admin_customers' => $this->wc_admin_customers,
+			'wc_my_account' => $this->wc_my_account,
+			'oembed' => $this->oembed,
+		];
+		$modules_whitelist = apply_filters( 'gravatar_enhanced_modules_whitelist', null );
+		if ( is_array( $modules_whitelist ) ) {
+			$this->modules = array_intersect_key( $this->modules, array_flip( $modules_whitelist ) );
+		}
+
+		// Handles the discussions settings page
+		$this->discussions = new Options\DiscussionsPage( $this->auto_options, $this->lazy_options, array_keys( $this->modules ) );
 
 		// Ensure the options always exist. We don't need data saved in it as this is provided by the defaults
 		if ( get_option( self::OPTION_NAME_AUTO, null ) === null ) {
@@ -120,23 +144,17 @@ class Plugin {
 	}
 
 	/**
-	 * Start the plugin
+	 * Start the plugin by initializing all the enabled modules.
 	 *
 	 * @return void
 	 */
 	public function init() {
-		$this->email->init();
-		$this->hovercards->init();
-		$this->avatar->init();
-		$this->proxy->init();
-		$this->quick_editor->init();
+		foreach ( $this->modules as $module ) {
+			$module->init();
+		}
+
+		// Initialize discussions settings.
 		$this->discussions->init();
-		$this->analytics->init();
-		$this->block->init();
-		$this->patterns->init();
-		$this->wc_admin_customers->init();
-		$this->wc_my_account->init();
-		$this->oembed->init();
 	}
 
 	/**
@@ -145,11 +163,15 @@ class Plugin {
 	 * @return void
 	 */
 	public function uninstall() {
-		$this->email->uninstall();
-		$this->hovercards->uninstall();
+
+		// Uninstall all enabled modules.
+		foreach ( $this->modules as $module ) {
+			$module->uninstall();
+		}
+
+		// Uninstall discussion settings options.
 		$this->auto_options->uninstall();
 		$this->lazy_options->uninstall();
-		$this->patterns->uninstall();
 
 		// Just in case, flush the cache
 		wp_cache_flush();
