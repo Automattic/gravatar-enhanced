@@ -58,7 +58,7 @@ declare global {
 		recordTrackEvent: ( name: string, options?: any ) => void;
 	};
 
-	var gravatarEnhancedComments : GravatarEnhancedComments;
+	var gravatarEnhancedComments: GravatarEnhancedComments;
 
 	type SelectFn = typeof select;
 }

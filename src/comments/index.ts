@@ -5,9 +5,9 @@ import './style.scss';
 
 const BASE_API_URL = 'https://api.gravatar.com/v3/profiles';
 const GRAVATAR_CONTAINER = '.gravatar-enhanced-profile';
+const COMMENT_EMAIL_WRAPPER = '.comment-form-email';
 const COMMENT_EMAIL_FIELD = '#email';
 const INPUT_TIMEOUT = 1000;
-const DEBOUNCE_TIMEOUT = 250;
 
 const hovercards = new Hovercards();
 
@@ -62,7 +62,7 @@ function hideProfile() {
 }
 
 function adjustGravatarPosition() {
-	const gravatarProfile = document.querySelector( GRAVATAR_CONTAINER ) as HTMLElement;
+	const gravatarProfile = document.querySelector( GRAVATAR_CONTAINER ) as HTMLSpanElement;
 	const emailContainer = document.querySelector( '.comment-form-email' ) as HTMLInputElement;
 	const emailField = document.querySelector( COMMENT_EMAIL_FIELD ) as HTMLInputElement;
 
@@ -96,7 +96,7 @@ function adjustGravatarPosition() {
 
 function showProfile( profile, isShowingEditor ) {
 	const gravatarImg = document.querySelector( GRAVATAR_CONTAINER + ' img' ) as HTMLImageElement;
-	const emailContainer = document.querySelector( '.comment-form-email' ) as HTMLInputElement;
+	const emailContainer = document.querySelector( COMMENT_EMAIL_WRAPPER ) as HTMLInputElement;
 
 	if ( ! gravatarImg || ! emailContainer ) {
 		return;
@@ -120,7 +120,6 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	const qeButton = document.querySelector( GRAVATAR_CONTAINER + ' img' );
 	let lastRequestEmail = '';
 	let debounceProfileTimeout: NodeJS.Timeout;
-	let debounceResizeTimeout: NodeJS.Timeout;
 	let isShowingEditor = false;
 
 	const loadProfile = async ( event ) => {
@@ -178,13 +177,16 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	} );
 
 	// Reposition the avatar on resize - it can get slightly out of place
-	window.addEventListener( 'resize', () => {
-		clearTimeout( debounceResizeTimeout );
-
-		debounceProfileTimeout = setTimeout( () => {
-			if ( lastRequestEmail ) {
+	const resizeObserver = new ResizeObserver( () => {
+		if ( lastRequestEmail ) {
+			window.requestAnimationFrame( () => {
 				adjustGravatarPosition();
-			}
-		}, DEBOUNCE_TIMEOUT );
+			} );
+		}
 	} );
+
+	const emailContainer = document.querySelector( COMMENT_EMAIL_WRAPPER ) as HTMLInputElement;
+	if ( emailContainer ) {
+		resizeObserver.observe( emailContainer );
+	}
 } );
