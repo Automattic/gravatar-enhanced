@@ -28,7 +28,7 @@ class DiscussionsPage {
 	/**
 	 * @var string[]
 	 */
-	private array $enabled_modules;
+	private $enabled_modules;
 
 	/**
 	 * @param SavedOptions $auto_options
