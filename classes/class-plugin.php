@@ -121,6 +121,8 @@ class Plugin {
 		$this->wc_admin_customers = new Woocommerce\AdminCustomers();
 		$this->wc_my_account = new Woocommerce\MyAccount();
 		$this->oembed = new OEmbed\OEmbed();
+		$this->comments = new Comments\Comments( new Comments\Preferences( $this->auto_options ) );
+
 		// Collect all modules and filter them based on the whitelist if available.
 		$this->modules = [
 			'email' => $this->email,

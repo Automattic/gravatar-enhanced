@@ -2,10 +2,12 @@
 
 namespace Automattic\Gravatar\GravatarEnhanced\Comments;
 
+use Automattic\Gravatar\GravatarEnhanced\Module;
+
 require_once __DIR__ . '/class-comments-options.php';
 require_once __DIR__ . '/class-comments-preferences.php';
 
-class Comments {
+class Comments implements Module {
 	const OPTION_COMMENTS = 'gravatar_comments';
 
 	/**
@@ -32,6 +34,12 @@ class Comments {
 		add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ] );
 		add_action( 'comment_form_field_email', [ $this, 'comment_form_field_email' ] );
 		add_filter( 'comment_form_fields', [ $this, 'comment_form_fields' ] );
+	}
+
+	/**
+	 * @return void
+	 */
+	public function uninstall() {
 	}
 
 	/**
