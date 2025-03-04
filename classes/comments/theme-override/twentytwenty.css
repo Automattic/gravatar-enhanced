@@ -1,0 +1,6 @@
+@media (min-width: 700px) {
+	.comment-respond .comment-form-email {
+		margin-right: 2rem;
+		margin-left: 0px !important;
+	}
+}

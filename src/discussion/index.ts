@@ -15,7 +15,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 			forceDefault: entries.gravatar_force_default_avatar === '1' ? true : false,
 			proxy: entries.gravatar_proxy === '1' ? true : false,
 			proxyHash: entries?.gravatar_proxy_hash || '',
-		}
+		};
 
 		trackEvent( 'gravatar_enhanced_save_options', gravEntries );
 	} );

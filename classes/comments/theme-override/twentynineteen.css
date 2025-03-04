@@ -1,0 +1,6 @@
+@media only screen and (min-width: 768px) {
+	.comment-form .comment-form-email {
+		margin-left: 0px !important;
+		margin-right: 1rem;
+	}
+}

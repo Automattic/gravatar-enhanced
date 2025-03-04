@@ -30,17 +30,17 @@
 	"devDependencies": {
 		"@types/wordpress__block-editor": "^11.5.16",
 		"@types/wordpress__blocks": "^12.5.17",
-		"@wordpress/eslint-plugin": "^22.4.0",
-		"@wordpress/scripts": "^30.11.0",
+		"@wordpress/eslint-plugin": "^22.5.0",
+		"@wordpress/scripts": "^30.12.0",
 		"npm-check-updates": "^17.1.15",
 		"release-it": "^18.1.2",
-		"typescript": "^5.7.3"
+		"typescript": "^5.8.2"
 	},
 	"dependencies": {
-		"@gravatar-com/hovercards": "^0.10.5",
+		"@gravatar-com/hovercards": "^0.10.6",
 		"@gravatar-com/quick-editor": "^0.6.0",
-		"@wordpress/editor": "^14.18.0",
-		"@wordpress/url": "^4.18.0",
+		"@wordpress/editor": "^14.19.0",
+		"@wordpress/url": "^4.19.0",
 		"clsx": "^2.1.1",
 		"js-sha256": "^0.11.0",
 		"lodash.debounce": "^4.0.8"

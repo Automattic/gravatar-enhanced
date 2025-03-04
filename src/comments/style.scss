@@ -1,0 +1,59 @@
+@import "../shared/style";
+
+$animation-time: 0.2s;
+$gravatar-blue: #1d4fc4;
+
+.gravatar-enhanced-profile {
+	display: none;
+	background-color: transparent;
+	top: 0;
+	left: 0;
+	transition: left $animation-time ease-in-out;
+	position: absolute;
+	box-sizing: border-box;
+}
+
+.gravatar-enhanced-comments {
+	position: relative;
+
+	.gravatar-enhanced-profile {
+		display: block;
+
+		img {
+			width: 100%;
+			height: 100%;
+			border-radius: 50%;
+			cursor: pointer;
+			border: 2px solid transparent;
+			animation: borderFlashAndGrow 1s ease-in-out 2;
+			box-sizing: border-box;
+
+			&:hover {
+				border-color: $gravatar-blue;
+			}
+
+			&.avatar {
+				position: inherit !important;
+			}
+		}
+	}
+
+	#email {
+		transition: padding-left $animation-time ease-in-out;
+		box-sizing: border-box;
+	}
+}
+
+@keyframes borderFlashAndGrow {
+	0%,
+	100% {
+		border-color: transparent;
+		transform: scale(1);
+	}
+	25%,
+	50%,
+	75% {
+		border-color: $gravatar-blue;
+		transform: scale(1.1);
+	}
+}

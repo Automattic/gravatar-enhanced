@@ -1,0 +1,9 @@
+@media only screen and (min-width: 482px) {
+	.comment-form > p.comment-form-author {
+		margin-right: 0px !important;
+	}
+
+	.comment-form > p.comment-form-email {
+		margin-right: calc(1.5* var(--global--spacing-horizontal));
+	}
+}

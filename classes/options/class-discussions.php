@@ -7,6 +7,7 @@ use Automattic\Gravatar\GravatarEnhanced\Proxy;
 use Automattic\Gravatar\GravatarEnhanced\Email;
 use Automattic\Gravatar\GravatarEnhanced\Avatar;
 use Automattic\Gravatar\GravatarEnhanced\Analytics;
+use Automattic\Gravatar\GravatarEnhanced\Comments;
 
 require_once __DIR__ . '/class-saved-options.php';
 require_once __DIR__ . '/class-migrate.php';
@@ -95,6 +96,16 @@ class DiscussionsPage {
 				'avatars'
 			);
 		}
+
+		if ( in_array( 'comments', $this->enabled_modules, true ) ) {
+			add_settings_field(
+				'comment-options',
+				__( 'Gravatar Comments', 'gravatar-enhanced' ),
+				[ $this, 'display_comment_settings' ],
+				'discussion',
+				'avatars'
+			);
+	}
 	}
 
 	/**
@@ -236,6 +247,23 @@ class DiscussionsPage {
 	/**
 	 * @return void
 	 */
+	public function display_comment_settings() {
+		$preferences = new Comments\Preferences( $this->auto_options );
+		$comments = $preferences->get_options();
+		?>
+		<fieldset>
+			<label for="gravatar_comments">
+				<input type="checkbox" id="gravatar_comments" name="gravatar_comments" <?php checked( $comments->enabled ); ?> />
+
+				<?php esc_html_e( 'Show Gravatar in the comment form.', 'gravatar-enhanced' ); ?>
+			</label>
+		</fieldset>
+		<?php
+	}
+
+	/**
+	 * @return void
+	 */
 	public function save_settings() {
 		if ( ! isset( $_POST['_gravatar_options_nonce'] ) || ! wp_verify_nonce( $_POST['_gravatar_options_nonce'], 'gravatar-options' ) ) {
 			return;
@@ -246,14 +274,22 @@ class DiscussionsPage {
 			$avatar_preferences = $this->get_avatar_preferences();
 			$this->auto_options->update( $avatar_preferences );
 		}
+
 		if ( in_array( 'proxy', $this->enabled_modules, true ) ) {
 			$proxy_preferences = $this->get_proxy_preferences();
 			$this->auto_options->update( $proxy_preferences );
 		}
+
 		if ( in_array( 'analytics', $this->enabled_modules, true ) ) {
 			$analytics_preferences = $this->get_analytics_preferences();
 			$this->auto_options->update( $analytics_preferences );
 		}
+
+		if ( in_array( 'comments', $this->enabled_modules, true ) ) {
+			$comment_preferences = $this->get_comment_preferences();
+			$this->auto_options->update( $comment_preferences );
+		}
+
 		$this->auto_options->save();
 
 		// Handle lazy options.
@@ -262,6 +298,19 @@ class DiscussionsPage {
 			$this->lazy_options->update( $email_preferences );
 		}
 		$this->lazy_options->save();
+	}
+
+	/**
+	 * @return Comments\Preferences
+	 */
+	private function get_comment_preferences() {
+		$options = [
+			'enabled' => isset( $_POST['gravatar_comments'] ),
+		];
+
+		$new_options = Comments\Options::from_array( $options );
+
+		return new Comments\Preferences( $this->auto_options, $new_options );
 	}
 
 	/**

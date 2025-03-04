@@ -1,6 +1,6 @@
 import { Hovercards, ProfileData } from '@gravatar-com/hovercards';
 import { Scope } from '@gravatar-com/quick-editor';
-import showQuickEditor from './show-quick-editor';
+import showQuickEditor from '../shared/show-quick-editor';
 import { convertJsonToUser } from '../hovercards/utils';
 
 interface ActionScope {
@@ -35,13 +35,14 @@ function createHovercard(
 		additionalClass: canEdit ? 'gravatar-hovercard--editable' : '',
 	};
 
-	const hovercard = Hovercards.createHovercard( user, options );
 	const container = document.querySelector( '.gravatar-hovercard-container' );
 	const loadingHovercard = document.querySelector( '.gravatar-profile__loading' );
 
 	if ( ! container || ! loadingHovercard ) {
 		return;
 	}
+
+	const hovercard = Hovercards.createHovercard( user, options );
 
 	Object.keys( actionSelectors ).forEach( ( selector ) => {
 		const actions = hovercard.querySelectorAll( selector );
@@ -141,6 +142,7 @@ async function fetchUserProfile( hash, avatar, text, openEditor, canEdit ) {
 
 		showValidProfile( avatar, profile, canEdit ? text.updateButton : text.viewButton, openEditor );
 	} catch ( error ) {
+		// eslint-disable-next-line no-console
 		console.error( error );
 
 		showError( text );
@@ -153,7 +155,10 @@ export default function checkUserProfile( { locale, email, hash, avatar, text, c
 		return;
 	}
 
-	const openEditor = ( scope ) => showQuickEditor( email, locale, scope, () => fetchProfile() );
+	const openEditor = ( scope ) =>
+		showQuickEditor( email, locale, scope, '.gravatar-hovercard__avatar, #wp-admin-bar-my-account .avatar', () =>
+			fetchProfile()
+		);
 	const fetchProfile = () => fetchUserProfile( hash, avatar, text, openEditor, canEdit );
 
 	setupSync();
