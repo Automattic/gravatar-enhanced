@@ -87,6 +87,9 @@ A: It sends a single, polite email to commenters without Gravatars, inviting the
 
 == Changelog ==
 
+= 0.10.0 =
+* Remove SCSS files from the release folder
+
 = 0.9.0 =
 * Add more Gravatar patterns
 * Pass comment initials when using initials avatar
