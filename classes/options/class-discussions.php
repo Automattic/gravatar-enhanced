@@ -274,14 +274,22 @@ class DiscussionsPage {
 			$avatar_preferences = $this->get_avatar_preferences();
 			$this->auto_options->update( $avatar_preferences );
 		}
+
 		if ( in_array( 'proxy', $this->enabled_modules, true ) ) {
 			$proxy_preferences = $this->get_proxy_preferences();
 			$this->auto_options->update( $proxy_preferences );
 		}
+
 		if ( in_array( 'analytics', $this->enabled_modules, true ) ) {
 			$analytics_preferences = $this->get_analytics_preferences();
 			$this->auto_options->update( $analytics_preferences );
 		}
+
+		if ( in_array( 'comments', $this->enabled_modules, true ) ) {
+			$comment_preferences = $this->get_comment_preferences();
+			$this->auto_options->update( $comment_preferences );
+		}
+
 		$this->auto_options->save();
 
 		// Handle lazy options.
