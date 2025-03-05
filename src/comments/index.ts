@@ -38,14 +38,14 @@ async function fetchUserProfile( email ) {
 function suggestProfile( profile ) {
 	const author = document.getElementById( 'author' ) as HTMLInputElement;
 	const url = document.getElementById( 'url' ) as HTMLInputElement;
-	const firstVerified = profile.verified_accounts.length > 0 ? profile.verified_accounts[ 0 ] : null;
+	const profileUrl = profile.profile_url;
 
 	if ( author && author.value === '' ) {
 		author.value = profile.display_name;
 	}
 
-	if ( url && url.value === '' && firstVerified ) {
-		url.value = firstVerified.url;
+	if ( url && url.value === '' && profileUrl ) {
+		url.value = profileUrl;
 	}
 }
 
