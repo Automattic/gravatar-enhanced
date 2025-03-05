@@ -26,8 +26,17 @@ class Comments implements Module {
 	 * @return void
 	 */
 	public function init() {
-		// Are we enabled?
-		if ( ! $this->options->enabled ) {
+		add_action( 'init', [ $this, 'maybe_load' ] );
+	}
+
+	/**
+	 * Load the module if it's not disabled.
+	 *
+	 * @return void
+	 */
+	public function maybe_load() {
+		// Bail if the module is disabled.
+		if ( ! $this->is_module_enabled() ) {
 			return;
 		}
 
@@ -40,6 +49,20 @@ class Comments implements Module {
 	 * @return void
 	 */
 	public function uninstall() {
+	}
+
+	/**
+	 * Check if the module is disabled, by either a filter or a detected incompatibility.
+	 *
+	 * @return bool
+	 */
+	private function is_module_enabled() {
+		// Check if Jetpack is active and has the comments module enabled.
+		if ( class_exists( '\Jetpack' ) && \Jetpack::is_module_active( 'comments' ) ) {
+			return false; // Disabled due to Jetpack comments module.
+		}
+
+		return $this->options->enabled;
 	}
 
 	/**
