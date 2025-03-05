@@ -250,12 +250,33 @@ class DiscussionsPage {
 	public function display_comment_settings() {
 		$preferences = new Comments\Preferences( $this->auto_options );
 		$comments = $preferences->get_options();
+
+		$disabled = false;
+		if ( class_exists( '\Jetpack' ) && \Jetpack::is_module_active( 'comments' ) ) {
+			$disabled = true;
+		}
+
+		// It doesn't work on this theme
+		if ( get_template() === 'twentyeleven' ) {
+			$disabled = true;
+		}
+
 		?>
 		<fieldset>
 			<label for="gravatar_comments">
-				<input type="checkbox" id="gravatar_comments" name="gravatar_comments" <?php checked( $comments->enabled ); ?> />
+				<input
+					type="checkbox"
+					id="gravatar_comments"
+					name="gravatar_comments"
+					<?php checked( $disabled ? false : $comments->enabled ); ?>
+					<?php echo $disabled ? 'disabled' : ''; ?>
+				/>
 
-				<?php esc_html_e( 'Show Gravatar in the comment form.', 'gravatar-enhanced' ); ?>
+				<?php if ( $disabled ) : ?>
+					<?php esc_html_e( 'Show Gravatar in the comment form (disabled due to Jetpack comments being used, or an incompatible theme).', 'gravatar-enhanced' ); ?>
+				<?php else : ?>
+					<?php esc_html_e( 'Show Gravatar in the comment form.', 'gravatar-enhanced' ); ?>
+				<?php endif; ?>
 			</label>
 		</fieldset>
 		<?php

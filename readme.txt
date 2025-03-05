@@ -2,7 +2,7 @@
 Contributors: automattic, batmoo, johnny5, aaronfc, wellyshen
 Tags: avatar, profile, privacy, comments, profile picture
 Tested up to: 6.7
-Stable tag: 0.9.0
+Stable tag: 0.10.0
 License: GPLv2
 
 The official Gravatar plugin, featuring privacy-focused settings, easy profile updates, and customizable Gravatar Profile blocks.
@@ -11,13 +11,14 @@ The official Gravatar plugin, featuring privacy-focused settings, easy profile u
 
 Elevate your WordPress site with Gravatar Enhanced - the plugin that simplifies digital identity and improves user engagement.
 
-Six Ways Gravatar Enhanced Improves WordPress:
+Seven Ways Gravatar Enhanced Improves WordPress:
 
 ✓ Privacy Protection - Automatic referrer blocking and optional IP address proxy
 ✓ Accessibility Improvements - Alt-text for all avatars to support screen readers
 ✓ One-Click Profile Updates - Edit Gravatar directly from the WordPress dashboard
 ✓ Versatile Profile Block & Patterns - Showcase authors and team members anywhere
 ✓ Comment Engagement Tools - Remind users to create avatars for better discussions
+✓ Comment Form Integration - Show Gravatar directly in the comment form
 ✓ WooCommerce Integration - Personalized account pages for customers
 
 === Privacy Protection ===
@@ -34,6 +35,9 @@ Enhance your website with our custom Gravatar profile block and patterns. Seamle
 
 === Comment Engagement Tools ===
 Automatically remind commenters without avatars to create a Gravatar, increasing visual engagement on your blog.
+
+=== Comment Form Integration ===
+When the plugin is enabled we will show a Gravatar profile directly in the comment form, and allow the profile to be updated, so users can feel confident their details are correct, and the site shows richer comments.
 
 === WooCommerce Integration ===
 Enhance your WooCommerce store by displaying user Gravatar avatars on the My Account page. Customers can view and update their avatars directly from their account dashboard, improving personalization and user engagement.
@@ -88,6 +92,7 @@ A: It sends a single, polite email to commenters without Gravatars, inviting the
 == Changelog ==
 
 = 0.10.0 =
+* Add Gravatar Quick Editor to comment form
 * Remove SCSS files from the release folder
 
 = 0.9.0 =
