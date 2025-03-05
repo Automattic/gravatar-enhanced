@@ -36,7 +36,7 @@ class Preferences {
 	 */
 	private function get_default_options() {
 		return [
-			'enabled' => false,
+			'enabled' => true,
 		];
 	}
 
