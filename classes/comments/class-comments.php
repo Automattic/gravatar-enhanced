@@ -62,6 +62,10 @@ class Comments implements Module {
 			return false; // Disabled due to Jetpack comments module.
 		}
 
+		if ( get_template() === 'twentyeleven' ) {
+			return false; // Disabled due to Twenty Eleven theme.
+		}
+
 		return $this->options->enabled;
 	}
 

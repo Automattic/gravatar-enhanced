@@ -256,7 +256,8 @@ class DiscussionsPage {
 			$disabled = true;
 		}
 
-		if ( get_template() === 'twentyfifteen' ) {
+		// It doesn't work on this theme
+		if ( get_template() === 'twentyeleven' ) {
 			$disabled = true;
 		}
 
