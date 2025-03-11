@@ -94,6 +94,7 @@ A: It sends a single, polite email to commenters without Gravatars, inviting the
 = 0.10.0 =
 * Add Gravatar Quick Editor to comment form
 * Remove SCSS files from the release folder
+* Fix the profile block's style broken in some themes
 
 = 0.9.0 =
 * Add more Gravatar patterns
