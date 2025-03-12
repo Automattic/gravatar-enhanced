@@ -37,8 +37,8 @@
 		"typescript": "^5.8.2"
 	},
 	"dependencies": {
-		"@gravatar-com/hovercards": "^0.10.6",
-		"@gravatar-com/quick-editor": "^0.6.0",
+		"@gravatar-com/hovercards": "^0.10.7",
+		"@gravatar-com/quick-editor": "^0.7.0",
 		"@wordpress/editor": "^14.19.0",
 		"@wordpress/url": "^4.19.0",
 		"clsx": "^2.1.1",
