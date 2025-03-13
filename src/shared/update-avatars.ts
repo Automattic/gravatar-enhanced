@@ -1,7 +1,9 @@
 const UPDATE_DELAY = 2000;
 const LOADING_CLASS = 'avatar-loading';
 
-export default function updateAvatars( avatarSelector ) {
+let timer = null;
+
+export default function updateAvatars( avatarSelector: string ) {
 	const images: NodeListOf< HTMLImageElement > = document.querySelectorAll( avatarSelector );
 
 	// Make all the avatars start pulsating
@@ -9,8 +11,10 @@ export default function updateAvatars( avatarSelector ) {
 		img.classList.add( LOADING_CLASS );
 	} );
 
+	clearTimeout( timer );
+
 	// Wait a bit and then update the URL
-	setTimeout( () => {
+	timer = setTimeout( () => {
 		images.forEach( ( img ) => {
 			const params = new URLSearchParams( img.src.indexOf( '?' ) === -1 ? '' : img.src.split( '?' )[ 1 ] );
 
@@ -25,5 +29,7 @@ export default function updateAvatars( avatarSelector ) {
 
 			img.classList.remove( LOADING_CLASS );
 		} );
+
+		timer = null;
 	}, UPDATE_DELAY );
 }
