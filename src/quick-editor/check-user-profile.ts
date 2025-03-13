@@ -1,12 +1,14 @@
-import { Hovercards, ProfileData } from '@gravatar-com/hovercards';
-import { Scope } from '@gravatar-com/quick-editor';
-import showQuickEditor from '../shared/show-quick-editor';
+import { Hovercards } from '@gravatar-com/hovercards';
 import { convertJsonToUser } from '../hovercards/utils';
+import { GravatarQuickEditorCore } from '@gravatar-com/quick-editor';
+import trackEvent from '../shared/analytics';
+import updateAvatars from '../shared/update-avatars';
+import type { ProfileData } from '@gravatar-com/hovercards';
+import type { Scope } from '@gravatar-com/quick-editor';
 
 interface ActionScope {
 	[ name: string ]: Scope;
 }
-
 const SELECTOR_HIDDEN = 'gravatar-profile__hidden';
 const SELECTOR_DESCRIPTION = '#gravatar-profile-sync__description';
 const SELECTOR_WP_BIO = '#description';
@@ -155,10 +157,30 @@ export default function checkUserProfile( { locale, email, hash, avatar, text, c
 		return;
 	}
 
-	const openEditor = ( scope ) =>
-		showQuickEditor( email, locale, scope, '.gravatar-hovercard__avatar, #wp-admin-bar-my-account .avatar', () =>
-			fetchProfile()
-		);
+	let quickEditor = null;
+
+	const openEditor = ( scope ) => {
+		if ( quickEditor ) {
+			quickEditor.close();
+		}
+
+		quickEditor = new GravatarQuickEditorCore( {
+			email,
+			scope,
+			locale,
+			onProfileUpdated: ( type ) => {
+				if ( type === 'avatar_updated' ) {
+					trackEvent( 'gravatar_enhanced_qe_avatar_updated' );
+					updateAvatars( '.gravatar-hovercard__avatar, #wp-admin-bar-my-account .avatar' );
+				} else if ( type === 'profile_updated' ) {
+					trackEvent( 'gravatar_enhanced_qe_profile_updated' );
+					fetchProfile();
+				}
+			},
+		} );
+
+		quickEditor.open();
+	};
 	const fetchProfile = () => fetchUserProfile( hash, avatar, text, openEditor, canEdit );
 
 	setupSync();

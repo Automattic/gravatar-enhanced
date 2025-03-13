@@ -145,7 +145,7 @@ HTML;
 		<div class="gravatar-hovercard">
 			<div class="gravatar-hovercard__inner">
 				<div class="gravatar-hovercard__header">
-					<img class="gravatar-hovercard__avatar" src="$avatar_url" width="72" height="72" />
+					<img class="gravatar-hovercard__avatar" src="$avatar_url" width="104" height="104" />
 					<h4 class="gravatar-hovercard__name"></h4>
 				</div>
 				<div class="gravatar-hovercard__body">

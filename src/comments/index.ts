@@ -1,126 +1,33 @@
 import { sha256 } from 'js-sha256';
-import showQuickEditor from '../shared/show-quick-editor';
+import { GravatarQuickEditorCore } from '@gravatar-com/quick-editor';
 import { Hovercards } from '@gravatar-com/hovercards';
+import trackEvent from '../shared/analytics';
+import updateAvatars from '../shared/update-avatars';
+import { adjustGravatarPosition, fetchUserProfile, suggestProfile, hideProfile, showProfile } from './profile';
+import { GRAVATAR_CONTAINER, COMMENT_EMAIL_WRAPPER, COMMENT_EMAIL_FIELD } from './constants';
 import './style.scss';
 
-const BASE_API_URL = 'https://api.gravatar.com/v3/profiles';
-const GRAVATAR_CONTAINER = '.gravatar-enhanced-profile';
-const COMMENT_EMAIL_WRAPPER = '.comment-form-email';
-const COMMENT_EMAIL_FIELD = '#email';
 const INPUT_TIMEOUT = 1000;
 
-const hovercards = new Hovercards();
-
-function isEmail( email ) {
+function isEmail( email: string ) {
 	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 	return emailRegex.test( email );
-}
-
-async function fetchUserProfile( email ) {
-	const hash = sha256( email.trim().toLowerCase() );
-
-	try {
-		// Get profile data
-		const response = await fetch( `${ BASE_API_URL }/${ hash }?source=hovercard` );
-		if ( ! response.ok ) {
-			return null;
-		}
-
-		return await response.json();
-	} catch ( error ) {
-		// eslint-disable-next-line no-console
-		console.error( error );
-	}
-
-	return null;
-}
-
-function suggestProfile( profile ) {
-	const author = document.getElementById( 'author' ) as HTMLInputElement;
-	const url = document.getElementById( 'url' ) as HTMLInputElement;
-	const profileUrl = profile.profile_url;
-
-	if ( author && author.value === '' ) {
-		author.value = profile.display_name;
-	}
-
-	if ( url && url.value === '' && profileUrl ) {
-		url.value = profileUrl;
-	}
-}
-
-function hideProfile() {
-	const emailContainer = document.querySelector( '.comment-form-email' ) as HTMLInputElement;
-	const emailField = document.querySelector( COMMENT_EMAIL_FIELD ) as HTMLInputElement;
-
-	if ( ! emailField || ! emailContainer ) {
-		return;
-	}
-
-	emailContainer.classList.remove( 'gravatar-enhanced-comments' );
-	emailField.style.paddingLeft = '';
-}
-
-function adjustGravatarPosition() {
-	const gravatarProfile = document.querySelector( GRAVATAR_CONTAINER ) as HTMLSpanElement;
-	const emailContainer = document.querySelector( '.comment-form-email' ) as HTMLInputElement;
-	const emailField = document.querySelector( COMMENT_EMAIL_FIELD ) as HTMLInputElement;
-
-	if ( ! gravatarProfile || ! emailField || ! emailContainer ) {
-		return;
-	}
-
-	// Measure the email field
-	const computedStyle = getComputedStyle( emailField );
-	const padding = parseInt( computedStyle.paddingTop, 10 ) + parseInt( computedStyle.borderTopWidth, 10 );
-	const emailFieldRect = emailField.getBoundingClientRect();
-	const emailContainerRect = emailContainer.getBoundingClientRect();
-	const topRectOffset = emailFieldRect.top - emailContainerRect.top;
-	const leftRectOffset = emailFieldRect.left - emailContainerRect.left;
-	const height = parseFloat( ( emailFieldRect.height * 0.8 ).toFixed( 1 ) );
-	const heightDifference = parseFloat( ( emailFieldRect.height - height ).toFixed( 1 ) );
-	const leftOffset = parseFloat(
-		( leftRectOffset + padding / 2 + parseInt( computedStyle.borderLeftWidth ) ).toFixed( 1 )
-	);
-	const topOffset = parseFloat( ( topRectOffset + heightDifference / 2 ).toFixed( 1 ) );
-
-	// Position the Gravatar inside the text field
-	gravatarProfile.style.height = height + 'px';
-	gravatarProfile.style.width = height + 'px';
-	gravatarProfile.style.top = topOffset + 'px';
-	gravatarProfile.style.left = leftOffset + 'px';
-
-	// Move the text up to allow the Gravatar to fit
-	emailField.style.paddingLeft = parseFloat( ( height + padding * 1.3 ).toFixed( 1 ) ) + 'px';
-}
-
-function showProfile( profile, isShowingEditor ) {
-	const gravatarImg = document.querySelector( GRAVATAR_CONTAINER + ' img' ) as HTMLImageElement;
-	const emailContainer = document.querySelector( COMMENT_EMAIL_WRAPPER ) as HTMLInputElement;
-
-	if ( ! gravatarImg || ! emailContainer ) {
-		return;
-	}
-
-	gravatarImg.src = profile.avatar_url;
-	emailContainer.classList.add( 'gravatar-enhanced-comments' );
-
-	adjustGravatarPosition();
-
-	// Hook up to hovercard
-	hovercards.attach( gravatarImg, {
-		onCanShowHovercard: () => {
-			return ! isShowingEditor();
-		},
-	} );
 }
 
 document.addEventListener( 'DOMContentLoaded', () => {
 	const email = document.querySelector( COMMENT_EMAIL_FIELD ) as HTMLInputElement;
 	const qeButton = document.querySelector( GRAVATAR_CONTAINER + ' img' );
 	let lastRequestEmail = '';
+	let lastRequestUrl = '';
+	let lastRequestName = '';
 	let debounceProfileTimeout: NodeJS.Timeout;
-	let isShowingEditor = false;
+	let quickEditor = null;
+
+	const hovercards = new Hovercards( {
+		onCanShowHovercard: () => {
+			return quickEditor === null || ! quickEditor.isOpen();
+		},
+	} );
 
 	const loadProfile = async ( event ) => {
 		clearTimeout( debounceProfileTimeout );
@@ -141,8 +48,11 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		lastRequestEmail = emailValue;
 
 		if ( profile ) {
-			suggestProfile( profile );
-			showProfile( profile, () => isShowingEditor );
+			suggestProfile( profile, lastRequestUrl, lastRequestName );
+			showProfile( profile, hovercards );
+
+			lastRequestUrl = profile.profile_url;
+			lastRequestName = profile.display_name;
 		} else {
 			showProfile(
 				{
@@ -150,7 +60,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 					profile_url: '',
 					avatar_url: 'https://gravatar.com/avatar/' + sha256( emailValue.trim().toLowerCase() ),
 				},
-				() => isShowingEditor
+				hovercards
 			);
 		}
 	};
@@ -159,21 +69,29 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	email?.addEventListener( 'input', ( ev ) => {
 		clearTimeout( debounceProfileTimeout );
 		debounceProfileTimeout = setTimeout( () => loadProfile( ev ), INPUT_TIMEOUT );
+
+		// If the email is changed then close any QE and clear the instance
+		if ( quickEditor ) {
+			quickEditor.close();
+			quickEditor = null;
+		}
 	} );
 
 	// Hook up the image to the QE
 	qeButton?.addEventListener( 'click', () => {
-		isShowingEditor = true;
+		if ( ! quickEditor ) {
+			quickEditor = new GravatarQuickEditorCore( {
+				email: email?.value || gravatarEnhancedComments?.email || '',
+				scope: [ 'avatars' ],
+				locale: gravatarEnhancedComments?.locale || 'en',
+				onProfileUpdated: () => {
+					trackEvent( 'gravatar_enhanced_qe_avatar_updated' );
+					updateAvatars( GRAVATAR_CONTAINER + ' img' );
+				},
+			} );
+		}
 
-		showQuickEditor(
-			email?.value || gravatarEnhancedComments?.email || '',
-			gravatarEnhancedComments?.locale || 'en',
-			[ 'avatars' ],
-			GRAVATAR_CONTAINER + ' img',
-			() => {
-				isShowingEditor = false;
-			}
-		);
+		quickEditor.open();
 	} );
 
 	// Reposition the avatar on resize - it can get slightly out of place

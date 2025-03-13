@@ -1,7 +1,7 @@
 import { Hovercards } from '@gravatar-com/hovercards';
 import '@gravatar-com/hovercards/dist/style.css';
 
-const ignoreSelector = '#wpadminbar img';
+const ignoreSelector = '#wpadminbar img, img.gravatar-hovercard__avatar';
 
 document.addEventListener( 'DOMContentLoaded', () => {
 	const hovercards = new Hovercards();

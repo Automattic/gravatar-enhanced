@@ -35,6 +35,10 @@ $gravatar-blue: #1d4fc4;
 			&.avatar {
 				position: inherit !important;
 			}
+
+			&.avatar-loading {
+				animation: gravatar-pulse 2s infinite ease-in-out;
+			}
 		}
 	}
 
