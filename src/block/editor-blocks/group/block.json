@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "gravatar/block-group",
-	"version": "0.4.1",
+	"version": "0.5.0",
 	"title": "Group",
 	"description": "The Group block for the Gravatar block.",
 	"category": "layout",

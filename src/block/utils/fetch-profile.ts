@@ -3,7 +3,8 @@ import { __ } from '@wordpress/i18n';
 
 interface Response {
 	data?: GravatarAPIProfile;
-	error?: string;
+	errorCode?: number;
+	errorMsg?: string;
 }
 
 const BASE_API_URL = 'https://api.gravatar.com/v3/profiles';
@@ -37,6 +38,6 @@ export default async function fetchProfile( hashedEmail: string ): Promise< Resp
 				break;
 		}
 
-		return { error: message };
+		return { errorCode: code, errorMsg: message };
 	}
 }

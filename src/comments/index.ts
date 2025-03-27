@@ -3,16 +3,12 @@ import { GravatarQuickEditorCore } from '@gravatar-com/quick-editor';
 import { Hovercards } from '@gravatar-com/hovercards';
 import trackEvent from '../shared/analytics';
 import updateAvatars from '../shared/update-avatars';
+import isEmail from '../shared/is-email';
 import { adjustGravatarPosition, fetchUserProfile, suggestProfile, hideProfile, showProfile } from './profile';
 import { GRAVATAR_CONTAINER, COMMENT_EMAIL_WRAPPER, COMMENT_EMAIL_FIELD } from './constants';
 import './style.scss';
 
 const INPUT_TIMEOUT = 1000;
-
-function isEmail( email: string ) {
-	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-	return emailRegex.test( email );
-}
 
 document.addEventListener( 'DOMContentLoaded', () => {
 	const email = document.querySelector( COMMENT_EMAIL_FIELD ) as HTMLInputElement;
