@@ -21,7 +21,7 @@ type ApiStatus = 'loading' | 'error' | 'success';
 
 type Props = BlockEditProps< MainEditAttrs >;
 
-export default function Edit( { attributes, setAttributes, clientId }: Props ) {
+export default function Edit( { context: { postType, postId }, attributes, setAttributes, clientId }: Props ) {
 	const {
 		layout,
 		avatarUrlSizeParam,
@@ -60,16 +60,8 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 
 	const blockProps = useBlockProps();
 
-	const authorEmail = useSelect( ( select: SelectFn ) => {
-		const postType = select( 'core/editor' ).getCurrentPostType();
-		const postId = select( 'core/editor' ).getCurrentPostId();
-		const authorId = select( 'core' ).getEntityRecord( 'postType', postType, postId )?.author;
-
-		return select( 'core' ).getEntityRecord( 'root', 'user', authorId )?.email || '';
-	}, [] );
-
 	const userTypeOptions = [
-		...( authorEmail ? [ { label: __( 'Author', 'gravatar-enhanced' ), value: UserTypes.AUTHOR } ] : [] ),
+		{ label: __( 'Author', 'gravatar-enhanced' ), value: UserTypes.AUTHOR },
 		{ label: __( 'User', 'gravatar-enhanced' ), value: UserTypes.USER },
 		{ label: __( 'Custom email', 'gravatar-enhanced' ), value: UserTypes.EMAIL },
 	];
@@ -99,22 +91,6 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 			setAttributes( { userEmail: firstUserEmail } );
 		}
 	}, [ firstUserEmail, setAttributes, userEmail, userType, users ] );
-
-	const isEditingTemplate = useSelect( ( select: SelectFn ) => select( 'core/edit-site' )?.isPage() === false, [] );
-
-	// When the block is created, set the `userType` and `userEmail` based on the available data.
-	useEffect( () => {
-		if ( userType === UserTypes.EMAIL || userEmail ) {
-			return;
-		}
-
-		// When first time to edit a template, the `authorEmail` is not available. Use the first user's email as a fallback.
-		if ( isEditingTemplate && userType === UserTypes.AUTHOR ) {
-			setAttributes( { userType: UserTypes.USER, userEmail: firstUserEmail } );
-		} else {
-			setAttributes( { userEmail: authorEmail } );
-		}
-	}, [ authorEmail, firstUserEmail, isEditingTemplate, setAttributes, userEmail, userType ] );
 
 	// Set the deleted elements when the inner blocks change.
 	useSelect(
@@ -200,9 +176,6 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 	function handleUserTypeChange( type: UserTypes ) {
 		let email = '';
 
-		if ( type === UserTypes.AUTHOR ) {
-			email = authorEmail;
-		}
 		if ( type === UserTypes.USER ) {
 			email = firstUserEmail;
 		}

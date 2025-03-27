@@ -18,7 +18,26 @@
  * } $attributes
  */
 
-$email = strtolower( trim( $attributes['userEmail'] ) );
+/**
+ * @var WP_Block $block
+ */
+
+$email = $attributes['userEmail'] ?? '';
+
+// For the author type, get the email from the author of the post in the context.
+if ($attributes['userType'] === 'author') {
+	$postId = $block->context['postId'] ?? null;
+	if ( $postId ) {
+		$authorId = get_post_field( 'post_author', $postId );
+		if ( $authorId ) {
+			// We are overriding any email that was passed in the attributes
+			$email = get_the_author_meta( 'user_email', (int) $authorId );
+		}
+	}
+}
+
+// Normalize and sanitize email.
+$email = strtolower( trim( $email ) );
 $email = sanitize_email( $email );
 
 // If the `userType` is email, but the email isn't valid, don't render the block.
