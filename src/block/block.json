@@ -43,6 +43,7 @@
 			"default": {}
 		}
 	},
+	"usesContext": [ "postType", "postId" ],
 	"supports": {
 		"html": false,
 		"color": {
