@@ -2,8 +2,8 @@ import { addQueryArgs } from '@wordpress/url';
 import { __ } from '@wordpress/i18n';
 
 interface Response {
-	errorCode?: number;
 	data?: GravatarAPIProfile;
+	errorCode?: number;
 	errorMsg?: string;
 }
 
