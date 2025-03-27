@@ -11,7 +11,8 @@ import clsx from 'clsx';
 import type { MainEditAttrs } from './shared-types';
 import { Layout, UserTypes } from './shared-types';
 import { getDefaultTemplate, getPortraitTemplate } from './editor-templates';
-import { fetchProfile as basedFetchProfile, getExistingBlocks, validateEmail, getAvatarUrlWithSize } from './utils';
+import { fetchProfile as basedFetchProfile, getExistingBlocks, getAvatarUrlWithSize } from './utils';
+import isEmail from '../shared/is-email';
 
 import './shared.scss';
 import './edit.scss';
@@ -35,6 +36,7 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 	const [ emailInputVal, setEmailInputVal ] = useState( userEmail );
 	const [ apiStatus, setApiStatus ] = useState< ApiStatus >();
 	const [ errorMsg, setErrorMsg ] = useState( '' );
+	const [ errorCode, setErrorCode ] = useState< number >();
 	const prevExistingBlocksRef = useRef< string[] >( null );
 	const deletedElementsRef = useRef( deletedElements ); // Avoid unnecessary `useEffect` calls.
 	deletedElementsRef.current = deletedElements;
@@ -146,6 +148,7 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 	useEffect( () => {
 		setApiStatus( undefined );
 		setErrorMsg( '' );
+		setErrorCode( undefined );
 
 		const trimmedEmail = userEmail.trim();
 
@@ -156,18 +159,19 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 		const fetchProfile = async ( email: string ) => {
 			setApiStatus( 'loading' );
 
-			if ( ! validateEmail( email ) ) {
+			if ( ! isEmail( email ) ) {
 				setApiStatus( 'error' );
 				setErrorMsg( __( 'Please enter a valid email.', 'gravatar-enhanced' ) );
 				return;
 			}
 
 			const hashedEmail = sha256( email.toLowerCase() );
-			const { error, data } = await basedFetchProfile( hashedEmail );
+			const { errorCode: errCode, errorMsg: errMsg, data } = await basedFetchProfile( hashedEmail );
 
-			if ( error ) {
+			if ( errCode ) {
 				setApiStatus( 'error' );
-				setErrorMsg( error );
+				setErrorCode( errCode );
+				setErrorMsg( errMsg );
 			} else {
 				setApiStatus( 'success' );
 
@@ -231,15 +235,35 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 						/>
 					) }
 					{ userType === UserTypes.EMAIL && (
-						<TextControl
-							type="email"
-							value={ emailInputVal }
-							onChange={ ( email ) => {
-								setEmailInputVal( email );
-								debouncedSetUserEmail( email );
-							} }
-							placeholder={ __( 'Enter email', 'gravatar-enhanced' ) }
-						/>
+						<>
+							<TextControl
+								type="email"
+								value={ emailInputVal }
+								onChange={ ( email ) => {
+									setEmailInputVal( email );
+									debouncedSetUserEmail( email );
+								} }
+								placeholder={ __( 'Enter email', 'gravatar-enhanced' ) }
+							/>
+							{ errorCode === 404 && (
+								<a
+									href={
+										`mailto:${ emailInputVal }` +
+										`?subject=${ encodeURIComponent( 'Let’s set up your Gravatar profile' ) }` +
+										`&body=${ encodeURIComponent(
+											`Hi there,\n\n` +
+												`I use Gravatar to create and manage a unified online profile — it’s free, fast to set up, and keeps your presence consistent wherever you interact online.\n\n` +
+												`Set up your Gravatar profile now: https://gravatar.com\n\n\n` +
+												`Cheers,`
+										) }`
+									}
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									{ __( 'Invite to join Gravatar', 'gravatar-enhanced' ) }
+								</a>
+							) }
+						</>
 					) }
 				</PanelBody>
 			</InspectorControls>
