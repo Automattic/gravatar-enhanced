@@ -147,8 +147,8 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 	// Fetch the profile data when the email changes.
 	useEffect( () => {
 		setApiStatus( undefined );
-		setErrorMsg( '' );
 		setErrorCode( undefined );
+		setErrorMsg( '' );
 
 		const trimmedEmail = userEmail.trim();
 
