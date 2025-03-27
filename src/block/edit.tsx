@@ -4,7 +4,7 @@ import { InspectorControls, InnerBlocks, useBlockProps } from '@wordpress/block-
 import { PanelBody, SelectControl, TextControl } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { useEffect, useState, useRef, useCallback } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import _debounce from 'lodash.debounce';
 import { sha256 } from 'js-sha256';
 import clsx from 'clsx';
@@ -249,12 +249,18 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 								<a
 									href={
 										`mailto:${ emailInputVal }` +
-										`?subject=${ encodeURIComponent( 'Let’s set up your Gravatar profile' ) }` +
+										`?subject=${ encodeURIComponent(
+											__( 'Let’s set up your Gravatar profile', 'gravatar-enhanced' )
+										) }` +
 										`&body=${ encodeURIComponent(
-											`Hi there,\n\n` +
-												`I use Gravatar to create and manage a unified online profile — it’s free, fast to set up, and keeps your presence consistent wherever you interact online.\n\n` +
-												`Set up your Gravatar profile now: https://gravatar.com\n\n\n` +
-												`Cheers,`
+											sprintf(
+												// translators: %1$s = newline
+												__(
+													'Hi there,%1$s%1$sI use Gravatar to create and manage a unified online profile — it’s free, fast to set up, and keeps your presence consistent wherever you interact online.%1$s%1$sSet up your Gravatar profile now: https://gravatar.com%1$s%1$sCheers,',
+													'gravatar-enhanced'
+												),
+												'\n'
+											)
 										) }`
 									}
 									target="_blank"
