@@ -1,9 +1,9 @@
 import type { BlockEditProps } from '@wordpress/blocks';
 import { createBlocksFromInnerBlocksTemplate } from '@wordpress/blocks';
-import { InspectorControls, InnerBlocks, useBlockProps } from '@wordpress/block-editor';
+import { InnerBlocks, InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, SelectControl, TextControl } from '@wordpress/components';
-import { useSelect, useDispatch } from '@wordpress/data';
-import { useEffect, useState, useRef, useCallback } from '@wordpress/element';
+import { useDispatch, useSelect } from '@wordpress/data';
+import { useCallback, useEffect, useRef, useState } from '@wordpress/element';
 import { __, sprintf } from '@wordpress/i18n';
 import _debounce from 'lodash.debounce';
 import { sha256 } from 'js-sha256';
@@ -11,7 +11,7 @@ import clsx from 'clsx';
 import type { MainEditAttrs } from './shared-types';
 import { Layout, UserTypes } from './shared-types';
 import { getDefaultTemplate, getPortraitTemplate } from './editor-templates';
-import { fetchProfile as basedFetchProfile, getExistingBlocks, getAvatarUrlWithSize } from './utils';
+import { fetchProfile as basedFetchProfile, getAvatarUrlWithSize, getExistingBlocks } from './utils';
 import isEmail from '../shared/is-email';
 
 import './shared.scss';
@@ -59,6 +59,17 @@ export default function Edit( { context: { postType, postId }, attributes, setAt
 	}
 
 	const blockProps = useBlockProps();
+
+	// Get author email from postType and postId in the context.
+	const authorEmail = useSelect(
+		( select: SelectFn ) => {
+			const { getEditedEntityRecord, getEntityRecord } = select( 'core' );
+			const _authorId = getEditedEntityRecord( 'postType', postType, postId )?.author;
+
+			return _authorId ? getEntityRecord( 'root', 'user', _authorId )?.email : '';
+		},
+		[ postType, postId ]
+	);
 
 	const userTypeOptions = [
 		{ label: __( 'Author', 'gravatar-enhanced' ), value: UserTypes.AUTHOR },
@@ -126,7 +137,8 @@ export default function Edit( { context: { postType, postId }, attributes, setAt
 		setErrorCode( undefined );
 		setErrorMsg( '' );
 
-		const trimmedEmail = userEmail.trim();
+		// For Author we use authorEmail, for other cases we use userEmail.
+		const trimmedEmail = userType === UserTypes.AUTHOR && authorEmail ? authorEmail.trim() : userEmail.trim();
 
 		if ( ! trimmedEmail ) {
 			return;
@@ -161,7 +173,7 @@ export default function Edit( { context: { postType, postId }, attributes, setAt
 		};
 
 		fetchProfile( trimmedEmail );
-	}, [ avatarUrlSizeParam, clientId, defaultAvatarSize, replaceInnerBlocks, userEmail ] );
+	}, [ avatarUrlSizeParam, clientId, defaultAvatarSize, replaceInnerBlocks, userEmail, authorEmail, userType ] );
 
 	// Reset the block items from the navigation menu when the API status changes.
 	useEffect( () => {
