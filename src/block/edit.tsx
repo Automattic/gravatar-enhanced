@@ -64,9 +64,9 @@ export default function Edit( { context: { postType, postId }, attributes, setAt
 	const authorEmail = useSelect(
 		( select: SelectFn ) => {
 			const { getEditedEntityRecord, getEntityRecord } = select( 'core' );
-			const _authorId = getEditedEntityRecord( 'postType', postType, postId )?.author;
+			const authorId = getEditedEntityRecord( 'postType', postType, postId )?.author;
 
-			return _authorId ? getEntityRecord( 'root', 'user', _authorId )?.email : '';
+			return authorId ? getEntityRecord( 'root', 'user', authorId )?.email : '';
 		},
 		[ postType, postId ]
 	);
