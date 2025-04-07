@@ -1,9 +1,9 @@
 import type { BlockEditProps } from '@wordpress/blocks';
 import { createBlocksFromInnerBlocksTemplate } from '@wordpress/blocks';
-import { InspectorControls, InnerBlocks, useBlockProps } from '@wordpress/block-editor';
+import { InnerBlocks, InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, SelectControl, TextControl } from '@wordpress/components';
-import { useSelect, useDispatch } from '@wordpress/data';
-import { useEffect, useState, useRef, useCallback } from '@wordpress/element';
+import { useDispatch, useSelect } from '@wordpress/data';
+import { useCallback, useEffect, useRef, useState } from '@wordpress/element';
 import { __, sprintf } from '@wordpress/i18n';
 import _debounce from 'lodash.debounce';
 import { sha256 } from 'js-sha256';
@@ -11,7 +11,7 @@ import clsx from 'clsx';
 import type { MainEditAttrs } from './shared-types';
 import { Layout, UserTypes } from './shared-types';
 import { getDefaultTemplate, getPortraitTemplate } from './editor-templates';
-import { fetchProfile as basedFetchProfile, getExistingBlocks, getAvatarUrlWithSize } from './utils';
+import { fetchProfile as basedFetchProfile, getAvatarUrlWithSize, getExistingBlocks } from './utils';
 import isEmail from '../shared/is-email';
 
 import './shared.scss';
@@ -21,7 +21,7 @@ type ApiStatus = 'loading' | 'error' | 'success';
 
 type Props = BlockEditProps< MainEditAttrs >;
 
-export default function Edit( { attributes, setAttributes, clientId }: Props ) {
+export default function Edit( { context: { postType, postId }, attributes, setAttributes, clientId }: Props ) {
 	const {
 		layout,
 		avatarUrlSizeParam,
@@ -60,16 +60,19 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 
 	const blockProps = useBlockProps();
 
-	const authorEmail = useSelect( ( select: SelectFn ) => {
-		const postType = select( 'core/editor' ).getCurrentPostType();
-		const postId = select( 'core/editor' ).getCurrentPostId();
-		const authorId = select( 'core' ).getEntityRecord( 'postType', postType, postId )?.author;
+	// Get author email from postType and postId in the context.
+	const authorEmail = useSelect(
+		( select: SelectFn ) => {
+			const { getEditedEntityRecord, getEntityRecord } = select( 'core' );
+			const authorId = getEditedEntityRecord( 'postType', postType, postId )?.author;
 
-		return select( 'core' ).getEntityRecord( 'root', 'user', authorId )?.email || '';
-	}, [] );
+			return authorId ? getEntityRecord( 'root', 'user', authorId )?.email : '';
+		},
+		[ postType, postId ]
+	);
 
 	const userTypeOptions = [
-		...( authorEmail ? [ { label: __( 'Author', 'gravatar-enhanced' ), value: UserTypes.AUTHOR } ] : [] ),
+		{ label: __( 'Author', 'gravatar-enhanced' ), value: UserTypes.AUTHOR },
 		{ label: __( 'User', 'gravatar-enhanced' ), value: UserTypes.USER },
 		{ label: __( 'Custom email', 'gravatar-enhanced' ), value: UserTypes.EMAIL },
 	];
@@ -99,22 +102,6 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 			setAttributes( { userEmail: firstUserEmail } );
 		}
 	}, [ firstUserEmail, setAttributes, userEmail, userType, users ] );
-
-	const isEditingTemplate = useSelect( ( select: SelectFn ) => select( 'core/edit-site' )?.isPage() === false, [] );
-
-	// When the block is created, set the `userType` and `userEmail` based on the available data.
-	useEffect( () => {
-		if ( userType === UserTypes.EMAIL || userEmail ) {
-			return;
-		}
-
-		// When first time to edit a template, the `authorEmail` is not available. Use the first user's email as a fallback.
-		if ( isEditingTemplate && userType === UserTypes.AUTHOR ) {
-			setAttributes( { userType: UserTypes.USER, userEmail: firstUserEmail } );
-		} else {
-			setAttributes( { userEmail: authorEmail } );
-		}
-	}, [ authorEmail, firstUserEmail, isEditingTemplate, setAttributes, userEmail, userType ] );
 
 	// Set the deleted elements when the inner blocks change.
 	useSelect(
@@ -150,7 +137,8 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 		setErrorCode( undefined );
 		setErrorMsg( '' );
 
-		const trimmedEmail = userEmail.trim();
+		// For Author we use authorEmail, for other cases we use userEmail.
+		const trimmedEmail = userType === UserTypes.AUTHOR && authorEmail ? authorEmail.trim() : userEmail.trim();
 
 		if ( ! trimmedEmail ) {
 			return;
@@ -185,7 +173,7 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 		};
 
 		fetchProfile( trimmedEmail );
-	}, [ avatarUrlSizeParam, clientId, defaultAvatarSize, replaceInnerBlocks, userEmail ] );
+	}, [ avatarUrlSizeParam, clientId, defaultAvatarSize, replaceInnerBlocks, userEmail, authorEmail, userType ] );
 
 	// Reset the block items from the navigation menu when the API status changes.
 	useEffect( () => {
@@ -200,9 +188,6 @@ export default function Edit( { attributes, setAttributes, clientId }: Props ) {
 	function handleUserTypeChange( type: UserTypes ) {
 		let email = '';
 
-		if ( type === UserTypes.AUTHOR ) {
-			email = authorEmail;
-		}
 		if ( type === UserTypes.USER ) {
 			email = firstUserEmail;
 		}

@@ -93,6 +93,7 @@ A: It sends a single, polite email to commenters without Gravatars, inviting the
 
 = 0.11.0 =
 * Add a Gravatar invitation link to the Profile block
+* Fix support for Author in templates for Profile block.
 
 = 0.10.0 =
 * Add Gravatar Quick Editor to comment form
