@@ -1,7 +1,7 @@
 === Gravatar Enhanced - Avatars, Profiles, and Privacy ===
 Contributors: automattic, batmoo, johnny5, aaronfc, wellyshen
 Tags: avatar, profile, privacy, comments, profile picture
-Tested up to: 6.7
+Tested up to: 6.8
 Stable tag: 0.10.0
 License: GPLv2
 
@@ -95,6 +95,7 @@ A: It sends a single, polite email to commenters without Gravatars, inviting the
 * Add a Gravatar invitation link to the Profile block
 * Fix support for Author in templates for Profile block.
 * Upgrade the `@gravatar-com/hovercards` package to v0.11.0
+* Upgrade the tested up version to 6.8
 
 = 0.10.0 =
 * Add Gravatar Quick Editor to comment form
