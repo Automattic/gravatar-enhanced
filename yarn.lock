@@ -1458,10 +1458,10 @@
   resolved "https://registry.yarnpkg.com/@gravatar-com/hovercards/-/hovercards-0.12.0.tgz#f5b3ee297cb07857521890a192c56568efc0cdb2"
   integrity sha512-ggLXnxvKjmam5SjfNXXTPCsLX/4SB75c39nR/Wm8S+R0SSSqRz/I1CKeDqLNZopyk3xwAGzxqJC+3jM6RBgCdQ==
 
-"@gravatar-com/quick-editor@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@gravatar-com/quick-editor/-/quick-editor-0.7.0.tgz#a7ca02044ad5917135bd31d9d9f636b8c293aabb"
-  integrity sha512-taZ3dK7gH/iHA5VJJSS1Gw4liX4wL8MC7V6xb2+OA4tXRaQ0MTUYz/dKgO15sirx5r0kyUAPCEhKxnhvRerkPQ==
+"@gravatar-com/quick-editor@^0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@gravatar-com/quick-editor/-/quick-editor-0.8.0.tgz#0e0496a9db5b99d82d9f4974289aa19e7932c0b0"
+  integrity sha512-z9t6aOaP9i3x5aJGtQUfaXoO7YxHZd+h49E13qZFJQ4RNId8Qe7FcoT+TFXuvVry6+dqL44aYtUXiGl+890oxw==
 
 "@hapi/hoek@^9.0.0", "@hapi/hoek@^9.3.0":
   version "9.3.0"
