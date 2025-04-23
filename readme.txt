@@ -94,7 +94,8 @@ A: It sends a single, polite email to commenters without Gravatars, inviting the
 = 0.11.0 =
 * Add a Gravatar invitation link to the Profile block
 * Fix support for Author in templates for Profile block.
-* Upgrade the `@gravatar-com/hovercards` package to v0.11.0
+* Upgrade the `@gravatar-com/hovercards` package to v0.12.0
+* Upgrade the `@gravatar-com/quick-editor` package to v0.8.0
 * Upgrade the tested up version to 6.8
 
 = 0.10.0 =
