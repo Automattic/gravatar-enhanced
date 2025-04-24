@@ -1,15 +1,15 @@
 @import "../shared/style";
 
-// Background colour for profile page
-.user-profile-picture td,
-.user-description-wrap td {
-	background-color: #ebebeb;
-}
-
 // Avatar loader
 .avatar.avatar-loading,
+.user-verified-services .gravatar-profile__loading,
 .gravatar-hovercard__avatar.avatar-loading {
 	animation: gravatar-pulse 2s infinite ease-in-out;
+}
+
+.user-gravatar-card .description,
+.gravatar-hovercard-container {
+	margin-bottom: 10px;
 }
 
 .gravatar-profile:not(.gravatar-profile__hidden) {
@@ -90,8 +90,28 @@
 	}
 }
 
+.user-verified-services {
+	.gravatar-profile__loading {
+		width: 100px;
+		height: 36px;
+		@include pulsate();
+	}
+
+	.gravatar-hovercard__social-links a {
+		text-decoration: none;
+		display: inline-block;
+	}
+}
+
 .gravatar-profile__hidden {
 	display: none !important;
+}
+
+// Quick Editor
+.user-profile-picture {
+	img {
+		cursor: pointer;
+	}
 }
 
 #profile-page #gravatar-profile-sync__description {
@@ -102,9 +122,4 @@
 	p {
 		margin-bottom: 10px;
 	}
-}
-
-// Hide the WP avatar
-.user-profile-picture td > img {
-	display: none;
 }
