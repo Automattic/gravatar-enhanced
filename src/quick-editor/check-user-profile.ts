@@ -11,7 +11,7 @@ function createHovercard( user: ProfileData ) {
 	const container = document.querySelector( '.gravatar-hovercard-container' );
 	const loadingHovercard = document.querySelectorAll( '.gravatar-profile__loading' );
 
-	if ( ! container || ! loadingHovercard ) {
+	if ( ! container || loadingHovercard.length === 0 ) {
 		return;
 	}
 
@@ -33,11 +33,11 @@ function copyVerifiedLinks() {
 		return;
 	}
 
-	const copy = verifiedLinks.cloneNode( true );
+	const clonedVerifiedLinks = verifiedLinks.cloneNode( true );
 	const target = document.querySelector( '.user-verified-services td .description' );
 
 	if ( target ) {
-		target.parentNode.insertBefore( copy, target );
+		target.parentNode.insertBefore( clonedVerifiedLinks, target );
 	}
 }
 
