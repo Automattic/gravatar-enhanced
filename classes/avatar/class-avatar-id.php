@@ -48,8 +48,8 @@ class AvatarId {
 		if ( is_numeric( $id_or_email ) ) {
 			$user = get_user_by( 'id', absint( $id_or_email ) );
 		} elseif ( is_string( $id_or_email ) ) {
-			if ( str_contains( $id_or_email, '@md5.gravatar.com' ) ) {
-				// MD5 hash.
+			if ( str_contains( $id_or_email, '@md5.gravatar.com' ) || str_contains( $id_or_email, '@sha256.gravatar.com' ) ) {
+				// MD5 or SHA256 hash.
 				list( $email_hash ) = explode( '@', $id_or_email );
 			} else {
 				// Email address.
