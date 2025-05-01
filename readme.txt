@@ -92,6 +92,7 @@ A: It sends a single, polite email to commenters without Gravatars, inviting the
 == Changelog ==
 
 = 0.12.0 =
+* Fix: Add support for core's SHA-256 handling
 * Upgrade the `@gravatar-com/hovercards` package to v0.13.0
 
 = 0.11.0 =
