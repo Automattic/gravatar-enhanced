@@ -1,4 +1,4 @@
-@import "../shared/style";
+@use "../shared/style" as *;
 
 // Avatar loader
 .avatar.avatar-loading,
@@ -92,14 +92,14 @@
 
 .user-verified-services {
 	.gravatar-profile__loading {
-		width: 100px;
+		width: 36px;
 		height: 36px;
 		@include pulsate();
 	}
 
-	.gravatar-hovercard__social-links a {
+	.gravatar-hovercard__social-link {
 		text-decoration: none;
-		display: inline-block;
+		display: inline-flex;
 	}
 }
 

@@ -150,6 +150,7 @@ HTML;
 		$description = __( 'Your Gravatar card is shown in comments and profile blocks. Gravatar profiles travel with you across millions of sites, showing your photo, bio, and links - your digital business card.', 'gravatar-enhanced' );
 		$edit = esc_html( __( 'Edit your Gravatar card', 'gravatar-enhanced' ) );
 		$avatar_url = get_avatar_url( $current_user->ID );
+		$alt = esc_attr( $current_user->display_name );
 
 		return <<<HTML
 <tr class="user-gravatar-card">
@@ -160,7 +161,7 @@ HTML;
 				<div class="gravatar-hovercard">
 					<div class="gravatar-hovercard__inner">
 						<div class="gravatar-hovercard__header">
-							<img class="gravatar-hovercard__avatar" src="$avatar_url" width="104" height="104" />
+							<img class="gravatar-hovercard__avatar" src="$avatar_url" width="104" height="104" alt="$alt" />
 							<h4 class="gravatar-hovercard__name"></h4>
 						</div>
 						<div class="gravatar-hovercard__body">
