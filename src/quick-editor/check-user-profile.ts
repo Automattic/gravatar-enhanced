@@ -4,90 +4,62 @@ import { GravatarQuickEditorCore } from '@gravatar-com/quick-editor';
 import trackEvent from '../shared/analytics';
 import updateAvatars from '../shared/update-avatars';
 import type { ProfileData } from '@gravatar-com/hovercards';
-import type { Scope } from '@gravatar-com/quick-editor';
 
-interface ActionScope {
-	[ name: string ]: Scope;
-}
-const SELECTOR_HIDDEN = 'gravatar-profile__hidden';
-const SELECTOR_DESCRIPTION = '#gravatar-profile-sync__description';
-const SELECTOR_WP_BIO = '#description';
 const BASE_API_URL = 'https://api.gravatar.com/v3/profiles';
-const ACTIONS_VALID: ActionScope = {
-	'.gravatar-hovercard__profile-link': [ 'about', 'avatars' ],
-	'.gravatar-hovercard__avatar': [ 'avatars' ],
-};
-const ACTIONS_UNKNOWN: ActionScope = {
-	...ACTIONS_VALID,
-	'.gravatar-hovercard__name': [ 'about', 'avatars' ],
-	'.gravatar-hovercard__social-link': [ 'about', 'avatars' ],
-};
 
-function createHovercard(
-	user: ProfileData,
-	buttonText: string,
-	actionSelectors: ActionScope,
-	actionCallback: ( scope: Scope ) => void,
-	canEdit = true
-) {
-	const options = {
-		i18n: {
-			'View profile →': buttonText,
-		},
-		additionalClass: canEdit ? 'gravatar-hovercard--editable' : '',
-	};
-
+function createHovercard( user: ProfileData ) {
 	const container = document.querySelector( '.gravatar-hovercard-container' );
-	const loadingHovercard = document.querySelector( '.gravatar-profile__loading' );
+	const loadingHovercard = document.querySelectorAll( '.gravatar-profile__loading' );
 
-	if ( ! container || ! loadingHovercard ) {
+	if ( ! container || loadingHovercard.length === 0 ) {
 		return;
 	}
 
-	const hovercard = Hovercards.createHovercard( user, options );
-
-	Object.keys( actionSelectors ).forEach( ( selector ) => {
-		const actions = hovercard.querySelectorAll( selector );
-
-		actions.forEach( ( action ) => {
-			action.addEventListener( 'click', ( ev ) => {
-				ev.preventDefault();
-
-				if ( canEdit ) {
-					actionCallback( actionSelectors[ selector ] );
-				}
-			} );
-		} );
-	} );
+	const hovercard = Hovercards.createHovercard( user );
 
 	// Replace PHP hovercard with JS hovercard
-	container.removeChild( loadingHovercard );
+	loadingHovercard.forEach( ( el ) => {
+		if ( el.parentNode ) {
+			el.parentNode.removeChild( el );
+		}
+	} );
 	container.appendChild( hovercard );
 }
 
-function showValidProfile( avatarUrl: string, profile, buttonText: string, openEditor: ( scopes: Scope ) => void ) {
-	const user = convertJsonToUser( profile, avatarUrl );
+function copyVerifiedLinks() {
+	// Copy verified links
+	const verifiedLinks = document.querySelector( '.gravatar-hovercard-container .gravatar-hovercard__social-links' );
+	if ( ! verifiedLinks ) {
+		return;
+	}
 
-	createHovercard( user, buttonText, ACTIONS_VALID, openEditor );
+	const clonedVerifiedLinks = verifiedLinks.cloneNode( true );
+	const target = document.querySelector( '.user-verified-services td .description' );
 
-	// Show any sync details
-	if ( profile.description !== document.querySelector( SELECTOR_WP_BIO ).textContent ) {
-		const syncDetails = document.querySelector( SELECTOR_DESCRIPTION );
-		const wpBio: HTMLButtonElement = document.querySelector( SELECTOR_WP_BIO );
-
-		if ( syncDetails && wpBio ) {
-			syncDetails.classList.remove( SELECTOR_HIDDEN );
-			wpBio.dataset.description = profile.description;
-		}
+	if ( target ) {
+		target.parentNode.insertBefore( clonedVerifiedLinks, target );
 	}
 }
 
-function showProbablyNoProfile(
-	avatarUrl: string,
-	text: QuickEditorText,
-	canEdit,
-	openEditor: ( scopes: Scope ) => void
-) {
+function showValidProfile( avatarUrl: string, profile ) {
+	const user = convertJsonToUser( profile, avatarUrl );
+
+	// Remove existing hovercard and links
+	document
+		.querySelectorAll(
+			'.user-verified-services .gravatar-hovercard__social-links, .gravatar-hovercard-container .gravatar-hovercard'
+		)
+		.forEach( ( el ) => {
+			if ( el.parentNode ) {
+				el.parentNode.removeChild( el );
+			}
+		} );
+
+	createHovercard( user );
+	copyVerifiedLinks();
+}
+
+function showProbablyNoProfile( avatarUrl: string, text: QuickEditorText, canEdit: boolean ) {
 	const user = {
 		displayName: canEdit ? text.unknownTitle : text.otherUnknownTitle,
 		description: canEdit ? text.unknownDescription : text.otherUnknownDescription,
@@ -96,58 +68,40 @@ function showProbablyNoProfile(
 		profileUrl: '',
 	};
 
-	createHovercard( user, canEdit ? text.createButton : '', ACTIONS_UNKNOWN, openEditor, canEdit );
-
-	const signupBio = document.querySelector( '.gravatar-signup-bio' );
-	if ( signupBio ) {
-		signupBio.classList.remove( SELECTOR_HIDDEN );
-	}
+	createHovercard( user );
+	copyVerifiedLinks();
 }
 
-function showError( text: QuickEditorText ) {
+function showError( hash: string, avatarUrl: string, text: QuickEditorText ) {
 	const user = {
 		displayName: text.errorTitle,
 		description: text.errorDescription,
-		hash: '',
-		avatarUrl: '',
-		profileUrl: '',
+		hash,
+		avatarUrl,
+		profileUrl: 'https://gravatar.com/' + hash,
 	};
 
-	createHovercard( user, '', ACTIONS_UNKNOWN, () => {} );
+	createHovercard( user );
+	copyVerifiedLinks();
 }
 
-function setupSync() {
-	const syncButton = document.querySelector( SELECTOR_DESCRIPTION + ' button' );
-	const syncDetails = document.querySelector( SELECTOR_DESCRIPTION );
-	const wpBio: HTMLButtonElement = document.querySelector( SELECTOR_WP_BIO );
-
-	if ( ! syncButton || ! syncDetails || ! wpBio ) {
-		return;
-	}
-
-	syncButton.addEventListener( 'click', () => {
-		wpBio.textContent = wpBio.dataset.description;
-		syncDetails.classList.add( SELECTOR_HIDDEN );
-	} );
-}
-
-async function fetchUserProfile( hash, avatar, text, openEditor, canEdit ) {
+async function fetchUserProfile( hash, avatar, text, canEdit ) {
 	try {
 		// Get profile data
 		const response = await fetch( `${ BASE_API_URL }/${ hash }?source=hovercard` );
 		if ( ! response.ok ) {
-			showProbablyNoProfile( avatar, text, canEdit, openEditor );
+			showProbablyNoProfile( avatar, text, canEdit );
 			return;
 		}
 
 		const profile = await response.json();
 
-		showValidProfile( avatar, profile, canEdit ? text.updateButton : text.viewButton, openEditor );
+		showValidProfile( avatar, profile );
 	} catch ( error ) {
 		// eslint-disable-next-line no-console
 		console.error( error );
 
-		showError( text );
+		showError( hash, avatar, text );
 	}
 }
 
@@ -171,7 +125,9 @@ export default function checkUserProfile( { locale, email, hash, avatar, text, c
 			onProfileUpdated: ( type ) => {
 				if ( type === 'avatar_updated' ) {
 					trackEvent( 'gravatar_enhanced_qe_avatar_updated' );
-					updateAvatars( '.gravatar-hovercard__avatar, #wp-admin-bar-my-account .avatar' );
+					updateAvatars(
+						'.gravatar-hovercard__avatar, #wp-admin-bar-my-account .avatar, .user-profile-picture img'
+					);
 				} else if ( type === 'profile_updated' ) {
 					trackEvent( 'gravatar_enhanced_qe_profile_updated' );
 					fetchProfile();
@@ -181,8 +137,25 @@ export default function checkUserProfile( { locale, email, hash, avatar, text, c
 
 		quickEditor.open();
 	};
-	const fetchProfile = () => fetchUserProfile( hash, avatar, text, openEditor, canEdit );
+	const fetchProfile = () => fetchUserProfile( hash, avatar, text, canEdit );
 
-	setupSync();
 	fetchProfile();
+
+	const classMap = [
+		{ selector: '.user-profile-picture img, .user-profile-picture a', scope: [ 'avatars' ] },
+		{ selector: '.user-gravatar-card button', scope: [] },
+		{ selector: '.user-verified-services .description a', scope: [ 'verified-accounts' ] },
+	];
+
+	classMap.forEach( ( { selector, scope } ) => {
+		const elements = document.querySelectorAll( selector );
+		elements.forEach( ( element ) => {
+			element.addEventListener( 'click', ( ev ) => {
+				ev.preventDefault();
+				ev.stopPropagation();
+
+				openEditor( scope );
+			} );
+		} );
+	} );
 }

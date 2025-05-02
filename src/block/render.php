@@ -2,7 +2,7 @@
 
 /**
  * @var array{
- *   userEmail: string,
+ *   userEmail?: string,
  *   textColor?: string,
  *   userType: string,
  *   layout: string,
@@ -21,17 +21,18 @@
 /**
  * @var WP_Block $block
  */
-
 $email = $attributes['userEmail'] ?? '';
 
 // For the author type, get the email from the author of the post in the context.
-if ($attributes['userType'] === 'author') {
-	$postId = $block->context['postId'] ?? null;
-	if ( $postId ) {
-		$authorId = get_post_field( 'post_author', $postId );
-		if ( $authorId ) {
+if ( $attributes['userType'] === 'author' ) {
+	$context_post_id = $block->context['postId'] ?? null;
+
+	if ( $context_post_id ) {
+		$author_id = get_post_field( 'post_author', $context_post_id );
+
+		if ( $author_id ) {
 			// We are overriding any email that was passed in the attributes
-			$email = get_the_author_meta( 'user_email', (int) $authorId );
+			$email = get_the_author_meta( 'user_email', (int) $author_id );
 		}
 	}
 }
