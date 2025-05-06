@@ -5,8 +5,8 @@ namespace Automattic\Gravatar\GravatarEnhanced\Proxy;
 use Automattic\Gravatar\GravatarEnhanced\Options as CoreOptions;
 
 /**
- * @psalm-import-type ProxyOptionsArray from Options
- * @psalm-import-type OptionsArray from CoreOptions\SavedOptions
+ * @phpstan-import-type ProxyOptionsArray from Options
+ * @phpstan-import-type OptionsArray from CoreOptions\SavedOptions
  */
 class Preferences {
 	const OPTION_NAME = 'proxy';

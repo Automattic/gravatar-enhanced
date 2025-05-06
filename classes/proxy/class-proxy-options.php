@@ -3,8 +3,8 @@
 namespace Automattic\Gravatar\GravatarEnhanced\Proxy;
 
 /**
- * @psalm-type ProxyOptionsType = 'disabled' | 'local' | 'private'
- * @psalm-type ProxyOptionsArray = array{
+ * @phpstan-type ProxyOptionsType = 'disabled' | 'local' | 'private'
+ * @phpstan-type ProxyOptionsArray = array{
  *   type: ProxyOptionsType,
  *   time?: int,
  * }

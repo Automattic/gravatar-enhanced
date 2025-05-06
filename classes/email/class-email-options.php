@@ -3,7 +3,7 @@
 namespace Automattic\Gravatar\GravatarEnhanced\Email;
 
 /**
- * @psalm-type EmailOptionsArray = array{
+ * @phpstan-type EmailOptionsArray = array{
  *   enabled: bool,
  *   message: string,
  * }

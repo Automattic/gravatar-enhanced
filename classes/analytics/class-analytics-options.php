@@ -3,7 +3,7 @@
 namespace Automattic\Gravatar\GravatarEnhanced\Analytics;
 
 /**
- * @psalm-type AnalyticsOptionsArray = array{
+ * @phpstan-type AnalyticsOptionsArray = array{
  *   enabled: bool,
  * }
  */
