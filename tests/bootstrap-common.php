@@ -11,3 +11,4 @@ require_once ROOT_DIR . '/classes/options/class-saved-options.php';
 require_once ROOT_DIR . '/classes/avatar/class-avatar-options.php';
 require_once ROOT_DIR . '/classes/proxy/class-proxy-options.php';
 require_once ROOT_DIR . '/classes/analytics/class-analytics-options.php';
+require_once ROOT_DIR . '/classes/class-module.php';

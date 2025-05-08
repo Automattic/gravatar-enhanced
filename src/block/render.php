@@ -34,6 +34,17 @@ if ( $attributes['userType'] === 'author' ) {
 			// We are overriding any email that was passed in the attributes
 			$email = get_the_author_meta( 'user_email', (int) $author_id );
 		}
+	} elseif ( is_author() ) {
+		// If we are on an author archive page, get the email from the author details
+		$author_id = get_query_var( 'author' );
+
+		if ( $author_id ) {
+			$author_email = get_the_author_meta( 'user_email', $author_id );
+
+			if ( $author_email ) {
+				$email = $author_email;
+			}
+		}
 	}
 }
 
