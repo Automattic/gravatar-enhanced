@@ -5,8 +5,8 @@ namespace Automattic\Gravatar\GravatarEnhanced\Email;
 use Automattic\Gravatar\GravatarEnhanced\Options as CoreOptions;
 
 /**
- * @psalm-import-type EmailOptionsArray from Options
- * @psalm-import-type OptionsArray from CoreOptions\SavedOptions
+ * @phpstan-import-type EmailOptionsArray from Options
+ * @phpstan-import-type OptionsArray from CoreOptions\SavedOptions
  */
 class Preferences {
 	const OPTION_NAME = 'email';

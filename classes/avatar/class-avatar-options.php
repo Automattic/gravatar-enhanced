@@ -3,7 +3,7 @@
 namespace Automattic\Gravatar\GravatarEnhanced\Avatar;
 
 /**
- * @psalm-type AvatarOptionsArray = array{
+ * @phpstan-type AvatarOptionsArray = array{
  *   force_default_avatar: bool,
  *   force_alt: bool,
  * }

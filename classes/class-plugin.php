@@ -16,6 +16,7 @@ require_once __DIR__ . '/woocommerce/class-admin-customers.php';
 require_once __DIR__ . '/woocommerce/class-my-account.php';
 require_once __DIR__ . '/oembed/class-oembed.php';
 require_once __DIR__ . '/comments/class-comments.php';
+require_once __DIR__ . '/author-archive/class-author-archive.php';
 
 class Plugin {
 	const OPTION_NAME_AUTO = 'gravatar_enhanced_options';
@@ -97,6 +98,11 @@ class Plugin {
 	private $comments;
 
 	/**
+	 * @var AuthorArchive\AuthorArchive
+	 */
+	private $author_archive;
+
+	/**
 	 * @var Module[]
 	 */
 	private $modules;
@@ -122,6 +128,7 @@ class Plugin {
 		$this->wc_my_account = new Woocommerce\MyAccount();
 		$this->oembed = new OEmbed\OEmbed();
 		$this->comments = new Comments\Comments( new Comments\Preferences( $this->auto_options ) );
+		$this->author_archive = new AuthorArchive\AuthorArchive( new AuthorArchive\Preferences( $this->auto_options ) );
 
 		// Collect all modules and filter them based on the whitelist if available.
 		$this->modules = [
@@ -137,7 +144,9 @@ class Plugin {
 			'wc_my_account' => $this->wc_my_account,
 			'oembed' => $this->oembed,
 			'comments' => $this->comments,
+			'author_archive' => $this->author_archive,
 		];
+
 		$modules_whitelist = apply_filters( 'gravatar_enhanced_modules_whitelist', null );
 		if ( is_array( $modules_whitelist ) ) {
 			$this->modules = array_intersect_key( $this->modules, array_flip( $modules_whitelist ) );

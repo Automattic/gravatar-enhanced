@@ -3,7 +3,7 @@
 namespace Automattic\Gravatar\GravatarEnhanced\Comments;
 
 /**
- * @psalm-type CommentsOptionsArray = array{
+ * @phpstan-type CommentsOptionsArray = array{
  *   enabled: bool,
  * }
  */

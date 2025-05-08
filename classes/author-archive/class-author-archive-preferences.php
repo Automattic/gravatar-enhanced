@@ -1,15 +1,15 @@
 <?php
 
-namespace Automattic\Gravatar\GravatarEnhanced\Proxy;
+namespace Automattic\Gravatar\GravatarEnhanced\AuthorArchive;
 
 use Automattic\Gravatar\GravatarEnhanced\Options as CoreOptions;
 
 /**
- * @phpstan-import-type ProxyOptionsArray from Options
+ * @phpstan-import-type AuthorArchiveOptionsArray from Options
  * @phpstan-import-type OptionsArray from CoreOptions\SavedOptions
  */
 class Preferences {
-	const OPTION_NAME = 'proxy';
+	const OPTION_NAME = 'author_archive';
 
 	/**
 	 * @var Options
@@ -21,23 +21,22 @@ class Preferences {
 	 * @param Options | null $new_options
 	 */
 	public function __construct( $saved_options, $new_options = null ) {
-		/** @var ProxyOptionsArray */
+		/** @var AuthorArchiveOptionsArray */
 		$options = array_merge(
 			$this->get_default_options(),
 			$saved_options->get_group( self::OPTION_NAME ),
-			$new_options ? $new_options->to_array() : [],
+			$new_options ? $new_options->to_array() : []
 		);
 
 		$this->options = Options::from_array( $options );
 	}
 
 	/**
-	 * @return ProxyOptionsArray
+	 * @return AuthorArchiveOptionsArray
 	 */
 	private function get_default_options() {
 		return [
-			'type' => Options::TYPE_DISABLED,
-			'time' => 0,
+			'auto_show' => Options::AUTO_SHOW_OFF,
 		];
 	}
 
@@ -49,7 +48,7 @@ class Preferences {
 	}
 
 	/**
-	 * @return array<string,ProxyOptionsArray>
+	 * @return array<string,AuthorArchiveOptionsArray>
 	 */
 	public function get_as_preferences() {
 		return [

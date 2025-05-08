@@ -8,12 +8,14 @@ use Automattic\Gravatar\GravatarEnhanced\Email;
 use Automattic\Gravatar\GravatarEnhanced\Avatar;
 use Automattic\Gravatar\GravatarEnhanced\Analytics;
 use Automattic\Gravatar\GravatarEnhanced\Comments;
+use Automattic\Gravatar\GravatarEnhanced\AuthorArchive;
 
 require_once __DIR__ . '/class-saved-options.php';
 require_once __DIR__ . '/class-migrate.php';
 
 /**
- * @psalm-import-type ProxyOptionsType from Proxy\Options
+ * @phpstan-import-type ProxyOptionsType from Proxy\Options
+ * @phpstan-import-type AuthorArchiveAutoShow from AuthorArchive\Options
  */
 class DiscussionsPage {
 	/**
@@ -105,7 +107,49 @@ class DiscussionsPage {
 				'discussion',
 				'avatars'
 			);
+		}
+
+		if ( in_array( 'author_archive', $this->enabled_modules, true ) ) {
+			add_settings_field(
+				'author-archive-options',
+				__( 'Author Archive', 'gravatar-enhanced' ),
+				[ $this, 'display_author_archive_settings' ],
+				'discussion',
+				'avatars'
+			);
+		}
 	}
+
+	/**
+	 * Callback to show author archive options
+	 *
+	 * @return void
+	 */
+	public function display_author_archive_settings() {
+		$preferences = new AuthorArchive\Preferences( $this->auto_options );
+		$author_archive = $preferences->get_options();
+
+		?>
+		<fieldset>
+			<label for="gravatar_author_archive">
+				<?php esc_html_e( 'Automatically show a Gravatar block on author archive pages. You can manually add one from the site editor.', 'gravatar-enhanced' ); ?>
+			</label>
+
+			<p>
+				<select name="gravatar_author_archive">
+					<option value="<?php echo esc_attr( AuthorArchive\Options::AUTO_SHOW_OFF ); ?>" <?php selected( AuthorArchive\Options::AUTO_SHOW_OFF, $author_archive->auto_show ); ?>>
+						<?php esc_html_e( 'Do not automatically show a Gravatar block', 'gravatar-enhanced' ); ?>
+					</option>
+					<option value="<?php echo esc_attr( AuthorArchive\Options::AUTO_SHOW_TOP ); ?>" <?php selected( AuthorArchive\Options::AUTO_SHOW_TOP, $author_archive->auto_show ); ?>>
+						<?php esc_html_e( 'Show at the top of the page', 'gravatar-enhanced' ); ?>
+					</option>
+					<option value="<?php echo esc_attr( AuthorArchive\Options::AUTO_SHOW_BOTTOM ); ?>"<?php selected( AuthorArchive\Options::AUTO_SHOW_BOTTOM, $author_archive->auto_show ); ?>>
+						<?php esc_html_e( 'Show at the bottom of the page', 'gravatar-enhanced' ); ?>
+					</option>
+				</select>
+			</p>
+		</fieldset>
+		<?php
 	}
 
 	/**
@@ -291,7 +335,7 @@ class DiscussionsPage {
 		}
 
 		// Handle auto options.
-		if ( in_array('avatar', $this->enabled_modules, true) ) {
+		if ( in_array( 'avatar', $this->enabled_modules, true ) ) {
 			$avatar_preferences = $this->get_avatar_preferences();
 			$this->auto_options->update( $avatar_preferences );
 		}
@@ -311,6 +355,11 @@ class DiscussionsPage {
 			$this->auto_options->update( $comment_preferences );
 		}
 
+		if ( in_array( 'author_archive', $this->enabled_modules, true ) ) {
+			$author_archive_preferences = $this->get_author_archive_preferences();
+			$this->auto_options->update( $author_archive_preferences );
+		}
+
 		$this->auto_options->save();
 
 		// Handle lazy options.
@@ -318,7 +367,28 @@ class DiscussionsPage {
 			$email_preferences = $this->get_email_preferences();
 			$this->lazy_options->update( $email_preferences );
 		}
+
 		$this->lazy_options->save();
+	}
+
+	/**
+	 * @return AuthorArchive\Preferences
+	 */
+	private function get_author_archive_preferences() {
+		/** @var AuthorArchiveAutoShow */
+		$auto_show = AuthorArchive\Options::AUTO_SHOW_OFF;
+		if ( in_array( $_POST['gravatar_author_archive'], [ AuthorArchive\Options::AUTO_SHOW_OFF, AuthorArchive\Options::AUTO_SHOW_TOP, AuthorArchive\Options::AUTO_SHOW_BOTTOM ], true ) ) {
+			/** @var AuthorArchiveAutoShow */
+			$auto_show = sanitize_text_field( $_POST['gravatar_author_archive'] );
+		}
+
+		$options = [
+			'auto_show' => $auto_show,
+		];
+
+		$new_options = AuthorArchive\Options::from_array( $options );
+
+		return new AuthorArchive\Preferences( $this->auto_options, $new_options );
 	}
 
 	/**
