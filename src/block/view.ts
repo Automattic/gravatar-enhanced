@@ -49,11 +49,11 @@ document.addEventListener( 'DOMContentLoaded', () => {
 			return;
 		}
 
-		const { error, data } = await fetchProfile( hashedEmail );
+		const { errorCode, errorMsg, data } = await fetchProfile( hashedEmail );
 
-		if ( error ) {
+		if ( errorCode ) {
 			block.innerHTML += `
-				<div class="gravatar-block__status">${ error }</div>
+				<div class="gravatar-block__status">${ errorMsg }</div>
 			`;
 
 			return;
