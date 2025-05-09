@@ -121,17 +121,15 @@ class Comments implements Module {
 		wp_enqueue_style( 'gravatar-enhanced-comments' );
 
 		$comment_data = [
-			'locale' => 'en',
+			'locale' => $this->get_gravatar_locale( get_locale() ),
 		];
 
 		// Check if user is logged in
 		if ( is_user_logged_in() ) {
 			$current_user = wp_get_current_user();
 
-			$current_user_locale = get_user_locale( $current_user );
-			$current_user_locale = (string) preg_replace( '/_.*$/', '', $current_user_locale );
 			$comment_data['email'] = $current_user->user_email;
-			$comment_data['locale'] = 'en' === $current_user_locale ? '' : $current_user_locale;
+			$comment_data['locale'] = $this->get_gravatar_locale( get_user_locale( $current_user ) );
 		}
 
 		wp_localize_script(
@@ -139,6 +137,32 @@ class Comments implements Module {
 			'gravatarEnhancedComments',
 			$comment_data
 		);
+	}
+
+	/**
+	 * Get the locale for the user.
+	 *
+	 * @param string $locale
+	 * @return string
+	 */
+	private function get_gravatar_locale( $locale ) {
+		$current_user_locale = strtolower( $locale );
+
+		// Gravatar only wants the first part of a locale, so we strip the country code unless it's one of the exceptions
+		$exceptions = [
+			'zh_tw',
+			'fr_ca',
+		];
+
+		if ( in_array( $current_user_locale, $exceptions, true ) ) {
+			return str_replace( '_', '-', $current_user_locale );
+		}
+
+		$current_user_locale = (string) preg_replace( '/[_-].*$/', '', $current_user_locale );
+		$current_user_locale = str_replace( 'zh', 'cn', $current_user_locale );
+		$current_user_locale = str_replace( 'en', '', $current_user_locale );
+
+		return $current_user_locale;
 	}
 
 	/**

@@ -293,11 +293,11 @@ HTML;
 		}
 
 		$current_user_email = strtolower( $current_user->user_email );
-		$current_user_locale = $this->get_locale_for_user( $current_user );
+		$current_user_locale = $this->get_gravatar_locale( get_user_locale( $current_user ) );
 
 		$settings = [
 			'email' => $current_user_email,
-			'locale' => $current_user_locale === 'en' ? '' : $current_user_locale,
+			'locale' => $current_user_locale,
 			'hash' => hash( 'sha256', $current_user_email ),
 			'avatar' => get_avatar_url( $current_user_email ),
 			'canEdit' => defined( 'IS_PROFILE_PAGE' ) && IS_PROFILE_PAGE ? true : false,
@@ -335,11 +335,11 @@ HTML;
 	/**
 	 * Get the locale for the user.
 	 *
-	 * @param WP_User $user
+	 * @param string $locale
 	 * @return string
 	 */
-	private function get_locale_for_user( $user ) {
-		$current_user_locale = strtolower( get_user_locale( $user ) );
+	private function get_gravatar_locale( $locale ) {
+		$current_user_locale = strtolower( $locale );
 
 		// Gravatar only wants the first part of a locale, so we strip the country code unless it's one of the exceptions
 		$exceptions = [
@@ -351,7 +351,11 @@ HTML;
 			return str_replace( '_', '-', $current_user_locale );
 		}
 
-		return (string) preg_replace( '/_.*$/', '', $current_user_locale );
+		$current_user_locale = (string) preg_replace( '/[_-].*$/', '', $current_user_locale );
+		$current_user_locale = str_replace( 'zh', 'cn', $current_user_locale );
+		$current_user_locale = str_replace( 'en', '', $current_user_locale );
+
+		return $current_user_locale;
 	}
 
 	/**
