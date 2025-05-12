@@ -1,8 +1,8 @@
 === Gravatar Enhanced - Avatars, Profiles, and Privacy ===
 Contributors: automattic, batmoo, johnny5, aaronfc, wellyshen
 Tags: avatar, profile, privacy, comments, profile picture
-Tested up to: 6.8
-Stable tag: 0.11.0
+Tested up to: 6.9
+Stable tag: 0.12.0
 License: GPLv2
 
 The official Gravatar plugin, featuring privacy-focused settings, easy profile updates, and customizable Gravatar Profile blocks.
@@ -92,7 +92,9 @@ A: It sends a single, polite email to commenters without Gravatars, inviting the
 == Changelog ==
 
 = 0.12.0 =
+* Update the quick editor integration on the profile page
 * Fix: Add support for core's SHA-256 handling
+* Fix Gravatar card on author archive page when no posts
 * Upgrade the `@gravatar-com/hovercards` package to v0.13.0
 
 = 0.11.0 =
