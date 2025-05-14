@@ -16,7 +16,7 @@ An enhanced version of Gravatar for WordPress.
 ## Sandboxes
 If you wish to sync changes with a remote sandbox you add `gravatar_enhanced` to your `~/.npmrc` file. The value should point to the remote directory (including host and username). The directory should have a trailing slash.
 
-For example `gravatar_enhanced=sandbox:public_html/wp-content/plugins/blocks-everywhere/`.
+For example `gravatar_enhanced=sandbox:public_html/wp-content/plugins/gravatar-enhanced/`.
 
 ## Building
 
