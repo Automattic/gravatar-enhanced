@@ -13,6 +13,11 @@ An enhanced version of Gravatar for WordPress.
 - Activate plugin
 - Configure plugin from the Settings > Discussion page
 
+## Sandboxes
+If you wish to sync changes with a remote sandbox you add `gravatar_enhanced` to your `~/.npmrc` file. The value should point to the remote directory (including host and username). The directory should have a trailing slash.
+
+For example `gravatar_enhanced=sandbox:public_html/wp-content/plugins/blocks-everywhere/`.
+
 ## Building
 
 The JS and CSS needs to be compiled. You can do this in development mode, which will monitor for updates to the files:
@@ -36,6 +41,10 @@ A release packages up all the JS, CSS, and PHP files into a clean directory with
 `yarn release`
 
 The plugin will be available in the `release` directory.
+
+You can sync to a remote sandbox with (see sandbox configuration above):
+
+`yarn release:sync`
 
 ## Distribution
 
