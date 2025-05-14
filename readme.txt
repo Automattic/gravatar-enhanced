@@ -1,7 +1,7 @@
 === Gravatar Enhanced - Avatars, Profiles, and Privacy ===
 Contributors: automattic, batmoo, johnny5, aaronfc, wellyshen
 Tags: avatar, profile, privacy, comments, profile picture
-Tested up to: 6.9
+Tested up to: 6.8
 Stable tag: 0.12.0
 License: GPLv2
 
