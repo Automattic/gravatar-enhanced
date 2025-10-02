@@ -94,6 +94,7 @@ A: It sends a single, polite email to commenters without Gravatars, inviting the
 = 0.13.0 =
 * Further update the quick editor integration on the profile page
 * Improve sanitisation of block data
+* Use latest hovercards
 
 = 0.12.0 =
 * Update the quick editor integration on the profile page
