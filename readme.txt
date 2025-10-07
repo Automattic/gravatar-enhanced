@@ -2,7 +2,7 @@
 Contributors: automattic, batmoo, johnny5, aaronfc, wellyshen
 Tags: avatar, profile, privacy, comments, profile picture
 Tested up to: 6.8
-Stable tag: 0.12.0
+Stable tag: 0.13.0
 License: GPLv2
 
 The official Gravatar plugin, featuring privacy-focused settings, easy profile updates, and customizable Gravatar Profile blocks.
@@ -90,6 +90,11 @@ A: It sends a single, polite email to commenters without Gravatars, inviting the
 4. Gravatar pattern
 
 == Changelog ==
+
+= 0.13.0 =
+* Further update the quick editor integration on the profile page
+* Improve sanitisation of block data
+* Use latest hovercards
 
 = 0.12.0 =
 * Update the quick editor integration on the profile page

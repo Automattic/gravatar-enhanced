@@ -247,7 +247,7 @@ HTML;
 			self::SECTION_ABOUT => "@<h2>$about_yourself_title</h2>(.*?)</table>@s",
 			self::SECTION_NAME => "@<h2>$name_title</h2>(.*?)</table>@s",
 			self::SECTION_CONTACT => "@<h2>$contact_info_title</h2>(.*?)</table>@s",
-			self::SECTION_BEFORE => '@^(.*?(?=<h2>))@s',
+			self::SECTION_BEFORE => '@^(.*?<form.*?(?=<h2>))@s',
 		];
 
 		// Grab section content into $content

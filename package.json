@@ -29,21 +29,21 @@
 		"npm": false
 	},
 	"devDependencies": {
-		"@types/wordpress__block-editor": "^11.5.16",
-		"@types/wordpress__blocks": "^12.5.17",
-		"@wordpress/eslint-plugin": "^22.7.0",
-		"@wordpress/scripts": "^30.14.1",
-		"npm-check-updates": "^17.1.18",
-		"release-it": "^18.1.2",
-		"typescript": "^5.8.3"
+		"@types/wordpress__block-editor": "^11.5.17",
+		"@types/wordpress__blocks": "^12.5.18",
+		"@wordpress/eslint-plugin": "^22.18.0",
+		"@wordpress/scripts": "^30.25.0",
+		"npm-check-updates": "^19.0.0",
+		"release-it": "^19.0.5",
+		"typescript": "^5.9.3"
 	},
 	"dependencies": {
-		"@gravatar-com/hovercards": "^0.13.0",
+		"@gravatar-com/hovercards": "^0.15.0",
 		"@gravatar-com/quick-editor": "^0.8.0",
-		"@wordpress/editor": "^14.21.0",
-		"@wordpress/url": "^4.21.0",
+		"@wordpress/editor": "^14.32.0",
+		"@wordpress/url": "^4.32.0",
 		"clsx": "^2.1.1",
-		"js-sha256": "^0.11.0",
+		"js-sha256": "^0.11.1",
 		"lodash.debounce": "^4.0.8"
 	},
 	"packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
