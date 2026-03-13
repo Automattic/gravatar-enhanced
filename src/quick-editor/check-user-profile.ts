@@ -7,6 +7,8 @@ import type { ProfileData } from '@gravatar-com/hovercards';
 
 const BASE_API_URL = 'https://api.gravatar.com/v3/profiles';
 
+let hovercardI18n: Record< string, string > = {};
+
 function createHovercard( user: ProfileData ) {
 	const container = document.querySelector( '.gravatar-hovercard-container' );
 	const loadingHovercard = document.querySelectorAll( '.gravatar-profile__loading' );
@@ -15,7 +17,7 @@ function createHovercard( user: ProfileData ) {
 		return;
 	}
 
-	const hovercard = Hovercards.createHovercard( user );
+	const hovercard = Hovercards.createHovercard( user, { i18n: hovercardI18n } );
 
 	// Replace PHP hovercard with JS hovercard
 	loadingHovercard.forEach( ( el ) => {
@@ -105,7 +107,9 @@ async function fetchUserProfile( hash, avatar, text, canEdit ) {
 	}
 }
 
-export default function checkUserProfile( { locale, email, hash, avatar, text, canEdit }: QuickEditor ) {
+export default function checkUserProfile( { locale, email, hash, avatar, text, canEdit, hovercardsI18n }: QuickEditor ) {
+	hovercardI18n = hovercardsI18n || {};
+
 	const container = document.querySelector( '.gravatar-profile__loading' );
 	if ( ! container ) {
 		return;

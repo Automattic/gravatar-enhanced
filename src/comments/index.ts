@@ -20,6 +20,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	let quickEditor = null;
 
 	const hovercards = new Hovercards( {
+		i18n: gravatarEnhancedComments?.hovercardsI18n || {},
 		onCanShowHovercard: () => {
 			return quickEditor === null || ! quickEditor.isOpen();
 		},

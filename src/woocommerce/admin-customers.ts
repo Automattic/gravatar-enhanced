@@ -67,7 +67,9 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	 * @return {void}
 	 */
 	function injectAvatars() {
-		const hovercards = new Hovercards();
+		const hovercards = new Hovercards( {
+			i18n: typeof gravatarEnhancedWcAdminCustomersI18n !== 'undefined' ? gravatarEnhancedWcAdminCustomersI18n : {},
+		} );
 		const table = main.querySelector< HTMLTableElement >( CUSTOMER_TABLE_SELECTOR );
 
 		if ( ! table ) {

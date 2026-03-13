@@ -3,6 +3,7 @@
 namespace Automattic\Gravatar\GravatarEnhanced\Woocommerce;
 
 use Automattic\Gravatar\GravatarEnhanced\Module;
+use Automattic\Gravatar\GravatarEnhanced\Shared\HovercardsI18n;
 
 class AdminCustomers implements Module {
 	/**
@@ -63,6 +64,7 @@ class AdminCustomers implements Module {
 				$assets['version'],
 				true
 			);
+			wp_localize_script( 'gravatar-enhanced-wc-admin-customers', 'gravatarEnhancedWcAdminCustomersI18n', HovercardsI18n::get_translations() );
 
 			wp_enqueue_style(
 				'gravatar-enhanced-wc-admin-customers',

@@ -3,6 +3,7 @@
 namespace Automattic\Gravatar\GravatarEnhanced\Hovercards;
 
 use Automattic\Gravatar\GravatarEnhanced\Module;
+use Automattic\Gravatar\GravatarEnhanced\Shared\HovercardsI18n;
 
 class Hovercards implements Module {
 	/**
@@ -110,6 +111,7 @@ class Hovercards implements Module {
 			$assets = file_exists( $asset_file ) ? require $asset_file : [ 'dependencies' => [], 'version' => time() ];
 
 			wp_enqueue_script( 'gravatar-enhanced-hovercards', plugins_url( 'build/hovercards.js', GRAVATAR_ENHANCED_PLUGIN_FILE ), $assets['dependencies'], $assets['version'], true );
+			wp_localize_script( 'gravatar-enhanced-hovercards', 'gravatarEnhancedHovercardsI18n', HovercardsI18n::get_translations() );
 			wp_register_style( 'gravatar-enhanced-hovercards', plugins_url( 'build/style-hovercards.css', GRAVATAR_ENHANCED_PLUGIN_FILE ), [], $assets['version'] );
 			wp_enqueue_style( 'gravatar-enhanced-hovercards' );
 		}
