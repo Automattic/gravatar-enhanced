@@ -3,6 +3,7 @@
 namespace Automattic\Gravatar\GravatarEnhanced\QuickEditor;
 
 use Automattic\Gravatar\GravatarEnhanced\Module;
+use Automattic\Gravatar\GravatarEnhanced\Shared\HovercardsI18n;
 use WP_User;
 
 class QuickEditor implements Module {
@@ -312,6 +313,7 @@ HTML;
 				'otherUnknownTitle' => __( 'Profile name', 'gravatar-enhanced' ),
 				'otherUnknownDescription' => __( 'This site uses Gravatar for managing avatars and profiles.', 'gravatar-enhanced' ),
 			],
+			'hovercardsI18n' => HovercardsI18n::get_translations(),
 		];
 
 		$asset_file = dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/quick-editor.asset.php';

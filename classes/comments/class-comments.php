@@ -3,6 +3,7 @@
 namespace Automattic\Gravatar\GravatarEnhanced\Comments;
 
 use Automattic\Gravatar\GravatarEnhanced\Module;
+use Automattic\Gravatar\GravatarEnhanced\Shared\HovercardsI18n;
 
 require_once __DIR__ . '/class-comments-options.php';
 require_once __DIR__ . '/class-comments-preferences.php';
@@ -122,6 +123,7 @@ class Comments implements Module {
 
 		$comment_data = [
 			'locale' => $this->get_gravatar_locale( get_locale() ),
+			'hovercardsI18n' => HovercardsI18n::get_translations(),
 		];
 
 		// Check if user is logged in

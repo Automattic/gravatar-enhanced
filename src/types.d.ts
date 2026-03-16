@@ -9,9 +9,12 @@ interface GravatarAPIAccount {
 }
 
 declare global {
+	type HovercardsI18n = Record<string, string>;
+
 	interface GravatarEnhancedComments {
 		locale: string;
 		email?: string;
+		hovercardsI18n?: HovercardsI18n;
 	}
 
 	interface GravatarAPIProfile {
@@ -50,6 +53,7 @@ declare global {
 		text: QuickEditorText;
 		avatar: string;
 		canEdit: boolean;
+		hovercardsI18n?: HovercardsI18n;
 	}
 
 	var geQuickEditor: QuickEditor;
@@ -59,6 +63,8 @@ declare global {
 	};
 
 	var gravatarEnhancedComments: GravatarEnhancedComments;
+	var gravatarEnhancedHovercardsI18n: HovercardsI18n | undefined;
+	var gravatarEnhancedWcAdminCustomersI18n: HovercardsI18n | undefined;
 
 	type SelectFn = typeof select;
 }

@@ -4,7 +4,9 @@ import '@gravatar-com/hovercards/dist/style.css';
 const ignoreSelector = '#wpadminbar img, img.gravatar-hovercard__avatar, .user-profile-picture img';
 
 document.addEventListener( 'DOMContentLoaded', () => {
-	const hovercards = new Hovercards();
+	const hovercards = new Hovercards( {
+		i18n: typeof gravatarEnhancedHovercardsI18n !== 'undefined' ? gravatarEnhancedHovercardsI18n : {},
+	} );
 
 	hovercards.attach( document.body, { ignoreSelector } );
 } );

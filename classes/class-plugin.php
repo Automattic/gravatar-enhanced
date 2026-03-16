@@ -3,6 +3,7 @@
 namespace Automattic\Gravatar\GravatarEnhanced;
 
 require_once __DIR__ . '/class-module.php';
+require_once __DIR__ . '/shared/class-hovercards-i18n.php';
 require_once __DIR__ . '/options/class-discussions.php';
 require_once __DIR__ . '/email/class-email.php';
 require_once __DIR__ . '/hovercards/class-hovercards.php';
