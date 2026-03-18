@@ -83,9 +83,16 @@ class HovercardsTest extends TestCase {
 		$asset = require dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/hovercards.asset.php';
 
 		// Arrange.
+		$hovercardsI18n = \Mockery::mock( 'alias:\\Automattic\\Gravatar\\GravatarEnhanced\\Shared\\HovercardsI18n' );
+		$hovercardsI18n->shouldReceive( 'get_translations' )
+			->once()
+			->with()
+			->andReturn( [] );
+
 		\Brain\Monkey\Functions\expect( 'plugins_url' )->zeroOrMoreTimes()->andReturnFirstArg(); // Let's just return the first argument, which is the file name.
 		\Brain\Monkey\Functions\expect( 'get_option' )->once()->with( 'gravatar_hovercards', true )->andReturn( true );
 		\Brain\Monkey\Functions\expect( 'wp_enqueue_script' )->once()->with( 'gravatar-enhanced-hovercards', 'build/hovercards.js', [], $asset['version'], true );
+		\Brain\Monkey\Functions\expect( 'wp_localize_script' )->once()->with( 'gravatar-enhanced-hovercards', 'gravatarEnhancedHovercardsI18n', [] );
 		\Brain\Monkey\Functions\expect( 'wp_enqueue_style' )->once()->with( 'gravatar-enhanced-hovercards' );
 		\Brain\Monkey\Functions\expect( 'wp_register_style' )->once()->with( 'gravatar-enhanced-hovercards', 'build/style-hovercards.css', [], $asset['version'] );
 
