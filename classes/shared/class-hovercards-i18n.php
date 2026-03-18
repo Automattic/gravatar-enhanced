@@ -24,6 +24,7 @@ class HovercardsI18n {
 			'Calendar'            => __( 'Calendar', 'gravatar-enhanced' ),
 			'Sorry, we are unable to load this Gravatar profile.' => __( 'Sorry, we are unable to load this Gravatar profile.', 'gravatar-enhanced' ),
 			'Gravatar not found.' => __( 'Gravatar not found.', 'gravatar-enhanced' ),
+			'This profile is private.' => __( 'This profile is private.', 'gravatar-enhanced' ),
 			'Too Many Requests.'  => __( 'Too Many Requests.', 'gravatar-enhanced' ),
 			'Internal Server Error.' => __( 'Internal Server Error.', 'gravatar-enhanced' ),
 			'Is this you?'        => __( 'Is this you?', 'gravatar-enhanced' ),
