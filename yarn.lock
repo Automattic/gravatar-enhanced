@@ -1484,10 +1484,10 @@
   dependencies:
     tslib "^2.8.0"
 
-"@gravatar-com/hovercards@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/@gravatar-com/hovercards/-/hovercards-0.15.0.tgz#c3d94a4796568ce91282a891e05b2aa14a720155"
-  integrity sha512-ASd6TbYDbBI3Jqh4iQkXSx57CleP43edo2UxosQVHIqDFm7fq26TV7B0TZVK80QNiaq5z03GMYtnSHMSR9hyoA==
+"@gravatar-com/hovercards@^0.16.0":
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/@gravatar-com/hovercards/-/hovercards-0.16.0.tgz#1a460a4d34bfe75ac3ecf418f18242b36ce63db2"
+  integrity sha512-NOB73YXOUALYyqLD8SeiQkKgwrmG8wYeVz8JfqFXiH5NjAt/0iDI0pC4TL/Cqxew3XaDmGUFhXEun7mzopaaCw==
 
 "@gravatar-com/quick-editor@^0.8.0":
   version "0.8.0"
