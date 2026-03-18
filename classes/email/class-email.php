@@ -95,9 +95,14 @@ class EmailNotification implements Module {
 		$request = new WP_Http();
 		$result = $request->request( $url, array( 'method' => 'GET' ) );
 
+		// If the request failed, assume no gravatar
+		if ( is_wp_error( $result ) || ! is_array( $result ) ) {
+			return false;
+		}
+
 		// If gravatar returns a 404, email doesn't have a gravatar attached
 		// @phpstan-ignore-next-line
-		if ( is_array( $result ) && isset( $result['response']['code'] ) && $result['response']['code'] == 404 ) {
+		if ( isset( $result['response']['code'] ) && $result['response']['code'] == 404 ) {
 			return false;
 		}
 
