@@ -21,6 +21,8 @@
 /**
  * @var WP_Block $block
  */
+$attributes = $block->attributes;
+
 $email = $attributes['userEmail'] ?? '';
 
 // For the author type, get the email from the author of the post in the context.
