@@ -25,6 +25,7 @@ export default function getVerifiedAccounts(
 		return getViewElement( BlockNames.IMAGE, account.service_type, deletedElements, {
 			linkUrl: account.url,
 			imageUrl: account.service_icon,
+			serviceIcon: account.service_icon,
 			imageWidth: 32,
 			imageHeight: 32,
 			imageAlt: account.service_label,
