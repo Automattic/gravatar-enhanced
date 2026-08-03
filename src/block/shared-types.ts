@@ -65,6 +65,7 @@ export type GroupAttrs = Partial< {
 export interface ImageAttrs {
 	linkUrl?: string;
 	imageUrl: string;
+	serviceIcon?: string;
 	imageWidth: number;
 	imageHeight: number;
 	imageAlt: string;

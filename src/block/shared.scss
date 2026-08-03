@@ -3,12 +3,12 @@
 $font:
 	"SF Pro Text",
 	-apple-system,
-	BlinkMacSystemFont,
+	blinkmacsystemfont,
 	"Segoe UI",
-	Roboto,
-	Oxygen-Sans,
-	Ubuntu,
-	Cantarell,
+	roboto,
+	oxygen-sans,
+	ubuntu,
+	cantarell,
 	"Helvetica Neue",
 	sans-serif;
 
@@ -27,14 +27,17 @@ $color-gray: #50575e;
 }
 
 .gravatar-text-truncate-1-line {
+
 	@include text-truncate(1);
 }
 
 .gravatar-text-truncate-2-lines {
+
 	@include text-truncate(2);
 }
 
 .gravatar-text-truncate-3-lines {
+
 	@include text-truncate(3);
 }
 
@@ -72,6 +75,7 @@ div.wp-block-gravatar-block.gravatar-block {
 	}
 
 	.gravatar-block-group {
+
 		&.gravatar-block-group--comma-separated .gravatar-block-paragraph {
 			display: flex;
 
@@ -81,6 +85,7 @@ div.wp-block-gravatar-block.gravatar-block {
 			}
 
 			.gravatar-block-paragraph__text {
+
 				@include text-truncate(1);
 			}
 		}
@@ -141,6 +146,7 @@ div.wp-block-gravatar-block.gravatar-block {
 	}
 
 	&.gravatar-block--custom-text-color {
+
 		h4,
 		p,
 		.gravatar-block-paragraph--job .gravatar-block-paragraph__text,
@@ -148,6 +154,27 @@ div.wp-block-gravatar-block.gravatar-block {
 		.gravatar-block-paragraph--location .gravatar-block-paragraph__text,
 		.gravatar-block-link {
 			color: unset;
+		}
+
+		// Verified account icons are served as monochrome SVGs, so they can't be recolored via the image.
+		// Mask the wrapper and tint it with the text color instead. The image is hidden so its own fill
+		// doesn't paint over the tinted wrapper.
+		.gravatar-block-image--account {
+			width: 32px;
+			height: 32px;
+			background-color: currentcolor;
+			mask-image: var(--gravatar-icon-url);
+			-webkit-mask-image: var(--gravatar-icon-url);
+			mask-repeat: no-repeat;
+			-webkit-mask-repeat: no-repeat;
+			mask-size: contain;
+			-webkit-mask-size: contain;
+			mask-position: center;
+			-webkit-mask-position: center;
+
+			.gravatar-block-image__image {
+				display: none;
+			}
 		}
 	}
 
@@ -177,6 +204,7 @@ div.wp-block-gravatar-block.gravatar-block--portrait {
 	}
 
 	.gravatar-block-paragraph {
+
 		&.gravatar-block-paragraph--job,
 		&.gravatar-block-paragraph--location {
 			font-size: 14px;

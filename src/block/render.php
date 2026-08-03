@@ -4,6 +4,7 @@
  * @var array{
  *   userEmail?: string,
  *   textColor?: string,
+ *   style?: array{ color?: array{ text?: string } },
  *   userType: string,
  *   layout: string,
  *   avatarUrlSizeParam: string,
@@ -63,7 +64,7 @@ $layout_class_map = [
 	'line' => 'gravatar-block--line',
 ];
 $layout_class = isset( $layout_class_map[ $attributes['layout'] ] ) ? ' ' . $layout_class_map[ $attributes['layout'] ] : '';
-$custom_text_color_class = isset( $attributes['textColor'] ) ? ' gravatar-block--custom-text-color' : '';
+$custom_text_color_class = isset( $attributes['textColor'] ) || isset( $attributes['style']['color']['text'] ) ? ' gravatar-block--custom-text-color' : '';
 $class = 'gravatar-block' . $layout_class . $custom_text_color_class;
 
 $data = wp_json_encode(
