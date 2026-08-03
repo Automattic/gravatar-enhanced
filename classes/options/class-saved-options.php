@@ -107,7 +107,7 @@ class SavedOptions {
 		// Save to database
 		$options = array_merge(
 			[
-				self::OPTION_VERSION => GRAVATAR_ENHANCED_VERSION,
+				self::OPTION_VERSION => defined( 'GRAVATAR_ENHANCED_VERSION' ) ? GRAVATAR_ENHANCED_VERSION : '',
 			],
 			$this->options,
 		);
