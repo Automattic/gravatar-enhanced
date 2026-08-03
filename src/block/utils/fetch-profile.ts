@@ -1,3 +1,4 @@
+import { decodeEntities } from '@wordpress/html-entities';
 import { addQueryArgs } from '@wordpress/url';
 import { __ } from '@wordpress/i18n';
 
@@ -8,6 +9,19 @@ interface Response {
 }
 
 const BASE_API_URL = 'https://api.gravatar.com/v3/profiles';
+
+// Gravatar returns the text fields as HTML-encoded strings (e.g. `&amp;`).
+// Decode them once so the editor and the view get plain text to render.
+function decodeProfileFields( profile: GravatarAPIProfile ): GravatarAPIProfile {
+	return {
+		...profile,
+		display_name: decodeEntities( profile.display_name ?? '' ),
+		description: decodeEntities( profile.description ?? '' ),
+		job_title: decodeEntities( profile.job_title ?? '' ),
+		company: decodeEntities( profile.company ?? '' ),
+		location: decodeEntities( profile.location ?? '' ),
+	};
+}
 
 export default async function fetchProfile( hashedEmail: string ): Promise< Response > {
 	try {
@@ -22,7 +36,7 @@ export default async function fetchProfile( hashedEmail: string ): Promise< Resp
 		const data = await res.json();
 		const profileUrl = addQueryArgs( data.profile_url, { utm_source: source } );
 
-		return { data: { ...data, profile_url: profileUrl } };
+		return { data: { ...decodeProfileFields( data ), profile_url: profileUrl } };
 	} catch ( code ) {
 		let message = __( 'Sorry, we are unable to load this Gravatar profile.', 'gravatar-enhanced' );
 
