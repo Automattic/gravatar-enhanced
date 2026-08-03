@@ -21,4 +21,16 @@ class SavedOptionsTest extends TestCase {
 		// Act.
 		new Options\SavedOptions( 'some', false );
 	}
+
+	public function testSave() {
+		// Setup
+		\Brain\Monkey\Functions\expect( 'get_option' )->never();
+		$options = new Options\SavedOptions( 'some', false );
+
+		// Expect
+		\Brain\Monkey\Functions\expect( 'update_option' )->once()->with( 'some', [ 'version' => GRAVATAR_ENHANCED_VERSION ], false );
+
+		// Act
+		$options->save();
+	}
 }
