@@ -83,7 +83,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 				locale: gravatarEnhancedComments?.locale || 'en',
 				onProfileUpdated: () => {
 					trackEvent( 'gravatar_enhanced_qe_avatar_updated' );
-					updateAvatars( GRAVATAR_CONTAINER + ' img' );
+					updateAvatars( { selector: GRAVATAR_CONTAINER + ' img' } );
 				},
 			} );
 		}
