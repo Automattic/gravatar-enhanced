@@ -278,6 +278,19 @@ class DiscussionsPage {
 					<?php esc_html_e( 'Show Gravatar in the comment form.', 'gravatar-enhanced' ); ?>
 				<?php endif; ?>
 			</label>
+
+			<br>
+
+			<label for="gravatar_fediverse_hovercards">
+				<input
+					type="checkbox"
+					id="gravatar_fediverse_hovercards"
+					name="gravatar_fediverse_hovercards"
+					<?php checked( $comments->fediverse_hovercards ); ?>
+				/>
+
+				<?php esc_html_e( 'Show hovercards for Fediverse profiles (Mastodon, etc.).', 'gravatar-enhanced' ); ?>
+			</label>
 		</fieldset>
 		<?php
 	}
@@ -327,7 +340,8 @@ class DiscussionsPage {
 	 */
 	private function get_comment_preferences() {
 		$options = [
-			'enabled' => isset( $_POST['gravatar_comments'] ),
+			'enabled'              => isset( $_POST['gravatar_comments'] ),
+			'fediverse_hovercards' => isset( $_POST['gravatar_fediverse_hovercards'] ),
 		];
 
 		$new_options = Comments\Options::from_array( $options );
