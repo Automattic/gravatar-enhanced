@@ -28,6 +28,12 @@ parameters:
 	reportMaybesInPropertyPhpDocTypes: false
 	reportWrongPhpDocTypeInVarTag: false
 
+	ignoreErrors:
+		-
+			message: '#has parameter \$request with generic class WP_REST_Request but does not specify its types#'
+			paths:
+				- classes/fediverse/class-fediverse.php
+
 	parallel:
 		maximumNumberOfProcesses: 4
 

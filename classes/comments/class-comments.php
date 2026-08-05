@@ -139,6 +139,29 @@ class Comments implements Module {
 			'gravatarEnhancedComments',
 			$comment_data
 		);
+
+		if ( $this->options->fediverse_hovercards ) {
+			$this->enqueue_fediverse_hovercards();
+		}
+	}
+
+	/**
+	 * @return void
+	 */
+	private function enqueue_fediverse_hovercards() {
+		$asset_file = dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/fediverse.asset.php';
+		$assets = file_exists( $asset_file ) ? require $asset_file : [ 'dependencies' => [], 'version' => time() ];
+
+		wp_enqueue_script( 'gravatar-enhanced-fediverse', plugins_url( 'build/fediverse.js', GRAVATAR_ENHANCED_PLUGIN_FILE ), $assets['dependencies'], $assets['version'], true );
+
+		wp_localize_script(
+			'gravatar-enhanced-fediverse',
+			'gravatarEnhancedFediverse',
+			[
+				'enabled' => true,
+				'restUrl' => get_rest_url(),
+			]
+		);
 	}
 
 	/**

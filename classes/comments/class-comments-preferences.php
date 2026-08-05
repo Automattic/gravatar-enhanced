@@ -36,7 +36,8 @@ class Preferences {
 	 */
 	private function get_default_options() {
 		return [
-			'enabled' => true,
+			'enabled'              => true,
+			'fediverse_hovercards' => true,
 		];
 	}
 

@@ -17,6 +17,8 @@ require_once __DIR__ . '/woocommerce/class-admin-customers.php';
 require_once __DIR__ . '/woocommerce/class-my-account.php';
 require_once __DIR__ . '/oembed/class-oembed.php';
 require_once __DIR__ . '/comments/class-comments.php';
+require_once __DIR__ . '/fediverse/class-fediverse.php';
+require_once __DIR__ . '/fediverse/class-fediverse-resolver.php';
 
 class Plugin {
 	const OPTION_NAME_AUTO = 'gravatar_enhanced_options';
@@ -98,6 +100,11 @@ class Plugin {
 	private $comments;
 
 	/**
+	 * @var Fediverse\Fediverse
+	 */
+	private $fediverse;
+
+	/**
 	 * @var Module[]
 	 */
 	private $modules;
@@ -123,6 +130,7 @@ class Plugin {
 		$this->wc_my_account = new Woocommerce\MyAccount();
 		$this->oembed = new OEmbed\OEmbed();
 		$this->comments = new Comments\Comments( new Comments\Preferences( $this->auto_options ) );
+		$this->fediverse = new Fediverse\Fediverse();
 
 		// Collect all modules and filter them based on the whitelist if available.
 		$this->modules = [
@@ -138,6 +146,7 @@ class Plugin {
 			'wc_my_account' => $this->wc_my_account,
 			'oembed' => $this->oembed,
 			'comments' => $this->comments,
+			'fediverse' => $this->fediverse,
 		];
 
 		$modules_whitelist = apply_filters( 'gravatar_enhanced_modules_whitelist', null );
