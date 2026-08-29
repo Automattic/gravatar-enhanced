@@ -129,9 +129,10 @@ export default function checkUserProfile( { locale, email, hash, avatar, text, c
 			onProfileUpdated: ( type ) => {
 				if ( type === 'avatar_updated' ) {
 					trackEvent( 'gravatar_enhanced_qe_avatar_updated' );
-					updateAvatars(
-						'.gravatar-hovercard__avatar, #wp-admin-bar-my-account .avatar, .user-profile-picture img'
-					);
+					updateAvatars( {
+						selector:
+							'.gravatar-hovercard__avatar, #wp-admin-bar-my-account .avatar, .user-profile-picture img',
+					} );
 				} else if ( type === 'profile_updated' ) {
 					trackEvent( 'gravatar_enhanced_qe_profile_updated' );
 					fetchProfile();

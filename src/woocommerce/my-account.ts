@@ -1,58 +1,10 @@
 import { GravatarQuickEditorCore, Scope, ProfileUpdatedType } from '@gravatar-com/quick-editor';
+import updateAvatars from '../shared/update-avatars';
 import './style-my-account.scss';
 
-const UPDATE_DELAY = 4000;
-const LOADING_CLASS = 'avatar-loading';
 const AVATAR_SELECTOR = '.woocommerce-account-gravatar__avatar';
 const EDIT_BUTTON_SELECTOR = '.woocommerce-account-gravatar__edit-wrapper';
-
-/**
- * Updates a URL by adding or updating the cache-busting parameter.
- *
- * @param {string} url The original URL.
- * @return {string} The updated URL with the cache-busting parameter.
- */
-function updateUrlWithCacheBuster( url: string ): string {
-	const urlObj = new URL( url, window.location.origin );
-	urlObj.searchParams.set( 't', Date.now().toString() );
-
-	return urlObj.toString();
-}
-
-/**
- * Updates all avatar images by adding a cache-busting parameter to force reload.
- */
-function updateAvatars(): void {
-	const images: NodeListOf< HTMLImageElement > = document.querySelectorAll( AVATAR_SELECTOR );
-
-	// Add loading class to all avatars.
-	images.forEach( ( img ) => {
-		img.classList.add( LOADING_CLASS );
-	} );
-
-	// Wait and then update the URLs.
-	setTimeout( () => {
-		images.forEach( ( img ) => {
-			// Update img.src.
-			img.src = updateUrlWithCacheBuster( img.src );
-
-			// Update img.srcset.
-			if ( img.srcset ) {
-				img.srcset = img.srcset
-					.split( ',' )
-					.map( ( src ) => {
-						const [ url, descriptor ] = src.trim().split( ' ' );
-						const updatedUrl = updateUrlWithCacheBuster( url );
-
-						return descriptor ? `${ updatedUrl } ${ descriptor }` : updatedUrl;
-					} )
-					.join( ', ' );
-			}
-
-			img.classList.remove( LOADING_CLASS );
-		} );
-	}, UPDATE_DELAY );
-}
+const UPDATE_DELAY = 4000;
 
 /**
  * Initializes the Gravatar Quick Editor and sets up event listeners.
@@ -80,7 +32,7 @@ function initGravatarEditor(): void {
 			scope,
 			onProfileUpdated: ( type: ProfileUpdatedType ) => {
 				if ( type === 'avatar_updated' ) {
-					updateAvatars();
+					updateAvatars( { selector: AVATAR_SELECTOR, delay: UPDATE_DELAY } );
 				}
 			},
 		} );
