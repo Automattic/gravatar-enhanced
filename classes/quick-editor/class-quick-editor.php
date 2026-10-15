@@ -363,10 +363,29 @@ HTML;
 	/**
 	 * @return false|WP_User
 	 */
-	private function get_user() {
-		$user_id = ! empty( $_GET['user_id'] ) ? absint( $_GET['user_id'] ) : wp_get_current_user()->ID;
+	protected function get_user() {
+		if ( $this->is_profile_page() ) {
+			return wp_get_current_user();
+		}
+
+		if ( empty( $_GET['user_id'] ) || ! is_scalar( $_GET['user_id'] ) ) {
+			return false;
+		}
+
+		$user_id = absint( wp_unslash( $_GET['user_id'] ) );
+
+		if ( ! $user_id || ! current_user_can( 'edit_user', $user_id ) ) {
+			return false;
+		}
 
 		return get_userdata( $user_id );
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function is_profile_page() {
+		return defined( 'IS_PROFILE_PAGE' ) && IS_PROFILE_PAGE;
 	}
 
 	/**
