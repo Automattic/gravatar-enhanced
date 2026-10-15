@@ -106,10 +106,6 @@ class Plugin {
 		$this->auto_options = new Options\SavedOptions( self::OPTION_NAME_AUTO, true );
 		$this->lazy_options = new Options\SavedOptions( self::OPTION_NAME_LAZY, false );
 
-		// Migrate old options. We're only interested in email settings. This will only run once.
-		$migrator = new Options\Migrate();
-		$migrator->maybe_migrate( $this->lazy_options, self::OPTION_NAME_LAZY );
-
 		// Modules
 		$this->email = new Email\EmailNotification( new Email\Preferences( $this->lazy_options ) );
 		$this->hovercards = new Hovercards\Hovercards();
@@ -147,19 +143,26 @@ class Plugin {
 
 		// Handles the discussions settings page
 		$this->discussions = new Options\DiscussionsPage( $this->auto_options, $this->lazy_options, array_keys( $this->modules ) );
-
-		// Ensure the options always exist. We don't need data saved in it as this is provided by the defaults
-		if ( get_option( self::OPTION_NAME_AUTO, null ) === null ) {
-			$this->auto_options->save();
-		}
 	}
 
 	/**
 	 * Start the plugin by initializing all the enabled modules.
 	 *
+	 * Anything that writes to the database belongs here rather than the constructor, as the constructor
+	 * is also used by uninstall.php where the main plugin file (and its constants) are not loaded.
+	 *
 	 * @return void
 	 */
 	public function init() {
+		// Migrate old options. We're only interested in email settings. This will only run once.
+		$migrator = new Options\Migrate();
+		$migrator->maybe_migrate( $this->lazy_options, self::OPTION_NAME_LAZY );
+
+		// Ensure the options always exist. We don't need data saved in it as this is provided by the defaults
+		if ( get_option( self::OPTION_NAME_AUTO, null ) === null ) {
+			$this->auto_options->save();
+		}
+
 		foreach ( $this->modules as $module ) {
 			$module->init();
 		}
