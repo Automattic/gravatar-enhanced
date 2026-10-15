@@ -3,6 +3,7 @@ import { ProfileData } from '@gravatar-com/hovercards';
 // We need our own avatarUrl as the profile one will refer to the primary account address, not necessarily the one used on this site
 export function convertJsonToUser( profile: GravatarAPIProfile, avatarUrl: string ): ProfileData {
 	// Bit of a nuisance that we have to convert like this
+	/* eslint-disable camelcase */
 	const {
 		hash,
 		display_name: displayName,
@@ -13,7 +14,7 @@ export function convertJsonToUser( profile: GravatarAPIProfile, avatarUrl: strin
 		job_title: jobTitle,
 		verified_accounts: verifiedAccounts,
 		background_color,
-		header_image
+		header_image,
 	} = profile;
 
 	return {
@@ -25,7 +26,6 @@ export function convertJsonToUser( profile: GravatarAPIProfile, avatarUrl: strin
 		company,
 		location,
 		jobTitle,
-		/* eslint-disable camelcase */
 		verifiedAccounts: verifiedAccounts.map( ( { url, service_label, service_icon, service_type, is_hidden } ) => ( {
 			url,
 			label: service_label,
@@ -33,8 +33,8 @@ export function convertJsonToUser( profile: GravatarAPIProfile, avatarUrl: strin
 			type: service_type,
 			isHidden: is_hidden,
 		} ) ),
-		/* eslint-enable camelcase */
 		backgroundColor: background_color,
 		headerImage: header_image,
 	};
+	/* eslint-enable camelcase */
 }
