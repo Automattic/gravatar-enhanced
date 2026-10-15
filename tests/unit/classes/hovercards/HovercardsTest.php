@@ -83,8 +83,8 @@ class HovercardsTest extends TestCase {
 		$asset = require dirname( GRAVATAR_ENHANCED_PLUGIN_FILE ) . '/build/hovercards.asset.php';
 
 		// Arrange.
-		$hovercardsI18n = \Mockery::mock( 'alias:\\Automattic\\Gravatar\\GravatarEnhanced\\Shared\\HovercardsI18n' );
-		$hovercardsI18n->shouldReceive( 'get_translations' )
+		$hovercards_i18n = \Mockery::mock( 'alias:\\Automattic\\Gravatar\\GravatarEnhanced\\Shared\\HovercardsI18n' );
+		$hovercards_i18n->shouldReceive( 'get_translations' )
 			->once()
 			->with()
 			->andReturn( [] );

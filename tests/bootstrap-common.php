@@ -2,8 +2,6 @@
 
 // Constants
 define( 'ROOT_DIR', dirname( __DIR__ ) );
-define( 'GRAVATAR_ENHANCED_PLUGIN_FILE', ROOT_DIR . '/gravatar-enhanced.php' );
-define( 'GRAVATAR_ENHANCED_VERSION', 'version' );
 
 // Autoload
 require_once ROOT_DIR . '/vendor/autoload.php';
