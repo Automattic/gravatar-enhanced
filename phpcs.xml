@@ -42,7 +42,7 @@
 
     <rule ref="Generic.Formatting">
         <exclude name="Generic.Formatting.MultipleStatementAlignment"/>
-        <exclude name="Generic.Formatting.NoSpaceAfterCast.SpaceFound"/>
+        <exclude name="Generic.Formatting.NoSpaceAfterCast"/>
     </rule>
 
     <rule ref="Squiz.Commenting">

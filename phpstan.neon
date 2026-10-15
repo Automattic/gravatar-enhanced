@@ -7,18 +7,14 @@ parameters:
 		- dev
 		- tests
 		- node_modules
-		- release
-		- dist
-		- svn
+		- release (?)
+		- dist (?)
+		- svn (?)
 		- build
 	phpVersion: 70400
 	reportUnmatchedIgnoredErrors: false
-	checkAlwaysTrueInstanceof: false
-	checkAlwaysTrueStrictComparison: false
 	polluteScopeWithLoopInitialAssignments: false
 	# these are enabled by php-strict, but we don't want them until we review them
-	checkAlwaysTrueCheckTypeFunctionCall: false
-	checkAlwaysTrueLooseComparison: false
 	checkDynamicProperties: false
 	checkExplicitMixedMissingReturn: false
 	checkFunctionNameCase: false
@@ -38,12 +34,10 @@ parameters:
 		booleansInConditions: false
 		uselessCast: false
 		requireParentConstructorCall: false
-		disallowedConstructs: false
 		overwriteVariablesWithLoop: false
 		closureUsesThis: false
 		matchingInheritedMethodNames: false
 		numericOperandsInArithmeticOperators: false
-		strictCalls: false
 		noVariableVariables: false
 
 	disallowedFunctionCalls:
@@ -73,5 +67,3 @@ services:
 		class: Automattic\Gravatar\PHPStanExtensions\PropertiesOfTypeNodeResolverExtension
 		tags:
 			- phpstan.phpDoc.typeNodeResolverExtension
-	errorFormatter.gravatar:
-			class: Automattic\Gravatar\PHPStanExtensions\GravatarErrorFormatter

@@ -29,26 +29,35 @@
 		"npm": false
 	},
 	"devDependencies": {
-		"@types/wordpress__block-editor": "^11.5.17",
-		"@types/wordpress__blocks": "^12.5.18",
-		"@wordpress/eslint-plugin": "^22.18.0",
-		"@wordpress/scripts": "^30.25.0",
-		"npm-check-updates": "^19.0.0",
-		"release-it": "^19.0.5",
-		"typescript": "^5.9.3"
+		"@types/react": "^19.0.0",
+		"@types/react-dom": "^19.0.0",
+		"@wordpress/eslint-plugin": "^27.1.0",
+		"@wordpress/prettier-config": "^4.57.0",
+		"@wordpress/scripts": "^36.1.0",
+		"eslint": "^10.0.0",
+		"globals": "^16.0.0",
+		"npm-check-updates": "^23.1.1",
+		"prettier": "npm:wp-prettier@^3.9.6",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
+		"release-it": "^21.1.1",
+		"typescript": "~6.0.3"
 	},
 	"dependencies": {
 		"@gravatar-com/hovercards": "^0.16.0",
 		"@gravatar-com/quick-editor": "^0.8.0",
-		"@wordpress/editor": "^14.32.0",
-		"@wordpress/url": "^4.32.0",
+		"@wordpress/block-editor": "^18.1.0",
+		"@wordpress/blocks": "^16.2.0",
+		"@wordpress/components": "^42.0.0",
+		"@wordpress/data": "^10.57.0",
+		"@wordpress/editor": "^15.2.0",
+		"@wordpress/element": "^9.0.0",
+		"@wordpress/escape-html": "^3.57.0",
+		"@wordpress/i18n": "^6.30.0",
+		"@wordpress/url": "^4.57.0",
 		"clsx": "^2.1.1",
-		"js-sha256": "^0.11.1",
+		"js-sha256": "^1.0.0",
 		"lodash.debounce": "^4.0.8"
-	},
-	"resolutions": {
-		"basic-ftp": "5.2.1",
-		"form-data": "4.0.4"
 	},
 	"packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

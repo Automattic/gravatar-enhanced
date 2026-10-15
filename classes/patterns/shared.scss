@@ -6,9 +6,11 @@
  */
 
 .gravatar-grid-pattern {
+
 	.gravatar-grid-pattern__title,
 	.gravatar-grid-pattern__row {
 		max-width: 729px !important;
+
 		/* Ensure content is centered in some themes, e.g. Twenty Twenty-One */
 		margin-left: auto;
 		margin-right: auto;
@@ -27,6 +29,7 @@
 	}
 
 	&.gravatar-grid-pattern--1 {
+
 		div.wp-block-gravatar-block.gravatar-block--portrait {
 			width: 167px;
 
@@ -54,6 +57,7 @@
 
 	&.gravatar-grid-pattern--2,
 	&.gravatar-grid-pattern--5 {
+
 		div.wp-block-gravatar-block.gravatar-block--portrait {
 			width: 229px;
 
@@ -68,6 +72,7 @@
 	}
 
 	&.gravatar-grid-pattern--3 {
+
 		div.wp-block-gravatar-block.gravatar-block--portrait {
 			width: 215px;
 			text-align: center;
@@ -85,6 +90,7 @@
 	}
 
 	&.gravatar-grid-pattern--4 {
+
 		div.wp-block-gravatar-block.gravatar-block--portrait {
 			width: 353px;
 			margin-bottom: 20px;
@@ -116,11 +122,13 @@
 	}
 
 	&.gravatar-grid-pattern--5 {
+
 		.gravatar-grid-pattern__row {
 			container-type: inline-size;
 		}
 
 		@container (min-width: 728px) {
+
 			div.wp-block-gravatar-block.gravatar-block--portrait:nth-child(4n - 1) {
 				margin-left: 249px;
 			}

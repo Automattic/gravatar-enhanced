@@ -1,6 +1,7 @@
 @media only screen and (min-width: 482px) {
+
 	.comment-form > p.comment-form-author {
-		margin-right: 0px !important;
+		margin-right: 0 !important;
 	}
 
 	.comment-form > p.comment-form-email {

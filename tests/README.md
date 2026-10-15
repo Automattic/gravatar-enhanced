@@ -27,7 +27,7 @@ docker run --name mysql_80 -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DAT
 ```bash
 bash tests/integration/bin/install-wp-tests.sh test_gravatar_enhanced gravatar_enhanced 'gravatar_enhanced' 127.0.0.1 latest true
 ```
-- By default, the script will download the wp test suite to `~/workspace/automattic/wordpress-develop`. **Make sure you add it to your IDE's include path**.
+- By default, the script will download the WordPress test suite to `$TMPDIR/wordpress-tests-lib` and WordPress itself to `$TMPDIR/wordpress`. Set the `WP_TESTS_DIR` and `WP_CORE_DIR` environment variables to use other locations, and use the same `WP_TESTS_DIR` when running the tests. **Make sure you add the test suite to your IDE's include path**.
 
 
 ### Running

@@ -107,7 +107,15 @@ async function fetchUserProfile( hash, avatar, text, canEdit ) {
 	}
 }
 
-export default function checkUserProfile( { locale, email, hash, avatar, text, canEdit, hovercardsI18n }: QuickEditor ) {
+export default function checkUserProfile( {
+	locale,
+	email,
+	hash,
+	avatar,
+	text,
+	canEdit,
+	hovercardsI18n,
+}: QuickEditor ) {
 	hovercardI18n = hovercardsI18n || {};
 
 	const container = document.querySelector( '.gravatar-profile__loading' );

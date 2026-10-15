@@ -7,7 +7,6 @@
 		"emitDeclarationOnly": false,
 		"noEmit": true,
 		"esModuleInterop": true,
-		"downlevelIteration": true,
 		"jsx": "preserve",
 		"noFallthroughCasesInSwitch": true,
 		"noImplicitThis": true,

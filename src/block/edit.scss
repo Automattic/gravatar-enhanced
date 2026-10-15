@@ -1,6 +1,7 @@
 /* Custom styles for the editor. */
 
 div.wp-block-gravatar-block.gravatar-block {
+
 	> .block-editor-inner-blocks > .block-editor-block-list__layout {
 		display: flex;
 		flex-direction: column;
@@ -9,6 +10,7 @@ div.wp-block-gravatar-block.gravatar-block {
 
 	/* Override themes' default styles. */
 	.wp-block {
+
 		&,
 		p.gravatar-block-paragraph__text {
 			line-height: inherit;
@@ -17,6 +19,7 @@ div.wp-block-gravatar-block.gravatar-block {
 	}
 
 	.gravatar-block-group {
+
 		> .block-editor-inner-blocks > .block-editor-block-list__layout {
 			display: flex;
 		}

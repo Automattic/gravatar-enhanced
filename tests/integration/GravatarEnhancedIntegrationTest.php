@@ -8,8 +8,8 @@ use Automattic\Gravatar\GravatarEnhanced\Email;
  */
 class GravatarEnhancedIntegrationTest extends WP_UnitTestCase {
 
-	public function setUp(): void {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		reset_phpmailer_instance();
 	}
 
