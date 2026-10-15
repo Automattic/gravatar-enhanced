@@ -9,7 +9,7 @@ interface GravatarAPIAccount {
 }
 
 declare global {
-	type HovercardsI18n = Record<string, string>;
+	type HovercardsI18n = Record< string, string >;
 
 	interface GravatarEnhancedComments {
 		locale: string;

@@ -49,11 +49,13 @@ $gravatar-blue: #1d4fc4;
 }
 
 @keyframes borderFlashAndGrow {
+
 	0%,
 	100% {
 		border-color: transparent;
 		transform: scale(1);
 	}
+
 	25%,
 	50%,
 	75% {
