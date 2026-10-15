@@ -85,13 +85,15 @@ class GravatarCli extends WP_CLI_Command {
 		$post = get_post( (int) $post_id );
 		if ( ! $post ) {
 			WP_CLI::error( 'Post not found' );
+			return;
 		}
 
-		/** @var WP_Comment */
-		$comment = (object) [
-			'comment_author' => $assoc_args['commenter_name'] ?? 'Someone',
-			'comment_author_url' => $assoc_args['commenter_url'] ?? 'https://example.com',
-		];
+		$comment = new WP_Comment(
+			(object) [
+				'comment_author' => $assoc_args['commenter_name'] ?? 'Someone',
+				'comment_author_url' => $assoc_args['commenter_url'] ?? 'https://example.com',
+			]
+		);
 
 		$options = new Options\SavedOptions( Plugin::OPTION_NAME_LAZY, false );
 		$notify = new Email\EmailNotification( new Email\Preferences( $options ) );
