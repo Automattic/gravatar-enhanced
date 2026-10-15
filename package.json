@@ -13,6 +13,7 @@
 		"blueprint": "BASE64=`base64 --input assets/blueprints/blueprint.json` && echo \"https://playground.wordpress.net/#$BASE64\"",
 		"lint:css": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",
+		"test:unit:js": "wp-scripts test-unit-js --runInBand",
 		"update": "ncu -u"
 	},
 	"author": "Automattic",
