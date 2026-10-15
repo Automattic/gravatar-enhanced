@@ -7,7 +7,7 @@ Author: Automattic
 Version: 0.13.1
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Requires at least: 6.6
+Requires at least: 7.1
 Requires PHP: 7.4
 */
 
