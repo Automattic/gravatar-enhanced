@@ -150,7 +150,7 @@ HTML;
 		$title = esc_html( __( 'Gravatar Card', 'gravatar-enhanced' ) );
 		$description = __( 'Your Gravatar card is shown in comments and profile blocks. Gravatar profiles travel with you across millions of sites, showing your photo, bio, and links - your digital business card.', 'gravatar-enhanced' );
 		$edit = esc_html( __( 'Edit your Gravatar card', 'gravatar-enhanced' ) );
-		$avatar_url = get_avatar_url( $current_user->ID );
+		$avatar_url = esc_url( (string) get_avatar_url( $current_user->ID ) );
 		$alt = esc_attr( $current_user->display_name );
 
 		return <<<HTML

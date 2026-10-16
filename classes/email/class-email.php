@@ -184,7 +184,7 @@ class EmailNotification implements Module {
 	 * @return bool
 	 */
 	public function send_invitation( $target_email, $post, $comment, $server_name = null ) {
-		$server_name = $server_name ?? $_SERVER['SERVER_NAME'] ?? null;
+		$server_name = $server_name ?? ( wp_parse_url( network_home_url(), PHP_URL_HOST ) ?: null );
 		if ( is_null( $server_name ) ) {
 			return false;
 		}
