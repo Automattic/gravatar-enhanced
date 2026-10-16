@@ -226,6 +226,7 @@ class EmailNotification implements Module {
 		$reply_email = ! empty( $post_author->user_email ) ? $post_author->user_email : get_option( 'admin_email' );
 
 		$message_headers = array(
+			// TODO: We can probably just use the default and not need this
 			'from' => sprintf( 'From: "%1$s" <%2$s>', $sitename, $wp_email ),
 			'type' => sprintf( 'Content-Type: %1$s; charset="%2$s"', 'text/plain', get_option( 'blog_charset' ) ),
 			'replyto' => sprintf( 'Reply-To: %1$s <%2$s>', $reply_name, $reply_email ),
