@@ -286,6 +286,10 @@ class DiscussionsPage {
 	 * @return void
 	 */
 	public function save_settings() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
 		if ( ! isset( $_POST['_gravatar_options_nonce'] ) || ! wp_verify_nonce( $_POST['_gravatar_options_nonce'], 'gravatar-options' ) ) {
 			return;
 		}

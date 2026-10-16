@@ -184,7 +184,7 @@ class EmailNotification implements Module {
 	 * @return bool
 	 */
 	public function send_invitation( $target_email, $post, $comment, $server_name = null ) {
-		$server_name = $server_name ?? $_SERVER['SERVER_NAME'] ?? null;
+		$server_name = $server_name ?? ( wp_parse_url( network_home_url(), PHP_URL_HOST ) ?: null );
 		if ( is_null( $server_name ) ) {
 			return false;
 		}
@@ -226,6 +226,7 @@ class EmailNotification implements Module {
 		$reply_email = ! empty( $post_author->user_email ) ? $post_author->user_email : get_option( 'admin_email' );
 
 		$message_headers = array(
+			// TODO: We can probably just use the default and not need this
 			'from' => sprintf( 'From: "%1$s" <%2$s>', $sitename, $wp_email ),
 			'type' => sprintf( 'Content-Type: %1$s; charset="%2$s"', 'text/plain', get_option( 'blog_charset' ) ),
 			'replyto' => sprintf( 'Reply-To: %1$s <%2$s>', $reply_name, $reply_email ),

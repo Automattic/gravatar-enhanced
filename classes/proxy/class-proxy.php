@@ -83,7 +83,7 @@ class Proxy implements Module {
 	 * @return void
 	 */
 	public function admin_init() {
-		if ( isset( $_POST['flush_cache'] ) && isset( $_POST['flush_cache_nonce'] ) && wp_verify_nonce( $_POST['flush_cache_nonce'], 'flush_cache' ) ) {
+		if ( isset( $_POST['flush_cache'] ) && isset( $_POST['flush_cache_nonce'] ) && current_user_can( 'manage_options' ) && wp_verify_nonce( $_POST['flush_cache_nonce'], 'flush_cache' ) ) {
 			$this->flush_cache();
 		}
 
