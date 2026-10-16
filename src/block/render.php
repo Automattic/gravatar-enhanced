@@ -1,5 +1,7 @@
 <?php
 
+use Automattic\Gravatar\GravatarEnhanced\Block\Block;
+
 /**
  * @var array{
  *   userEmail?: string,
@@ -7,7 +9,7 @@
  *   userType: string,
  *   layout: string,
  *   avatarUrlSizeParam: string,
- *   placeholderProfile: array{
+ *   placeholderProfile?: array{
  *     display_name: string,
  *     job_title: string,
  *     company: string,
@@ -72,7 +74,7 @@ $data = wp_json_encode(
 		'hashedEmail' => hash( 'sha256', $email ),
 		'layout' => $attributes['layout'],
 		'avatarUrlSizeParam' => $attributes['avatarUrlSizeParam'],
-		'placeholderProfile' => $attributes['placeholderProfile'],
+		'placeholderProfile' => Block::sanitize_placeholder_profile( $attributes['placeholderProfile'] ?? [] ),
 		'deletedElements' => $attributes['deletedElements'],
 	]
 );
