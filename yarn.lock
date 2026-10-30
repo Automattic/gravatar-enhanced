@@ -10502,9 +10502,9 @@ seroval-plugins@^1.6.7:
   integrity sha512-kiDK/Tb8IWZ61WEU8pA2PDmAuw37gKph9Y77OZlD56mg0Y2g0Bg7gZ1HeHhs5d40w+nRoUq/wj08V26ilbez9g==
 
 seroval@^1.6.7:
-  version "1.6.9"
-  resolved "https://registry.yarnpkg.com/seroval/-/seroval-1.6.9.tgz#f6cdae92cf2fdeee19c6097e3b2089913f96f3dc"
-  integrity sha512-UeEzHwAK+yl0YLbsvROV1t5yMYEwZZ0CfKYxDvUgS2fO9Vxdf8djqVIB+OuVpuawRNPqw68LE1Du/GMsW2ZPqA==
+  version "1.7.5"
+  resolved "https://registry.yarnpkg.com/seroval/-/seroval-1.7.5.tgz#33296c1c3c29b2d87a2fbf3e604a08e10f2ee23e"
+  integrity sha512-UdNgpHdq0gVpme5JdQF+S3jNscnjFr4NTwUWOc1qcOa8OuWZmbV0+YX2hsqxkUZshBpHnpxDZfAKVZG2ugbrJA==
 
 serve-index@^1.9.1:
   version "1.9.2"
