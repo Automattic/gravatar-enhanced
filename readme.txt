@@ -4,7 +4,7 @@ Tags: avatar, profile, privacy, comments, profile picture
 Requires at least: 7.1
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.14.0
+Stable tag: 0.15.0
 License: GPLv2
 
 The official Gravatar plugin, featuring privacy-focused settings, easy profile updates, and customizable Gravatar Profile blocks.
@@ -92,6 +92,9 @@ A: It sends a single, polite email to commenters without Gravatars, inviting the
 4. Gravatar pattern
 
 == Changelog ==
+
+= 0.15.0 =
+* Use latest hovercards
 
 = 0.14.0 =
 * Fix: Only load Quick Editor profile details for users the current user is allowed to edit
